@@ -1,0 +1,23 @@
+Visual Rebus App project planning folder
+
+Main deliverable:
+- Visual_Rebus_App_Project_Plan.pdf
+
+Instructions:
+- README_START_HERE.md
+- docs/01_BUILD_CHECKLIST.md
+- docs/02_PUZZLE_CONTENT_SPEC.md
+- docs/03_LAUNCH_CHECKLIST.md
+- docs/04_MARKET_RESEARCH_NOTES.md
+- docs/05_GUI_STYLE_GUIDE.md
+
+Templates:
+- data/puzzle_inventory_template.csv
+- testing/tester_scorecard.md
+- testing/device_matrix.csv
+- store/store_listing_brief.md
+
+Visual reference:
+- assets/brand/ui_mockup.png
+
+No application code is included.
