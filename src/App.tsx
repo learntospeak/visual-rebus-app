@@ -1,28 +1,27 @@
 import { useEffect, useRef, useState } from 'react'
 import { puzzles } from './data/puzzles'
+import { ChapterMapScreen } from './screens/ChapterMapScreen'
 import { HomeScreen } from './screens/HomeScreen'
 import { PuzzleScreen } from './screens/PuzzleScreen'
 import { SolvedScreen } from './screens/SolvedScreen'
-import { playHarpChime } from './services/audio'
-import { hasRequestedPuzzle, loadProgress, saveProgress, syncPuzzleUrl } from './services/progress'
-import type { SavedProgress } from './types'
+import { startSolveCelebration } from './services/celebration'
+import { hasRequestedPuzzle, syncPuzzleUrl } from './services/progress'
+import { useGameStore } from './state/GameStore'
 import { answerLetters, isCorrectAnswer } from './utils/answers'
 
-type Screen = 'home' | 'puzzle' | 'solved'
+type Screen = 'home' | 'chapters' | 'puzzle' | 'solved'
 
 export default function App() {
-  const [progress, setProgress] = useState<SavedProgress>(() => loadProgress(puzzles))
+  const { progress, setProgress, settings } = useGameStore()
   const [screen, setScreen] = useState<Screen>(() => hasRequestedPuzzle() ? 'puzzle' : 'home')
   const [guess, setGuess] = useState('')
   const [clueCount, setClueCount] = useState(0)
   const [message, setMessage] = useState('')
   const [lockedLetters, setLockedLetters] = useState<boolean[]>([])
   const [celebrating, setCelebrating] = useState(false)
-  const solveTimer = useRef<number | null>(null)
+  const cancelCelebration = useRef<(() => void) | null>(null)
   const isCompleting = useRef(false)
   const puzzle = puzzles[progress.currentIndex]
-
-  useEffect(() => saveProgress(progress), [progress])
 
   useEffect(() => {
     syncPuzzleUrl(screen === 'puzzle' ? puzzle.id : null)
@@ -38,7 +37,7 @@ export default function App() {
   }, [progress.currentIndex, puzzle.answer])
 
   useEffect(() => () => {
-    if (solveTimer.current) window.clearTimeout(solveTimer.current)
+    cancelCelebration.current?.()
   }, [])
 
   function completePuzzle() {
@@ -51,8 +50,11 @@ export default function App() {
         : [...current.completedIds, puzzle.id],
     }))
     setCelebrating(true)
-    playHarpChime()
-    solveTimer.current = window.setTimeout(() => setScreen('solved'), 1650)
+    cancelCelebration.current = startSolveCelebration({
+      soundEnabled: settings.soundEnabled,
+      reducedCelebrations: settings.reducedCelebrations,
+      onComplete: () => setScreen('solved'),
+    })
   }
 
   function updateGuess(value: string) {
@@ -98,6 +100,18 @@ export default function App() {
         completedCount={progress.completedIds.length}
         puzzleCount={puzzles.length}
         onPlay={() => setScreen('puzzle')}
+        onChapters={() => setScreen('chapters')}
+      />
+    )
+  }
+
+  if (screen === 'chapters') {
+    return (
+      <ChapterMapScreen
+        completedCount={progress.completedIds.length}
+        puzzleCount={puzzles.length}
+        onHome={() => setScreen('home')}
+        onOpenChapter={() => setScreen('puzzle')}
       />
     )
   }

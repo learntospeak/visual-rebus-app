@@ -1,5 +1,8 @@
 import type { FormEvent } from 'react'
 import { AnswerPattern } from '../components/AnswerPattern'
+import { Button } from '../components/Button'
+import { CluePanel } from '../components/CluePanel'
+import { ProgressBar } from '../components/ProgressBar'
 import { PuzzleVisual } from '../components/PuzzleVisual'
 import type { Puzzle } from '../types'
 
@@ -35,10 +38,10 @@ export function PuzzleScreen({
   return (
     <main className="app-shell puzzle-screen">
       <header className="puzzle-header">
-        <button className="icon-button" aria-label="Return home" onClick={onHome}>←</button>
+        <Button variant="icon" aria-label="Return home" onClick={onHome}>←</Button>
         <div>
           <span className="eyebrow">PUZZLE {puzzleNumber} OF {puzzleCount}</span>
-          <div className="mini-track"><span style={{ width: `${(puzzleNumber / puzzleCount) * 100}%` }} /></div>
+          <ProgressBar value={puzzleNumber} max={puzzleCount} compact label={`Puzzle ${puzzleNumber} of ${puzzleCount}`} />
         </div>
         <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty}</span>
       </header>
@@ -62,18 +65,15 @@ export function PuzzleScreen({
         />
         <p className="feedback" role="status">{message || '\u00a0'}</p>
         <div className="action-row">
-          <button className="secondary-button" type="button" onClick={onClue} disabled={celebrating || clueCount === puzzle.clues.length}>
+          <Button variant="secondary" type="button" onClick={onClue} disabled={celebrating || clueCount === puzzle.clues.length}>
             {clueCount === puzzle.clues.length ? 'All clues shown' : `Clue ${clueCount + 1}`}
-          </button>
-          <button className="primary-button" type="submit" disabled={celebrating}>{celebrating ? 'Correct!' : 'Submit'}</button>
+          </Button>
+          <Button type="submit" disabled={celebrating}>{celebrating ? 'Correct!' : 'Submit'}</Button>
         </div>
       </form>
 
       {clueCount > 0 && (
-        <aside className="clue-panel" aria-live="polite">
-          <span className="eyebrow">CLUE {clueCount}</span>
-          <p>{puzzle.clues[clueCount - 1]}</p>
-        </aside>
+        <CluePanel clueNumber={clueCount} clue={puzzle.clues[clueCount - 1]} />
       )}
     </main>
   )

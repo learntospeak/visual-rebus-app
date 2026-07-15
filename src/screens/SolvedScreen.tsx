@@ -1,3 +1,4 @@
+import { Button } from '../components/Button'
 import type { Puzzle } from '../types'
 
 interface SolvedScreenProps {
@@ -10,7 +11,7 @@ interface SolvedScreenProps {
 export function SolvedScreen({ puzzle, isLastPuzzle, onHome, onNext }: SolvedScreenProps) {
   return (
     <main className="app-shell solved-screen">
-      <button className="text-button back-button" onClick={onHome}>← Home</button>
+      <Button variant="text" className="back-button" onClick={onHome}>← Home</Button>
       <section className="solved-content">
         <div className="success-mark" aria-hidden="true">✓</div>
         <p className="kicker">THAT'S IT!</p>
@@ -19,9 +20,9 @@ export function SolvedScreen({ puzzle, isLastPuzzle, onHome, onNext }: SolvedScr
           <span className="eyebrow">WHY IT WORKS</span>
           {puzzle.explanation.map((line) => <p key={line}>{line}</p>)}
         </div>
-        <button className="primary-button" onClick={onNext}>
+        <Button onClick={onNext}>
           {isLastPuzzle ? 'Finish pack' : 'Next puzzle'} <span aria-hidden="true">→</span>
-        </button>
+        </Button>
       </section>
     </main>
   )

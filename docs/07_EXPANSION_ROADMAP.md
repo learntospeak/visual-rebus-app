@@ -53,18 +53,18 @@ No puzzle enters the published count until it passes the content and artwork app
 
 - [x] Move screen components out of `App.tsx`.
 - [x] Create a dedicated Home screen.
-- [ ] Create a dedicated Chapter Map screen.
+- [x] Create a dedicated Chapter Map screen.
 - [x] Create a dedicated Puzzle screen.
 - [x] Create a dedicated Solved screen.
-- [ ] Create reusable button components.
-- [ ] Create reusable progress components.
+- [x] Create reusable button components.
+- [x] Create reusable progress components.
 - [x] Create a reusable answer-pattern component.
-- [ ] Create a reusable clue component.
+- [x] Create a reusable clue component.
 - [x] Create a shared audio service.
-- [ ] Create a shared celebration service.
+- [x] Create a shared celebration service.
 - [x] Move answer normalization and checking into shared utilities.
 - [x] Move local progress persistence and direct-link syncing into a service.
-- [ ] Add a central settings and progress store.
+- [x] Add a central settings and progress store.
 
 ### 1.2 Upgrade the puzzle schema
 

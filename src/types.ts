@@ -93,3 +93,8 @@ export interface SavedProgress {
   completedIds: number[]
   currentIndex: number
 }
+
+export interface GameSettings {
+  soundEnabled: boolean
+  reducedCelebrations: boolean
+}
