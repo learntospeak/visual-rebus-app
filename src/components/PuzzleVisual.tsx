@@ -1,19 +1,11 @@
+import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
 
 function TwoLeftFeet() {
   return (
-    <div className="puzzle-visual two-left-feet" role="img" aria-label="Two left-facing shoes, each marked with the letter L">
-      {[0, 1].map((foot) => (
-        <svg className="left-shoe-icon" viewBox="0 0 210 105" aria-hidden="true" key={foot}>
-          <path className="shoe-upper" d="M194 20h-54l-17 38-35 12-61 2C14 72 7 79 9 89h187c5-22 4-45-2-69Z" />
-          <path className="shoe-sole" d="M9 88c0 8 6 12 16 12h169c5 0 8-4 8-10v-5H31c-9 0-16 1-22 3Z" />
-          <path className="shoe-toe-cap" d="M28 72c18 0 31 4 39 13H17c-8 0-7-10 11-13Z" />
-          <path className="shoe-panel" d="M123 58 96 69l-29 2 19-30h46Z" />
-          <path className="shoe-laces" d="m91 48 29 13M84 56l27 12M78 64l20 8" />
-          <circle className="left-marker" cx="162" cy="50" r="20" />
-          <text className="left-marker-text" x="162" y="58" textAnchor="middle">L</text>
-        </svg>
-      ))}
+    <div className="puzzle-visual two-left-feet" role="img" aria-label="Two identical bare footprints with their toes pointing left">
+      <GiFootprint className="left-footprint-icon" aria-hidden="true" />
+      <GiFootprint className="left-footprint-icon" aria-hidden="true" />
     </div>
   )
 }

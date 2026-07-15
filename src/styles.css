@@ -99,15 +99,9 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .moon-word { position: absolute; z-index: 1; color: white; font-size: 1.55rem; }
 .road-horizontal { position: absolute; font-size: 2rem; letter-spacing: .18em; }
 .road-vertical { position: absolute; font-size: 2rem; letter-spacing: .18em; transform: rotate(90deg); color: var(--coral); }
-.two-left-feet { flex-direction: column; gap: 16px; }
-.left-shoe-icon { width: 205px; height: 95px; overflow: visible; filter: drop-shadow(6px 7px 0 rgba(44,177,166,.18)); }
-.left-shoe-icon:nth-child(2) { transform: translateX(18px); }
-.shoe-upper { fill: #dfe9e8; stroke: var(--ink); stroke-width: 5px; stroke-linejoin: round; }
-.shoe-sole { fill: var(--ink); }
-.shoe-toe-cap, .shoe-panel { fill: none; stroke: var(--teal-dark); stroke-width: 4px; stroke-linejoin: round; }
-.shoe-laces { fill: none; stroke: var(--coral); stroke-width: 4px; stroke-linecap: round; }
-.left-marker { fill: var(--coral); stroke: var(--ink); stroke-width: 4px; }
-.left-marker-text { fill: white; font: 800 24px Manrope, sans-serif; }
+.two-left-feet { flex-direction: row; gap: 22px; }
+.left-footprint-icon { width: 112px; height: 112px; color: var(--ink); transform: rotate(-90deg); filter: drop-shadow(7px 7px 0 rgba(44,177,166,.2)); }
+.left-footprint-icon:nth-child(2) { transform: rotate(-90deg) translateY(10px); }
 .tiny-talk { font: 800 .8rem Manrope; letter-spacing: .08em; }
 .stand-line { line-height: .65; }
 .stand-word { font-size: 2.3rem; }

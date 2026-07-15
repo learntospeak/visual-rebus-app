@@ -50,10 +50,11 @@ const mechanicTags: Record<number, MechanicTag[]> = {
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const score = difficultyScores[draft.id]
   const usesInlineSvg = draft.id === 13 || draft.id === 20
+  const usesLicensedFootprint = draft.id === 13
 
   return {
     ...draft,
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v1`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 13 ? 2 : 1}`,
     chapterId: 'chapter-1',
     chapterOrder: draft.id,
     difficultyScore: score,
@@ -61,10 +62,12 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
     mechanics: mechanicTags[draft.id],
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: 1,
-      creator: 'Visual Rebus project',
-      source: usesInlineSvg ? 'Original in-repository vector artwork' : 'Original text and CSS composition',
-      licence: 'Project-owned original',
+      version: draft.id === 13 ? 2 : 1,
+      creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : 'Visual Rebus project',
+      source: usesLicensedFootprint
+        ? 'GiFootprint from Game Icons via react-icons'
+        : usesInlineSvg ? 'Original in-repository vector artwork' : 'Original text and CSS composition',
+      licence: usesLicensedFootprint ? 'CC BY 3.0' : 'Project-owned original',
       kind: usesInlineSvg ? 'inline-svg' : 'text-css',
     },
     qa: {
