@@ -112,9 +112,13 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .death-word { color: var(--muted); }
 .life-word { color: var(--teal-dark); }
 .top-secret { position: absolute; top: 15px; font-size: 2.2rem; }
-.visual-20 { flex-direction: row; gap: 5px; }
-.blind-mouse { position: relative; font-size: 4.1rem; filter: grayscale(.25); }
-.blind-mouse::after { content: ''; position: absolute; width: 42px; height: 10px; left: 12px; top: 30px; background: var(--ink); border-radius: 8px; transform: rotate(-4deg); }
+.three-blind-mice { flex-direction: row; gap: 4px; }
+.blind-mouse-icon { width: 95px; max-width: 31%; overflow: visible; filter: drop-shadow(4px 6px 0 rgba(44,177,166,.16)); }
+.mouse-ear { fill: #d5a6a0; stroke: var(--ink); stroke-width: 6px; }
+.mouse-face { fill: #d9dee3; stroke: var(--ink); stroke-width: 5px; stroke-linejoin: round; }
+.mouse-blindfold, .mouse-tie { fill: var(--ink); }
+.mouse-nose { fill: var(--coral); stroke: var(--ink); stroke-width: 3px; }
+.mouse-whiskers { fill: none; stroke: var(--ink); stroke-width: 3px; stroke-linecap: round; }
 .bridge-word { width: 250px; padding: 13px; color: white; background: #a9794d; border-radius: 70px 70px 4px 4px; font: 800 1.5rem Manrope; border-bottom: 7px solid #815c3d; }
 .water-word { color: #399bc3; font: 800 2.1rem Manrope; letter-spacing: .1em; }
 .visual-22 { flex-direction: row; align-items: flex-start; padding-top: 55px; gap: 7px; }
