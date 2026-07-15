@@ -38,16 +38,16 @@ function isCorrect(puzzle: Puzzle, guess: string) {
 function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
   if (puzzle.id === 13) {
     return (
-      <div className="puzzle-visual two-left-feet" role="img" aria-label="Two footprints pointing left">
+      <div className="puzzle-visual two-left-feet" role="img" aria-label="Two left-facing shoes, each marked with the letter L">
         {[0, 1].map((foot) => (
-          <svg className="footprint-icon" viewBox="0 0 105 175" aria-hidden="true" key={foot}>
-            <path className="foot-sole" d="M35 57c-10 14-10 34-4 49 4 11 1 20-1 30-3 17 5 31 19 34 14 3 28-7 31-24 2-12-5-23-4-36 1-12 10-23 11-36 2-18-8-29-23-32-12-2-22 4-29 15Z" />
-            <path className="foot-arch-cutout" d="M35 101c9 5 18 5 27-2-5 14-3 24 1 35 3 10-1 21-10 23-9 1-16-7-14-18 3-15 3-25-4-38Z" />
-            <circle className="foot-toe foot-big-toe" cx="25" cy="39" r="15" />
-            <circle className="foot-toe" cx="47" cy="25" r="12" />
-            <circle className="foot-toe" cx="67" cy="25" r="10" />
-            <circle className="foot-toe" cx="83" cy="34" r="8" />
-            <circle className="foot-toe" cx="94" cy="47" r="6.5" />
+          <svg className="left-shoe-icon" viewBox="0 0 210 105" aria-hidden="true" key={foot}>
+            <path className="shoe-upper" d="M194 20h-54l-17 38-35 12-61 2C14 72 7 79 9 89h187c5-22 4-45-2-69Z" />
+            <path className="shoe-sole" d="M9 88c0 8 6 12 16 12h169c5 0 8-4 8-10v-5H31c-9 0-16 1-22 3Z" />
+            <path className="shoe-toe-cap" d="M28 72c18 0 31 4 39 13H17c-8 0-7-10 11-13Z" />
+            <path className="shoe-panel" d="M123 58 96 69l-29 2 19-30h46Z" />
+            <path className="shoe-laces" d="m91 48 29 13M84 56l27 12M78 64l20 8" />
+            <circle className="left-marker" cx="162" cy="50" r="20" />
+            <text className="left-marker-text" x="162" y="58" textAnchor="middle">L</text>
           </svg>
         ))}
       </div>
