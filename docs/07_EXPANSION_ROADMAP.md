@@ -68,15 +68,15 @@ No puzzle enters the published count until it passes the content and artwork app
 
 ### 1.2 Upgrade the puzzle schema
 
-- [ ] Add `chapterId` and chapter order.
-- [ ] Add mechanic tags.
-- [ ] Add difficulty score from 1–10 in addition to Easy/Medium/Hard labels.
-- [ ] Add estimated solve time.
-- [ ] Add prerequisite or unlock rules.
-- [ ] Add artwork version and asset-credit fields.
-- [ ] Add tester results and approval status.
-- [ ] Add optional motion and interaction instructions.
-- [ ] Add analytics-safe puzzle version identifier.
+- [x] Add `chapterId` and chapter order.
+- [x] Add mechanic tags.
+- [x] Add difficulty score from 1–10 in addition to Easy/Medium/Hard labels.
+- [x] Add estimated solve time.
+- [x] Add prerequisite or unlock rules.
+- [x] Add artwork version and asset-credit fields.
+- [x] Add tester results and approval status.
+- [x] Add optional motion and interaction instructions.
+- [x] Add analytics-safe puzzle version identifier.
 
 ### 1.3 Build a data-driven visual grammar
 
@@ -95,14 +95,14 @@ No puzzle enters the published count until it passes the content and artwork app
 
 ### 1.4 Content validation tools
 
-- [ ] Validate unique puzzle IDs.
-- [ ] Validate answers against word patterns.
-- [ ] Validate exactly three clues and at least one explanation step.
-- [ ] Validate accepted-answer normalization.
-- [ ] Reject missing region, creator, asset source or QA status.
-- [ ] Flag duplicate answers and near-duplicate visual concepts.
-- [ ] Produce a content summary by chapter, difficulty and mechanic.
-- [ ] Run validation automatically during production builds.
+- [x] Validate unique puzzle IDs.
+- [x] Validate answers against word patterns.
+- [x] Validate exactly three clues and at least one explanation step.
+- [x] Validate accepted-answer normalization.
+- [x] Reject missing region, creator, asset source or QA status.
+- [x] Flag duplicate answers and near-duplicate visual concepts.
+- [x] Produce a content summary by chapter, difficulty and mechanic.
+- [x] Run validation automatically during production builds.
 
 **Phase 1 exit gate:** a new puzzle can be added as structured data without editing `App.tsx` or writing puzzle-specific CSS.
 

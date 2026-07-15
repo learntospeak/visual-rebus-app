@@ -1,6 +1,85 @@
-import type { Puzzle } from '../types'
+import type { MechanicTag, Puzzle } from '../types'
 
-export const puzzles: Puzzle[] = [
+type StarterPuzzleDraft = Omit<
+  Puzzle,
+  | 'contentVersion'
+  | 'chapterId'
+  | 'chapterOrder'
+  | 'difficultyScore'
+  | 'estimatedSolveSeconds'
+  | 'mechanics'
+  | 'unlock'
+  | 'artwork'
+  | 'qa'
+>
+
+const difficultyScores: Record<number, number> = {
+  1: 1, 2: 2, 3: 1, 4: 2, 5: 3, 6: 1, 7: 4, 8: 3, 9: 5, 10: 2,
+  11: 2, 12: 2, 13: 2, 14: 1, 15: 2, 16: 1, 17: 4, 18: 4, 19: 1, 20: 2,
+  21: 3, 22: 4, 23: 2, 24: 5, 25: 6,
+}
+
+const mechanicTags: Record<number, MechanicTag[]> = {
+  1: ['above-below'],
+  2: ['rotation', 'repetition'],
+  3: ['split'],
+  4: ['inside-outside'],
+  5: ['between'],
+  6: ['text-image', 'split'],
+  7: ['text-image', 'scale'],
+  8: ['reversal'],
+  9: ['scale', 'missing-letter', 'sound-alike'],
+  10: ['above-below', 'sound-alike'],
+  11: ['inside-outside', 'colour'],
+  12: ['direction'],
+  13: ['text-image', 'count', 'direction'],
+  14: ['scale'],
+  15: ['inside-outside'],
+  16: ['rotation'],
+  17: ['split', 'inside-outside'],
+  18: ['sequence'],
+  19: ['above-below'],
+  20: ['text-image', 'count'],
+  21: ['text-image', 'above-below'],
+  22: ['direction', 'sequence'],
+  23: ['text-image', 'direction'],
+  24: ['split'],
+  25: ['inside-outside'],
+}
+
+function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
+  const score = difficultyScores[draft.id]
+  const usesInlineSvg = draft.id === 13 || draft.id === 20
+
+  return {
+    ...draft,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v1`,
+    chapterId: 'chapter-1',
+    chapterOrder: draft.id,
+    difficultyScore: score,
+    estimatedSolveSeconds: 20 + score * 10,
+    mechanics: mechanicTags[draft.id],
+    unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
+    artwork: {
+      version: 1,
+      creator: 'Visual Rebus project',
+      source: usesInlineSvg ? 'Original in-repository vector artwork' : 'Original text and CSS composition',
+      licence: 'Project-owned original',
+      kind: usesInlineSvg ? 'inline-svg' : 'text-css',
+    },
+    qa: {
+      status: 'Tested',
+      testerResults: [{
+        testerCode: 'owner-mobile-review',
+        result: 'fair',
+        testedAt: '2026-07-15',
+        notes: 'Completed during initial 25-puzzle mobile review.',
+      }],
+    },
+  }
+}
+
+const starterPuzzles: StarterPuzzleDraft[] = [
   {
     id: 1,
     answer: 'head over heels',
@@ -137,7 +216,7 @@ export const puzzles: Puzzle[] = [
   {
     id: 10,
     answer: 'man overboard',
-    acceptedAnswers: ['man over board'],
+    acceptedAnswers: [],
     wordPattern: '3 9',
     difficulty: 'Easy',
     format: 'illustration',
@@ -169,7 +248,7 @@ export const puzzles: Puzzle[] = [
   {
     id: 12,
     answer: 'crossroads',
-    acceptedAnswers: ['cross roads', 'crossed roads'],
+    acceptedAnswers: ['crossed roads'],
     wordPattern: '10',
     difficulty: 'Easy',
     format: 'typography',
@@ -354,7 +433,7 @@ export const puzzles: Puzzle[] = [
   {
     id: 24,
     answer: 'half baked idea',
-    acceptedAnswers: ['a half baked idea', 'half-baked idea'],
+    acceptedAnswers: ['a half baked idea'],
     wordPattern: '4 5 4',
     difficulty: 'Medium',
     format: 'typography',
@@ -367,7 +446,7 @@ export const puzzles: Puzzle[] = [
   {
     id: 25,
     answer: 'all in a days work',
-    acceptedAnswers: ["all in a day's work", 'all in one days work', "all in one day's work"],
+    acceptedAnswers: ['all in one days work'],
     wordPattern: '3 2 1 4 4',
     difficulty: 'Hard',
     format: 'typography',
@@ -378,3 +457,5 @@ export const puzzles: Puzzle[] = [
     region: 'Global',
   },
 ]
+
+export const puzzles: Puzzle[] = starterPuzzles.map(migrateStarterPuzzle)
