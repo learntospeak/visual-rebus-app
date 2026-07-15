@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { puzzles } from './data/puzzles'
 import type { Puzzle, SavedProgress } from './types'
 
@@ -42,18 +42,52 @@ function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
   )
 }
 
-function AnswerPattern({ pattern }: { pattern: string }) {
+function AnswerPattern({ pattern, answer, locked, celebrating }: { pattern: string; answer: string; locked: boolean[]; celebrating: boolean }) {
+  const letters = answer.replace(/[^a-z0-9]/gi, '').toUpperCase().split('')
+  let answerIndex = 0
+
   return (
-    <div className="answer-pattern" aria-label={`Answer pattern: ${pattern}`}>
+    <div className={`answer-pattern${celebrating ? ' is-celebrating' : ''}`} aria-label={`Answer pattern: ${pattern}`}>
       {pattern.split(/[-\s]+/).map((length, wordIndex) => (
         <span className="answer-word" key={`${length}-${wordIndex}`}>
-          {Array.from({ length: Number(length) }, (_, letterIndex) => (
-            <span className="letter-line" key={letterIndex} aria-hidden="true" />
-          ))}
+          {Array.from({ length: Number(length) }, (_, letterIndex) => {
+            const index = answerIndex++
+            return (
+              <span className={`letter-slot${locked[index] ? ' is-locked' : ''}`} key={letterIndex} aria-hidden="true">
+                <span className="locked-letter">{locked[index] ? letters[index] : ''}</span>
+              </span>
+            )
+          })}
         </span>
       ))}
     </div>
   )
+}
+
+function playHarpChime() {
+  const AudioContextClass = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+  if (!AudioContextClass) return
+
+  const context = new AudioContextClass()
+  const notes = [523.25, 659.25, 783.99, 1046.5]
+  const start = context.currentTime
+
+  notes.forEach((frequency, index) => {
+    const oscillator = context.createOscillator()
+    const gain = context.createGain()
+    const noteStart = start + index * 0.105
+    oscillator.type = 'sine'
+    oscillator.frequency.setValueAtTime(frequency, noteStart)
+    gain.gain.setValueAtTime(0.0001, noteStart)
+    gain.gain.exponentialRampToValueAtTime(0.2, noteStart + 0.018)
+    gain.gain.exponentialRampToValueAtTime(0.0001, noteStart + 1.15)
+    oscillator.connect(gain)
+    gain.connect(context.destination)
+    oscillator.start(noteStart)
+    oscillator.stop(noteStart + 1.2)
+  })
+
+  window.setTimeout(() => void context.close(), 1800)
 }
 
 export default function App() {
@@ -62,6 +96,10 @@ export default function App() {
   const [guess, setGuess] = useState('')
   const [clueCount, setClueCount] = useState(0)
   const [message, setMessage] = useState('')
+  const [lockedLetters, setLockedLetters] = useState<boolean[]>([])
+  const [celebrating, setCelebrating] = useState(false)
+  const solveTimer = useRef<number | null>(null)
+  const isCompleting = useRef(false)
   const puzzle = puzzles[progress.currentIndex]
   const percent = Math.round((progress.completedIds.length / puzzles.length) * 100)
 
@@ -73,12 +111,47 @@ export default function App() {
     setGuess('')
     setClueCount(0)
     setMessage('')
+    setLockedLetters(Array(puzzle.answer.replace(/[^a-z0-9]/gi, '').length).fill(false))
+    setCelebrating(false)
+    isCompleting.current = false
   }, [progress.currentIndex])
+
+  useEffect(() => () => {
+    if (solveTimer.current) window.clearTimeout(solveTimer.current)
+  }, [])
 
   const actionLabel = useMemo(
     () => (progress.completedIds.length ? 'Continue solving' : 'Start playing'),
     [progress.completedIds.length],
   )
+
+  function completePuzzle() {
+    if (isCompleting.current) return
+    isCompleting.current = true
+    setProgress((current) => ({
+      ...current,
+      completedIds: current.completedIds.includes(puzzle.id)
+        ? current.completedIds
+        : [...current.completedIds, puzzle.id],
+    }))
+    setCelebrating(true)
+    playHarpChime()
+    solveTimer.current = window.setTimeout(() => setScreen('solved'), 1650)
+  }
+
+  function updateGuess(value: string) {
+    if (celebrating) return
+    setGuess(value)
+    setMessage('')
+
+    const typed = value.replace(/[^a-z0-9]/gi, '').toUpperCase().split('')
+    const answer = puzzle.answer.replace(/[^a-z0-9]/gi, '').toUpperCase().split('')
+    setLockedLetters((current) => {
+      const next = answer.map((letter, index) => current[index] || typed[index] === letter)
+      if (next.length > 0 && next.every(Boolean)) window.setTimeout(completePuzzle, 0)
+      return next
+    })
+  }
 
   function submitAnswer(event: React.FormEvent) {
     event.preventDefault()
@@ -86,17 +159,12 @@ export default function App() {
       setMessage('Enter your answer first.')
       return
     }
-    if (!isCorrect(puzzle, guess)) {
-      setMessage('Not quite. Check the layout or try a clue.')
+    if (isCorrect(puzzle, guess)) {
+      setLockedLetters(Array(puzzle.answer.replace(/[^a-z0-9]/gi, '').length).fill(true))
+      window.setTimeout(completePuzzle, 0)
       return
     }
-    setProgress((current) => ({
-      ...current,
-      completedIds: current.completedIds.includes(puzzle.id)
-        ? current.completedIds
-        : [...current.completedIds, puzzle.id],
-    }))
-    setScreen('solved')
+    setMessage('Not quite. Correct letters have been locked in place.')
   }
 
   function nextPuzzle() {
@@ -172,14 +240,14 @@ export default function App() {
 
       <form className="answer-form" onSubmit={submitAnswer}>
         <label htmlFor="answer">Your answer</label>
-        <AnswerPattern pattern={puzzle.wordPattern} />
-        <input id="answer" value={guess} onChange={(event) => { setGuess(event.target.value); setMessage('') }} autoComplete="off" autoCapitalize="none" placeholder="Type the phrase…" />
+        <AnswerPattern pattern={puzzle.wordPattern} answer={puzzle.answer} locked={lockedLetters} celebrating={celebrating} />
+        <input id="answer" value={guess} onChange={(event) => updateGuess(event.target.value)} disabled={celebrating} autoComplete="off" autoCapitalize="none" placeholder="Type the phrase…" />
         <p className="feedback" role="status">{message || '\u00a0'}</p>
         <div className="action-row">
-          <button className="secondary-button" type="button" onClick={() => setClueCount((count) => Math.min(count + 1, puzzle.clues.length))} disabled={clueCount === puzzle.clues.length}>
+          <button className="secondary-button" type="button" onClick={() => setClueCount((count) => Math.min(count + 1, puzzle.clues.length))} disabled={celebrating || clueCount === puzzle.clues.length}>
             {clueCount === puzzle.clues.length ? 'All clues shown' : `Clue ${clueCount + 1}`}
           </button>
-          <button className="primary-button" type="submit">Submit</button>
+          <button className="primary-button" type="submit" disabled={celebrating}>{celebrating ? 'Correct!' : 'Submit'}</button>
         </div>
       </form>
 
