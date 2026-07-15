@@ -8,16 +8,21 @@ const STORAGE_KEY = 'visual-rebus-progress-v1'
 const emptyProgress: SavedProgress = { completedIds: [], currentIndex: 0 }
 
 function loadProgress(): SavedProgress {
+  const requestedPuzzle = Number(new URLSearchParams(window.location.search).get('puzzle'))
+  const requestedIndex = puzzles.findIndex((puzzle) => puzzle.id === requestedPuzzle)
+
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return emptyProgress
+    if (!raw) return requestedIndex >= 0 ? { ...emptyProgress, currentIndex: requestedIndex } : emptyProgress
     const saved = JSON.parse(raw) as SavedProgress
     return {
       completedIds: Array.isArray(saved.completedIds) ? saved.completedIds : [],
-      currentIndex: Math.min(Math.max(saved.currentIndex ?? 0, 0), puzzles.length - 1),
+      currentIndex: requestedIndex >= 0
+        ? requestedIndex
+        : Math.min(Math.max(saved.currentIndex ?? 0, 0), puzzles.length - 1),
     }
   } catch {
-    return emptyProgress
+    return requestedIndex >= 0 ? { ...emptyProgress, currentIndex: requestedIndex } : emptyProgress
   }
 }
 
@@ -127,7 +132,7 @@ function playHarpChime() {
 
 export default function App() {
   const [progress, setProgress] = useState<SavedProgress>(loadProgress)
-  const [screen, setScreen] = useState<Screen>('home')
+  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).has('puzzle') ? 'puzzle' : 'home')
   const [guess, setGuess] = useState('')
   const [clueCount, setClueCount] = useState(0)
   const [message, setMessage] = useState('')
@@ -141,6 +146,18 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
   }, [progress])
+
+  useEffect(() => {
+    if (screen === 'puzzle') {
+      const url = new URL(window.location.href)
+      url.searchParams.set('puzzle', String(puzzle.id))
+      window.history.replaceState({}, '', url)
+    } else {
+      const url = new URL(window.location.href)
+      url.searchParams.delete('puzzle')
+      window.history.replaceState({}, '', url)
+    }
+  }, [puzzle.id, screen])
 
   useEffect(() => {
     setGuess('')

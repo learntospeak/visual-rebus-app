@@ -10,6 +10,7 @@ Instructions:
 - docs/03_LAUNCH_CHECKLIST.md
 - docs/04_MARKET_RESEARCH_NOTES.md
 - docs/05_GUI_STYLE_GUIDE.md
+- docs/06_VISUAL_ASSET_STANDARD.md
 
 Templates:
 - data/puzzle_inventory_template.csv

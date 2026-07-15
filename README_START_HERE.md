@@ -12,8 +12,9 @@ Prove the core experience with **25 excellent puzzles** before adding ads, accou
 2. `docs/01_BUILD_CHECKLIST.md` — exact build sequence and estimated effort.
 3. `docs/02_PUZZLE_CONTENT_SPEC.md` — required fields and quality rules for every puzzle.
 4. `docs/05_GUI_STYLE_GUIDE.md` — visual direction and screen rules.
-5. `docs/03_LAUNCH_CHECKLIST.md` — testing, privacy, monetisation and store work.
-6. `docs/04_MARKET_RESEARCH_NOTES.md` — competitor weaknesses and positioning.
+5. `docs/06_VISUAL_ASSET_STANDARD.md` — mandatory artwork quality and approval rules.
+6. `docs/03_LAUNCH_CHECKLIST.md` — testing, privacy, monetisation and store work.
+7. `docs/04_MARKET_RESEARCH_NOTES.md` — competitor weaknesses and positioning.
 
 ## First 48 hours
 
