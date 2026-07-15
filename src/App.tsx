@@ -40,13 +40,14 @@ function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
     return (
       <div className="puzzle-visual two-left-feet" role="img" aria-label="Two footprints pointing left">
         {[0, 1].map((foot) => (
-          <svg className="footprint-icon" viewBox="0 0 90 150" aria-hidden="true" key={foot}>
-            <path d="M36 48c-15 8-23 31-20 54 3 25 18 42 37 39 18-3 27-23 23-48-4-25-18-52-40-45Z" />
-            <circle cx="25" cy="34" r="12" />
-            <circle cx="42" cy="25" r="11" />
-            <circle cx="59" cy="24" r="9" />
-            <circle cx="73" cy="31" r="7" />
-            <circle cx="82" cy="42" r="6" />
+          <svg className="footprint-icon" viewBox="0 0 105 175" aria-hidden="true" key={foot}>
+            <path className="foot-sole" d="M35 57c-10 14-10 34-4 49 4 11 1 20-1 30-3 17 5 31 19 34 14 3 28-7 31-24 2-12-5-23-4-36 1-12 10-23 11-36 2-18-8-29-23-32-12-2-22 4-29 15Z" />
+            <path className="foot-arch-cutout" d="M35 101c9 5 18 5 27-2-5 14-3 24 1 35 3 10-1 21-10 23-9 1-16-7-14-18 3-15 3-25-4-38Z" />
+            <circle className="foot-toe foot-big-toe" cx="25" cy="39" r="15" />
+            <circle className="foot-toe" cx="47" cy="25" r="12" />
+            <circle className="foot-toe" cx="67" cy="25" r="10" />
+            <circle className="foot-toe" cx="83" cy="34" r="8" />
+            <circle className="foot-toe" cx="94" cy="47" r="6.5" />
           </svg>
         ))}
       </div>

@@ -100,8 +100,10 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .road-horizontal { position: absolute; font-size: 2rem; letter-spacing: .18em; }
 .road-vertical { position: absolute; font-size: 2rem; letter-spacing: .18em; transform: rotate(90deg); color: var(--coral); }
 .two-left-feet { flex-direction: row; gap: 25px; }
-.footprint-icon { width: 82px; height: 135px; fill: var(--ink); transform: rotate(-90deg); filter: drop-shadow(6px 7px 0 rgba(44,177,166,.2)); }
-.footprint-icon:nth-child(2) { transform: rotate(-90deg) translateY(10px); }
+.footprint-icon { width: 100px; height: 150px; overflow: visible; transform: rotate(-90deg); filter: drop-shadow(6px 7px 0 rgba(44,177,166,.2)); }
+.footprint-icon:nth-child(2) { transform: rotate(-90deg) translateY(12px); }
+.foot-sole, .foot-toe { fill: var(--ink); }
+.foot-arch-cutout { fill: var(--paper); }
 .tiny-talk { font: 800 .8rem Manrope; letter-spacing: .08em; }
 .stand-line { line-height: .65; }
 .stand-word { font-size: 2.3rem; }
