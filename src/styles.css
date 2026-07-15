@@ -99,10 +99,9 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .moon-word { position: absolute; z-index: 1; color: white; font-size: 1.55rem; }
 .road-horizontal { position: absolute; font-size: 2rem; letter-spacing: .18em; }
 .road-vertical { position: absolute; font-size: 2rem; letter-spacing: .18em; transform: rotate(90deg); color: var(--coral); }
-.visual-13 { flex-direction: row; }
-.foot { font-size: 5.4rem; display: inline-block; }
-.foot-one { transform: rotate(-80deg); }
-.foot-two { transform: rotate(-80deg) translateY(18px); }
+.two-left-feet { flex-direction: row; gap: 25px; }
+.footprint-icon { width: 82px; height: 135px; fill: var(--ink); transform: rotate(-90deg); filter: drop-shadow(6px 7px 0 rgba(44,177,166,.2)); }
+.footprint-icon:nth-child(2) { transform: rotate(-90deg) translateY(10px); }
 .tiny-talk { font: 800 .8rem Manrope; letter-spacing: .08em; }
 .stand-line { line-height: .65; }
 .stand-word { font-size: 2.3rem; }

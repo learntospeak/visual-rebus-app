@@ -31,6 +31,23 @@ function isCorrect(puzzle: Puzzle, guess: string) {
 }
 
 function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
+  if (puzzle.id === 13) {
+    return (
+      <div className="puzzle-visual two-left-feet" role="img" aria-label="Two footprints pointing left">
+        {[0, 1].map((foot) => (
+          <svg className="footprint-icon" viewBox="0 0 90 150" aria-hidden="true" key={foot}>
+            <path d="M36 48c-15 8-23 31-20 54 3 25 18 42 37 39 18-3 27-23 23-48-4-25-18-52-40-45Z" />
+            <circle cx="25" cy="34" r="12" />
+            <circle cx="42" cy="25" r="11" />
+            <circle cx="59" cy="24" r="9" />
+            <circle cx="73" cy="31" r="7" />
+            <circle cx="82" cy="42" r="6" />
+          </svg>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className={`puzzle-visual visual-${puzzle.id}`} role="img" aria-label={puzzle.elements.map((item) => item.ariaLabel ?? item.content).join(', ')}>
       {puzzle.elements.map((item, index) => (

@@ -191,8 +191,8 @@ export const puzzles: Puzzle[] = [
     format: 'icon',
     prompt: 'What awkward phrase is this?',
     elements: [
-      { content: '🦶', className: 'foot foot-one', ariaLabel: 'A foot pointing left' },
-      { content: '🦶', className: 'foot foot-two', ariaLabel: 'Another foot pointing left' },
+      { content: 'footprint', ariaLabel: 'A footprint pointing left' },
+      { content: 'footprint', ariaLabel: 'Another footprint pointing left' },
     ],
     clues: ['Count the body parts and notice their direction.', 'Both feet point left.', 'People say this when someone cannot dance well.'],
     explanation: ['There are two feet.', 'Both are turned to the left, giving “two left feet.”'],
