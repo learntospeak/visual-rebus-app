@@ -1,139 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { puzzles } from './data/puzzles'
-import type { Puzzle, SavedProgress } from './types'
+import { HomeScreen } from './screens/HomeScreen'
+import { PuzzleScreen } from './screens/PuzzleScreen'
+import { SolvedScreen } from './screens/SolvedScreen'
+import { playHarpChime } from './services/audio'
+import { hasRequestedPuzzle, loadProgress, saveProgress, syncPuzzleUrl } from './services/progress'
+import type { SavedProgress } from './types'
+import { answerLetters, isCorrectAnswer } from './utils/answers'
 
 type Screen = 'home' | 'puzzle' | 'solved'
 
-const STORAGE_KEY = 'visual-rebus-progress-v1'
-const emptyProgress: SavedProgress = { completedIds: [], currentIndex: 0 }
-
-function loadProgress(): SavedProgress {
-  const requestedPuzzle = Number(new URLSearchParams(window.location.search).get('puzzle'))
-  const requestedIndex = puzzles.findIndex((puzzle) => puzzle.id === requestedPuzzle)
-
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return requestedIndex >= 0 ? { ...emptyProgress, currentIndex: requestedIndex } : emptyProgress
-    const saved = JSON.parse(raw) as SavedProgress
-    return {
-      completedIds: Array.isArray(saved.completedIds) ? saved.completedIds : [],
-      currentIndex: requestedIndex >= 0
-        ? requestedIndex
-        : Math.min(Math.max(saved.currentIndex ?? 0, 0), puzzles.length - 1),
-    }
-  } catch {
-    return requestedIndex >= 0 ? { ...emptyProgress, currentIndex: requestedIndex } : emptyProgress
-  }
-}
-
-function normalise(value: string) {
-  return value.toLocaleLowerCase().replace(/[^a-z0-9]/g, '')
-}
-
-function isCorrect(puzzle: Puzzle, guess: string) {
-  const accepted = [puzzle.answer, ...puzzle.acceptedAnswers].map(normalise)
-  return accepted.includes(normalise(guess))
-}
-
-function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
-  if (puzzle.id === 13) {
-    return (
-      <div className="puzzle-visual two-left-feet" role="img" aria-label="Two left-facing shoes, each marked with the letter L">
-        {[0, 1].map((foot) => (
-          <svg className="left-shoe-icon" viewBox="0 0 210 105" aria-hidden="true" key={foot}>
-            <path className="shoe-upper" d="M194 20h-54l-17 38-35 12-61 2C14 72 7 79 9 89h187c5-22 4-45-2-69Z" />
-            <path className="shoe-sole" d="M9 88c0 8 6 12 16 12h169c5 0 8-4 8-10v-5H31c-9 0-16 1-22 3Z" />
-            <path className="shoe-toe-cap" d="M28 72c18 0 31 4 39 13H17c-8 0-7-10 11-13Z" />
-            <path className="shoe-panel" d="M123 58 96 69l-29 2 19-30h46Z" />
-            <path className="shoe-laces" d="m91 48 29 13M84 56l27 12M78 64l20 8" />
-            <circle className="left-marker" cx="162" cy="50" r="20" />
-            <text className="left-marker-text" x="162" y="58" textAnchor="middle">L</text>
-          </svg>
-        ))}
-      </div>
-    )
-  }
-
-  if (puzzle.id === 20) {
-    return (
-      <div className="puzzle-visual three-blind-mice" role="img" aria-label="Three mice wearing blindfolds over their eyes">
-        {[0, 1, 2].map((mouse) => (
-          <svg className="blind-mouse-icon" viewBox="0 0 120 125" aria-hidden="true" key={mouse}>
-            <circle className="mouse-ear" cx="30" cy="31" r="23" />
-            <circle className="mouse-ear" cx="90" cy="31" r="23" />
-            <path className="mouse-face" d="M60 16c-30 0-48 22-45 50 3 25 22 46 45 54 23-8 42-29 45-54 3-28-15-50-45-50Z" />
-            <path className="mouse-blindfold" d="M17 48c27-10 59-10 86 0l-4 25c-26-8-52-8-78 0Z" />
-            <path className="mouse-tie" d="M101 53l16-12-5 23 6 15-18-10Z" />
-            <circle className="mouse-nose" cx="60" cy="94" r="7" />
-            <path className="mouse-whiskers" d="M50 96 12 88m38 15-36 8m56-15 38-8m-38 15 36 8" />
-          </svg>
-        ))}
-      </div>
-    )
-  }
-
-  return (
-    <div className={`puzzle-visual visual-${puzzle.id}`} role="img" aria-label={puzzle.elements.map((item) => item.ariaLabel ?? item.content).join(', ')}>
-      {puzzle.elements.map((item, index) => (
-        <span className={item.className} key={`${puzzle.id}-${index}`} aria-hidden="true">
-          {item.content}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-function AnswerPattern({ pattern, answer, locked, celebrating }: { pattern: string; answer: string; locked: boolean[]; celebrating: boolean }) {
-  const letters = answer.replace(/[^a-z0-9]/gi, '').toUpperCase().split('')
-  let answerIndex = 0
-
-  return (
-    <div className={`answer-pattern${celebrating ? ' is-celebrating' : ''}`} aria-label={`Answer pattern: ${pattern}`}>
-      {pattern.split(/[-\s]+/).map((length, wordIndex) => (
-        <span className="answer-word" key={`${length}-${wordIndex}`}>
-          {Array.from({ length: Number(length) }, (_, letterIndex) => {
-            const index = answerIndex++
-            return (
-              <span className={`letter-slot${locked[index] ? ' is-locked' : ''}`} key={letterIndex} aria-hidden="true">
-                <span className="locked-letter">{locked[index] ? letters[index] : ''}</span>
-              </span>
-            )
-          })}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-function playHarpChime() {
-  const AudioContextClass = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
-  if (!AudioContextClass) return
-
-  const context = new AudioContextClass()
-  const notes = [523.25, 659.25, 783.99, 1046.5]
-  const start = context.currentTime
-
-  notes.forEach((frequency, index) => {
-    const oscillator = context.createOscillator()
-    const gain = context.createGain()
-    const noteStart = start + index * 0.105
-    oscillator.type = 'sine'
-    oscillator.frequency.setValueAtTime(frequency, noteStart)
-    gain.gain.setValueAtTime(0.0001, noteStart)
-    gain.gain.exponentialRampToValueAtTime(0.2, noteStart + 0.018)
-    gain.gain.exponentialRampToValueAtTime(0.0001, noteStart + 1.15)
-    oscillator.connect(gain)
-    gain.connect(context.destination)
-    oscillator.start(noteStart)
-    oscillator.stop(noteStart + 1.2)
-  })
-
-  window.setTimeout(() => void context.close(), 1800)
-}
-
 export default function App() {
-  const [progress, setProgress] = useState<SavedProgress>(loadProgress)
-  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).has('puzzle') ? 'puzzle' : 'home')
+  const [progress, setProgress] = useState<SavedProgress>(() => loadProgress(puzzles))
+  const [screen, setScreen] = useState<Screen>(() => hasRequestedPuzzle() ? 'puzzle' : 'home')
   const [guess, setGuess] = useState('')
   const [clueCount, setClueCount] = useState(0)
   const [message, setMessage] = useState('')
@@ -142,41 +21,25 @@ export default function App() {
   const solveTimer = useRef<number | null>(null)
   const isCompleting = useRef(false)
   const puzzle = puzzles[progress.currentIndex]
-  const percent = Math.round((progress.completedIds.length / puzzles.length) * 100)
+
+  useEffect(() => saveProgress(progress), [progress])
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
-  }, [progress])
-
-  useEffect(() => {
-    if (screen === 'puzzle') {
-      const url = new URL(window.location.href)
-      url.searchParams.set('puzzle', String(puzzle.id))
-      window.history.replaceState({}, '', url)
-    } else {
-      const url = new URL(window.location.href)
-      url.searchParams.delete('puzzle')
-      window.history.replaceState({}, '', url)
-    }
+    syncPuzzleUrl(screen === 'puzzle' ? puzzle.id : null)
   }, [puzzle.id, screen])
 
   useEffect(() => {
     setGuess('')
     setClueCount(0)
     setMessage('')
-    setLockedLetters(Array(puzzle.answer.replace(/[^a-z0-9]/gi, '').length).fill(false))
+    setLockedLetters(Array(answerLetters(puzzle.answer).length).fill(false))
     setCelebrating(false)
     isCompleting.current = false
-  }, [progress.currentIndex])
+  }, [progress.currentIndex, puzzle.answer])
 
   useEffect(() => () => {
     if (solveTimer.current) window.clearTimeout(solveTimer.current)
   }, [])
-
-  const actionLabel = useMemo(
-    () => (progress.completedIds.length ? 'Continue solving' : 'Start playing'),
-    [progress.completedIds.length],
-  )
 
   function completePuzzle() {
     if (isCompleting.current) return
@@ -197,8 +60,8 @@ export default function App() {
     setGuess(value)
     setMessage('')
 
-    const typed = value.replace(/[^a-z0-9]/gi, '').toUpperCase().split('')
-    const answer = puzzle.answer.replace(/[^a-z0-9]/gi, '').toUpperCase().split('')
+    const typed = answerLetters(value)
+    const answer = answerLetters(puzzle.answer)
     setLockedLetters((current) => {
       const next = answer.map((letter, index) => current[index] || typed[index] === letter)
       if (next.length > 0 && next.every(Boolean)) window.setTimeout(completePuzzle, 0)
@@ -212,8 +75,8 @@ export default function App() {
       setMessage('Enter your answer first.')
       return
     }
-    if (isCorrect(puzzle, guess)) {
-      setLockedLetters(Array(puzzle.answer.replace(/[^a-z0-9]/gi, '').length).fill(true))
+    if (isCorrectAnswer(puzzle, guess)) {
+      setLockedLetters(Array(answerLetters(puzzle.answer).length).fill(true))
       window.setTimeout(completePuzzle, 0)
       return
     }
@@ -231,85 +94,39 @@ export default function App() {
 
   if (screen === 'home') {
     return (
-      <main className="app-shell home-screen">
-        <header className="brand-row">
-          <div className="brand-mark" aria-hidden="true">R</div>
-          <span className="eyebrow">VISUAL REBUS</span>
-        </header>
-        <section className="hero">
-          <p className="kicker">A LITTLE PUZZLE. A BIG AHA!</p>
-          <h1>See words<br />differently.</h1>
-          <p className="hero-copy">Fair visual riddles, clues that genuinely help, and explanations that make every answer click.</p>
-          <button className="primary-button hero-button" onClick={() => setScreen('puzzle')}>{actionLabel}<span aria-hidden="true">→</span></button>
-        </section>
-        <section className="progress-card" aria-label={`${percent}% complete`}>
-          <div>
-            <span className="eyebrow">STARTER PACK</span>
-            <strong>{progress.completedIds.length} of {puzzles.length} solved</strong>
-          </div>
-          <div className="progress-track"><span style={{ width: `${percent}%` }} /></div>
-          <span className="progress-number">{percent}%</span>
-        </section>
-        <p className="trust-note"><span aria-hidden="true">✓</span> No account. No adverts. Just puzzles.</p>
-      </main>
+      <HomeScreen
+        completedCount={progress.completedIds.length}
+        puzzleCount={puzzles.length}
+        onPlay={() => setScreen('puzzle')}
+      />
     )
   }
 
   if (screen === 'solved') {
     return (
-      <main className="app-shell solved-screen">
-        <button className="text-button back-button" onClick={() => setScreen('home')}>← Home</button>
-        <section className="solved-content">
-          <div className="success-mark" aria-hidden="true">✓</div>
-          <p className="kicker">THAT'S IT!</p>
-          <h1>{puzzle.answer}</h1>
-          <div className="explanation-card">
-            <span className="eyebrow">WHY IT WORKS</span>
-            {puzzle.explanation.map((line) => <p key={line}>{line}</p>)}
-          </div>
-          <button className="primary-button" onClick={nextPuzzle}>
-            {progress.currentIndex === puzzles.length - 1 ? 'Finish pack' : 'Next puzzle'} <span aria-hidden="true">→</span>
-          </button>
-        </section>
-      </main>
+      <SolvedScreen
+        puzzle={puzzle}
+        isLastPuzzle={progress.currentIndex === puzzles.length - 1}
+        onHome={() => setScreen('home')}
+        onNext={nextPuzzle}
+      />
     )
   }
 
   return (
-    <main className="app-shell puzzle-screen">
-      <header className="puzzle-header">
-        <button className="icon-button" aria-label="Return home" onClick={() => setScreen('home')}>←</button>
-        <div>
-          <span className="eyebrow">PUZZLE {progress.currentIndex + 1} OF {puzzles.length}</span>
-          <div className="mini-track"><span style={{ width: `${((progress.currentIndex + 1) / puzzles.length) * 100}%` }} /></div>
-        </div>
-        <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty}</span>
-      </header>
-
-      <section className="puzzle-card">
-        <p>{puzzle.prompt}</p>
-        <PuzzleVisual puzzle={puzzle} />
-      </section>
-
-      <form className="answer-form" onSubmit={submitAnswer}>
-        <label htmlFor="answer">Your answer</label>
-        <AnswerPattern pattern={puzzle.wordPattern} answer={puzzle.answer} locked={lockedLetters} celebrating={celebrating} />
-        <input id="answer" value={guess} onChange={(event) => updateGuess(event.target.value)} disabled={celebrating} autoComplete="off" autoCapitalize="none" placeholder="Type the phrase…" />
-        <p className="feedback" role="status">{message || '\u00a0'}</p>
-        <div className="action-row">
-          <button className="secondary-button" type="button" onClick={() => setClueCount((count) => Math.min(count + 1, puzzle.clues.length))} disabled={celebrating || clueCount === puzzle.clues.length}>
-            {clueCount === puzzle.clues.length ? 'All clues shown' : `Clue ${clueCount + 1}`}
-          </button>
-          <button className="primary-button" type="submit" disabled={celebrating}>{celebrating ? 'Correct!' : 'Submit'}</button>
-        </div>
-      </form>
-
-      {clueCount > 0 && (
-        <aside className="clue-panel" aria-live="polite">
-          <span className="eyebrow">CLUE {clueCount}</span>
-          <p>{puzzle.clues[clueCount - 1]}</p>
-        </aside>
-      )}
-    </main>
+    <PuzzleScreen
+      puzzle={puzzle}
+      puzzleNumber={progress.currentIndex + 1}
+      puzzleCount={puzzles.length}
+      guess={guess}
+      clueCount={clueCount}
+      message={message}
+      lockedLetters={lockedLetters}
+      celebrating={celebrating}
+      onHome={() => setScreen('home')}
+      onGuessChange={updateGuess}
+      onSubmit={submitAnswer}
+      onClue={() => setClueCount((count) => Math.min(count + 1, puzzle.clues.length))}
+    />
   )
 }

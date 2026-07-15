@@ -51,10 +51,19 @@ No puzzle enters the published count until it passes the content and artwork app
 
 ### 1.1 Split application responsibilities
 
-- [ ] Move screen components out of `App.tsx`.
-- [ ] Create dedicated Home, Chapter Map, Puzzle and Solved screens.
-- [ ] Create reusable button, progress, answer-pattern and clue components.
-- [ ] Create a shared audio and celebration service.
+- [x] Move screen components out of `App.tsx`.
+- [x] Create a dedicated Home screen.
+- [ ] Create a dedicated Chapter Map screen.
+- [x] Create a dedicated Puzzle screen.
+- [x] Create a dedicated Solved screen.
+- [ ] Create reusable button components.
+- [ ] Create reusable progress components.
+- [x] Create a reusable answer-pattern component.
+- [ ] Create a reusable clue component.
+- [x] Create a shared audio service.
+- [ ] Create a shared celebration service.
+- [x] Move answer normalization and checking into shared utilities.
+- [x] Move local progress persistence and direct-link syncing into a service.
 - [ ] Add a central settings and progress store.
 
 ### 1.2 Upgrade the puzzle schema
