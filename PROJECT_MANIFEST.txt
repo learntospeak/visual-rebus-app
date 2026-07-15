@@ -11,6 +11,7 @@ Instructions:
 - docs/04_MARKET_RESEARCH_NOTES.md
 - docs/05_GUI_STYLE_GUIDE.md
 - docs/06_VISUAL_ASSET_STANDARD.md
+- docs/07_EXPANSION_ROADMAP.md
 
 Templates:
 - data/puzzle_inventory_template.csv
