@@ -1,4 +1,5 @@
 import { Button } from '../components/Button'
+import type { CloudSyncState } from '../state/GameStore'
 import type { GameSettings } from '../types'
 
 interface SettingsScreenProps {
@@ -7,9 +8,12 @@ interface SettingsScreenProps {
   onHome: () => void
   onReplayTutorial: () => void
   onResetProgress: () => void
+  onAccount: () => void
+  accountEmail: string | null
+  syncState: CloudSyncState
 }
 
-export function SettingsScreen({ settings, onChange, onHome, onReplayTutorial, onResetProgress }: SettingsScreenProps) {
+export function SettingsScreen({ settings, onChange, onHome, onReplayTutorial, onResetProgress, onAccount, accountEmail, syncState }: SettingsScreenProps) {
   const toggle = (key: keyof GameSettings) => onChange({ ...settings, [key]: !settings[key] })
   return (
     <main className="app-shell settings-screen">
@@ -24,6 +28,14 @@ export function SettingsScreen({ settings, onChange, onHome, onReplayTutorial, o
         <Toggle label="High contrast" detail="Strengthen text and borders" checked={settings.highContrast} onChange={() => toggle('highContrast')} />
       </section>
       <section className="settings-actions">
+        <button className="account-setting" onClick={onAccount}>
+          <span className={accountEmail ? 'account-dot is-online' : 'account-dot'} aria-hidden="true" />
+          <span>
+            <strong>{accountEmail ? 'Progress synced' : 'Save progress online'}</strong>
+            <small>{accountEmail ?? (syncState === 'error' ? 'Connection needs attention' : 'Sign in or create a free account')}</small>
+          </span>
+          <b aria-hidden="true">›</b>
+        </button>
         <Button variant="secondary" onClick={onReplayTutorial}>Replay tutorial</Button>
         <Button variant="text" onClick={onResetProgress}>Reset puzzle progress</Button>
         <p>Privacy and support links will be connected before release.</p>

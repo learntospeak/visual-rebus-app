@@ -101,7 +101,10 @@ const reworkedGeneratedPuzzleIds = [
   142, 143, 146, 147, 149, 150, 153, 155, 157, 159, 160, 162, 164, 165,
 ]
 const chapterFiveGeneratedPuzzleIds = Array.from({ length: 20 }, (_, index) => index + 191)
-const chapterSixGeneratedPuzzleIds = Array.from({ length: 10 }, (_, index) => index + 256)
+const chapterSixGeneratedPuzzleIds = [
+  ...Array.from({ length: 10 }, (_, index) => index + 256),
+  ...Array.from({ length: 5 }, (_, index) => index + 266),
+]
 
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const score = difficultyScores[draft.id] ?? ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty]
@@ -1115,6 +1118,56 @@ const chapterSixSpecs: ChapterFiveSpec[] = [
   { answer: 'burning bridges', pattern: '7 7', visual: '', description: 'A traveller walking away from a bridge burning behind them', format: 'illustration', difficulty: 'Hard' },
   { answer: 'a trip down memory lane', pattern: '1 4 4 6 4', visual: '', description: 'A winding lane paved with glowing personal memories', format: 'illustration', difficulty: 'Hard' },
   { answer: 'pot calling the kettle black', pattern: '3 7 3 6 5', visual: '', description: 'A blackened pot accusing an equally black kettle', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'a bird in the hand', pattern: '1 4 2 3 4', visual: '', description: 'A small bird perched securely in an open human palm', format: 'illustration', difficulty: 'Medium' },
+  { answer: 'break the ice', pattern: '5 3 3', visual: '', description: 'A pickaxe splitting a solid block of ice apart', format: 'illustration', difficulty: 'Medium' },
+  { answer: 'walking on eggshells', pattern: '7 2 9', visual: '', description: 'Careful feet tiptoeing across a fragile path of eggshells', format: 'illustration', difficulty: 'Medium' },
+  { answer: 'all your eggs in one basket', pattern: '3 4 4 2 3 6', visual: '', description: 'Every egg packed into one single basket', format: 'illustration', difficulty: 'Medium' },
+  { answer: 'couch potato', pattern: '5 6', visual: '', description: 'A relaxed potato lounging on a sofa with a remote control', format: 'illustration', difficulty: 'Medium' },
+  { answer: 'cherry on top', pattern: '6 2 3', visual: '  🍒\n  TOP', description: 'A cherry positioned directly on top of TOP', difficulty: 'Medium' },
+  { answer: 'go bananas', pattern: '2 7', visual: 'GO  →  🍌 🍌 🍌', description: 'GO heads directly toward a group of bananas', difficulty: 'Medium' },
+  { answer: 'hot potato', pattern: '3 6', visual: 'POT🔥ATO', description: 'A flame makes the middle of POTATO visibly hot', difficulty: 'Medium' },
+  { answer: 'packed like sardines', pattern: '6 4 8', visual: 'SARDINE\nSARDINE\nSARDINE\nSARDINE', description: 'Four SARDINE words packed tightly together', difficulty: 'Hard' },
+  { answer: 'bigger fish to fry', pattern: '6 4 2 3', visual: '      FISH\n   fish  →  FRY', description: 'A small fish is passed over for a much bigger FISH beside FRY', difficulty: 'Hard' },
+  { answer: 'bee in your bonnet', pattern: '3 2 4 6', visual: 'BONN  🐝  ET', description: 'A bee sits inside the word BONNET', difficulty: 'Hard' },
+  { answer: "straight from the horse's mouth", pattern: '8 4 3 6 5', visual: '🐴  →→→  MOUTH', description: 'A straight arrow runs from a horse directly to MOUTH', difficulty: 'Hard' },
+  { answer: 'all over the place', pattern: '3 4 3 5', visual: 'ALL              ALL\n        PLACE\n   ALL        ALL', description: 'ALL appears scattered over every part of the space around PLACE', difficulty: 'Hard' },
+  { answer: 'long story short', pattern: '4 5 5', visual: 'STOOOOOOOOORY\n      short', description: 'STORY is stretched unusually long while SHORT is tiny', difficulty: 'Hard' },
+  { answer: 'history repeats itself', pattern: '7 7 6', visual: 'HISTORY\n   HISTORY\n      HISTORY', description: 'HISTORY repeatedly follows copies of itself', difficulty: 'Hard' },
+  { answer: 'unfinished business', pattern: '10 8', visual: 'BUSINE__', description: 'The word BUSINESS is visibly left unfinished', difficulty: 'Hard' },
+  { answer: 'put two and two together', pattern: '3 3 3 3 8', visual: '2        2\n   ↘  ↙\n     22', description: 'Two separate twos are being brought together', difficulty: 'Hard' },
+  { answer: 'one thing after another', pattern: '3 5 5 7', visual: 'THING  →  THING  →  THING', description: 'One THING follows directly after another', difficulty: 'Hard' },
+  { answer: 'the last laugh', pattern: '3 4 5', visual: 'ha   ha   ha   HA!', description: 'The final laugh in a row is strongly emphasised', difficulty: 'Hard' },
+  { answer: 'play on words', pattern: '4 2 5', visual: '   PLAY\nWORDS WORDS', description: 'PLAY rests physically on top of WORDS', difficulty: 'Hard' },
+  { answer: 'word for word', pattern: '4 3 4', visual: 'WORD   4   WORD', description: 'WORD appears on either side of the number four', difficulty: 'Hard' },
+  { answer: 'lost for words', pattern: '4 3 5', visual: 'WORDS  →  W   R   S  →  ?', description: 'The letters of WORDS become lost and scattered', difficulty: 'Hard' },
+  { answer: 'mind the gap', pattern: '4 3 3', visual: 'G    MIND    AP', description: 'MIND occupies a deliberate gap inside the word GAP', difficulty: 'Hard' },
+  { answer: 'business before pleasure', pattern: '8 6 8', visual: 'BUSINESS\n   ↓\nPLEASURE', description: 'BUSINESS is placed before and above PLEASURE', difficulty: 'Hard' },
+  { answer: 'all in the same boat', pattern: '3 2 3 4 4', visual: '   / ALL ALL ALL \\\n  /_______________\\\n       ~  ~  ~', description: 'Every ALL is contained inside one boat', difficulty: 'Hard' },
+  { answer: 'rock the boat', pattern: '4 3 4', visual: '      ROCK\n   ___/BOAT\\___\n  ~~~       ~~~', description: 'A heavy ROCK is unbalancing a boat', difficulty: 'Hard' },
+  { answer: 'miss the boat', pattern: '4 3 4', visual: 'MISS  · · ·         ⛵', description: 'MISS has been left far behind a departing boat', difficulty: 'Hard' },
+  { answer: 'make waves', pattern: '4 5', visual: 'MAKE  →  ~∿~∿~∿~', description: 'MAKE points to newly formed waves', difficulty: 'Hard' },
+  { answer: 'sink or swim', pattern: '4 2 4', visual: 'SWIM  ~~~~~\n       SINK\n        ↓', description: 'SWIM stays on the waterline while SINK drops beneath it', difficulty: 'Hard' },
+  { answer: 'test the waters', pattern: '4 3 6', visual: '      TEST\n~~~~ WATERS ~~~~', description: 'TEST cautiously touches the surface of WATERS', difficulty: 'Hard' },
+  { answer: 'go with the flow', pattern: '2 4 3 4', visual: 'FLOW → GO → FLOW →', description: 'GO moves in the same direction as the surrounding FLOW', difficulty: 'Hard' },
+  { answer: 'keep your head above water', pattern: '4 4 4 5 5', visual: '       HEAD\n~~~~~~~ WATER ~~~~~~~', description: 'HEAD remains just above the waterline', difficulty: 'Hard' },
+  { answer: 'in hot water', pattern: '2 3 5', visual: '~~~~~\n~ HOT ~\n~WATER~\n~~~~~', description: 'HOT is submerged inside WATER', difficulty: 'Hard' },
+  { answer: 'weather the storm', pattern: '7 3 5', visual: '☀  WEATHER  ⚡\n   ☂  ☁  ☂', description: 'WEATHER holds its position through storm symbols', difficulty: 'Hard' },
+  { answer: 'cry me a river', pattern: '3 2 1 5', visual: 'CRY   😢\n      ↓↓↓\n~~~~~~~~~~~~', description: 'A single cry grows into a flowing river of tears', difficulty: 'Hard' },
+  { answer: 'dark horse', pattern: '4 5', visual: 'HORSE', description: 'HORSE is shown almost completely dark', difficulty: 'Hard' },
+  { answer: 'like a bull at a gate', pattern: '4 1 4 2 1 4', visual: '🐂  →→→  ║GATE║', description: 'A charging bull rushes directly at a closed gate', difficulty: 'Hard' },
+  { answer: 'lock horns', pattern: '4 5', visual: '  ) LOCK (\n  )      (', description: 'LOCK is trapped tightly between two interlocking horns', difficulty: 'Hard' },
+  { answer: 'king of the jungle', pattern: '4 2 3 6', visual: '    👑\n🌿  🦁  🌿\n  JUNGLE', description: 'A crowned lion rules from the centre of the jungle', difficulty: 'Hard' },
+  { answer: 'make a beeline', pattern: '4 1 7', visual: '🐝 ─────────→', description: 'A bee travels along one perfectly straight line', difficulty: 'Hard' },
+  { answer: 'no flies on me', pattern: '2 5 2 2', visual: '🪰   🪰       ME       🪰   🪰', description: 'Every fly stays away from ME with none landing on it', difficulty: 'Hard' },
+  { answer: 'social butterfly', pattern: '6 9', visual: 'YOU   🦋   ME\n   US   THEM', description: 'A butterfly moves among a social group', difficulty: 'Hard' },
+  { answer: 'short end of the stick', pattern: '5 3 2 3 5', visual: '━━━━━━━━━━━━━━┯━━', description: 'One end of a divided stick is much shorter than the other', difficulty: 'Hard' },
+  { answer: 'in a nutshell', pattern: '2 1 8', visual: '   / NUT \\\n  ( SHELL )\n   \\_____/', description: 'NUT is enclosed within a shell', difficulty: 'Hard' },
+  { answer: "steal someone's thunder", pattern: '5 8 7', visual: 'SOMEONE   ⚡ THUNDER ⚡   ←', description: 'THUNDER is visibly being pulled away from SOMEONE', difficulty: 'Hard' },
+  { answer: 'lightning never strikes twice', pattern: '9 5 7 5', visual: '⚡  X\n\n⚡              X', description: 'Two lightning bolts deliberately strike different targets', difficulty: 'Hard' },
+  { answer: 'a bolt from the blue', pattern: '1 4 4 3 4', visual: 'BLUE BLUE BLUE\n      ⚡\n       ↓', description: 'A sudden bolt drops directly from a field of BLUE', difficulty: 'Hard' },
+  { answer: 'a face like thunder', pattern: '1 4 4 7', visual: '☁  😠  ☁\n   ⚡ ⚡', description: 'An angry face is surrounded by thunderclouds and lightning', difficulty: 'Hard' },
+  { answer: 'snowed under', pattern: '6 5', visual: '❄ ❄ ❄ ❄ ❄\n❄  UNDER  ❄\n❄ ❄ ❄ ❄ ❄', description: 'UNDER is buried beneath heavy snow', difficulty: 'Hard' },
+  { answer: 'come rain or shine', pattern: '4 4 2 5', visual: '☔  ← COME →  ☀', description: 'COME points equally toward rain and sunshine', difficulty: 'Hard' },
 ]
 
 const chapterSixPuzzles = chapterSixSpecs.map((spec, index) => candidate(

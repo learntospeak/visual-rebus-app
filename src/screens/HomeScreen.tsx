@@ -10,9 +10,11 @@ interface HomeScreenProps {
   onChapters: () => void
   onDaily: () => void
   onSettings: () => void
+  onAccount: () => void
+  accountState: 'guest' | 'synced' | 'error'
 }
 
-export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onChapters, onDaily, onSettings }: HomeScreenProps) {
+export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onChapters, onDaily, onSettings, onAccount, accountState }: HomeScreenProps) {
   const percent = Math.round((completedCount / puzzleCount) * 100)
   const actionLabel = completedCount ? 'Continue solving' : 'Start playing'
 
@@ -21,6 +23,14 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
       <header className="brand-row">
         <div className="brand-mark" aria-hidden="true">C</div>
         <span className="eyebrow">CLUE CANVAS</span>
+        <Button
+          variant="icon"
+          className={`account-button account-${accountState}`}
+          aria-label={accountState === 'guest' ? 'Sign in or create an account' : accountState === 'error' ? 'Account sync needs attention' : 'Open your synced account'}
+          onClick={onAccount}
+        >
+          <span aria-hidden="true">👤</span><i aria-hidden="true" />
+        </Button>
         <Button variant="icon" className="settings-button" aria-label="Open settings" onClick={onSettings}>⚙</Button>
       </header>
       <section className="hero">
@@ -43,7 +53,7 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
       </div>
       <Button variant="secondary" className="chapter-map-button" onClick={onChapters}>View packs and puzzles</Button>
       <Button variant="secondary" className="daily-button" onClick={onDaily}>Today’s puzzle <span aria-hidden="true">☀</span></Button>
-      <p className="trust-note"><span aria-hidden="true">✓</span> No account. No adverts. Just puzzles.</p>
+      <p className="trust-note"><span aria-hidden="true">✓</span> Optional account. No adverts. Just puzzles.</p>
     </main>
   )
 }
