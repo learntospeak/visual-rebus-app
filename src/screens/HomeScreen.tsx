@@ -4,19 +4,24 @@ import { ProgressBar } from '../components/ProgressBar'
 interface HomeScreenProps {
   completedCount: number
   puzzleCount: number
+  totalStars: number
+  dailyStreak: number
   onPlay: () => void
   onChapters: () => void
+  onDaily: () => void
+  onSettings: () => void
 }
 
-export function HomeScreen({ completedCount, puzzleCount, onPlay, onChapters }: HomeScreenProps) {
+export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onChapters, onDaily, onSettings }: HomeScreenProps) {
   const percent = Math.round((completedCount / puzzleCount) * 100)
   const actionLabel = completedCount ? 'Continue solving' : 'Start playing'
 
   return (
     <main className="app-shell home-screen">
       <header className="brand-row">
-        <div className="brand-mark" aria-hidden="true">R</div>
-        <span className="eyebrow">VISUAL REBUS</span>
+        <div className="brand-mark" aria-hidden="true">C</div>
+        <span className="eyebrow">CLUE CANVAS</span>
+        <Button variant="icon" className="settings-button" aria-label="Open settings" onClick={onSettings}>⚙</Button>
       </header>
       <section className="hero">
         <p className="kicker">A LITTLE PUZZLE. A BIG AHA!</p>
@@ -32,7 +37,12 @@ export function HomeScreen({ completedCount, puzzleCount, onPlay, onChapters }: 
         <ProgressBar value={completedCount} max={puzzleCount} label={`${completedCount} of ${puzzleCount} puzzles solved`} />
         <span className="progress-number">{percent}%</span>
       </section>
-      <Button variant="secondary" className="chapter-map-button" onClick={onChapters}>View chapters</Button>
+      <div className="home-stats" aria-label="Game statistics">
+        <span><strong>{totalStars}</strong> stars earned</span>
+        <span><strong>{dailyStreak}</strong> day streak</span>
+      </div>
+      <Button variant="secondary" className="chapter-map-button" onClick={onChapters}>View packs and puzzles</Button>
+      <Button variant="secondary" className="daily-button" onClick={onDaily}>Today’s puzzle <span aria-hidden="true">☀</span></Button>
       <p className="trust-note"><span aria-hidden="true">✓</span> No account. No adverts. Just puzzles.</p>
     </main>
   )

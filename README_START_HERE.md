@@ -1,4 +1,6 @@
-# Visual Rebus App — Start Here
+# Clue Canvas — Start Here
+
+Working domains: `cluecanvas.games` and `cluecanvas.com.au` (registered 19 July 2026 for one year).
 
 This folder is a no-code planning shell for building the app in VS Code.
 
@@ -14,8 +16,10 @@ Prove the core experience with **25 excellent puzzles** before adding ads, accou
 4. `docs/05_GUI_STYLE_GUIDE.md` — visual direction and screen rules.
 5. `docs/06_VISUAL_ASSET_STANDARD.md` — mandatory artwork quality and approval rules.
 6. `docs/07_EXPANSION_ROADMAP.md` — living checklist for progression and 525 puzzles.
-7. `docs/03_LAUNCH_CHECKLIST.md` — testing, privacy, monetisation and store work.
-8. `docs/04_MARKET_RESEARCH_NOTES.md` — competitor weaknesses and positioning.
+7. `docs/08_PHASE_1_UX_SPEC.md` — agreed onboarding, screen and interface-state behaviour.
+8. `docs/09_PHASE_6_CONTENT_WORKFLOW.md` — repeatable 25-puzzle production and approval process.
+9. `docs/03_LAUNCH_CHECKLIST.md` — testing, privacy, monetisation and store work.
+10. `docs/04_MARKET_RESEARCH_NOTES.md` — competitor weaknesses and positioning.
 
 ## First 48 hours
 
@@ -55,11 +59,12 @@ Prove the core experience with **25 excellent puzzles** before adding ads, accou
 - Players describe the reveal as satisfying rather than arbitrary.
 - Progress, answer validation and the next-puzzle flow work reliably.
 
-## Launch scope
+## Content scope
 
-- **120 playable puzzles** at launch.
-- **30 reserve puzzles** for daily content and rapid replacements.
-- 40 easy, 50 medium and 30 hard.
+- **525 approved playable puzzles** in the complete journey.
+- Build and validate in batches of 25; do not delay testing until all content exists.
+- Maintain **50 reserve/replacement candidates** for daily content and weak-puzzle replacement.
+- Difficulty rises gradually from introductory to expert while retaining easier recovery puzzles.
 - At least six visual formats.
 - Android-first testing; web version can run while store testing is underway.
 

@@ -78,6 +78,10 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
     if (puzzle.difficultyScore < 1 || puzzle.difficultyScore > 10) errors.push(`${label}: difficulty score must be 1–10.`)
     if (puzzle.estimatedSolveSeconds < 10) warnings.push(`${label}: estimated solve time looks unusually short.`)
     if (!puzzle.mechanics.length) errors.push(`${label}: at least one mechanic tag is required.`)
+    if (!puzzle.visualTemplate) errors.push(`${label}: a reusable visual template is required.`)
+    if (puzzle.visualTemplate === 'custom-vector' && !puzzle.assetKey) errors.push(`${label}: custom-vector template requires an asset key.`)
+    if (puzzle.format === 'motion' && !puzzle.motion) errors.push(`${label}: motion format requires motion instructions.`)
+    if (puzzle.format === 'interaction' && !puzzle.interaction) errors.push(`${label}: interaction format requires interaction instructions.`)
     if (!puzzle.artwork.creator || !puzzle.artwork.source || !puzzle.artwork.licence) errors.push(`${label}: incomplete artwork ownership metadata.`)
     if (!puzzle.qa.status) errors.push(`${label}: missing QA status.`)
     if (puzzle.qa.status === 'Approved' && puzzle.qa.testerResults.length < 3) {
@@ -86,7 +90,7 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
 
     const visualSignature = [
       ...puzzle.mechanics.slice().sort(),
-      ...puzzle.elements.map((element) => normaliseAnswer(element.content)),
+      ...puzzle.elements.map((element) => normaliseAnswer(element.ariaLabel ?? element.content)),
     ].join('|')
     const similarPuzzle = visualSignatures.get(visualSignature)
     if (similarPuzzle) warnings.push(`${label}: visual concept may duplicate puzzle ${similarPuzzle}.`)

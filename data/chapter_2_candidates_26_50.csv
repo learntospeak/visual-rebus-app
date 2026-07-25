@@ -1,0 +1,41 @@
+candidate_id,answer,visual_concept,primary_mechanics,difficulty_target,region,risk,status
+C026,back to square one,"BACK followed by an arrow returning to a square containing 1",sequence|text-image,3,Global,"Needs a clear return arrow rather than a simple reading-order clue",Candidate
+C027,a step in the right direction,"A single footprint stepping along an arrow that points right",text-image|direction,2,Global,"Could also suggest one step forward; wording must be visually specific",Candidate
+C028,two peas in a pod,"Two pea circles placed inside a simple outlined pod",text-image|inside-outside|count,2,Global,"Requires an original pod illustration that reads clearly at phone size",Candidate
+C029,under the weather,"UNDER positioned beneath the word WEATHER",above-below,2,Global,"Very literal and likely easy; useful early recovery puzzle",Candidate
+C030,just between you and me,"YOU   JUST   ME with JUST precisely between the other words",between,2,Global,"Answer sometimes written without JUST; accepted variants need review",Candidate
+C031,split personality,"PERSONALITY divided into two visibly separated halves",split,3,Global,"A plain split word may feel too obvious unless the fracture is distinctive",Candidate
+C032,double take,"TAKE shown twice side by side",repetition|count,2,Global,"Common rebus construction; avoid placing near another repetition puzzle",Candidate
+C033,a cut above the rest,"CUT positioned above a repeated row of REST REST REST",above-below|repetition,3,Global,"Article variation should be accepted",Candidate
+C034,forever and a day,"4 EVER followed by + DAY",sound-alike|sequence,3,Global,"Number wordplay must remain accessible to younger players",Candidate
+C035,first aid,"AID appears first in a short ordered row of neutral symbols",sequence,3,Global,"The filler symbols must not introduce an unintended answer",Candidate
+C036,side by side,"SIDE placed directly beside another SIDE",repetition|direction,1,Global,"Extremely easy; reserve for an early confidence-building position",Candidate
+C037,a level playing field,"PLAYING sits perfectly level inside a field-shaped rectangle",inside-outside|direction,4,Global,"The field must be recognisable without relying only on green colour",Candidate
+C038,man in the moon,"MAN placed inside an original crescent moon illustration",text-image|inside-outside,2,Global,"Familiar phrase but requires clean original artwork",Candidate
+C039,life in the fast lane,"LIFE appears inside the faster of two marked road lanes",inside-outside|direction|text-image,4,Global,"FAST must be conveyed without motion ambiguity",Candidate
+C040,the inside story,"STORY is placed inside a book outline",inside-outside|text-image,3,Global,"Could be interpreted as story in a book; may need stronger visual grammar",Candidate
+C041,cornerstone,"STONE is fixed into the lower corner of a large outlined square",inside-outside|direction,3,Global,"One-word answer; corner placement must be exact",Candidate
+C042,on top of the world,"ON TOP placed above a globe labelled WORLD",above-below|text-image,2,Global,"Canonical wording and accepted shorter variant need review",Candidate
+C043,down to earth,"DOWN follows a downward arrow ending at an Earth illustration",direction|text-image,3,Global,"Avoid looking like falling to Earth",Candidate
+C044,right on time,"RIGHT is positioned directly on top of TIME",above-below,3,Global,"Could be read as right over time; clue ladder must establish ON",Candidate
+C045,ahead of time,"AHEAD appears before TIME in a clear left-to-right sequence",sequence,3,Global,"The word itself gives much of the phrase; still fair as a medium-easy puzzle",Candidate
+C046,broken record,"RECORD appears cracked into two offset pieces",split,2,Global,"Must distinguish a music record from the written word record",Candidate
+C047,reading backwards,"GNIDAER is shown with a subtle left-pointing reading arrow",reversal|direction,3,Global,"The backwards word alone may produce BACKWARDS READING; accept both orders if appropriate",Candidate
+C048,turning point,"POINT rotates around a central pivot arrow",rotation|direction,4,Global,"Static fallback must still communicate turning",Candidate
+C049,point of no return,"POINT is followed by NO then a RETURN arrow blocked from going back",sequence|direction,5,Global,"Potentially busy; reject if the visual needs too much explanation",Candidate
+C050,missing link,"A short chain has one clearly empty link position",text-image|missing-letter,3,Global,"Accessibility description must not state the answer",Candidate
+C051,chain reaction,"REACTION is repeated through connected chain links",text-image|sequence,4,Global,"May read as a reaction chain; wording variants need testing",Candidate
+C052,high five,"The number 5 is positioned unusually high in the card",above-below|count,1,Global,"Very easy and visually sparse; use only as a recovery puzzle",Candidate
+C053,low profile,"PROFILE sits at the very bottom edge of the puzzle card",direction,2,Global,"May be mistaken for low down; clue two should focus on PROFILE",Candidate
+C054,small world,"WORLD is rendered extremely small but remains legible",scale,1,Global,"Similar scale mechanic to SMALL TALK; separate widely",Candidate
+C055,the big picture,"PICTURE fills almost the entire frame",scale|inside-outside,2,Global,"Article variation should be accepted; avoid reliance on text alone",Candidate
+C056,half time,"Only one half of TIME is visible beyond a vertical cut line",split,3,Global,"Could imply time cut short; test answer dominance carefully",Candidate
+C057,double vision,"Two slightly offset copies of VISION appear together",repetition|direction,3,Global,"Must remain readable and avoid an uncomfortable blur effect",Candidate
+C058,eye to eye,"Two original eye illustrations face one another at equal height",text-image|direction|count,2,Global,"Could be read as seeing eye to eye; accepted variant required",Candidate
+C059,up in the air,"UP floats high inside a large AIR outline or cloud boundary",inside-outside|above-below,3,Global,"AIR is abstract; test whether the enclosure makes the phrase inevitable",Candidate
+C060,left out in the cold,"LEFT sits outside an icy outlined area containing COLD",inside-outside|direction,4,Global,"Colour cannot be the only cold signal",Candidate
+C061,standing room only,"STANDING is the only item placed inside a room outline",inside-outside|count,4,Global,"Long word needs careful small-screen sizing",Candidate
+C062,room for one more,"ONE and MORE sit inside ROOM with a conspicuous open space between them",inside-outside|between,5,Global,"May be too interpretive; strong blind-testing candidate",Candidate
+C063,six feet under,"SIX is positioned beneath six original footprint icons",above-below|count|text-image,4,Global,"Phrase refers to death; check family-tone suitability before selection",Candidate
+C064,mixed emotions,"Letters of EMOTIONS use two interleaved orientations and expressions",rotation|sequence,5,Global,"Concept risks arbitrariness; likely reserve unless testers agree",Candidate
+C065,walking on air,"A trail of footprints walks directly along the top of AIR",text-image|above-below|direction,3,Global,"Could be confused with walking in the air; ON relationship must be explicit",Candidate

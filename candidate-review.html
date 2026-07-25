@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clue Canvas — Candidate Review</title>
+    <style>
+      :root { font-family: Inter, system-ui, sans-serif; color: #183b56; background: #e9e5dc; --ink:#183b56; --teal:#2cb1a6; --coral:#ff6b5f; --paper:#f7f3ea; --muted:#667383; }
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      main { width: min(760px, calc(100% - 28px)); min-height: 100vh; margin: auto; padding: 36px 0 70px; }
+      a { color: #147f79; font-weight: 700; }
+      .eyebrow { font-size: .74rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); }
+      h1 { margin: 8px 0; font-size: clamp(2.2rem, 8vw, 4rem); letter-spacing: -.05em; }
+      .intro { color: var(--muted); line-height: 1.55; }
+      .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 24px 0; }
+      .summary div { padding: 12px 8px; border-radius: 12px; background: #fffefa; text-align: center; font-size: .75rem; }
+      .summary strong { display: block; font-size: 1.15rem; color: var(--ink); }
+      .candidate { padding: 25px; border: 1px solid #dfe3e7; border-radius: 22px; background: #fffefa; box-shadow: 0 14px 35px #183b5612; }
+      .candidate-head { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); font-size: .8rem; }
+      h2 { margin: 22px 0 16px; font-size: clamp(1.8rem, 7vw, 2.7rem); text-transform: capitalize; letter-spacing: -.035em; }
+      .concept { padding: 18px; border-left: 4px solid var(--teal); border-radius: 0 14px 14px 0; background: #e8f5f3; line-height: 1.55; }
+      dl { display: grid; grid-template-columns: 100px 1fr; gap: 10px; margin: 22px 0; font-size: .88rem; }
+      dt { color: var(--muted); font-weight: 700; }
+      dd { margin: 0; }
+      .risk { color: #83453f; }
+      textarea { width: 100%; min-height: 90px; padding: 13px; border: 1px solid #cdd5dc; border-radius: 12px; resize: vertical; font: inherit; }
+      .decisions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-top: 12px; }
+      button { min-height: 48px; border: 1px solid #cdd5dc; border-radius: 13px; color: var(--ink); background: #f1f0eb; font: 800 .9rem inherit; cursor: pointer; }
+      button[data-value=keep].selected { color: white; border-color: #147f79; background: #147f79; }
+      button[data-value=maybe].selected { color: #513b00; border-color: #f2c94c; background: #f2c94c; }
+      button[data-value=reject].selected { color: white; border-color: #ba5047; background: #ba5047; }
+      .navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+      .navigation button { background: var(--ink); color: white; border: 0; }
+      .navigation button:disabled { opacity: .35; cursor: default; }
+      .footer-actions { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 25px; }
+      .footer-actions button { padding: 0 16px; background: transparent; }
+      @media (max-width: 480px) { .summary { grid-template-columns: repeat(2, 1fr); } .candidate { padding: 20px; } dl { grid-template-columns: 82px 1fr; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a href="/">← Back to Clue Canvas</a>
+      <p class="eyebrow">Phase 6 · puzzles 26–50</p>
+      <h1>Candidate review</h1>
+      <p class="intro">Review the idea—not its final artwork. Mark whether each concept deserves full puzzle development. Your decisions and notes save automatically in this browser.</p>
+      <section class="summary" aria-label="Review progress">
+        <div><strong id="reviewed">0</strong>Reviewed</div>
+        <div><strong id="kept">0</strong>Keep</div>
+        <div><strong id="maybe">0</strong>Maybe</div>
+        <div><strong id="rejected">0</strong>Reject</div>
+      </section>
+      <article class="candidate" id="candidate" aria-live="polite"><p>Loading candidates…</p></article>
+      <nav class="navigation">
+        <button id="previous" type="button">← Previous</button>
+        <button id="next" type="button">Next →</button>
+      </nav>
+      <div class="footer-actions">
+        <span id="position">0 of 40</span>
+        <button id="reset" type="button">Reset reviews</button>
+      </div>
+    </main>
+    <script>
+      const storageKey = 'clue-canvas-candidate-review-26-50-v1'
+      let candidates = []
+      let index = 0
+      let reviews = JSON.parse(localStorage.getItem(storageKey) || '{}')
+
+      function parseCsv(text) {
+        const rows = []; let row = []; let field = ''; let quoted = false
+        for (let i = 0; i < text.length; i += 1) {
+          const char = text[i]
+          if (char === '"' && quoted && text[i + 1] === '"') { field += '"'; i += 1 }
+          else if (char === '"') quoted = !quoted
+          else if (char === ',' && !quoted) { row.push(field); field = '' }
+          else if ((char === '\n' || char === '\r') && !quoted) {
+            if (char === '\r' && text[i + 1] === '\n') i += 1
+            row.push(field); field = ''; if (row.some(Boolean)) rows.push(row); row = []
+          } else field += char
+        }
+        if (field || row.length) { row.push(field); rows.push(row) }
+        const headers = rows.shift()
+        return rows.map((values) => Object.fromEntries(headers.map((header, i) => [header, values[i] || ''])))
+      }
+
+      function save() { localStorage.setItem(storageKey, JSON.stringify(reviews)); updateSummary() }
+      function setDecision(value) {
+        const id = candidates[index].candidate_id
+        reviews[id] = { ...(reviews[id] || {}), decision: value }
+        save(); render()
+      }
+      function updateSummary() {
+        const values = Object.values(reviews)
+        document.querySelector('#reviewed').textContent = values.filter((item) => item.decision).length
+        document.querySelector('#kept').textContent = values.filter((item) => item.decision === 'keep').length
+        document.querySelector('#maybe').textContent = values.filter((item) => item.decision === 'maybe').length
+        document.querySelector('#rejected').textContent = values.filter((item) => item.decision === 'reject').length
+      }
+      function render() {
+        const item = candidates[index]; const review = reviews[item.candidate_id] || {}
+        document.querySelector('#candidate').innerHTML = `
+          <div class="candidate-head"><strong>${item.candidate_id}</strong><span>Difficulty ${item.difficulty_target} · ${item.region}</span></div>
+          <h2>${item.answer}</h2>
+          <div class="concept"><strong>Visual concept</strong><br>${item.visual_concept}</div>
+          <dl><dt>Mechanics</dt><dd>${item.primary_mechanics.replaceAll('|', ' · ')}</dd><dt>Concern</dt><dd class="risk">${item.risk}</dd></dl>
+          <label><span class="eyebrow">Your notes</span><textarea id="notes" placeholder="What would you change or test?">${review.notes || ''}</textarea></label>
+          <div class="decisions">
+            <button type="button" data-value="keep" class="${review.decision === 'keep' ? 'selected' : ''}">Keep</button>
+            <button type="button" data-value="maybe" class="${review.decision === 'maybe' ? 'selected' : ''}">Maybe</button>
+            <button type="button" data-value="reject" class="${review.decision === 'reject' ? 'selected' : ''}">Reject</button>
+          </div>`
+        document.querySelectorAll('[data-value]').forEach((button) => button.addEventListener('click', () => setDecision(button.dataset.value)))
+        document.querySelector('#notes').addEventListener('input', (event) => {
+          reviews[item.candidate_id] = { ...(reviews[item.candidate_id] || {}), notes: event.target.value }; save()
+        })
+        document.querySelector('#position').textContent = `${index + 1} of ${candidates.length}`
+        document.querySelector('#previous').disabled = index === 0
+        document.querySelector('#next').disabled = index === candidates.length - 1
+        updateSummary()
+      }
+
+      document.querySelector('#previous').addEventListener('click', () => { if (index > 0) { index -= 1; render() } })
+      document.querySelector('#next').addEventListener('click', () => { if (index < candidates.length - 1) { index += 1; render() } })
+      document.querySelector('#reset').addEventListener('click', () => { if (confirm('Clear all candidate decisions and notes?')) { reviews = {}; save(); render() } })
+
+      fetch('/data/chapter_2_candidates_26_50.csv')
+        .then((response) => { if (!response.ok) throw new Error('Candidate file unavailable'); return response.text() })
+        .then((text) => { candidates = parseCsv(text); render() })
+        .catch(() => { document.querySelector('#candidate').innerHTML = '<p>Could not load the candidate file. Make sure the local server is running.</p>' })
+    </script>
+  </body>
+</html>

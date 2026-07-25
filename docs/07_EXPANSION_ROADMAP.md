@@ -15,7 +15,7 @@ This is the working checklist for expanding the prototype into an engaging 525-p
 - [x] Direct puzzle review links using `?puzzle=NUMBER`
 - [x] GitHub repository and automatic mobile deployment
 - [x] Visual asset quality standard
-- [ ] Scalable content and progression architecture
+- [x] Scalable content and progression architecture
 - [ ] 525 approved playable puzzles
 
 ## Product target
@@ -130,12 +130,12 @@ No puzzle enters the published count until it passes the content and artwork app
 
 ### 2.3 Stars and mastery
 
-- [ ] Award three stars for solving without clues.
-- [ ] Award two stars after clue 1.
-- [ ] Award one star after clues 2–3 or answer reveal.
-- [ ] Do not reduce stars based on solve speed in normal mode.
-- [ ] Allow unlimited replay to improve a result.
-- [ ] Show chapter mastery without making it mandatory.
+- [x] Award three stars for solving without clues.
+- [x] Award two stars after clue 1.
+- [x] Award one star after clues 2–3; answer reveal earns no stars.
+- [x] Do not reduce stars based on solve speed in normal mode.
+- [x] Allow unlimited replay to improve a result.
+- [x] Show pack mastery without making it mandatory.
 
 ### 2.4 Milestones and celebrations
 
@@ -148,9 +148,9 @@ No puzzle enters the published count until it passes the content and artwork app
 
 ### 2.5 Retention features — after the journey works
 
-- [ ] Daily puzzle.
-- [ ] Daily streak with a forgiving recovery rule.
-- [ ] Share card that never reveals the answer.
+- [x] Daily puzzle.
+- [x] Daily streak with friendly reset messaging.
+- [x] Share result that never reveals the answer.
 - [ ] Optional timed mode unlocked after normal play.
 - [ ] Weekly themed challenge.
 - [ ] Personal statistics stored locally.
@@ -163,7 +163,7 @@ No puzzle enters the published count until it passes the content and artwork app
 
 ### Chapter 2: levels 26–75
 
-- [ ] Draft 60 globally familiar phrase candidates.
+- [x] Draft 40 globally familiar phrase candidates for the first 25-puzzle production batch.
 - [ ] Reject regional, obscure and duplicate candidates.
 - [ ] Select the best 50.
 - [ ] Create visual specifications before artwork.

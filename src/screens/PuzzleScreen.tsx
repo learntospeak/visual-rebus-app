@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react'
+import { useEffect, useRef, type FormEvent } from 'react'
 import { AnswerPattern } from '../components/AnswerPattern'
 import { Button } from '../components/Button'
 import { CluePanel } from '../components/CluePanel'
@@ -19,6 +19,7 @@ interface PuzzleScreenProps {
   onGuessChange: (value: string) => void
   onSubmit: (event: FormEvent) => void
   onClue: () => void
+  onReveal: () => void
 }
 
 export function PuzzleScreen({
@@ -34,7 +35,14 @@ export function PuzzleScreen({
   onGuessChange,
   onSubmit,
   onClue,
+  onReveal,
 }: PuzzleScreenProps) {
+  const answerInput = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    answerInput.current?.focus()
+  }, [puzzle.id])
+
   return (
     <main className="app-shell puzzle-screen">
       <header className="puzzle-header">
@@ -55,6 +63,7 @@ export function PuzzleScreen({
         <label htmlFor="answer">Your answer</label>
         <AnswerPattern pattern={puzzle.wordPattern} answer={puzzle.answer} locked={lockedLetters} celebrating={celebrating} />
         <input
+          ref={answerInput}
           id="answer"
           value={guess}
           onChange={(event) => onGuessChange(event.target.value)}
@@ -74,6 +83,12 @@ export function PuzzleScreen({
 
       {clueCount > 0 && (
         <CluePanel clueNumber={clueCount} clue={puzzle.clues[clueCount - 1]} />
+      )}
+      {clueCount === puzzle.clues.length && !celebrating && (
+        <div className="reveal-panel">
+          <p>Still stuck? You can reveal the answer and replay later to earn stars.</p>
+          <Button variant="text" type="button" onClick={onReveal}>Reveal answer</Button>
+        </div>
       )}
     </main>
   )

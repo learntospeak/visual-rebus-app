@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clue Canvas — Build Checklist</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #111827; color: #f8fafc; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: radial-gradient(circle at top, #24345a 0, #111827 38rem); }
+      main { width: min(880px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 80px; }
+      a { color: #8be9d0; }
+      .eyebrow { color: #8be9d0; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: .76rem; }
+      h1 { margin: 8px 0 10px; font-size: clamp(2rem, 6vw, 3.8rem); line-height: 1; }
+      .intro { color: #cbd5e1; max-width: 650px; line-height: 1.6; }
+      .summary { position: sticky; top: 12px; z-index: 2; margin: 28px 0; padding: 18px; border: 1px solid #405075; border-radius: 18px; background: rgba(23, 34, 58, .94); backdrop-filter: blur(12px); box-shadow: 0 14px 40px #050b1880; }
+      .summary-row { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 10px; font-weight: 800; }
+      .track { height: 10px; overflow: hidden; border-radius: 999px; background: #334155; }
+      .bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4ade80, #5eead4); transition: width .2s ease; }
+      section { margin-top: 22px; padding: 24px; border: 1px solid #334155; border-radius: 20px; background: #182238; }
+      h2 { margin: 0 0 6px; font-size: 1.25rem; }
+      .effort, .exit { color: #94a3b8; }
+      .exit { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid #334155; line-height: 1.5; }
+      ul { display: grid; gap: 10px; margin: 20px 0 0; padding: 0; list-style: none; }
+      label { display: flex; align-items: flex-start; gap: 12px; padding: 10px; border-radius: 10px; cursor: pointer; line-height: 1.45; }
+      label:hover { background: #22304b; }
+      input { width: 20px; height: 20px; flex: 0 0 auto; margin-top: 1px; accent-color: #2dd4bf; }
+      input:checked + span { color: #8290a5; text-decoration: line-through; }
+      .overall { margin-top: 28px; padding: 24px; border-radius: 20px; background: #0f766e; line-height: 1.7; }
+      .overall h2 { margin-bottom: 8px; }
+      .actions { margin-top: 24px; display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+      button { border: 1px solid #64748b; border-radius: 999px; padding: 9px 14px; background: transparent; color: #e2e8f0; cursor: pointer; }
+      button:hover { background: #334155; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">Clue Canvas project</div>
+      <h1>Build checklist</h1>
+      <p class="intro">A practical route from the current playable prototype to a launch-ready app. Your selections are saved automatically in this browser.</p>
+
+      <div class="summary">
+        <div class="summary-row"><span>Overall progress</span><span id="count">0 / 49 complete</span></div>
+        <div class="track"><div class="bar" id="bar"></div></div>
+      </div>
+
+      <div id="phases"></div>
+
+      <div class="overall">
+        <h2>Overall effort</h2>
+        <div>Playable prototype: <strong>12–18 hours</strong></div>
+        <div>Good MVP test build: <strong>45–65 hours</strong></div>
+        <div>Launch-quality 150-puzzle version: <strong>70–110 hours</strong>, mostly content and QA.</div>
+      </div>
+
+      <div class="actions">
+        <a href="/">← Back to the app</a>
+        <button id="reset" type="button">Reset checklist</button>
+      </div>
+    </main>
+
+    <script>
+      const phases = [
+        ['Phase 0 — Decision and setup', '2–3 hours', ['Product promise and audience agreed: fair visual riddles for casual players and families.', 'Working name chosen: Clue Canvas. cluecanvas.games and cluecanvas.com.au secured for one year.', 'Google Play requirement confirmed: a new personal account needs closed testing before release.', 'Six puzzle format families agreed.', 'Starter content completed: 25 validated puzzles.'], 'A fixed scope, project folder and test content.'],
+        ['Phase 1 — UX and visual system', '4–6 hours', ['Wireframe Home, Puzzle, Solved, Packs, Daily and Settings.', 'Apply the palette, typography, spacing and touch rules in the style guide.', 'Make the puzzle card the dominant object.', 'Define empty, wrong-answer, clue, solved and offline states.'], 'One consistent mobile interface system.'],
+        ['Phase 2 — Project shell and navigation', '3–5 hours', ['Create the mobile-first project in src/.', 'Add screen navigation.', 'Add local settings and progress storage.', 'Confirm layouts on narrow and large phones.'], 'Clickable screens with persistent local state.'],
+        ['Phase 3 — Core puzzle engine', '8–12 hours', ['Render puzzle content from structured data.', 'Display word lengths without exposing letters.', 'Normalise case, spaces and punctuation.', 'Support accepted answer variants and near-miss feedback.', 'Save completion and continue to the next puzzle.'], '25 text-based puzzles fully playable.'],
+        ['Phase 4 — Six visual formats', '8–14 hours', ['Typography placement.', 'Text plus icon.', 'Illustrated object placement.', 'Scale, colour and rotation.', 'Motion or animation.', 'Simple interaction such as tap or drag.'], 'The engine supports the planned visual variety.'],
+        ['Phase 5 — Differentiators', '6–10 hours', ['Three-stage clue ladder.', 'Optional answer reveal.', 'Step-by-step solved explanation.', 'Daily puzzle and streak.', 'Share card that hides the answer.', 'Fair/confusing/wrong-answer feedback.'], 'The app feels meaningfully better than a basic rebus clone.'],
+        ['Phase 6 — Content production', 'Ongoing in 25-puzzle batches', ['Build 525 approved playable puzzles.', 'Maintain 50 reserve and replacement candidates.', 'Release content in validated 25-puzzle batches.', 'Test each puzzle with at least three people.', 'Record accepted spellings and regional labels.', 'Reject ambiguous or culturally obscure items.'], '525 approved puzzles plus a healthy replacement pipeline.'],
+        ['Phase 7 — Monetisation and analytics', '6–10 hours', ['No forced ad in the first 10 puzzles.', 'Optional rewarded ad for an extra clue or skip.', 'One clearly described ad-free/supporter purchase.', 'Restore-purchase flow.', 'Minimal analytics: start, solve, fail, clue, reveal, abandon, purchase and crash.'], 'Monetisation does not contradict the purchase promise.'],
+        ['Phase 8 — Accessibility and QA', '8–14 hours', ['Large-text mode.', 'High contrast.', 'Reduced motion.', 'Sound and haptics toggles.', 'Screen-reader labels.', 'Offline test.', 'Close/reopen and update survival test.', 'Test at least three Android devices or screen sizes.'], 'Stable beta candidate.'],
+        ['Phase 9 — Store and legal package', '6–9 hours', ['Unique icon and screenshots.', 'Store title, subtitle, description and keywords.', 'Privacy policy and support email.', 'Google Data safety and age-rating answers.', 'Purchase wording and screenshots match actual behaviour.'], 'Store-ready submission package.'],
+        ['Phase 10 — Closed beta and fixes', '4–8 hands-on hours plus waiting period', ['Recruit testers early.', 'Run required closed testing when applicable.', 'Review feedback and analytics.', 'Fix crashes, lost progress, purchase issues and confusing puzzles.'], 'Release candidate.'],
+        ['Phase 11 — Mastery assessment', 'Post-journey feature', ['Give players a short baseline challenge.', 'Add comparable milestone challenges after major worlds.', 'Compare solve rate, clues used, solve time and mechanic mastery.', 'Show personal improvement without claiming changes to IQ or general aptitude.', 'Recommend replay paths for weaker mechanics.', 'Unlock an end-of-journey Clue Canvas Challenge and personal summary.'], 'Players can see improvement in their Clue Canvas puzzle-solving skills.']
+      ]
+
+      const storageKey = 'visual-rebus-build-checklist-v8'
+      const stored = localStorage.getItem(storageKey)
+      const saved = new Set(stored === null ? Array.from({ length: 29 }, (_, index) => `task-${index}`) : JSON.parse(stored))
+      const root = document.querySelector('#phases')
+      let itemIndex = 0
+
+      phases.forEach(([title, effort, tasks, exit]) => {
+        const section = document.createElement('section')
+        section.innerHTML = `<h2>${title}</h2><div class="effort">Estimated effort: ${effort}</div><ul></ul><p class="exit"><strong>Exit result:</strong> ${exit}</p>`
+        const list = section.querySelector('ul')
+        tasks.forEach((task) => {
+          const id = `task-${itemIndex++}`
+          const item = document.createElement('li')
+          item.innerHTML = `<label><input type="checkbox" id="${id}" ${saved.has(id) ? 'checked' : ''}><span>${task}</span></label>`
+          list.append(item)
+        })
+        root.append(section)
+      })
+
+      const boxes = [...document.querySelectorAll('input[type=checkbox]')]
+      function update() {
+        const completed = boxes.filter((box) => box.checked)
+        localStorage.setItem(storageKey, JSON.stringify(completed.map((box) => box.id)))
+        document.querySelector('#count').textContent = `${completed.length} / ${boxes.length} complete`
+        document.querySelector('#bar').style.width = `${completed.length / boxes.length * 100}%`
+      }
+      boxes.forEach((box) => box.addEventListener('change', update))
+      document.querySelector('#reset').addEventListener('click', () => {
+        if (confirm('Clear all checklist progress?')) { boxes.forEach((box) => { box.checked = false }); update() }
+      })
+      update()
+    </script>
+  </body>
+</html>
