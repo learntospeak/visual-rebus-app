@@ -1,5 +1,7 @@
 export type Difficulty = 'Easy' | 'Medium' | 'Hard'
-export type PuzzleFormat = 'typography' | 'icon' | 'scale' | 'rotation' | 'illustration'
+export type PuzzleFormat = 'typography' | 'icon' | 'scale' | 'rotation' | 'illustration' | 'motion' | 'interaction'
+export type VisualTemplate = 'stack' | 'row' | 'overlay' | 'orbit' | 'cascade' | 'freeform' | 'custom-vector'
+export type VisualAssetKey = 'footprints' | 'blind-mice' | 'closet-skeleton' | 'double-ended-candle' | 'apple-eye' | 'chip-shoulder' | 'tongue-tied' | 'foot-mouth'
 export type MechanicTag =
   | 'above-below'
   | 'inside-outside'
@@ -60,6 +62,7 @@ export interface InteractionInstruction {
 
 export interface VisualElement {
   content: string
+  activatedContent?: string
   className?: string
   ariaLabel?: string
 }
@@ -76,6 +79,8 @@ export interface Puzzle {
   difficultyScore: number
   estimatedSolveSeconds: number
   format: PuzzleFormat
+  visualTemplate: VisualTemplate
+  assetKey?: VisualAssetKey
   mechanics: MechanicTag[]
   prompt: string
   elements: VisualElement[]
@@ -92,9 +97,26 @@ export interface Puzzle {
 export interface SavedProgress {
   completedIds: number[]
   currentIndex: number
+  starsByPuzzle: Record<number, number>
+  revealedIds: number[]
+  feedbackByPuzzle: Record<number, PuzzleFeedback>
+  daily: DailyProgress
+}
+
+export type PuzzleFeedback = 'fair' | 'confusing' | 'wrong-answer'
+
+export interface DailyProgress {
+  completedDates: string[]
+  revealedDates: string[]
+  currentStreak: number
+  longestStreak: number
+  lastCompletedDate: string | null
 }
 
 export interface GameSettings {
   soundEnabled: boolean
   reducedCelebrations: boolean
+  largeText: boolean
+  highContrast: boolean
+  onboardingComplete: boolean
 }

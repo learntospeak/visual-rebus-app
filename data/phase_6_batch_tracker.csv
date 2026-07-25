@@ -1,0 +1,23 @@
+batch,puzzle_range,chapter,target_status,drafted,implemented,validated,tested_3x,approved,notes
+1,1-25,First Steps,Complete,25,25,25,0,0,Existing prototype set; needs two additional blind testers per puzzle
+2,26-65,Between the Lines,Owner playtest,40,40,40,0,0,All forty candidates built as selectable Draft puzzles for in-app review
+3,51-75,Between the Lines,Planned,0,0,0,0,0,
+4,76-100,Picture Puzzles,Planned,0,0,0,0,0,
+5,101-125,Picture Puzzles,Planned,0,0,0,0,0,
+6,126-150,Picture Puzzles,Planned,0,0,0,0,0,
+7,151-175,Twist Your Thinking,Planned,0,0,0,0,0,
+8,176-200,Twist Your Thinking,Planned,0,0,0,0,0,
+9,201-225,Twist Your Thinking,Planned,0,0,0,0,0,
+10,226-250,Moving Parts,Planned,0,0,0,0,0,
+11,251-275,Moving Parts,Planned,0,0,0,0,0,
+12,276-300,Moving Parts,Planned,0,0,0,0,0,
+13,301-325,Double Meaning,Planned,0,0,0,0,0,
+14,326-350,Double Meaning,Planned,0,0,0,0,0,
+15,351-375,Double Meaning,Planned,0,0,0,0,0,
+16,376-400,Double Meaning,Planned,0,0,0,0,0,
+17,401-425,Expert Rebus,Planned,0,0,0,0,0,
+18,426-450,Expert Rebus,Planned,0,0,0,0,0,
+19,451-475,Expert Rebus,Planned,0,0,0,0,0,
+20,476-500,Expert Rebus,Planned,0,0,0,0,0,
+21,501-525,Master Challenges,Planned,0,0,0,0,0,
+reserve,526-575,Reserve and replacements,Pipeline,0,0,0,0,0,Not included in published count until promoted

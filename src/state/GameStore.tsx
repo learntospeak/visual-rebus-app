@@ -18,6 +18,9 @@ function loadSettings(): GameSettings {
   const defaults: GameSettings = {
     soundEnabled: true,
     reducedCelebrations: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    largeText: false,
+    highContrast: false,
+    onboardingComplete: false,
   }
 
   try {
@@ -34,6 +37,10 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => saveProgress(progress), [progress])
   useEffect(() => localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)), [settings])
+  useEffect(() => {
+    document.documentElement.classList.toggle('large-text', settings.largeText)
+    document.documentElement.classList.toggle('high-contrast', settings.highContrast)
+  }, [settings.highContrast, settings.largeText])
 
   const value = useMemo(
     () => ({ progress, setProgress, settings, setSettings }),

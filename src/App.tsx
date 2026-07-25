@@ -1,19 +1,27 @@
 import { useEffect, useRef, useState } from 'react'
 import { puzzles } from './data/puzzles'
 import { ChapterMapScreen } from './screens/ChapterMapScreen'
+import { DailyScreen } from './screens/DailyScreen'
 import { HomeScreen } from './screens/HomeScreen'
+import { OnboardingScreen } from './screens/OnboardingScreen'
 import { PuzzleScreen } from './screens/PuzzleScreen'
+import { SettingsScreen } from './screens/SettingsScreen'
 import { SolvedScreen } from './screens/SolvedScreen'
 import { startSolveCelebration } from './services/celebration'
-import { hasRequestedPuzzle, syncPuzzleUrl } from './services/progress'
+import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncPuzzleUrl } from './services/progress'
 import { useGameStore } from './state/GameStore'
-import { answerLetters, isCorrectAnswer } from './utils/answers'
+import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
 
-type Screen = 'home' | 'chapters' | 'puzzle' | 'solved'
+type Screen = 'onboarding' | 'home' | 'chapters' | 'daily' | 'settings' | 'puzzle' | 'solved'
+type PlayMode = 'journey' | 'replay' | 'daily'
+interface SolveOutcome { revealed: boolean; stars: number; cluesUsed: number; seconds: number; daily: boolean }
 
 export default function App() {
-  const { progress, setProgress, settings } = useGameStore()
-  const [screen, setScreen] = useState<Screen>(() => hasRequestedPuzzle() ? 'puzzle' : 'home')
+  const { progress, setProgress, settings, setSettings } = useGameStore()
+  const [screen, setScreen] = useState<Screen>(() => hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
+  const [activePuzzleIndex, setActivePuzzleIndex] = useState(progress.currentIndex)
+  const [playMode, setPlayMode] = useState<PlayMode>('journey')
+  const [solveOutcome, setSolveOutcome] = useState<SolveOutcome | null>(null)
   const [guess, setGuess] = useState('')
   const [clueCount, setClueCount] = useState(0)
   const [message, setMessage] = useState('')
@@ -21,7 +29,13 @@ export default function App() {
   const [celebrating, setCelebrating] = useState(false)
   const cancelCelebration = useRef<(() => void) | null>(null)
   const isCompleting = useRef(false)
-  const puzzle = puzzles[progress.currentIndex]
+  const startedAt = useRef(Date.now())
+  const puzzle = puzzles[activePuzzleIndex]
+  const todayKey = localDateKey()
+  const displayedStreak = progress.daily.lastCompletedDate === todayKey || progress.daily.lastCompletedDate === previousDateKey(todayKey)
+    ? progress.daily.currentStreak
+    : 0
+  const totalStars = Object.values(progress.starsByPuzzle).reduce((total, stars) => total + stars, 0)
 
   useEffect(() => {
     syncPuzzleUrl(screen === 'puzzle' ? puzzle.id : null)
@@ -33,22 +47,54 @@ export default function App() {
     setMessage('')
     setLockedLetters(Array(answerLetters(puzzle.answer).length).fill(false))
     setCelebrating(false)
+    setSolveOutcome(null)
     isCompleting.current = false
-  }, [progress.currentIndex, puzzle.answer])
+    startedAt.current = Date.now()
+  }, [activePuzzleIndex, puzzle.answer])
 
   useEffect(() => () => {
     cancelCelebration.current?.()
   }, [])
 
-  function completePuzzle() {
+  function completePuzzle(revealed = false) {
     if (isCompleting.current) return
     isCompleting.current = true
-    setProgress((current) => ({
-      ...current,
-      completedIds: current.completedIds.includes(puzzle.id)
-        ? current.completedIds
-        : [...current.completedIds, puzzle.id],
-    }))
+    const stars = revealed ? 0 : clueCount === 0 ? 3 : clueCount === 1 ? 2 : 1
+    const dateKey = localDateKey()
+    const outcome = { revealed, stars, cluesUsed: clueCount, seconds: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)), daily: playMode === 'daily' }
+    setSolveOutcome(outcome)
+    setProgress((current) => {
+      const next = { ...current }
+      if (playMode === 'daily') {
+        if (revealed) {
+          next.daily = {
+            ...current.daily,
+            revealedDates: current.daily.revealedDates.includes(dateKey) ? current.daily.revealedDates : [...current.daily.revealedDates, dateKey],
+          }
+        } else if (!current.daily.completedDates.includes(dateKey)) {
+          const continuesStreak = current.daily.lastCompletedDate === previousDateKey(dateKey)
+          const currentStreak = continuesStreak ? current.daily.currentStreak + 1 : 1
+          next.daily = {
+            ...current.daily,
+            completedDates: [...current.daily.completedDates, dateKey],
+            currentStreak,
+            longestStreak: Math.max(current.daily.longestStreak, currentStreak),
+            lastCompletedDate: dateKey,
+          }
+        }
+      } else if (revealed) {
+        next.revealedIds = current.revealedIds.includes(puzzle.id) ? current.revealedIds : [...current.revealedIds, puzzle.id]
+      } else {
+        next.completedIds = current.completedIds.includes(puzzle.id) ? current.completedIds : [...current.completedIds, puzzle.id]
+        next.starsByPuzzle = { ...current.starsByPuzzle, [puzzle.id]: Math.max(current.starsByPuzzle[puzzle.id] ?? 0, stars) }
+      }
+      return next
+    })
+    if (revealed) {
+      setLockedLetters(Array(answerLetters(puzzle.answer).length).fill(true))
+      setScreen('solved')
+      return
+    }
     setCelebrating(true)
     cancelCelebration.current = startSolveCelebration({
       soundEnabled: settings.soundEnabled,
@@ -82,16 +128,47 @@ export default function App() {
       window.setTimeout(completePuzzle, 0)
       return
     }
-    setMessage('Not quite. Correct letters have been locked in place.')
+    setMessage(answerFeedback(puzzle, guess))
   }
 
   function nextPuzzle() {
-    if (progress.currentIndex === puzzles.length - 1) {
+    if (playMode === 'daily') {
       setScreen('home')
       return
     }
-    setProgress((current) => ({ ...current, currentIndex: current.currentIndex + 1 }))
+    if (activePuzzleIndex === puzzles.length - 1) {
+      setScreen('home')
+      return
+    }
+    const nextIndex = activePuzzleIndex + 1
+    setActivePuzzleIndex(nextIndex)
+    if (activePuzzleIndex === progress.currentIndex) {
+      setProgress((current) => ({ ...current, currentIndex: nextIndex }))
+      setPlayMode('journey')
+    }
     setScreen('puzzle')
+  }
+
+  function startDailyPuzzle() {
+    const dateKey = localDateKey()
+    if (progress.daily.completedDates.includes(dateKey) || progress.daily.revealedDates.includes(dateKey)) {
+      setScreen('home')
+      return
+    }
+    const now = new Date()
+    const dayNumber = Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() / 86_400_000)
+    setActivePuzzleIndex(dayNumber % puzzles.length)
+    setPlayMode('daily')
+    setScreen('puzzle')
+  }
+
+  if (screen === 'onboarding') {
+    return <OnboardingScreen onComplete={() => {
+      setSettings((current) => ({ ...current, onboardingComplete: true }))
+      setActivePuzzleIndex(progress.currentIndex)
+      setPlayMode('journey')
+      setScreen('puzzle')
+    }} />
   }
 
   if (screen === 'home') {
@@ -99,8 +176,37 @@ export default function App() {
       <HomeScreen
         completedCount={progress.completedIds.length}
         puzzleCount={puzzles.length}
-        onPlay={() => setScreen('puzzle')}
+        totalStars={totalStars}
+        dailyStreak={displayedStreak}
+        onPlay={() => {
+          setActivePuzzleIndex(progress.currentIndex)
+          setPlayMode('journey')
+          setScreen('puzzle')
+        }}
         onChapters={() => setScreen('chapters')}
+        onDaily={() => setScreen('daily')}
+        onSettings={() => setScreen('settings')}
+      />
+    )
+  }
+
+  if (screen === 'daily') {
+    return <DailyScreen progress={progress.daily} onHome={() => setScreen('home')} onPlay={startDailyPuzzle} />
+  }
+
+  if (screen === 'settings') {
+    return (
+      <SettingsScreen
+        settings={settings}
+        onChange={setSettings}
+        onHome={() => setScreen('home')}
+        onReplayTutorial={() => setScreen('onboarding')}
+        onResetProgress={() => {
+          if (window.confirm('Reset all solved puzzles and return to puzzle one?')) {
+            setProgress({ ...emptyProgress, daily: { ...emptyProgress.daily } })
+            setActivePuzzleIndex(0)
+          }
+        }}
       />
     )
   }
@@ -110,8 +216,16 @@ export default function App() {
       <ChapterMapScreen
         completedCount={progress.completedIds.length}
         puzzleCount={puzzles.length}
+        completedIds={progress.completedIds}
+        revealedIds={progress.revealedIds}
+        starsByPuzzle={progress.starsByPuzzle}
+        currentIndex={progress.currentIndex}
         onHome={() => setScreen('home')}
-        onOpenChapter={() => setScreen('puzzle')}
+        onOpenPuzzle={(index) => {
+          setActivePuzzleIndex(index)
+          setPlayMode(index < progress.currentIndex ? 'replay' : 'journey')
+          setScreen('puzzle')
+        }}
       />
     )
   }
@@ -120,7 +234,8 @@ export default function App() {
     return (
       <SolvedScreen
         puzzle={puzzle}
-        isLastPuzzle={progress.currentIndex === puzzles.length - 1}
+        outcome={solveOutcome ?? { revealed: false, stars: 0, cluesUsed: clueCount, seconds: 0, daily: playMode === 'daily' }}
+        isLastPuzzle={activePuzzleIndex === puzzles.length - 1}
         onHome={() => setScreen('home')}
         onNext={nextPuzzle}
       />
@@ -130,7 +245,7 @@ export default function App() {
   return (
     <PuzzleScreen
       puzzle={puzzle}
-      puzzleNumber={progress.currentIndex + 1}
+      puzzleNumber={activePuzzleIndex + 1}
       puzzleCount={puzzles.length}
       guess={guess}
       clueCount={clueCount}
@@ -141,6 +256,7 @@ export default function App() {
       onGuessChange={updateGuess}
       onSubmit={submitAnswer}
       onClue={() => setClueCount((count) => Math.min(count + 1, puzzle.clues.length))}
+      onReveal={() => completePuzzle(true)}
     />
   )
 }

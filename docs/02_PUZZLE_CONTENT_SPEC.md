@@ -10,6 +10,8 @@ Complete every field before a puzzle is approved.
 - **Word pattern:** example `4-6-3`.
 - **Difficulty:** Easy, Medium or Hard.
 - **Format:** typography, icon, illustration, photo, motion or interaction.
+- **Visual template:** one reusable layout: `stack`, `row`, `overlay`, `orbit`, `cascade`, `freeform` or `custom-vector`.
+- **Asset key:** required for `custom-vector`; references the approved asset registry rather than puzzle-specific rendering code.
 - **Visual specification:** exact positions, sizes, rotations, colours and assets.
 - **Clue 1:** broad concept; no answer words.
 - **Clue 2:** directs attention to the visual mechanism.
@@ -76,3 +78,9 @@ A puzzle is approved only when:
 - [ ] No tester reports that the answer feels arbitrary.
 
 Reject weak puzzles. Do not keep them merely to increase the count.
+
+## Scalable authoring rule
+
+Adding an ordinary puzzle must require only a new structured puzzle record. Do not add puzzle-ID conditions to the renderer. Use a reusable visual template and element parameters; add a named asset to the registry only when a genuinely custom vector is justified.
+
+Packs and difficulty ranges live in `src/data/catalog.ts`. Puzzle records remain stable when packs grow, and the validator must pass before any content batch is accepted.
