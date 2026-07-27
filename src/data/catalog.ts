@@ -19,7 +19,7 @@ export const puzzlePacks: PuzzlePack[] = [
   { id: 'chapter-5', order: 5, title: 'Twist Your Thinking', description: 'Motion, interaction and harder combinations', firstPuzzle: 166, lastPuzzle: 215, difficultyRange: [4, 10], status: 'available' },
   { id: 'chapter-6', order: 6, title: 'Double Meaning', description: 'Two compatible visual mechanisms per puzzle', firstPuzzle: 216, lastPuzzle: 315, difficultyRange: [5, 10], status: 'available' },
   { id: 'chapter-7', order: 7, title: 'Expert Rebus', description: 'Multi-stage visual reasoning', firstPuzzle: 316, lastPuzzle: 415, difficultyRange: [7, 10], status: 'available' },
-  { id: 'chapter-8', order: 8, title: 'Master Challenges', description: 'Bespoke milestone and mixed-mechanic puzzles', firstPuzzle: 416, lastPuzzle: 500, difficultyRange: [9, 10], status: 'planned' },
+  { id: 'chapter-8', order: 8, title: 'Master Challenges', description: 'Bespoke milestone and mixed-mechanic puzzles', firstPuzzle: 416, lastPuzzle: 500, difficultyRange: [9, 10], status: 'available' },
   { id: 'chapter-9', order: 9, title: 'Grand Finale', description: 'The final fifty multi-layer master puzzles', firstPuzzle: 501, lastPuzzle: 550, difficultyRange: [9, 10], status: 'planned' },
 ]
 

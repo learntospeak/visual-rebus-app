@@ -153,6 +153,11 @@ const generatedPuzzleArt: Partial<Record<number, string>> = {
   382: '/doors-close-open-382.png',
   393: '/blood-water-393.png',
   407: '/hanging-thread-407.png',
+  416: '/rock-hard-place-416.png',
+  417: '/wool-eyes-417.png',
+  418: '/duck-water-418.png',
+  419: '/square-peg-round-hole-419.png',
+  420: '/world-shoulders-420.png',
 }
 
 export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {

@@ -106,14 +106,15 @@ const chapterSixGeneratedPuzzleIds = [
   ...Array.from({ length: 5 }, (_, index) => index + 266),
 ]
 const chapterSevenGeneratedPuzzleIds = [316, 317, 319, 329, 331, 366, 370, 382, 393, 407]
+const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
 
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
-  const score = difficultyScores[draft.id] ?? (draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
+  const score = difficultyScores[draft.id] ?? (draft.id >= 416 ? 9 : draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
   const usesInlineSvg = [13, 20].includes(draft.id)
   const usesLicensedFootprint = draft.id === 13
-  const usesGeneratedArtwork = reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id)
-  const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : 'chapter-7'
-  const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id - 315
+  const usesGeneratedArtwork = reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id)
+  const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : draft.id <= 415 ? 'chapter-7' : 'chapter-8'
+  const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id - 415
 
   return {
     ...draft,
@@ -1304,4 +1305,72 @@ const chapterSevenPuzzles = chapterSevenSpecs.map((spec, index) => candidate(
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
-export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles, ...chapterSevenPuzzles].map(migrateStarterPuzzle)
+const chapterEightSpecs: ChapterFiveSpec[] = [
+  { answer: 'between a rock and a hard place', pattern: '7 1 4 3 1 4 5', visual: '', description: 'A person is tightly positioned between a rough natural boulder and an immovable concrete block', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'pull the wool over your eyes', pattern: '4 3 4 4 4 4', visual: '', description: 'A continuous roll of fluffy wool is pulled completely across both eyes', format: 'illustration', difficulty: 'Hard' },
+  { answer: "water off a duck's back", pattern: '5 3 1 5 4', visual: '', description: "Water beads visibly roll away from a duck's dry back", format: 'illustration', difficulty: 'Hard' },
+  { answer: 'a square peg in a round hole', pattern: '1 6 3 2 1 5 4', visual: '', description: 'A square wooden peg cannot pass through the incompatible round hole below it', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'the weight of the world on your shoulders', pattern: '3 6 2 3 5 2 4 9', visual: '', description: 'A kneeling figure supports an enormous globe directly across both shoulders', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'back against the wall', pattern: '4 7 3 4', visual: 'BACK▐████████', description: 'BACK is pressed firmly against a solid wall', difficulty: 'Hard' },
+  { answer: 'hit a brick wall', pattern: '3 1 5 4', visual: 'HIT  →  ▦▦▦▦\n          ▦▦▦▦', description: 'HIT travels directly into an unbroken brick wall', difficulty: 'Hard' },
+  { answer: 'off the wall', pattern: '3 3 4', visual: '████ WALL ████     OFF', description: 'OFF has moved completely away from the wall', difficulty: 'Hard' },
+  { answer: 'drive someone up the wall', pattern: '5 7 2 3 4', visual: '      SOMEONE ↑\n      ↑       ▦\nDRIVE ↑       ▦ WALL', description: 'DRIVE sends SOMEONE upward along a wall', difficulty: 'Hard' },
+  { answer: 'the walls have ears', pattern: '3 5 4 4', visual: '👂  ▦▦ WALL ▦▦  👂', description: 'A wall has a visible ear on each side', difficulty: 'Hard' },
+  { answer: 'turn a blind eye', pattern: '4 1 5 3', visual: 'TURN  ↻  🚫👁', description: 'An eye marked blind has been deliberately turned away', difficulty: 'Hard' },
+  { answer: 'more than meets the eye', pattern: '4 4 5 3 3', visual: '〈  M O R E  〉\n       👁', description: 'MORE is encountered inside the outline of a giant eye', difficulty: 'Hard' },
+  { answer: 'eyes bigger than your stomach', pattern: '4 6 4 4 7', visual: 'E   Y   E   S\n     stomach', description: 'EYES are vastly larger than the tiny stomach beneath them', difficulty: 'Hard' },
+  { answer: 'a sight for sore eyes', pattern: '1 5 3 4 4', visual: 'SORE  〈 SIGHT 〉  EYES', description: 'SIGHT appears directly between SORE and EYES', difficulty: 'Hard' },
+  { answer: 'stars in your eyes', pattern: '5 2 4 4', visual: '〈 ★ 〉     〈 ★ 〉', description: 'Bright stars occupy the centre of two eye shapes', difficulty: 'Hard' },
+  { answer: 'actions speak louder than words', pattern: '7 5 6 4 5', visual: 'ACTIONS  ACTIONS  ACTIONS\n          words', description: 'ACTIONS dominate while words appear quiet and small', difficulty: 'Hard' },
+  { answer: 'put words in your mouth', pattern: '3 5 2 4 5', visual: '（   W O R D S   ）', description: 'WORDS are placed inside a mouth-shaped outline', difficulty: 'Hard' },
+  { answer: 'word on the street', pattern: '4 2 3 6', visual: '       WORD\n══════ STREET ══════', description: 'WORD sits directly on top of STREET', difficulty: 'Hard' },
+  { answer: 'eat your words', pattern: '3 4 5', visual: 'WOR  EAT  DS', description: 'EAT has entered and consumed the middle of WORDS', difficulty: 'Hard' },
+  { answer: 'famous last words', pattern: '6 4 5', visual: '★  ★  ★                 WORDS │', description: 'Celebrated WORDS occupy the very last position at the end marker', difficulty: 'Hard' },
+  { answer: 'music to your ears', pattern: '5 2 4 4', visual: '♫  ♬  ♫  →  👂', description: 'Music travels directly toward an ear', difficulty: 'Hard' },
+  { answer: 'fall on deaf ears', pattern: '4 2 4 4', visual: '       FALL\n        ↓\n      🚫👂', description: 'FALL drops directly onto an ear that cannot hear it', difficulty: 'Hard' },
+  { answer: 'in one ear and out the other', pattern: '2 3 3 3 3 3 5', visual: 'IN → 👂（ HEAD ）👂 → OUT', description: 'One continuous path enters one ear and exits through the other', difficulty: 'Hard' },
+  { answer: 'all ears', pattern: '3 4', visual: '👂  A L L  👂', description: 'ALL is surrounded entirely by ears', difficulty: 'Hard' },
+  { answer: 'play it by ear', pattern: '4 2 2 3', visual: 'PLAY  →  👂', description: 'PLAY is directed and guided only by an ear', difficulty: 'Hard' },
+  { answer: 'head and shoulders above the rest', pattern: '4 3 9 5 3 4', visual: '       HEAD\n    SHOULDERS\n\nREST  REST  REST', description: 'HEAD and SHOULDERS stand high above everything labelled REST', difficulty: 'Hard' },
+  { answer: 'put your heads together', pattern: '3 4 5 8', visual: 'HEADHEAD', description: 'Two HEAD words are pressed tightly together', difficulty: 'Hard' },
+  { answer: 'keep a level head', pattern: '4 1 5 4', visual: 'KEEP   ── HEAD ──   ◉', description: 'KEEP holds HEAD perfectly level beside a spirit-level bubble', difficulty: 'Hard' },
+  { answer: 'from head to toe', pattern: '4 4 2 3', visual: 'HEAD\n  ↓\n  ↓\n TOE', description: 'A direct path runs from HEAD down to TOE', difficulty: 'Hard' },
+  { answer: 'think on your feet', pattern: '5 2 4 4', visual: '   THINK\n  🦶  🦶', description: 'THINK balances directly on two feet', difficulty: 'Hard' },
+  { answer: 'the best of both worlds', pattern: '3 4 2 4 6', visual: 'WORLD   BEST   WORLD', description: 'BEST is positioned between both WORLD words', difficulty: 'Hard' },
+  { answer: 'worlds apart', pattern: '6 5', visual: 'WORLD            WORLD', description: 'Two WORLD words are separated by an enormous distance', difficulty: 'Hard' },
+  { answer: 'the world at your feet', pattern: '3 5 2 4 4', visual: '     🌍\n   🦶  🦶', description: 'The world rests immediately at a pair of feet', difficulty: 'Hard' },
+  { answer: 'a world of difference', pattern: '1 5 2 10', visual: 'WORLD   DIFFERENCE   WORLD', description: 'DIFFERENCE creates the only separation between two worlds', difficulty: 'Hard' },
+  { answer: 'not the end of the world', pattern: '3 3 3 2 3 5', visual: 'E̶N̶D̶        WORLD', description: 'END is visibly cancelled beside WORLD', difficulty: 'Hard' },
+  { answer: "two's company three's a crowd", pattern: '4 7 6 1 5', visual: '2     COMPANY\n3  3  3  CROWD', description: 'Two is paired calmly with COMPANY while three is packed into a CROWD', difficulty: 'Hard' },
+  { answer: 'six of one half a dozen of the other', pattern: '3 2 3 4 1 5 2 3 5', visual: '6       ⚖       ½ DOZEN', description: 'Six balances as exactly equal to half a dozen', difficulty: 'Hard' },
+  { answer: 'third time lucky', pattern: '5 4 5', visual: '1     2     ★ 3 ★', description: 'The third position alone receives the lucky stars', difficulty: 'Hard' },
+  { answer: "three strikes and you're out", pattern: '5 7 3 5 3', visual: '╱     ╱     ╱       OUT →', description: 'Three clear strikes send OUT beyond the boundary', difficulty: 'Hard' },
+  { answer: 'twenty four seven', pattern: '6 4 5', visual: '24\n──\n 7', description: 'Twenty-four is placed continuously over seven', difficulty: 'Hard' },
+  { answer: 'break the mould', pattern: '5 3 5', visual: 'MO  ╱ BREAK ╲  ULD', description: 'BREAK splits apart the middle of MOULD', difficulty: 'Hard' },
+  { answer: 'set in stone', pattern: '3 2 5', visual: 'ST  SET  ONE', description: 'SET is embedded inside the word STONE', difficulty: 'Hard' },
+  { answer: 'chip off the old block', pattern: '4 3 3 3 5', visual: '▪        OLD BLOCK', description: 'A small chip has separated from an old solid block', difficulty: 'Hard' },
+  { answer: 'a stumbling block', pattern: '1 9 5', visual: 'STUM\n   ▦ BLOCK\n       BLING', description: 'STUMBLING visibly trips and breaks across a block', difficulty: 'Hard' },
+  { answer: 'building blocks', pattern: '8 6', visual: '   BLOCK\n BLOCK BLOCK\nBLOCK BLOCK BLOCK', description: 'BLOCK words are stacked into a growing building', difficulty: 'Hard' },
+  { answer: 'connect the dots', pattern: '7 3 4', visual: '•──•──•──•──•', description: 'Every dot is joined into one connected path', difficulty: 'Hard' },
+  { answer: 'piece together the puzzle', pattern: '5 8 3 6', visual: 'PUZ  →←  ZLE', description: 'Two separated pieces of PUZZLE are moving together', difficulty: 'Hard' },
+  { answer: 'fit like a glove', pattern: '3 4 1 5', visual: 'GLO[ FIT ]VE', description: 'FIT sits perfectly inside GLOVE', difficulty: 'Hard' },
+  { answer: 'the missing piece', pattern: '3 7 5', visual: 'PUZ  □  LE\n     ?', description: 'One essential piece is missing from PUZZLE', difficulty: 'Hard' },
+  { answer: 'complete the picture', pattern: '8 3 7', visual: '┌────────────┐\n│  PICTURE  ✓ │\n└────────────┘', description: 'A fully framed PICTURE carries a completion mark', difficulty: 'Hard' },
+]
+
+const chapterEightPuzzles = chapterEightSpecs.map((spec, index) => candidate(
+  index + 416,
+  spec.answer,
+  spec.pattern,
+  spec.difficulty ?? 'Hard',
+  spec.format ?? 'typography',
+  [{ content: spec.visual, className: 'chapter-eight-rebus', ariaLabel: spec.description }],
+  [
+    'This master puzzle combines several visual signals.',
+    'Name the objects, then describe their exact relationship or imbalance.',
+    'Turn the complete arrangement into a familiar expression.',
+  ],
+  [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
+))
+
+export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles, ...chapterSevenPuzzles, ...chapterEightPuzzles].map(migrateStarterPuzzle)
