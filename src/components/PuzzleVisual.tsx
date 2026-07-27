@@ -158,6 +158,12 @@ const generatedPuzzleArt: Partial<Record<number, string>> = {
   418: '/duck-water-418.png',
   419: '/square-peg-round-hole-419.png',
   420: '/world-shoulders-420.png',
+  486: '/money-tree-486.png',
+  492: '/pay-through-nose-492.png',
+  526: '/smoke-mirrors-526.png',
+  541: '/lock-stock-barrel-541.png',
+  550: '/hook-line-sinker-550.png',
+  556: '/spanner-works-556.png',
 }
 
 export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {

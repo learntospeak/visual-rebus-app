@@ -107,14 +107,15 @@ const chapterSixGeneratedPuzzleIds = [
 ]
 const chapterSevenGeneratedPuzzleIds = [316, 317, 319, 329, 331, 366, 370, 382, 393, 407]
 const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
+const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
 
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
-  const score = difficultyScores[draft.id] ?? (draft.id >= 416 ? 9 : draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
+  const score = difficultyScores[draft.id] ?? (draft.id >= 501 ? 10 : draft.id >= 416 ? 9 : draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
   const usesInlineSvg = [13, 20].includes(draft.id)
   const usesLicensedFootprint = draft.id === 13
-  const usesGeneratedArtwork = reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id)
-  const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : draft.id <= 415 ? 'chapter-7' : 'chapter-8'
-  const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id - 415
+  const usesGeneratedArtwork = reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id)
+  const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : draft.id <= 415 ? 'chapter-7' : draft.id <= 500 ? 'chapter-8' : draft.id <= 550 ? 'chapter-9' : 'chapter-10'
+  const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id <= 500 ? draft.id - 415 : draft.id <= 550 ? draft.id - 500 : draft.id - 550
 
   return {
     ...draft,
@@ -1356,6 +1357,41 @@ const chapterEightSpecs: ChapterFiveSpec[] = [
   { answer: 'fit like a glove', pattern: '3 4 1 5', visual: 'GLO[ FIT ]VE', description: 'FIT sits perfectly inside GLOVE', difficulty: 'Hard' },
   { answer: 'the missing piece', pattern: '3 7 5', visual: 'PUZ  □  LE\n     ?', description: 'One essential piece is missing from PUZZLE', difficulty: 'Hard' },
   { answer: 'complete the picture', pattern: '8 3 7', visual: '┌────────────┐\n│  PICTURE  ✓ │\n└────────────┘', description: 'A fully framed PICTURE carries a completion mark', difficulty: 'Hard' },
+  { answer: 'a place in the sun', pattern: '1 5 2 3 3', visual: '      ☀\n    PLACE', description: 'PLACE occupies the warm position directly in the sun', difficulty: 'Hard' },
+  { answer: 'everything under the sun', pattern: '10 5 3 3', visual: '        ☀\n   EVERYTHING', description: 'EVERYTHING sits beneath a single sun', difficulty: 'Hard' },
+  { answer: 'reach for the stars', pattern: '5 3 3 5', visual: '★   ★   ★\n    ↑\n  REACH', description: 'REACH stretches upward toward the stars', difficulty: 'Hard' },
+  { answer: 'written in the stars', pattern: '7 2 3 5', visual: 'ST  WRITTEN  ARS', description: 'WRITTEN is embedded inside STARS', difficulty: 'Hard' },
+  { answer: 'thank your lucky stars', pattern: '5 4 5 5', visual: '★  ★ LUCKY ★  ★\n      THANK ↑', description: 'THANK points gratefully toward a group of lucky stars', difficulty: 'Hard' },
+  { answer: 'seeing stars', pattern: '6 5', visual: '★   SEEING   ★', description: 'SEEING is surrounded by visible stars', difficulty: 'Hard' },
+  { answer: 'star crossed lovers', pattern: '4 7 6', visual: '★ ╲ ╱ ★\n   ╳\nLOVER  LOVER', description: 'Two lovers sit beneath a pair of paths crossed by stars', difficulty: 'Hard' },
+  { answer: 'shoot for the moon', pattern: '5 3 3 4', visual: '       🌙\n       ↑\n     SHOOT', description: 'SHOOT aims directly upward toward the moon', difficulty: 'Hard' },
+  { answer: 'many moons ago', pattern: '4 5 3', visual: '☾  ☾  ☾  ☾  ☾      AGO', description: 'Many moons appear before AGO', difficulty: 'Hard' },
+  { answer: 'ask for the moon', pattern: '3 3 3 4', visual: 'ASK  →  🌙', description: 'ASK points directly toward the moon', difficulty: 'Hard' },
+  { answer: 'go round in circles', pattern: '2 5 2 7', visual: '↻  GO  ○  ○  ○  ↺', description: 'GO travels round a repeated set of circles', difficulty: 'Hard' },
+  { answer: 'come full circle', pattern: '4 4 6', visual: '◯  COME  ◯', description: 'COME is enclosed by complete full circles', difficulty: 'Hard' },
+  { answer: 'square the circle', pattern: '6 3 6', visual: '□   THE   ○', description: 'A square is set directly against a circle', difficulty: 'Hard' },
+  { answer: 'cut to the chase', pattern: '3 2 3 5', visual: 'CH  CUT  ASE', description: 'CUT has gone directly into CHASE', difficulty: 'Hard' },
+  { answer: 'chase your tail', pattern: '5 4 4', visual: 'CHASE  ↻  🐕', description: 'CHASE circles repeatedly around a dog toward its tail', difficulty: 'Hard' },
+  { answer: 'running on empty', pattern: '7 2 5', visual: 'RUNNING  →  [       ]', description: 'RUNNING continues toward a completely empty container', difficulty: 'Hard' },
+  { answer: 'hit the ground running', pattern: '3 3 6 7', visual: '    RUNNING ↓\n══════ GROUND ══════', description: 'RUNNING lands directly on the ground', difficulty: 'Hard' },
+  { answer: 'running out of steam', pattern: '7 3 2 5', visual: 'RUNNING       〰 〰 〰 →', description: 'Steam is visibly escaping out and away from RUNNING', difficulty: 'Hard' },
+  { answer: 'a one horse race', pattern: '1 3 5 4', visual: '🐎  →  ───────── RACE', description: 'Exactly one horse occupies the entire race', difficulty: 'Hard' },
+  { answer: 'neck and neck', pattern: '4 3 4', visual: 'NECKNECK', description: 'Two NECK words are perfectly level and touching', difficulty: 'Hard' },
+  { answer: "money doesn't grow on trees", pattern: '5 6 4 2 5', visual: '', description: 'A person searches a leafy tree while holding an empty wallet, but no money grows anywhere', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'penny pincher', pattern: '5 7', visual: '〉〉  PENNY  〈〈', description: 'PENNY is being tightly pinched from both sides', difficulty: 'Hard' },
+  { answer: 'cost a fortune', pattern: '4 1 7', visual: 'COST  →  FORTUNE', description: 'COST points toward an entire FORTUNE', difficulty: 'Hard' },
+  { answer: 'worth a mint', pattern: '5 1 4', visual: 'WORTH  =  MINT  MINT  MINT', description: 'WORTH equals a large supply of MINT', difficulty: 'Hard' },
+  { answer: 'make ends meet', pattern: '4 4 4', visual: 'END  →←  END', description: 'Two separated ends move together until they meet', difficulty: 'Hard' },
+  { answer: 'break even', pattern: '5 4', visual: 'BR  EVEN  EAK', description: 'EVEN breaks into the centre of BREAK', difficulty: 'Hard' },
+  { answer: 'pay through the nose', pattern: '3 7 3 4', visual: '', description: 'Coins travel harmlessly from a wallet through a nose into a payment tray', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'foot the bill', pattern: '4 3 4', visual: '   BILL\n    🦶', description: 'A foot supports the BILL directly above it', difficulty: 'Hard' },
+  { answer: 'pick up the tab', pattern: '4 2 3 3', visual: 'PICK UP  ↑\n        TAB', description: 'PICK UP lifts a TAB upward', difficulty: 'Hard' },
+  { answer: 'money to burn', pattern: '5 2 4', visual: 'MONEY\n  ↓\n  🔥', description: 'MONEY is being directed toward a flame to burn', difficulty: 'Hard' },
+  { answer: 'keep your cards close to your chest', pattern: '4 4 5 5 2 4 5', visual: 'KEEP   CARDS →← CHEST', description: 'KEEP presses CARDS extremely close to CHEST', difficulty: 'Hard' },
+  { answer: 'play your cards right', pattern: '4 4 5 5', visual: 'PLAY   CARDS               RIGHT →', description: 'PLAY moves the cards all the way to the right', difficulty: 'Hard' },
+  { answer: 'the cards are stacked against you', pattern: '3 5 3 7 7 3', visual: 'CARD\n CARD\n  CARD ▌ YOU', description: 'A leaning stack of cards presses against YOU', difficulty: 'Hard' },
+  { answer: 'wild card', pattern: '4 4', visual: 'C  W I L D  ARD', description: 'WILD has broken unpredictably into CARD', difficulty: 'Hard' },
+  { answer: 'poker face', pattern: '5 4', visual: '〈   POKER   〉', description: 'POKER sits inside a still expressionless face outline', difficulty: 'Hard' },
 ]
 
 const chapterEightPuzzles = chapterEightSpecs.map((spec, index) => candidate(
@@ -1373,4 +1409,105 @@ const chapterEightPuzzles = chapterEightSpecs.map((spec, index) => candidate(
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
-export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles, ...chapterSevenPuzzles, ...chapterEightPuzzles].map(migrateStarterPuzzle)
+const chapterNineSpecs: ChapterFiveSpec[] = [
+  { answer: "call someone's bluff", pattern: '4 8 5', visual: 'CALL  ☎  →  BLUFF', description: 'CALL directly confronts BLUFF', difficulty: 'Hard' },
+  { answer: 'luck of the draw', pattern: '4 2 3 4', visual: '★ LUCK ★  ←  DRAW', description: 'DRAW unexpectedly produces LUCK', difficulty: 'Hard' },
+  { answer: 'draw the short straw', pattern: '4 3 5 5', visual: 'DRAW  →  │  │  ┆  │', description: 'DRAW points toward the only short straw among long ones', difficulty: 'Hard' },
+  { answer: 'when the chips are down', pattern: '4 3 5 3 4', visual: 'CHIPS\n  ↓\n  ↓\n DOWN', description: 'CHIPS have fallen all the way down', difficulty: 'Hard' },
+  { answer: 'put your money where your mouth is', pattern: '3 4 5 5 4 5 2', visual: 'PUT  →  （ MONEY ）', description: 'PUT places MONEY directly inside a mouth', difficulty: 'Hard' },
+  { answer: 'pins and needles', pattern: '4 3 7', visual: '📍 NEEDLE 📍 NEEDLE 📍', description: 'Pins and needles alternate in one prickly row', difficulty: 'Hard' },
+  { answer: 'sharp as a tack', pattern: '5 2 1 4', visual: 'SHARP  →  ▲ TACK', description: 'SHARP points to the needle-like tip of a tack', difficulty: 'Hard' },
+  { answer: 'pin your hopes on something', pattern: '3 4 5 2 9', visual: '📌  HOPES\n    SOMETHING', description: 'HOPES are pinned directly onto SOMETHING', difficulty: 'Hard' },
+  { answer: 'pin down', pattern: '3 4', visual: 'PIN\n ↓\nDOWN', description: 'PIN is directed straight down', difficulty: 'Hard' },
+  { answer: 'safety in numbers', pattern: '6 2 7', visual: '🛡  1 2 3 4 5  🛡', description: 'A group of numbers is protected inside two safety shields', difficulty: 'Hard' },
+  { answer: 'number one priority', pattern: '6 3 8', visual: 'PRIORITY\n    1\n  ↑↑↑', description: 'PRIORITY is placed directly above number one', difficulty: 'Hard' },
+  { answer: 'by the numbers', pattern: '2 3 7', visual: '1   2   3   4\n      BY', description: 'BY sits beneath and is guided by the numbers', difficulty: 'Hard' },
+  { answer: 'your number is up', pattern: '4 6 2 2', visual: '      NUMBER\n        ↑\n        UP', description: 'NUMBER has moved upward from UP', difficulty: 'Hard' },
+  { answer: 'paint by numbers', pattern: '5 2 7', visual: '1  2  3  4  5\n🎨  PAINT', description: 'PAINT follows a numbered sequence', difficulty: 'Hard' },
+  { answer: 'a numbers game', pattern: '1 7 4', visual: '┌────────────┐\n│ 1 2 GAME 3 │\n└────────────┘', description: 'GAME is completely surrounded and controlled by numbers', difficulty: 'Hard' },
+  { answer: 'raise eyebrows', pattern: '5 8', visual: 'EYEBROWS\n ↑  ↑  ↑', description: 'EYEBROWS are being raised upward', difficulty: 'Hard' },
+  { answer: 'hair raising', pattern: '4 7', visual: 'H\n A\n  I\n   R   ↑ RAISING', description: 'HAIR rises progressively upward', difficulty: 'Hard' },
+  { answer: 'split hairs', pattern: '5 5', visual: 'HA  SPLIT  IRS', description: 'SPLIT divides HAIRS directly through the middle', difficulty: 'Hard' },
+  { answer: 'let your hair down', pattern: '3 4 4 4', visual: 'HAIR\n ↓ ↓ ↓\n DOWN', description: 'HAIR is released downward', difficulty: 'Hard' },
+  { answer: 'bad hair day', pattern: '3 4 3', visual: '〰╱ HAIR ╲〰\n     DAY', description: 'Disordered hair sits on top of DAY', difficulty: 'Hard' },
+  { answer: 'by the skin of your teeth', pattern: '2 3 4 2 4 5', visual: 'T E E T H\n   skin', description: 'Only a tiny thin layer of skin remains beneath TEETH', difficulty: 'Hard' },
+  { answer: 'armed to the teeth', pattern: '5 2 3 5', visual: '💪  T E E T H  💪', description: 'TEETH are flanked by a strong arm on each side', difficulty: 'Hard' },
+  { answer: 'long in the tooth', pattern: '4 2 3 5', visual: 'T     O     O     T     H', description: 'TOOTH is stretched to an extreme length', difficulty: 'Hard' },
+  { answer: 'tongue in cheek', pattern: '6 2 5', visual: 'CHE  TONGUE  EK', description: 'TONGUE is lodged inside CHEEK', difficulty: 'Hard' },
+  { answer: 'bite your tongue', pattern: '4 4 6', visual: 'BI  TONGUE  TE', description: 'TONGUE is caught directly inside BITE', difficulty: 'Hard' },
+  { answer: 'smoke and mirrors', pattern: '5 3 7', visual: '', description: 'Elegant smoke curls through and confuses the reflections of two ornate mirrors', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'mirror image', pattern: '6 5', visual: 'IMAGE  │  EGAMI', description: 'IMAGE is reflected backward across a mirror line', difficulty: 'Hard' },
+  { answer: 'face value', pattern: '4 5', visual: '🏷  [ FACE ]  $', description: 'FACE is displayed directly on a value tag', difficulty: 'Hard' },
+  { answer: 'two faced', pattern: '3 5', visual: '〈 FACE  FACE 〉', description: 'One outline contains exactly two opposing faces', difficulty: 'Hard' },
+  { answer: 'put on a brave face', pattern: '3 2 1 5 4', visual: 'PUT  →  [ BRAVE ]\n             FACE', description: 'PUT places BRAVE onto FACE', difficulty: 'Hard' },
+  { answer: 'keep a straight face', pattern: '4 1 8 4', visual: 'KEEP  ─── FACE ───', description: 'KEEP holds FACE on a perfectly straight line', difficulty: 'Hard' },
+  { answer: 'save face', pattern: '4 4', visual: 'FA  SAVE  CE', description: 'SAVE is hidden protectively inside FACE', difficulty: 'Hard' },
+  { answer: 'egg on your face', pattern: '3 2 4 4', visual: '   🥚\n〈  FACE  〉', description: 'An egg rests directly on top of FACE', difficulty: 'Hard' },
+  { answer: 'a face in the crowd', pattern: '1 4 2 3 5', visual: '○ ○ ○ ○ ○\n○ ○ FACE ○ ○\n○ ○ ○ ○ ○', description: 'One FACE is buried in the centre of a crowd', difficulty: 'Hard' },
+  { answer: 'face to face', pattern: '4 2 4', visual: 'FACE  →←  FACE', description: 'Two FACE words confront each other directly', difficulty: 'Hard' },
+  { answer: 'under lock and key', pattern: '5 4 3 3', visual: '🔒       🔑\n   UNDER', description: 'UNDER sits beneath both a lock and a key', difficulty: 'Hard' },
+  { answer: 'key player', pattern: '3 6', visual: 'PLA  🔑  YER', description: 'A key occupies the centre of PLAYER', difficulty: 'Hard' },
+  { answer: 'key figure', pattern: '3 6', visual: 'FIG  🔑  URE', description: 'A key forms the centre of FIGURE', difficulty: 'Hard' },
+  { answer: 'low key', pattern: '3 3', visual: 'LOW\n\n       🔑', description: 'A key is positioned unusually low', difficulty: 'Hard' },
+  { answer: 'turn the key', pattern: '4 3 3', visual: 'TURN  ↻  🔑', description: 'A key is visibly being turned', difficulty: 'Hard' },
+  { answer: 'lock stock and barrel', pattern: '4 5 3 6', visual: '', description: 'A brass lock, wooden gunstock and coopered barrel appear as three separate objects', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'open sesame', pattern: '4 6', visual: 'SES  ← OPEN →  AME', description: 'OPEN separates the two halves of SESAME', difficulty: 'Hard' },
+  { answer: 'close ranks', pattern: '5 5', visual: 'R A N K S  →←  R A N K S', description: 'Two ranks move tightly together until they close', difficulty: 'Hard' },
+  { answer: 'get some shut eye', pattern: '3 4 4 3', visual: 'GET SOME  ── 👁 ──', description: 'An eye is visibly shut between two closed lids', difficulty: 'Hard' },
+  { answer: 'an open mind', pattern: '2 4 4', visual: 'MI  ← OPEN →  ND', description: 'MIND has been opened through its centre', difficulty: 'Hard' },
+  { answer: 'fish for compliments', pattern: '4 3 11', visual: '🐟  ←────  ★ PRAISE ★', description: 'A fish is being drawn toward visible praise and compliments', difficulty: 'Hard' },
+  { answer: 'plenty more fish in the sea', pattern: '6 4 4 2 3 3', visual: 'SEA  ≋≋≋≋≋≋≋\n🐟  🐟  🐟  🐟  🐟', description: 'Many fish fill the sea beneath its surface', difficulty: 'Hard' },
+  { answer: 'cold fish', pattern: '4 4', visual: '❄  🐟  ❄', description: 'A fish is surrounded by icy cold flakes', difficulty: 'Hard' },
+  { answer: 'a different kettle of fish', pattern: '1 9 6 2 4', visual: 'KETTLE  [ 🐟 ]  DIFFERENT', description: 'A fish appears as the unexpected contents of a different kettle', difficulty: 'Hard' },
+  { answer: 'hook line and sinker', pattern: '4 4 3 6', visual: '', description: 'One complete fishing rig clearly displays its hook, continuous line and heavy sinker', format: 'illustration', difficulty: 'Hard' },
+]
+
+const chapterNinePuzzles = chapterNineSpecs.map((spec, index) => candidate(
+  index + 501,
+  spec.answer,
+  spec.pattern,
+  spec.difficulty ?? 'Hard',
+  spec.format ?? 'typography',
+  [{ content: spec.visual, className: 'chapter-nine-rebus', ariaLabel: spec.description }],
+  [
+    'This finale puzzle combines several advanced visual signals.',
+    'Read the symbols, scale and positioning as one complete scene.',
+    'Convert that scene into a familiar expression.',
+  ],
+  [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
+))
+
+const chapterTenSpecs: ChapterFiveSpec[] = [
+  { answer: 'off the hook', pattern: '3 3 4', visual: 'OFF          🪝', description: 'OFF has escaped far away from a hook', difficulty: 'Hard' },
+  { answer: 'bait and switch', pattern: '4 3 6', visual: 'BAIT  ⇄  SWITCH', description: 'BAIT and SWITCH exchange positions', difficulty: 'Hard' },
+  { answer: 'get your hooks into something', pattern: '3 4 5 4 9', visual: 'GET  🪝→  SOME🪝THING', description: 'Hooks have caught and entered SOMETHING', difficulty: 'Hard' },
+  { answer: 'cast a wide net', pattern: '4 1 4 3', visual: 'CAST  →  ╱╲╱╲╱╲╱╲╱╲', description: 'CAST throws an unusually wide net outward', difficulty: 'Hard' },
+  { answer: 'slip through the net', pattern: '4 7 3 3', visual: '╳╳╳ NET ╳╳╳\n      ↓\n     SLIP', description: 'SLIP has passed entirely through the net', difficulty: 'Hard' },
+  { answer: 'throw a spanner in the works', pattern: '5 1 7 2 3 5', visual: '', description: 'A bright spanner flies into and jams a set of interlocking gears', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'well oiled machine', pattern: '4 5 7', visual: '   💧 OIL\n⚙  MACHINE  ⚙', description: 'Oil drops directly into a smoothly turning machine', difficulty: 'Hard' },
+  { answer: 'a cog in the machine', pattern: '1 3 2 3 7', visual: 'MA  ⚙ COG  CHINE', description: 'A single cog occupies the centre of MACHINE', difficulty: 'Hard' },
+  { answer: 'set the wheels in motion', pattern: '3 3 6 2 6', visual: 'SET  →  ⚙  ⚙  →→', description: 'SET starts two wheels moving forward', difficulty: 'Hard' },
+  { answer: 'reinvent the wheel', pattern: '8 3 5', visual: '◯  REINVENT  ◯', description: 'REINVENT is placed inside and between complete wheels', difficulty: 'Hard' },
+  { answer: 'fifth wheel', pattern: '5 5', visual: '◉  ◉\n◉  ◉        ⑤◉', description: 'A fifth wheel sits awkwardly apart from four matched wheels', difficulty: 'Hard' },
+  { answer: 'the squeaky wheel gets the grease', pattern: '3 7 5 4 3 6', visual: 'SQUEAK!  ◉  ←  💧 GREASE', description: 'The noisy wheel alone receives the grease', difficulty: 'Hard' },
+  { answer: 'put the brakes on', pattern: '3 3 6 2', visual: 'PUT  →  [ BRAKES ]  ON', description: 'PUT switches the BRAKES into the ON position', difficulty: 'Hard' },
+  { answer: 'change gear', pattern: '6 4', visual: 'GE  CHANGE  AR', description: 'CHANGE replaces the centre of GEAR', difficulty: 'Hard' },
+  { answer: 'full steam ahead', pattern: '4 5 5', visual: '〰 〰 〰  →→  AHEAD', description: 'A full cloud of steam drives directly ahead', difficulty: 'Hard' },
+]
+
+const chapterTenPuzzles = chapterTenSpecs.map((spec, index) => candidate(
+  index + 551,
+  spec.answer,
+  spec.pattern,
+  spec.difficulty ?? 'Hard',
+  spec.format ?? 'typography',
+  [{ content: spec.visual, className: 'chapter-ten-rebus', ariaLabel: spec.description }],
+  [
+    'This encore puzzle uses advanced visual shorthand.',
+    'Identify every symbol and describe the complete arrangement.',
+    'Use those relationships to name the familiar expression.',
+  ],
+  [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
+))
+
+export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles, ...chapterSevenPuzzles, ...chapterEightPuzzles, ...chapterNinePuzzles, ...chapterTenPuzzles].map(migrateStarterPuzzle)

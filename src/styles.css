@@ -707,7 +707,9 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .visual-405 .chapter-seven-rebus { line-height:1.05; }
 .visual-415 .chapter-seven-rebus { line-height:1.05; }
 .visual-414 .chapter-seven-rebus { animation:puzzle-tremble .32s ease-in-out infinite alternate; }
-.chapter-eight-rebus {
+.chapter-eight-rebus,
+.chapter-nine-rebus,
+.chapter-ten-rebus {
   white-space:pre;
   max-width:100%;
   text-rendering:geometricPrecision;
@@ -775,6 +777,40 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .visual-463 .chapter-eight-rebus { color:#4d8b79; }
 .visual-464 .chapter-eight-rebus { line-height:1.8; }
 .visual-465 .chapter-eight-rebus { line-height:1.12; color:#168e91; }
+:is(.visual-467,.visual-470,.visual-472,.visual-474,.visual-476,.visual-478,.visual-481,.visual-482,.visual-483,.visual-484,.visual-488,.visual-489,.visual-496,.visual-497,.visual-498,.visual-501,.visual-503,.visual-505,.visual-506,.visual-508,.visual-510,.visual-511,.visual-512,.visual-514,.visual-515,.visual-517,.visual-520,.visual-521,.visual-522,.visual-527,.visual-530,.visual-531,.visual-534,.visual-536,.visual-542,.visual-543,.visual-544,.visual-546,.visual-547,.visual-549,.visual-552,.visual-553,.visual-554,.visual-555,.visual-557,.visual-558,.visual-559,.visual-562,.visual-563,.visual-565) :is(.chapter-eight-rebus,.chapter-nine-rebus,.chapter-ten-rebus) {
+  font-size:clamp(.82rem,3.45vw,1.28rem);
+}
+:is(.visual-466,.visual-467,.visual-468,.visual-469,.visual-470,.visual-471,.visual-472,.visual-473,.visual-474,.visual-475) .chapter-eight-rebus {
+  color:#c99118;
+  text-shadow:0 2px 10px rgba(201,145,24,.18);
+}
+:is(.visual-476,.visual-477,.visual-478,.visual-479,.visual-480,.visual-481,.visual-482,.visual-483,.visual-484,.visual-485) .chapter-eight-rebus { color:#168e91; }
+:is(.visual-487,.visual-488,.visual-489,.visual-490,.visual-491,.visual-493,.visual-494,.visual-495) .chapter-eight-rebus { color:#537b45; }
+:is(.visual-496,.visual-497,.visual-498,.visual-499,.visual-500,.visual-501,.visual-502,.visual-503,.visual-504,.visual-505) :is(.chapter-eight-rebus,.chapter-nine-rebus) { color:#bc4f5b; }
+:is(.visual-506,.visual-507,.visual-508,.visual-509,.visual-510,.visual-511,.visual-512,.visual-513,.visual-514,.visual-515) .chapter-nine-rebus { color:#315d79; }
+:is(.visual-516,.visual-517,.visual-518,.visual-519,.visual-520,.visual-521,.visual-522,.visual-523,.visual-524,.visual-525) .chapter-nine-rebus { color:#8a4d61; }
+:is(.visual-527,.visual-528,.visual-529,.visual-530,.visual-531,.visual-532,.visual-533,.visual-534,.visual-535) .chapter-nine-rebus { color:#596b76; }
+:is(.visual-536,.visual-537,.visual-538,.visual-539,.visual-540,.visual-542,.visual-543,.visual-544,.visual-545) .chapter-nine-rebus { color:#b17b20; }
+:is(.visual-546,.visual-547,.visual-548,.visual-549,.visual-551,.visual-552,.visual-553,.visual-554,.visual-555) :is(.chapter-nine-rebus,.chapter-ten-rebus) { color:#168e91; }
+:is(.visual-557,.visual-558,.visual-559,.visual-560,.visual-561,.visual-562,.visual-563,.visual-564,.visual-565) .chapter-ten-rebus { color:#405c6d; }
+:is(.visual-468,.visual-473,.visual-482,.visual-504,.visual-509,.visual-511,.visual-513,.visual-516,.visual-519,.visual-520,.visual-533,.visual-534,.visual-539,.visual-547,.visual-555) :is(.chapter-eight-rebus,.chapter-nine-rebus,.chapter-ten-rebus) { line-height:1.25; }
+.visual-474 .chapter-eight-rebus { letter-spacing:.12em; }
+.visual-475 .chapter-eight-rebus,
+.visual-480 .chapter-eight-rebus,
+.visual-484 .chapter-eight-rebus,
+.visual-493 .chapter-eight-rebus,
+:is(.visual-506,.visual-510,.visual-522,.visual-533,.visual-536,.visual-537,.visual-538,.visual-539,.visual-540,.visual-544,.visual-546,.visual-547,.visual-548,.visual-549) .chapter-nine-rebus,
+:is(.visual-551,.visual-553,.visual-557,.visual-558,.visual-559,.visual-561,.visual-562) .chapter-ten-rebus {
+  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+}
+.visual-485 .chapter-eight-rebus { letter-spacing:-.08em; }
+.visual-490 .chapter-eight-rebus { font-size:clamp(1.1rem,4.6vw,1.75rem); }
+.visual-523 .chapter-nine-rebus { transform:scaleX(1.25); }
+.visual-527 .chapter-nine-rebus { letter-spacing:.08em; }
+.visual-539 .chapter-nine-rebus { line-height:1.8; }
+.visual-545 .chapter-nine-rebus { letter-spacing:.16em; }
+.visual-560 .chapter-ten-rebus { color:#b17b20; }
+.visual-564 .chapter-ten-rebus { color:#d75f62; }
 @keyframes puzzle-tremble {
   from { transform:rotate(-1.5deg) translateX(-2px); }
   to { transform:rotate(1.5deg) translateX(2px); }
