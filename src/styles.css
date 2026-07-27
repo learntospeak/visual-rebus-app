@@ -654,6 +654,63 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 }
 .visual-365 { border-radius:22px; background:#162d3c; }
 .visual-365 .chapter-seven-rebus { color:#d9e7ec; text-shadow:0 0 10px rgba(255,255,255,.18); }
+.visual-368 .chapter-seven-rebus,
+.visual-369 .chapter-seven-rebus,
+.visual-373 .chapter-seven-rebus,
+.visual-378 .chapter-seven-rebus,
+.visual-381 .chapter-seven-rebus,
+.visual-385 .chapter-seven-rebus,
+.visual-387 .chapter-seven-rebus,
+.visual-397 .chapter-seven-rebus,
+.visual-402 .chapter-seven-rebus,
+.visual-403 .chapter-seven-rebus,
+.visual-405 .chapter-seven-rebus,
+.visual-409 .chapter-seven-rebus,
+.visual-411 .chapter-seven-rebus,
+.visual-412 .chapter-seven-rebus,
+.visual-415 .chapter-seven-rebus { font-size:clamp(1rem,4.1vw,1.55rem); }
+.visual-371 .chapter-seven-rebus,
+.visual-372 .chapter-seven-rebus,
+.visual-374 .chapter-seven-rebus,
+.visual-379 .chapter-seven-rebus,
+.visual-380 .chapter-seven-rebus,
+.visual-381 .chapter-seven-rebus,
+.visual-389 .chapter-seven-rebus,
+.visual-390 .chapter-seven-rebus,
+.visual-394 .chapter-seven-rebus,
+.visual-400 .chapter-seven-rebus,
+.visual-401 .chapter-seven-rebus,
+.visual-405 .chapter-seven-rebus,
+.visual-406 .chapter-seven-rebus { font-family:Inter,ui-sans-serif,system-ui,sans-serif; }
+.visual-376 .chapter-seven-rebus { letter-spacing:.42em; }
+.visual-379 .chapter-seven-rebus { color:#b44d35; }
+.visual-388 .chapter-seven-rebus { color:#df5b62; }
+.visual-389 .chapter-seven-rebus { color:#d94454; font-size:clamp(2rem,8vw,3rem); }
+.visual-390 .chapter-seven-rebus,
+.visual-391 .chapter-seven-rebus,
+.visual-392 .chapter-seven-rebus { color:#d94454; }
+.visual-395 .chapter-seven-rebus { color:#287fbd; }
+.visual-396 .chapter-seven-rebus { color:#e65b91; }
+.visual-397 .chapter-seven-rebus {
+  color:transparent;
+  background:linear-gradient(90deg,#111 0 48%,#fff 52% 100%);
+  background-clip:text;
+  -webkit-background-clip:text;
+  -webkit-text-stroke:1px #56636c;
+}
+.visual-398 .chapter-seven-rebus { color:#0e1820; text-shadow:0 2px 8px rgba(0,0,0,.35); }
+.visual-399 { border-radius:22px; background:#cbd5d9; }
+.visual-399 .chapter-seven-rebus { color:#fff; text-shadow:0 1px 3px #586a73,0 0 1px #253f4d; }
+.visual-400 .chapter-seven-rebus { color:#a9b8bf; text-shadow:0 1px 2px #4d6571; }
+.visual-408 .chapter-seven-rebus { letter-spacing:.35em; }
+.visual-409 .chapter-seven-rebus { font-weight:950; line-height:1.35; }
+.visual-405 .chapter-seven-rebus { line-height:1.05; }
+.visual-415 .chapter-seven-rebus { line-height:1.05; }
+.visual-414 .chapter-seven-rebus { animation:puzzle-tremble .32s ease-in-out infinite alternate; }
+@keyframes puzzle-tremble {
+  from { transform:rotate(-1.5deg) translateX(-2px); }
+  to { transform:rotate(1.5deg) translateX(2px); }
+}
 .draft-shoulder-person { color:var(--ink); font-size:10rem; transform:rotate(-20deg); }
 .draft-shoulder-chip { position:absolute; top:68px; right:92px; width:38px; height:28px; border-radius:50%; background:#e4bd63; color:#bd7c23; transform:rotate(18deg); }
 .draft-shirt-sleeve { width:180px; height:140px; background:#3ba7a0; clip-path:polygon(20% 0,80% 0,100% 38%,76% 53%,69% 34%,69% 100%,31% 100%,31% 34%,24% 53%,0 38%); }

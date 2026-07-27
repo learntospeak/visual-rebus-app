@@ -148,6 +148,11 @@ const generatedPuzzleArt: Partial<Record<number, string>> = {
   319: '/house-cards-319.png',
   329: '/devil-deep-sea-329.png',
   331: '/can-worms-331.png',
+  366: '/greener-side-366.png',
+  370: '/ball-court-370.png',
+  382: '/doors-close-open-382.png',
+  393: '/blood-water-393.png',
+  407: '/hanging-thread-407.png',
 }
 
 export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
