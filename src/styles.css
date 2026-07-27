@@ -602,6 +602,58 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 }
 .visual-308 .chapter-five-rebus { font-size:clamp(1.25rem,5vw,1.9rem); transform:rotate(-2deg); }
 .visual-314 .chapter-five-rebus { color:#78a9bc; }
+.chapter-seven-rebus {
+  white-space:pre;
+  max-width:100%;
+  color:#173f59;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:clamp(1.2rem,5.2vw,2rem);
+  font-weight:850;
+  line-height:1.65;
+  letter-spacing:.055em;
+  text-align:center;
+}
+.visual-318 .chapter-seven-rebus,
+.visual-322 .chapter-seven-rebus,
+.visual-326 .chapter-seven-rebus,
+.visual-328 .chapter-seven-rebus,
+.visual-332 .chapter-seven-rebus,
+.visual-341 .chapter-seven-rebus,
+.visual-346 .chapter-seven-rebus,
+.visual-354 .chapter-seven-rebus,
+.visual-355 .chapter-seven-rebus,
+.visual-358 .chapter-seven-rebus,
+.visual-359 .chapter-seven-rebus { font-size:clamp(1rem,4.2vw,1.55rem); }
+.visual-320 .chapter-seven-rebus { color:#ef6461; font-size:clamp(1.8rem,8vw,3rem); letter-spacing:.2em; }
+.visual-321 .chapter-seven-rebus { font-size:clamp(1rem,4.3vw,1.65rem); }
+.visual-323 .chapter-seven-rebus,
+.visual-324 .chapter-seven-rebus,
+.visual-325 .chapter-seven-rebus { color:#c89418; text-shadow:0 2px 10px rgba(200,148,24,.25); }
+.visual-324 .chapter-seven-rebus { font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:clamp(1.25rem,5.2vw,2rem); letter-spacing:.02em; }
+.visual-326 .chapter-seven-rebus,
+.visual-327 .chapter-seven-rebus,
+.visual-328 .chapter-seven-rebus { color:#df4242; }
+.visual-334 .chapter-seven-rebus { font-size:clamp(1.35rem,5.8vw,2.15rem); font-weight:950; letter-spacing:.28em; }
+.visual-335 .chapter-seven-rebus { font-size:clamp(1rem,3.5vw,1.35rem); font-weight:500; transform:scaleX(.48); }
+.visual-339 .chapter-seven-rebus,
+.visual-340 .chapter-seven-rebus { font-family:Inter,ui-sans-serif,system-ui,sans-serif; }
+.visual-345 .chapter-seven-rebus,
+.visual-347 .chapter-seven-rebus,
+.visual-348 .chapter-seven-rebus,
+.visual-349 .chapter-seven-rebus,
+.visual-352 .chapter-seven-rebus,
+.visual-353 .chapter-seven-rebus,
+.visual-354 .chapter-seven-rebus,
+.visual-360 .chapter-seven-rebus { font-family:Inter,ui-sans-serif,system-ui,sans-serif; }
+.visual-361 .chapter-seven-rebus { color:#74583d; filter:blur(.75px); text-shadow:0 2px 5px rgba(75,50,28,.35); }
+.visual-362 .chapter-seven-rebus {
+  color:transparent;
+  background:linear-gradient(90deg,#e74e4e,#d99a1d,#36a875,#328ec2,#8159bb,#e74e4e);
+  background-clip:text;
+  -webkit-background-clip:text;
+}
+.visual-365 { border-radius:22px; background:#162d3c; }
+.visual-365 .chapter-seven-rebus { color:#d9e7ec; text-shadow:0 0 10px rgba(255,255,255,.18); }
 .draft-shoulder-person { color:var(--ink); font-size:10rem; transform:rotate(-20deg); }
 .draft-shoulder-chip { position:absolute; top:68px; right:92px; width:38px; height:28px; border-radius:50%; background:#e4bd63; color:#bd7c23; transform:rotate(18deg); }
 .draft-shirt-sleeve { width:180px; height:140px; background:#3ba7a0; clip-path:polygon(20% 0,80% 0,100% 38%,76% 53%,69% 34%,69% 100%,31% 100%,31% 34%,24% 53%,0 38%); }

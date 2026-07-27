@@ -105,14 +105,15 @@ const chapterSixGeneratedPuzzleIds = [
   ...Array.from({ length: 10 }, (_, index) => index + 256),
   ...Array.from({ length: 5 }, (_, index) => index + 266),
 ]
+const chapterSevenGeneratedPuzzleIds = [316, 317, 319, 329, 331]
 
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
-  const score = difficultyScores[draft.id] ?? ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty]
+  const score = difficultyScores[draft.id] ?? (draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
   const usesInlineSvg = [13, 20].includes(draft.id)
   const usesLicensedFootprint = draft.id === 13
-  const usesGeneratedArtwork = reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id)
-  const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : 'chapter-6'
-  const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id - 215
+  const usesGeneratedArtwork = reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id)
+  const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : 'chapter-7'
+  const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id - 315
 
   return {
     ...draft,
@@ -1185,4 +1186,72 @@ const chapterSixPuzzles = chapterSixSpecs.map((spec, index) => candidate(
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
-export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles].map(migrateStarterPuzzle)
+const chapterSevenSpecs: ChapterFiveSpec[] = [
+  { answer: 'hole in one', pattern: '4 2 3', visual: '', description: 'A golf ball lodged in a circular hole cut through a large numeral one', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'ace up your sleeve', pattern: '3 2 4 6', visual: '', description: 'An ace playing card tucked upward inside a jacket sleeve', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'cards on the table', pattern: '5 2 3 5', visual: 'CARD  CARD  CARD\n════════ TABLE ════════', description: 'Three CARD words resting directly on a table surface', difficulty: 'Hard' },
+  { answer: 'house of cards', pattern: '5 2 5', visual: '', description: 'A complete house carefully constructed from playing cards', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'deal breaker', pattern: '4 7', visual: 'DE  /  AL', description: 'The word DEAL is visibly broken through its middle', difficulty: 'Hard' },
+  { answer: 'blessing in disguise', pattern: '8 2 8', visual: 'DISG  BLESSING  UISE', description: 'BLESSING is concealed inside the word DISGUISE', difficulty: 'Hard' },
+  { answer: 'worth your weight in gold', pattern: '5 4 6 2 4', visual: 'WORTH  ⚖  GOLD\n          GOLD', description: 'WORTH balances against a heavy double stack of GOLD', difficulty: 'Hard' },
+  { answer: 'heart of gold', pattern: '5 2 4', visual: 'G O L ♥ D', description: 'A heart forms the glowing centre of GOLD', difficulty: 'Hard' },
+  { answer: 'golden opportunity', pattern: '6 11', visual: 'OPPORTUNITY', description: 'OPPORTUNITY is presented in a brilliant golden colour', difficulty: 'Hard' },
+  { answer: 'strike gold', pattern: '6 4', visual: 'STRIKE  ⛏  GOLD', description: 'STRIKE drives a pickaxe directly into GOLD', difficulty: 'Hard' },
+  { answer: 'roll out the red carpet', pattern: '4 3 3 3 6', visual: 'ROLL  →  ▰▰▰▰▰▰▰', description: 'ROLL unfurls a long red carpet outward', difficulty: 'Hard' },
+  { answer: 'paint the town red', pattern: '5 3 4 3', visual: 'T  O  W  N', description: 'Every letter of TOWN has been painted vivid red', difficulty: 'Hard' },
+  { answer: 'red letter day', pattern: '3 6 3', visual: 'MON  TUE  WED\nTHU  DAY  SAT', description: 'One DAY in a calendar row is made from bright red letters', difficulty: 'Hard' },
+  { answer: 'caught between the devil and the deep blue sea', pattern: '6 7 3 5 3 3 4 4 3', visual: '', description: 'A person trapped precisely between a devil and the edge of a deep blue sea', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'out of the frying pan into the fire', pattern: '3 2 3 6 3 4 3 4', visual: 'PAN  →→  🔥\n  OUT      INTO', description: 'OUT leaves a frying pan and moves directly INTO fire', difficulty: 'Hard' },
+  { answer: 'open a can of worms', pattern: '4 1 3 2 5', visual: '', description: 'A newly opened can releasing a tangled collection of worms', format: 'illustration', difficulty: 'Hard' },
+  { answer: 'bite off more than you can chew', pattern: '4 3 4 4 3 3 4', visual: 'BITE  →  ███████████\n          chew', description: 'A small BITE faces far more food than can be chewed', difficulty: 'Hard' },
+  { answer: 'once bitten twice shy', pattern: '4 6 5 3', visual: 'BITE      SHY  SHY', description: 'One BITE is followed by SHY appearing twice', difficulty: 'Hard' },
+  { answer: 'fat chance', pattern: '3 6', visual: 'CHANCE', description: 'CHANCE is stretched unusually wide and heavy', difficulty: 'Hard' },
+  { answer: 'slim chance', pattern: '4 6', visual: 'CHANCE', description: 'CHANCE is squeezed into an extremely thin form', difficulty: 'Hard' },
+  { answer: 'against all odds', pattern: '7 3 4', visual: '1  3  5  AGAINST  7  9', description: 'AGAINST stands in opposition to every odd number', difficulty: 'Hard' },
+  { answer: 'odds and ends', pattern: '4 3 4', visual: '1  3  5     END     7  9', description: 'Odd numbers appear on both ends around END', difficulty: 'Hard' },
+  { answer: 'at sixes and sevens', pattern: '2 5 3 6', visual: '6  7  6  7\n7  6  7  6', description: 'Sixes and sevens are mixed into a disordered arrangement', difficulty: 'Hard' },
+  { answer: 'dressed to the nines', pattern: '7 2 3 5', visual: '9  9  9\n  👔\n9  9  9', description: 'Formal clothing is surrounded and dressed by nines', difficulty: 'Hard' },
+  { answer: 'perfect ten', pattern: '7 3', visual: '1  2  3  4  5\n6  7  8  9  ⑩', description: 'The tenth number alone is presented as flawless and complete', difficulty: 'Hard' },
+  { answer: 'two sides of the same coin', pattern: '3 5 2 3 4 4', visual: 'HEADS  ◉  TAILS\n       SAME', description: 'HEADS and TAILS occupy opposite sides of the very same coin', difficulty: 'Hard' },
+  { answer: 'a penny for your thoughts', pattern: '1 5 3 4 8', visual: 'THOUGHTS  ←  1¢', description: 'A single penny is being offered directly for THOUGHTS', difficulty: 'Hard' },
+  { answer: 'cost an arm and a leg', pattern: '4 2 3 3 1 3', visual: 'COST  =  💪  +  🦵', description: 'The COST is shown as equal to one arm plus one leg', difficulty: 'Hard' },
+  { answer: 'pull your leg', pattern: '4 4 3', visual: 'PULL  ←────  🦵', description: 'PULL tugs a leg toward itself', difficulty: 'Hard' },
+  { answer: 'stand on your own two feet', pattern: '5 2 4 3 3 4', visual: '   STAND\n  🦶  🦶', description: 'STAND is balanced independently on exactly two feet', difficulty: 'Hard' },
+  { answer: 'shoulder to shoulder', pattern: '8 2 8', visual: 'SHOULDER▌▐SHOULDER', description: 'Two SHOULDER words press directly against each other', difficulty: 'Hard' },
+  { answer: 'lend a hand', pattern: '4 1 4', visual: 'LEND  →  🤝', description: 'LEND passes a helping hand outward', difficulty: 'Hard' },
+  { answer: 'hands down', pattern: '5 4', visual: '🤲  🤲\n   ↓  ↓\n   DOWN', description: 'Two hands point and move downward toward DOWN', difficulty: 'Hard' },
+  { answer: 'hands are tied', pattern: '5 3 4', visual: '🤜──KNOT──🤛', description: 'Two hands are visibly joined by a tight knot', difficulty: 'Hard' },
+  { answer: 'add insult to injury', pattern: '3 6 2 6', visual: 'INSULT\n   +\nINJURY', description: 'INSULT is literally added on top of INJURY', difficulty: 'Hard' },
+  { answer: 'rub salt in the wound', pattern: '3 4 2 3 5', visual: 'SALT  ↘\n    WOUND', description: 'SALT is being directed into a WOUND', difficulty: 'Hard' },
+  { answer: 'finger on the pulse', pattern: '6 2 3 5', visual: '☝\nPULSE 〰〰〰', description: 'A finger rests directly on a visible pulse line', difficulty: 'Hard' },
+  { answer: 'crossed fingers', pattern: '7 7', visual: '🤞     🤞', description: 'Two clearly crossed-finger gestures appear together', difficulty: 'Hard' },
+  { answer: 'rule of thumb', pattern: '4 2 5', visual: '📏  👍', description: 'A measuring rule sits directly beside a thumb', difficulty: 'Hard' },
+  { answer: 'leave no stone unturned', pattern: '5 2 5 8', visual: 'STONE  ↻  STONE  ↻  STONE', description: 'Every single STONE has been turned around', difficulty: 'Hard' },
+  { answer: 'push the envelope', pattern: '4 3 8', visual: 'PUSH  →  ✉  →→', description: 'PUSH drives an envelope beyond its normal boundary', difficulty: 'Hard' },
+  { answer: 'back to the drawing board', pattern: '4 2 3 7 5', visual: 'BOARD  ⟲\n✎  DRAW', description: 'DRAW is sent back around to its board', difficulty: 'Hard' },
+  { answer: 'off the charts', pattern: '3 3 6', visual: 'CHART  CHART  CHART\n                    OFF', description: 'OFF has travelled beyond the end of the charts', difficulty: 'Hard' },
+  { answer: 'go the extra mile', pattern: '2 3 5 4', visual: 'MILE  MILE  MILE  +MILE\n                  GO →', description: 'GO continues beyond the normal miles into one extra mile', difficulty: 'Hard' },
+  { answer: 'take a rain check', pattern: '4 1 4 5', visual: 'TAKE  ←  ☔  ✓', description: 'TAKE receives a check marked with rain', difficulty: 'Hard' },
+  { answer: 'clear as mud', pattern: '5 2 3', visual: 'CLEAR', description: 'The word CLEAR is obscured by a muddy brown appearance', difficulty: 'Hard' },
+  { answer: 'show your true colours', pattern: '4 4 4 7', visual: 'TRUE\nC O L O U R S', description: 'TRUE reveals a full spread of differently coloured letters', difficulty: 'Hard' },
+  { answer: 'paper over the cracks', pattern: '5 4 3 6', visual: '      PAPER\n──────╱╲──────', description: 'PAPER is placed directly over a crack in the surface', difficulty: 'Hard' },
+  { answer: 'jump the gun', pattern: '4 3 3', visual: '      JUMP\n       ↑\n────── 🔫 ──────', description: 'JUMP has leapt above and ahead of a starting gun', difficulty: 'Hard' },
+  { answer: 'a shot in the dark', pattern: '1 4 2 3 4', visual: 'D A R K\n  ✦ SHOT ✦\nD A R K', description: 'SHOT is almost hidden inside a dark field', difficulty: 'Hard' },
+]
+
+const chapterSevenPuzzles = chapterSevenSpecs.map((spec, index) => candidate(
+  index + 316,
+  spec.answer,
+  spec.pattern,
+  spec.difficulty ?? 'Hard',
+  spec.format ?? 'typography',
+  [{ content: spec.visual, className: 'chapter-seven-rebus', ariaLabel: spec.description }],
+  [
+    'More than one visual detail contributes to this expert phrase.',
+    'Describe the position, scale, colour or action before naming it.',
+    'Combine those literal observations into a familiar expression.',
+  ],
+  [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
+))
+
+export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles, ...chapterSevenPuzzles].map(migrateStarterPuzzle)

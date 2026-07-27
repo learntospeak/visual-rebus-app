@@ -143,6 +143,11 @@ const generatedPuzzleArt: Partial<Record<number, string>> = {
   268: '/eggshells-268.png',
   269: '/eggs-basket-269.png',
   270: '/couch-potato-270.png',
+  316: '/hole-in-one-316.png',
+  317: '/ace-sleeve-317.png',
+  319: '/house-cards-319.png',
+  329: '/devil-deep-sea-329.png',
+  331: '/can-worms-331.png',
 }
 
 export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
