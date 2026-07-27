@@ -710,6 +710,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .chapter-eight-rebus {
   white-space:pre;
   max-width:100%;
+  text-rendering:geometricPrecision;
   color:#173f59;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   font-size:clamp(1.15rem,5vw,1.9rem);
