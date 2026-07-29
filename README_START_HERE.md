@@ -2,6 +2,13 @@
 
 Working domains: `cluecanvas.games` and `cluecanvas.com.au` (registered 19 July 2026 for one year).
 
+## Current continuation point
+
+- **Last puzzle visually revamped:** 310 — *Steal Someone's Thunder*
+- **Resume the quality-repair pass at:** 311 — *Lightning Never Strikes Twice*
+- Puzzles 240–310 have been repaired or individually reviewed in place without changing their numbering, answers, origins or player-progress compatibility.
+- Continue in ten-puzzle batches, then build, push, merge and deploy each completed batch.
+
 This folder is a no-code planning shell for building the app in VS Code.
 
 ## Immediate objective
