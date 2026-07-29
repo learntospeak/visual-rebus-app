@@ -66,10 +66,12 @@ export function SolvedScreen({ puzzle, outcome, isLastPuzzle, onHome, onNext }: 
           <strong>{outcome.revealed ? 'Revealed · no stars' : stars}</strong>
           <span>{outcome.revealed ? 'Replay this puzzle later to earn stars.' : `${outcome.stars} of 3 stars · ${outcome.cluesUsed} ${outcome.cluesUsed === 1 ? 'clue' : 'clues'} used`}</span>
         </div>
-        <div className="explanation-card">
-          <span className="eyebrow">WHY IT WORKS</span>
-          {puzzle.explanation.map((line) => <p key={line}>{line}</p>)}
-        </div>
+        {puzzle.origin && (
+          <div className="origin-card">
+            <span className="eyebrow">WHERE IT CAME FROM</span>
+            <p>{puzzle.origin}</p>
+          </div>
+        )}
         <Button variant="secondary" className="share-button" onClick={shareResult}>Share result <span aria-hidden="true">↗</span></Button>
         <p className="share-status" role="status">{shareMessage}</p>
         <Button onClick={onNext}>

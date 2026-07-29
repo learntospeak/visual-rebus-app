@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { puzzles } from './data/puzzles'
+import { AccountScreen } from './screens/AccountScreen'
+import { AccountPromptScreen } from './screens/AccountPromptScreen'
 import { ChapterMapScreen } from './screens/ChapterMapScreen'
 import { DailyScreen } from './screens/DailyScreen'
 import { HomeScreen } from './screens/HomeScreen'
@@ -12,13 +14,26 @@ import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncP
 import { useGameStore } from './state/GameStore'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
 
-type Screen = 'onboarding' | 'home' | 'chapters' | 'daily' | 'settings' | 'puzzle' | 'solved'
+type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved'
 type PlayMode = 'journey' | 'replay' | 'daily'
 interface SolveOutcome { revealed: boolean; stars: number; cluesUsed: number; seconds: number; daily: boolean }
 
 export default function App() {
-  const { progress, setProgress, settings, setSettings } = useGameStore()
+  const {
+    progress,
+    setProgress,
+    settings,
+    setSettings,
+    account,
+    authReady,
+    cloudEnabled,
+    syncState,
+    signIn,
+    signUp,
+    signOut,
+  } = useGameStore()
   const [screen, setScreen] = useState<Screen>(() => hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
+  const [accountReturn, setAccountReturn] = useState<Screen>('settings')
   const [activePuzzleIndex, setActivePuzzleIndex] = useState(progress.currentIndex)
   const [playMode, setPlayMode] = useState<PlayMode>('journey')
   const [solveOutcome, setSolveOutcome] = useState<SolveOutcome | null>(null)
@@ -36,6 +51,17 @@ export default function App() {
     ? progress.daily.currentStreak
     : 0
   const totalStars = Object.values(progress.starsByPuzzle).reduce((total, stars) => total + stars, 0)
+
+  function startJourney() {
+    setActivePuzzleIndex(progress.currentIndex)
+    setPlayMode('journey')
+    setScreen('puzzle')
+  }
+
+  function openAccount(returnTo: Screen) {
+    setAccountReturn(returnTo)
+    setScreen('account')
+  }
 
   useEffect(() => {
     syncPuzzleUrl(screen === 'puzzle' ? puzzle.id : null)
@@ -165,10 +191,19 @@ export default function App() {
   if (screen === 'onboarding') {
     return <OnboardingScreen onComplete={() => {
       setSettings((current) => ({ ...current, onboardingComplete: true }))
-      setActivePuzzleIndex(progress.currentIndex)
-      setPlayMode('journey')
-      setScreen('puzzle')
+      if (account) startJourney()
+      else setScreen('account-prompt')
     }} />
+  }
+
+  if (screen === 'account-prompt') {
+    return (
+      <AccountPromptScreen
+        signedIn={Boolean(account)}
+        onSaveProgress={() => openAccount('account-prompt')}
+        onContinue={startJourney}
+      />
+    )
   }
 
   if (screen === 'home') {
@@ -178,14 +213,12 @@ export default function App() {
         puzzleCount={puzzles.length}
         totalStars={totalStars}
         dailyStreak={displayedStreak}
-        onPlay={() => {
-          setActivePuzzleIndex(progress.currentIndex)
-          setPlayMode('journey')
-          setScreen('puzzle')
-        }}
+        onPlay={startJourney}
         onChapters={() => setScreen('chapters')}
         onDaily={() => setScreen('daily')}
         onSettings={() => setScreen('settings')}
+        onAccount={() => openAccount('home')}
+        accountState={!account ? 'guest' : syncState === 'error' ? 'error' : 'synced'}
       />
     )
   }
@@ -201,12 +234,30 @@ export default function App() {
         onChange={setSettings}
         onHome={() => setScreen('home')}
         onReplayTutorial={() => setScreen('onboarding')}
+        onAccount={() => openAccount('settings')}
+        accountEmail={account?.email ?? null}
+        syncState={syncState}
         onResetProgress={() => {
           if (window.confirm('Reset all solved puzzles and return to puzzle one?')) {
             setProgress({ ...emptyProgress, daily: { ...emptyProgress.daily } })
             setActivePuzzleIndex(0)
           }
         }}
+      />
+    )
+  }
+
+  if (screen === 'account') {
+    return (
+      <AccountScreen
+        account={account}
+        authReady={authReady}
+        cloudEnabled={cloudEnabled}
+        syncState={syncState}
+        onBack={() => setScreen(accountReturn)}
+        onSignIn={signIn}
+        onSignUp={signUp}
+        onSignOut={signOut}
       />
     )
   }

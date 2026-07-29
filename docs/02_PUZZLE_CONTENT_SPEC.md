@@ -16,7 +16,7 @@ Complete every field before a puzzle is approved.
 - **Clue 1:** broad concept; no answer words.
 - **Clue 2:** directs attention to the visual mechanism.
 - **Clue 3:** targeted word or letter help.
-- **Explanation:** one to three short steps showing why it works.
+- **Origin:** a short, fact-checked history of the phrase, with uncertainty stated plainly when its exact origin is disputed.
 - **Region:** Global, AU, UK, US or other.
 - **Originality log:** creator, date, phrase source and asset source/licence.
 - **QA status:** Draft, Tested, Approved or Rejected.

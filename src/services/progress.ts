@@ -61,6 +61,50 @@ export function saveProgress(progress: SavedProgress) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
 }
 
+function uniqueNumbers(...lists: number[][]) {
+  return [...new Set(lists.flat())].sort((a, b) => a - b)
+}
+
+function uniqueStrings(...lists: string[][]) {
+  return [...new Set(lists.flat())].sort()
+}
+
+export function mergeProgress(local: SavedProgress, cloud: SavedProgress | null): SavedProgress {
+  if (!cloud) return local
+
+  const latestLocalDate = local.daily.lastCompletedDate ?? ''
+  const latestCloudDate = cloud.daily?.lastCompletedDate ?? ''
+  const latestDaily = latestCloudDate > latestLocalDate ? cloud.daily : local.daily
+  const allStarIds = new Set([
+    ...Object.keys(local.starsByPuzzle),
+    ...Object.keys(cloud.starsByPuzzle ?? {}),
+  ])
+  const starsByPuzzle = Object.fromEntries(
+    [...allStarIds].map((id) => [
+      Number(id),
+      Math.max(local.starsByPuzzle[Number(id)] ?? 0, cloud.starsByPuzzle?.[Number(id)] ?? 0),
+    ]),
+  )
+
+  return {
+    completedIds: uniqueNumbers(local.completedIds, cloud.completedIds ?? []),
+    currentIndex: Math.max(local.currentIndex, cloud.currentIndex ?? 0),
+    starsByPuzzle,
+    revealedIds: uniqueNumbers(local.revealedIds, cloud.revealedIds ?? []),
+    feedbackByPuzzle: {
+      ...(cloud.feedbackByPuzzle ?? {}),
+      ...local.feedbackByPuzzle,
+    },
+    daily: {
+      completedDates: uniqueStrings(local.daily.completedDates, cloud.daily?.completedDates ?? []),
+      revealedDates: uniqueStrings(local.daily.revealedDates, cloud.daily?.revealedDates ?? []),
+      currentStreak: latestDaily.currentStreak ?? 0,
+      longestStreak: Math.max(local.daily.longestStreak, cloud.daily?.longestStreak ?? 0),
+      lastCompletedDate: latestDaily.lastCompletedDate ?? null,
+    },
+  }
+}
+
 export function syncPuzzleUrl(puzzleId: number | null) {
   const url = new URL(window.location.href)
   if (puzzleId === null) url.searchParams.delete('puzzle')
