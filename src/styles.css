@@ -978,7 +978,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .visual-564 .chapter-ten-rebus { color:#d75f62; }
 
 /* Owner review: responsive rebuilds for the puzzle 222+ audit. */
-.reviewed-puzzle-art { width:100%; overflow:hidden; }
+.reviewed-puzzle-art { width:100%; overflow:hidden; isolation:isolate; }
 .reviewed-puzzle-art svg { display:block; width:min(100%,340px); height:auto; max-height:260px; overflow:hidden; }
 .reviewed-puzzle-art svg * { vector-effect:non-scaling-stroke; }
 .trail-line,.road-dashes,.year-arrows,.motion-lines,.steal-motion,.back-arrow,.play-motion,.cast-line { fill:none; stroke:#ef6a62; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:9 10; }
