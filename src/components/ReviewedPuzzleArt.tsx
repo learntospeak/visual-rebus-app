@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
   222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255,
-  257, 258, 260, 261, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
+  257, 258, 260, 261, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
 ])
 
 export function hasReviewedPuzzleArt(id: number) {
@@ -184,6 +184,36 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   </Frame>
   if (id === 290) return <Frame id={id} label="A diverse group of passengers are crowded together inside one single boat">
     <path className="same-boat-hull" d="M36 139h268l-38 67H76Z" /><path className="same-boat-rim" d="M27 139h286" /><g className="boat-crowd">{[[81,112,'#ffd365'],[126,101,'#ef6a62'],[170,111,'#2cb1a6'],[214,99,'#8b6bb1'],[259,112,'#64a6c4']].map(([x,y,color],index)=><g transform={`translate(${x} ${y})`} style={{'--passenger-colour':color} as CSSProperties} key={index}><circle cy="-22" r="14" /><path d="M0-8v44m0-25-21 18m21-18 21 18" /></g>)}</g><path className="same-water" d="M14 219c24-15 48 15 72 0s48 15 72 0 48 15 72 0 48 15 72 0 24 0 24 0" />
+  </Frame>
+  if (id === 291) return <Frame id={id} label="A huge boulder lands in one side of a small boat, violently rocking it off balance">
+    <path className="rockboat-water" d="M5 193c27-17 54 17 81 0s54 17 81 0 54 17 81 0 54 17 81 0" /><g className="rocked-boat" transform="rotate(-12 171 147)"><path d="M54 120h236l-42 77H94Z" /><path d="M45 120h254" /><circle className="boat-rock" cx="100" cy="82" r="48" /><path className="rock-cracks" d="m73 65 20 12-9 19m34-46-7 22 19 13" /></g><path className="rock-motion" d="M78 24 92 42m49-27-8 22" />
+  </Frame>
+  if (id === 292) return <Frame id={id} label="A traveller reaches an empty jetty too late while the boat is already sailing far away">
+    <path className="miss-water" d="M0 161h340v79H0Z" /><path className="miss-jetty" d="M0 132h143v29H0Zm94 29v65m34-65v65" /><g className="miss-person"><circle cx="72" cy="86" r="16" /><path d="M72 102v61m0-35-30 18m30-18 30 12m-30 23-25 43m25-43 24 43" /></g><g className="departing-boat"><path d="M219 129h100l-22 39h-58Z" /><path d="M267 129V70l37 35h-37" /></g><path className="departure-lines" d="M186 105h43m-54 19h46" />
+  </Frame>
+  if (id === 293) return <Frame id={id} label="A hand presses a wave-making machine that turns perfectly calm water into large rolling waves">
+    <path className="calm-water" d="M20 156h112" /><path className="made-waves" d="M135 156c21-37 42-37 63 0s42 37 63 0 42-37 63 0" /><rect className="wave-machine" x="108" y="81" width="64" height="64" rx="12" /><circle className="wave-button" cx="140" cy="113" r="16" /><path className="maker-hand" d="M140 14v77m-16-57 16-20 16 20" /><path className="wave-arrows" d="m192 98 20 15-20 15" />
+  </Frame>
+  if (id === 294) return <Frame id={id} label="At a fork in the water, one figure swims at the surface while another weight sinks downward">
+    <path className="choice-water" d="M0 102h340" /><g className="swim-choice"><circle cx="87" cy="77" r="15" /><path d="M102 84c25 8 40 3 55-12m-43 18-24 22m-3-13-28 10" /></g><g className="sink-choice"><path d="M242 79h48l13 38h-74Z" /><path d="M266 117v93m-15-18 15 18 15-18" /></g><path className="choice-divider" d="M170 35v171" /><circle className="choice-dot" cx="170" cy="102" r="10" />
+  </Frame>
+  if (id === 295) return <Frame id={id} label="A cautious hand dips a scientific test strip and thermometer into the edge of unknown water">
+    <path className="tested-water" d="M0 142c35-19 70 19 105 0s70 19 105 0 70 19 105 0" /><path className="testing-hand" d="M36 39c32-9 55 4 70 25l34 48-25 19-40-39-49 6Z" /><path className="test-strip" d="m119 83 31 113" /><path className="test-marks" d="m136 143 13-4m-9 18 13-4m-9 18 13-4" /><path className="water-thermometer" d="M221 44v101m0 0a18 18 0 1 0 0 36 18 18 0 0 0 0-36Zm0-4V83" /><path className="water-question" d="M278 65c0-23 39-23 39 0 0 18-20 16-20 34m0 17v3" />
+  </Frame>
+  if (id === 296) return <Frame id={id} label="A small boat travels in exactly the same direction and rhythm as a strong river current">
+    <path className="flow-river" d="M0 62c64 24 86-24 150 0s86-24 150 0 40 10 40 10M0 121c64 24 86-24 150 0s86-24 150 0 40 10 40 10M0 180c64 24 86-24 150 0s86-24 150 0 40 10 40 10" /><g className="flow-boat"><path d="M105 112h126l-26 45h-75Z" /><path d="M167 112V67l38 31h-38" /></g><path className="flow-direction" d="M62 217h219m-22-15 23 15-23 15" />
+  </Frame>
+  if (id === 297) return <Frame id={id} label="Only a struggling swimmer's head remains safely above a dangerously high waterline">
+    <path className="high-water" d="M0 116h340v124H0Z" /><path className="high-wave" d="M0 116c28-18 56 18 84 0s56 18 84 0 56 18 84 0 56 18 84 0" /><g className="above-head"><circle cx="170" cy="91" r="31" /><path d="M151 88h5m28 0h5m-29 17q10 9 20 0" /><path className="wet-hair" d="M143 76c12-32 54-31 62 3-13-6-21-4-31 3-9-8-19-10-31-6Z" /></g><path className="treading-arms" d="M81 152c40-30 58-24 89-9m89 9c-40-30-58-24-89-9" />
+  </Frame>
+  if (id === 298) return <Frame id={id} label="A worried person is submerged waist-deep inside a steaming pool of glowing hot water">
+    <path className="hot-water-pool" d="M25 105h290v104c-75 25-215 25-290 0Z" /><path className="hot-water-line" d="M25 105c32-18 64 18 96 0s64 18 96 0 64 18 96 0" /><g className="hot-water-person"><circle cx="170" cy="91" r="25" /><path d="M170 116v67m0-40-41 20m41-20 41 20" /><path d="M157 86h5m16 0h5m-25 18q12-10 24 0" /></g><path className="steam-lines" d="M93 78c-14-19 12-25-1-45m78 39c-14-19 12-25-1-45m78 51c-14-19 12-25-1-45" />
+  </Frame>
+  if (id === 299) return <Frame id={id} label="A battered weather vane remains standing through violent wind, rain and lightning until clear sky appears">
+    <path className="storm-cloud-wide" d="M20 69c4-34 36-46 62-29 17-33 66-25 72 12 37-12 63 30 42 57H43C27 109 16 91 20 69Z" /><path className="storm-rain" d="m48 120-12 26m42-26-12 26m42-26-12 26m42-26-12 26" /><path className="storm-bolt" d="m172 106-24 46h22l-11 38 42-57h-23l18-27Z" /><path className="weather-vane" d="M238 55v164m-35 0h70M200 86h76m-76 0 20-16v32Zm76 0-20-16v32Z" /><circle className="clearing-sun" cx="294" cy="43" r="25" /><path className="sun-rays" d="M294 5v17m0 42v17m-38-38h17m42 0h17m-65-27 12 12m30 30 12 12m0-54-12 12m-30 30-12 12" />
+  </Frame>
+  if (id === 300) return <Frame id={id} label="A person's enormous tears merge beneath their face and become a winding river through the landscape">
+    <g className="crying-face"><circle cx="94" cy="75" r="51" /><circle cx="77" cy="67" r="4" /><circle cx="111" cy="67" r="4" /><path d="M77 98q17-18 34 0" /></g><path className="tear-river" d="M77 78c-12 42 21 53 4 86-13 26-42 36-48 76m78-162c15 43-14 58 7 88 17 24 57 29 65 74" /><path className="river-merge" d="M33 240c52-36 99-45 150 0" /><path className="river-banks" d="M0 212c18-8 38-6 55 1m104-2c59-17 117-13 181 9" /><path className="river-tree" d="M255 181v43m0-30-23-18m23 10 22-20" />
   </Frame>
   if (id === 308) return <Frame id={id} label="A person is left holding the visibly short end of a divided wooden stick">
     <path className="long-stick" d="M40 82 285 145" /><path className="stick-break" d="m216 121 12 22 15-14" /><path className="short-stick" d="m229 139 64 17" /><g className="stick-person"><circle cx="285" cy="77" r="15" /><path d="M285 92v62m0-34-45 20m45-20 27 27m-27 7-23 59m23-59 26 59" /></g><circle className="stick-hand" cx="241" cy="140" r="8" />
