@@ -60,8 +60,8 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
     if (puzzle.clues.length !== 3 || puzzle.clues.some((clue) => !clue.trim())) {
       errors.push(`${label}: exactly three non-empty clues are required.`)
     }
-    if (!puzzle.explanation.length || puzzle.explanation.some((step) => !step.trim())) {
-      errors.push(`${label}: at least one non-empty explanation step is required.`)
+    if (puzzle.id <= 200 && !puzzle.origin?.trim()) {
+      errors.push(`${label}: a non-empty origin note is required for the first 200 puzzles.`)
     }
 
     const accepted = new Set<string>()

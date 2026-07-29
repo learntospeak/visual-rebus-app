@@ -85,7 +85,7 @@ export interface Puzzle {
   prompt: string
   elements: VisualElement[]
   clues: [string, string, string]
-  explanation: string[]
+  origin?: string
   region: 'Global' | 'AU' | 'UK' | 'US'
   unlock: UnlockRule
   artwork: ArtworkMetadata

@@ -1,4 +1,5 @@
 import type { MechanicTag, Puzzle } from '../types'
+import { puzzleOrigins } from './puzzleOrigins'
 
 type StarterPuzzleDraft = Omit<
   Puzzle,
@@ -13,7 +14,7 @@ type StarterPuzzleDraft = Omit<
   | 'unlock'
   | 'artwork'
   | 'qa'
->
+> & { explanation: string[] }
 
 const difficultyScores: Record<number, number> = {
   1: 1, 2: 2, 3: 1, 4: 2, 5: 3, 6: 1, 7: 4, 8: 3, 9: 5, 10: 2,
@@ -110,6 +111,8 @@ const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
 const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
 
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
+  const { explanation: legacyExplanation, ...puzzleDraft } = draft
+  void legacyExplanation
   const score = difficultyScores[draft.id] ?? (draft.id >= 501 ? 10 : draft.id >= 416 ? 9 : draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
   const usesInlineSvg = [13, 20].includes(draft.id)
   const usesLicensedFootprint = draft.id === 13
@@ -118,7 +121,8 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id <= 500 ? draft.id - 415 : draft.id <= 550 ? draft.id - 500 : draft.id - 550
 
   return {
-    ...draft,
+    ...puzzleDraft,
+    origin: puzzleOrigins[draft.id],
     contentVersion: `p${String(draft.id).padStart(3, '0')}-v${[118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,

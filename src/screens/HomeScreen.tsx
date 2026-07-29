@@ -36,7 +36,7 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
       <section className="hero">
         <p className="kicker">A LITTLE PUZZLE. A BIG AHA!</p>
         <h1>See words<br />differently.</h1>
-        <p className="hero-copy">Fair visual riddles, clues that genuinely help, and explanations that make every answer click.</p>
+        <p className="hero-copy">Fair visual riddles, clues that genuinely help, and fascinating stories behind familiar phrases.</p>
         <Button className="hero-button" onClick={onPlay}>{actionLabel}<span aria-hidden="true">→</span></Button>
       </section>
       <section className="progress-card" aria-label={`${percent}% complete`}>
