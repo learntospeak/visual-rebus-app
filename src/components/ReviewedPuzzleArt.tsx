@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
-  222, 223, 224, 225, 227, 228, 229, 235, 236, 241, 242, 243, 246, 251, 252, 254, 255,
+  222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 241, 242, 243, 246, 251, 252, 254, 255,
   257, 258, 261, 277, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
 ])
 
@@ -39,6 +39,16 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   </Frame>
   if (id === 229) return <Frame id={id} label="A substantial hardback book fully closed and secured by a fastened leather clasp">
     <path className="closed-book-pages" d="m59 62 224-17 30 132-226 25Z" /><path className="closed-book-page-lines" d="m88 178 216-23m-214 34 216-24" /><path className="closed-book-cover" d="M43 42 280 24l31 131-239 24Z" /><path className="closed-book-spine" d="M43 42 72 179l17 23L59 63Z" /><path className="closed-book-detail" d="m77 62 176-14m-168 94 184-19" /><path className="book-clasp" d="m207 31 27-2 32 135-28 3Z" /><rect className="clasp-fastener" x="229" y="94" width="31" height="28" rx="7" transform="rotate(-7 244.5 108)" /><circle className="clasp-button" cx="245" cy="107" r="5" />
+  </Frame>
+  if (id === 230) return <Frame id={id} label="A cheerful worm curls across the scene with a body made entirely from miniature hardback books">
+    <path className="bookworm-guide" d="M37 145c55 64 132 53 178-16 18-27 28-54 50-66" />
+    {[[43, 141, -24], [77, 163, -13], [114, 173, 2], [151, 165, 15], [184, 145, 25], [211, 116, 34], [232, 84, 42]].map(([x, y, r], index) => <g className={`bookworm-book bookworm-book-${index}`} transform={`translate(${x} ${y}) rotate(${r})`} key={index}><rect x="-21" y="-15" width="42" height="30" rx="4" /><path d="M-14-8h26M-14-1h22M-14 6h25" /><path className="mini-book-spine" d="M-21-14v29" /></g>)}
+    <g className="bookworm-head" transform="translate(273 55) rotate(18)"><circle r="27" /><path className="worm-antennae" d="M-11-23c-9-20-20-18-25-8m48 9c11-19 22-15 25-5" /><circle className="worm-eye" cx="-9" cy="-5" r="4" /><circle className="worm-eye" cx="9" cy="-5" r="4" /><path className="worm-smile" d="M-10 8q10 12 20 0" /></g>
+  </Frame>
+  if (id === 233) return <Frame id={id} label="Oversized reading glasses scan the expressions of people gathered inside a furnished room">
+    <path className="room-walls" d="M27 27h286v186H27V27Zm0 73h22m-22 43h22" /><rect className="room-rug" x="104" y="69" width="133" height="106" rx="18" /><path className="room-sofa" d="M72 48h105v37H72Zm9 37v15m87-15v15" /><circle className="room-table" cx="268" cy="149" r="32" /><path className="room-chair" d="M250 195h39m-30-14 9 14m12-14-9 14" />
+    <g className="room-face room-face-one" transform="translate(91 125)"><circle r="18" /><circle cx="-6" cy="-4" r="2" /><circle cx="6" cy="-4" r="2" /><path d="M-7 7q7 8 14 0" /></g><g className="room-face room-face-two" transform="translate(171 126)"><circle r="18" /><circle cx="-6" cy="-4" r="2" /><circle cx="6" cy="-4" r="2" /><path d="M-7 11q7-8 14 0" /></g><g className="room-face room-face-three" transform="translate(259 71)"><circle r="18" /><circle cx="-6" cy="-4" r="2" /><circle cx="6" cy="-4" r="2" /><path d="M-7 8h14" /></g>
+    <g className="reading-glasses"><circle cx="126" cy="126" r="49" /><circle cx="220" cy="126" r="49" /><path d="M175 121q-4-12-10 0M77 116 41 98m228 18 33-20" /></g><path className="scan-glow" d="M78 126h191" />
   </Frame>
   if (id === 235) return <Frame id={id} label="Letter tiles move into the missing spaces of an incomplete word">
     <text className="blank-word" x="51" y="112">BL</text><path className="blank-slot" d="M104 119h31m13 0h31" /><text className="blank-word" x="194" y="112">NKS</text><g className="fill-tiles"><rect x="109" y="158" width="29" height="34" rx="5" /><text x="123.5" y="182">A</text><rect x="148" y="158" width="29" height="34" rx="5" /><text x="162.5" y="182">A</text></g><path className="fill-arrow" d="M143 151 126 132m35 19 2-22" />
