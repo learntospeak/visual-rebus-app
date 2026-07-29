@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
-  222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 241, 242, 243, 246, 251, 252, 254, 255,
-  257, 258, 261, 277, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
+  222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255,
+  257, 258, 260, 261, 277, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
 ])
 
 export function hasReviewedPuzzleArt(id: number) {
@@ -65,6 +65,9 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   if (id === 239) return <Frame id={id} label="A small car is thrown into the air while driving over a dramatically rising and falling road">
     <path className="bumpy-road" d="M8 174c34 0 35-73 70-73s35 73 70 73 35-73 70-73 35 73 70 73 35-73 44-73" /><path className="bumpy-centre" d="M8 174c34 0 35-73 70-73s35 73 70 73 35-73 70-73 35 73 70 73 35-73 44-73" /><g className="bouncing-car" transform="translate(176 62) rotate(-8)"><path d="M-29 8h58l-8-22h-35Z" /><rect x="-34" y="5" width="68" height="28" rx="9" /><circle cx="-22" cy="35" r="8" /><circle cx="22" cy="35" r="8" /><path className="car-window" d="m-10-9-5 16h31L10-9Z" /></g><path className="bounce-lines" d="M146 31 132 12m42 14V3m29 28 14-19M158 111l-9 17m44-19 10 17" />
   </Frame>
+  if (id === 240) return <Frame id={id} label="A lone person stands precisely on the centre line halfway along a road, marked by four inward-pointing arrows">
+    <path className="middle-road-ground" d="M70 0h200l55 240H15Z" /><path className="middle-road-edge" d="M70 0 15 240M270 0l55 240" /><path className="middle-road-line" d="M170 6v43m0 32v43m0 32v76" /><g className="middle-person"><circle cx="170" cy="112" r="13" /><path d="M170 126v49m0-31-29 20m29-20 29 20m-29 11-23 43m23-43 23 43" /></g><path className="middle-arrows" d="m97 118 38 17-38 17m146-34-38 17 38 17M145 52l25 25 25-25m-50 172 25-25 25 25" />
+  </Frame>
   if (id === 241) return <Frame id={id} label="A single fresh footprint leaves a heavily worn track">
     <path className="beaten-track" d="M25 186C87 118 113 158 170 101s85-53 145-70" /><g className="track-prints">{[[53,170],[88,146],[126,139],[160,112],[197,84],[238,63],[277,42]].map(([x,y],i)=><ellipse key={i} cx={x} cy={y} rx="10" ry="17" transform={`rotate(45 ${x} ${y})`} />)}</g><g className="off-print" transform="translate(226 157) rotate(-18)"><ellipse cx="0" cy="0" rx="18" ry="29" /><circle cx="-16" cy="-31" r="6" /><circle cx="-5" cy="-38" r="6" /><circle cx="7" cy="-38" r="6" /><circle cx="18" cy="-31" r="6" /></g>
   </Frame>
@@ -74,14 +77,35 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   if (id === 243) return <Frame id={id} label="A short direct path cuts across a much longer winding route">
     <path className="long-route" d="M37 194C15 84 127 185 116 76S248 153 302 38" /><path className="short-route" d="m55 187 225-131" /><path className="route-arrow" d="m265 48 18 7-5 18" /><circle className="route-start" cx="55" cy="187" r="10" />
   </Frame>
+  if (id === 244) return <Frame id={id} label="A road reaches its final barrier at a grave marked RIP, beside a lifeless tree">
+    <path className="dead-land" d="M0 0h340v240H0Z" /><path className="dead-road" d="M31 240c27-63 74-47 104-91 28-42 49-56 100-58" /><path className="dead-road-line" d="M39 236c27-50 67-39 94-84 27-44 55-52 96-54" /><path className="grave-stone" d="M226 81V44c0-32 55-32 55 0v37Z" /><text className="grave-mark" x="253.5" y="65">RIP</text><path className="dead-barrier" d="M207 92h91m-75 0v31m59-31v31" /><path className="dead-tree" d="M79 126V43m0 38-34-31m34 10 27-30M78 99l-25 20m26-57-8-32" />
+  </Frame>
+  if (id === 245) return <Frame id={id} label="A person's spoken words curl through the air and summon a mischievous horned shadow">
+    <g className="devil-speaker"><circle cx="65" cy="99" r="24" /><path d="M65 123v72m0-45-35 25m35-25 30 23m-30 22-25 39m25-39 28 39" /></g><path className="spoken-summon" d="M91 92c44-42 79 36 118-4m-93-17c29-16 50 24 77 5" /><g className="devil-shadow"><path d="M231 83c-7-22 2-42 20-52l4 27c11-3 22-3 33 2l11-25c15 14 18 35 7 54 21 23 19 68 5 105h-81c-17-43-15-83 1-111Z" /><circle className="devil-eye" cx="258" cy="102" r="5" /><circle className="devil-eye" cx="283" cy="102" r="5" /><path className="devil-grin" d="M256 119q15 14 30 0" /><path className="devil-tail" d="M304 162c27-6 23-34 8-27m5-7 8 11-13 2" /></g>
+  </Frame>
   if (id === 246) return <Frame id={id} label="An analogue clock is one minute away from the eleventh hour">
     <circle className="clock-face" cx="170" cy="120" r="92" /><g className="clock-ticks">{Array.from({length:12},(_,i)=><line key={i} x1="170" y1="38" x2="170" y2="52" transform={`rotate(${i*30} 170 120)`} />)}</g><text className="clock-eleven" x="123" y="64">11</text><path className="clock-hands" d="m170 120-42-44m42 44-8-72" /><circle className="clock-pin" cx="170" cy="120" r="7" />
+  </Frame>
+  if (id === 247) return <Frame id={id} label="An old-fashioned person is visibly hiding behind a row of newspapers titled TIMES">
+    <g className="behind-person"><circle cx="171" cy="66" r="27" /><path d="M171 93v102m0-59-45 37m45-37 45 37m-45 22-28 40m28-40 28 40" /><path className="old-hat" d="M137 55h68m-55-3 9-28h27l9 28" /></g>{[54,113,172].map((x,index)=><g className={`times-paper times-paper-${index}`} transform={`translate(${x} ${104 + index * 7}) rotate(${index * 2 - 2})`} key={x}><rect width="114" height="105" rx="5" /><text x="57" y="27">TIMES</text><path d="M13 40h88M13 54h39m8 0h41M13 68h88M13 82h36m10 0h42" /></g>)}
+  </Frame>
+  if (id === 248) return <Frame id={id} label="One runner is being timed simultaneously by two separate stopwatches">
+    <g className="timed-runner"><circle cx="170" cy="84" r="14" /><path d="m171 99 21 31 34-8m-34 8-19 42-34 25m34-25 33 36m-37-87-33 7" /></g>{[68,272].map((x,index)=><g className="double-timer" transform={`translate(${x} 108)`} key={x}><circle r="48" /><path d="M0-48v-15m-13 0h26M0-34V0l${index ? '-22 19' : '24 14'}" /><circle r="5" /></g>)}<path className="timer-rays" d="M113 111h24m66 0h24" />
+  </Frame>
+  if (id === 249) return <Frame id={id} label="One sun-marked calendar day is inside a house while an identical day is outside">
+    <path className="in-out-house" d="M42 108 169 26l128 82v114H42Z" /><path className="house-roof" d="m26 112 143-94 145 94" /><path className="house-door" d="M129 139h80v83h-80Z" /><g className="day-card inside-day" transform="translate(75 122)"><rect width="65" height="72" rx="8" /><path d="M0 19h65" /><circle cx="32.5" cy="44" r="13" /><path d="M32 24v7m0 26v7M13 44h7m25 0h7M19 31l5 5m17 17 5 5m0-27-5 5M24 53l-5 5" /></g><g className="day-card outside-day" transform="translate(232 143)"><rect width="65" height="72" rx="8" /><path d="M0 19h65" /><circle cx="32.5" cy="44" r="13" /><path d="M32 24v7m0 26v7M13 44h7m25 0h7M19 31l5 5m17 17 5 5m0-27-5 5M24 53l-5 5" /></g>
+  </Frame>
+  if (id === 250) return <Frame id={id} label="One seven-day weekly planner is inside a house while another weekly planner is outside">
+    <path className="in-out-house" d="M42 108 169 26l128 82v114H42Z" /><path className="house-roof" d="m26 112 143-94 145 94" /><path className="house-door" d="M129 139h80v83h-80Z" />{[[67,124,'inside-week'],[226,143,'outside-week']].map(([x,y,className])=><g className={`week-card ${className}`} transform={`translate(${x} ${y})`} key={String(className)}><rect width="78" height="72" rx="8" /><path d="M0 20h78M11 20v52m11-52v52m11-52v52m11-52v52m11-52v52m11-52v52" /><circle cx="5.5" cy="43" r="3" /><circle cx="16.5" cy="50" r="3" /><circle cx="27.5" cy="38" r="3" /><circle cx="38.5" cy="54" r="3" /><circle cx="49.5" cy="43" r="3" /><circle cx="60.5" cy="34" r="3" /><circle cx="71.5" cy="49" r="3" /></g>)}
   </Frame>
   if (id === 251) return <Frame id={id} label="A monthly calendar whose Sunday column dominates the page">
     <rect className="calendar-page" x="39" y="23" width="262" height="194" rx="12" /><path className="calendar-top" d="M39 62h262M88 23v25m203-25v25" /><g className="calendar-grid"><path d="M76 62v155m38-155v155m38-155v155m38-155v155m38-155v155m38-155v155M39 95h262M39 127h262M39 159h262M39 191h262" /></g><g className="sunday-column"><rect x="266" y="63" width="34" height="153" /><text x="283" y="86">S</text><text x="283" y="118">S</text><text x="283" y="150">S</text><text x="283" y="182">S</text><text x="283" y="211">S</text></g><text className="calendar-month" x="170" y="50">MONTH</text>
   </Frame>
   if (id === 252) return <Frame id={id} label="The word YEAR recedes along history until it becomes a tiny dot">
     <path className="year-line" d="M35 176h270" /><circle className="year-dot" cx="287" cy="176" r="4" /><text className="year-large" x="45" y="111">YEAR</text><text className="year-mid" x="152" y="137">YR</text><text className="year-small" x="231" y="157">Y</text><path className="year-arrows" d="m109 121 27 8m48 14 25 7m43 13 23 8" />
+  </Frame>
+  if (id === 253) return <Frame id={id} label="A single one-times token sits directly upon the face of a large clock">
+    <circle className="once-clock" cx="170" cy="139" r="76" /><g className="once-ticks">{Array.from({length:12},(_,index)=><path d="M170 72v12" transform={`rotate(${index * 30} 170 139)`} key={index} />)}</g><path className="once-hands" d="M170 139v-42m0 42 34 19" /><circle className="once-pin" cx="170" cy="139" r="7" /><g className="once-token"><rect x="133" y="20" width="74" height="58" rx="15" /><text x="170" y="59">1×</text></g>
   </Frame>
   if (id === 254) return <Frame id={id} label="A clock rests directly across two open hands">
     <path className="palm" d="M23 176c30-22 54-25 83-9l39 20-13 30-54-14-38 5Z" /><path className="palm" d="M317 176c-30-22-54-25-83-9l-39 20 13 30 54-14 38 5Z" /><circle className="small-clock" cx="170" cy="120" r="67" /><path className="small-clock-hands" d="M170 76v44l31 21" /><g className="clock-ticks">{Array.from({length:12},(_,i)=><line key={i} x1="170" y1="60" x2="170" y2="70" transform={`rotate(${i*30} 170 120)`} />)}</g>
@@ -94,6 +118,9 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   </Frame>
   if (id === 258) return <Frame id={id} label="A newborn baby clearly grips an oversized silver spoon">
     <path className="baby-blanket" d="M44 172c22-84 83-122 151-90 45 22 70 67 67 121H61Z" /><circle className="baby-head" cx="136" cy="92" r="43" /><path className="baby-curl" d="M113 52c5-18 28-22 37-4m-29 1c4-12 18-15 26-4" /><circle className="baby-eye" cx="123" cy="91" r="3" /><circle className="baby-eye" cx="148" cy="91" r="3" /><path className="baby-smile" d="M126 107q11 10 22 0" /><path className="baby-arm" d="M153 126c22 4 30 20 39 35" /><g className="silver-spoon" transform="rotate(-21 235 108)"><ellipse cx="235" cy="54" rx="28" ry="39" /><path d="M235 91v111" /></g><circle className="baby-hand" cx="209" cy="161" r="13" />
+  </Frame>
+  if (id === 260) return <Frame id={id} label="A clenched fist forged from iron grips a long measuring ruler like a symbol of authority">
+    <g className="iron-rule"><rect x="27" y="104" width="286" height="43" rx="6" /><path d="M49 104v19m22-19v12m22-12v19m22-19v12m22-12v19m22-19v12m22-12v19m22-19v12m22-12v19m22-19v12m22-12v19" /></g><g className="iron-fist"><path d="M118 129c-13-21-6-42 12-47 6-18 25-23 39-12 12-18 38-13 44 7 19-7 38 7 35 28l-5 37c-3 39-31 69-70 69-42 0-72-29-72-68 0-8 7-14 17-14Z" /><path d="M129 84v43m39-57-1 54m46-47-9 49m44-21-20 32M119 143c38-9 76-8 124-1" /></g>
   </Frame>
   if (id === 261) return <Frame id={id} label="A human nervous system is formed from polished steel cables">
     <circle className="steel-head" cx="170" cy="39" r="25" /><path className="steel-body" d="M170 65v99m0-64-67 59m67-59 67 59m-67-3-43 68m43-68 43 68" /><path className="steel-nerves" d="m170 81-31 26m31-7 31 26m-31-9-42 17m42 0 42 17m-42 5-22 34m22-20 26 38m-68-70-23 20m105-7 28 20" /><circle className="steel-node" cx="139" cy="107" r="5" /><circle className="steel-node" cx="201" cy="126" r="5" /><circle className="steel-node" cx="128" cy="134" r="5" /><circle className="steel-node" cx="212" cy="151" r="5" />
