@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
   222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255,
-  257, 258, 260, 261, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
+  257, 258, 260, 261, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
 ])
 
 export function hasReviewedPuzzleArt(id: number) {
@@ -155,8 +155,35 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   if (id === 280) return <Frame id={id} label="The same old photograph appears again and again around a circular timeline arrow">
     <path className="history-loop" d="M81 190c-54-75 10-163 91-153 76 9 113 99 64 158m-17-3 20 7 7-21" />{[[72,112,-13],[166,51,4],[245,129,14],[153,166,-5]].map(([x,y,r],index)=><g className="history-photo" transform={`translate(${x} ${y}) rotate(${r})`} key={index}><rect x="-37" y="-31" width="74" height="62" rx="4" /><circle cx="-13" cy="-6" r="9" /><path d="M-31 20-9 1 5 13 19-4 31 20Z" /></g>)}
   </Frame>
+  if (id === 281) return <Frame id={id} label="A professional briefcase is only half constructed, with its unfinished side remaining as a dashed blueprint">
+    <path className="briefcase-solid" d="M40 92h132v108H40Z" /><path className="briefcase-handle-solid" d="M80 92V62h84v30" /><path className="briefcase-blueprint" d="M172 92h128v108H172Zm0 48h128M220 92V62h52v30" /><path className="briefcase-clasp" d="M146 130h26v29h-26" /><path className="loose-parts" d="m274 218 18-10m-4 20 18-11m-40-4 7 14" />
+  </Frame>
+  if (id === 282) return <Frame id={id} label="Four interlocking puzzle pieces, each marked 2, are being snapped together into one complete square">
+    <g className="two-pieces">{[[93,76,-5],[179,72,4],[96,151,3],[181,150,-3]].map(([x,y,r],index)=><g transform={`translate(${x} ${y}) rotate(${r})`} key={index}><path d="M-39-34h28c-5 20 25 20 20 0h30v28c-20-5-20 25 0 20v31H9c5-20-25-20-20 0h-28V14c20 5 20-25 0-20Z" /><text x="0" y="12">2</text></g>)}</g><path className="piece-arrows" d="M36 63 61 77m243-13-26 14M38 195l27-16m237 17-28-17" />
+  </Frame>
+  if (id === 283) return <Frame id={id} label="A conveyor carries one different object directly after another in a continuous sequence">
+    <path className="conveyor-belt" d="M30 166h280v38H30Z" /><circle className="belt-wheel" cx="61" cy="185" r="15" /><circle className="belt-wheel" cx="279" cy="185" r="15" /><g className="conveyor-things"><circle cx="65" cy="127" r="24" /><path d="M119 151v-48h53v48Z" /><path d="m220 100 28 51h-56Z" /><path d="m270 151 29-49 29 49Z" /></g><path className="conveyor-arrow" d="M102 224h134m-17-13 18 13-18 13" />
+  </Frame>
   if (id === 284) return <Frame id={id} label="A row of laughing faces ends with one final spotlighted laugh">
     {[55,105,155].map(x=><g className="laugh-face" transform={`translate(${x} 119)`} key={x}><circle r="27" /><path d="M-12-5h4m12 0h4M-13 8q13 18 26 0" /></g>)}<path className="laugh-finish" d="M199 44v153" /><g className="last-laugh" transform="translate(260 119)"><circle r="44" /><path d="M-18-8h7m16 0h7M-22 10q22 28 44 0" /></g><path className="laugh-rays" d="M260 53V27m-54 43-18-18m126 18 18-18m-126 116-18 18m126-18 18 18" />
+  </Frame>
+  if (id === 285) return <Frame id={id} label="A miniature theatre performance takes place directly on the open pages of a dictionary">
+    <path className="word-book-page" d="M25 105c53-22 104-14 145 16v96c-44-27-94-34-145-17Z" /><path className="word-book-page" d="M315 105c-53-22-104-14-145 16v96c44-27 94-34 145-17Z" /><path className="word-book-lines" d="M46 137h92m-92 20h78m78-20h92m-78 20h78" /><path className="word-stage" d="M91 102h158V53H91Z" /><path className="stage-curtain" d="M91 53c24 19 47 20 79 4 32 16 55 15 79-4v49H91Z" /><g className="stage-players"><circle cx="146" cy="78" r="8" /><path d="M146 86v25m0-15-15 10m15-10 15 10" /><circle cx="195" cy="78" r="8" /><path d="M195 86v25m0-15-15 10m15-10 15 10" /></g>
+  </Frame>
+  if (id === 286) return <Frame id={id} label="Two quotation cards display exactly the same line-by-line message with a one-for-one match between them">
+    <g className="matching-quote left-quote"><rect x="28" y="54" width="123" height="133" rx="16" /><text x="45" y="90">“</text><path d="M53 111h72M53 132h83M53 153h66" /></g><g className="matching-quote right-quote"><rect x="189" y="54" width="123" height="133" rx="16" /><text x="206" y="90">“</text><path d="M214 111h72M214 132h83M214 153h66" /></g><path className="quote-match" d="M157 91h26m-26 21h26m-26 21h26m-26 21h26" />
+  </Frame>
+  if (id === 287) return <Frame id={id} label="Letter tiles wander through a confusing map while a person is left with an empty speech bubble">
+    <path className="lost-map" d="M129 39h184v164H129Z" /><path className="lost-route" d="M143 177c19-53 58 13 78-45 16-47 53-14 76-71" /><g className="lost-letters">{[['W',160,159],['O',201,111],['R',246,137],['D',276,75],['S',185,63]].map(([letter,x,y])=><g transform={`translate(${x} ${y})`} key={String(letter)}><rect x="-14" y="-16" width="28" height="32" rx="5" /><text y="8">{letter}</text></g>)}</g><g className="speechless-person"><circle cx="62" cy="125" r="18" /><path d="M62 143v55m0-32-27 19m27-19 27 19" /></g><path className="empty-speech" d="M24 41h94v62H62l-20 18 5-18H24Z" />
+  </Frame>
+  if (id === 288) return <Frame id={id} label="A brain carefully hovers in the dangerous space between two railway platforms">
+    <path className="gap-platform left-platform" d="M0 70h125v146H0Z" /><path className="gap-platform right-platform" d="M215 70h125v146H215Z" /><path className="platform-edge" d="M0 72h125m90 0h125" /><path className="gap-rails" d="M145 58v177m50-177v177" /><path className="gap-brain" d="M139 111c-15-20 3-42 24-36 10-18 37-11 38 9 21 3 25 31 8 42 9 21-14 38-31 27-15 17-43 2-35-20-14-4-17-16-4-22Z" /><path className="mind-arrows" d="m111 115 25 11-25 11m118-22-25 11 25 11" />
+  </Frame>
+  if (id === 289) return <Frame id={id} label="A racing briefcase crosses the finish line before a beach ball, cocktail and deckchair">
+    <path className="priority-finish" d="M203 24v194" /><path className="finish-checker" d="M203 32h18v18h-18m18 0h18v18h-18m-18 18h18v18h-18m18 0h18v18h-18m-18 18h18v18h-18m18 0h18v18h-18" /><g className="racing-business"><rect x="126" y="94" width="60" height="53" rx="6" /><path d="M143 94V78h26v16m-68 54h80" /><circle cx="139" cy="154" r="7" /><circle cx="174" cy="154" r="7" /></g><g className="trailing-pleasure"><circle cx="284" cy="161" r="29" /><path d="M264 142 304 181m0-39-40 39M267 79h38l-19 35Z" /><path d="M286 114v22" /></g><path className="race-motion-lines" d="M49 103h61m-72 24h72m-55 24h55" />
+  </Frame>
+  if (id === 290) return <Frame id={id} label="A diverse group of passengers are crowded together inside one single boat">
+    <path className="same-boat-hull" d="M36 139h268l-38 67H76Z" /><path className="same-boat-rim" d="M27 139h286" /><g className="boat-crowd">{[[81,112,'#ffd365'],[126,101,'#ef6a62'],[170,111,'#2cb1a6'],[214,99,'#8b6bb1'],[259,112,'#64a6c4']].map(([x,y,color],index)=><g transform={`translate(${x} ${y})`} style={{'--passenger-colour':color} as CSSProperties} key={index}><circle cy="-22" r="14" /><path d="M0-8v44m0-25-21 18m21-18 21 18" /></g>)}</g><path className="same-water" d="M14 219c24-15 48 15 72 0s48 15 72 0 48 15 72 0 48 15 72 0 24 0 24 0" />
   </Frame>
   if (id === 308) return <Frame id={id} label="A person is left holding the visibly short end of a divided wooden stick">
     <path className="long-stick" d="M40 82 285 145" /><path className="stick-break" d="m216 121 12 22 15-14" /><path className="short-stick" d="m229 139 64 17" /><g className="stick-person"><circle cx="285" cy="77" r="15" /><path d="M285 92v62m0-34-45 20m45-20 27 27m-27 7-23 59m23-59 26 59" /></g><circle className="stick-hand" cx="241" cy="140" r="8" />
