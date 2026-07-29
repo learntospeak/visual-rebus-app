@@ -184,6 +184,8 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .difficulty-hard { color: #a53c35; background: #ffe1df; }
 .puzzle-card { min-height: 345px; margin-top: 30px; padding: 22px; background: var(--white); border: 1px solid var(--line); border-radius: 25px; box-shadow: 0 14px 35px rgba(24,59,86,.07); text-align: center; }
 .puzzle-card > p { color: var(--muted); margin: 0; font-size: .87rem; }
+.puzzle-art-frame { height: 270px; display: grid; place-items: center; }
+.puzzle-art-frame > .puzzle-visual { width: 100%; flex: 0 0 auto; }
 .puzzle-visual { height: 270px; display: flex; align-items: center; justify-content: center; flex-direction: column; position: relative; gap: 13px; }
 .template-row { flex-direction: row; }
 .template-overlay { position: relative; }
@@ -590,7 +592,35 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 @keyframes rainbow-wash { 0% { background-position: 100% 50%; transform: translateY(-2px) scale(1); } 45% { transform: translateY(-3px) scale(1.13); } 100% { background-position: 0% 50%; transform: translateY(-2px) scale(1); } }
 @keyframes sleep-fall { from { opacity: .25; transform: translateY(-28px); } to { opacity: 1; transform: translateY(var(--sleep-fall, 0px)); } }
 @keyframes heart-break { 0% { transform: scale(1); } 45% { transform: scale(1.18) rotate(-4deg); } 100% { transform: scale(1); } }
-@media (max-width: 360px) { .app-shell { padding: max(22px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); } .hero { padding-top: 48px; } .puzzle-card { min-height: 300px; padding: 16px; } .puzzle-visual { height: 230px; } }
+@media (max-width: 360px) { .app-shell { padding: max(22px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); } .hero { padding-top: 48px; } .puzzle-card { min-height: 300px; padding: 16px; } .puzzle-art-frame, .puzzle-visual { height: 230px; } }
+@media (max-width: 600px) {
+  .puzzle-screen.is-answering {
+    min-height: 100dvh;
+    padding: max(8px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  .puzzle-screen.is-answering .puzzle-header { grid-template-columns: 38px 1fr auto; gap: 9px; }
+  .puzzle-screen.is-answering .puzzle-header .icon-button { min-width: 38px; min-height: 38px; }
+  .puzzle-screen.is-answering .puzzle-header .eyebrow { font-size: .65rem; letter-spacing: .1em; }
+  .puzzle-screen.is-answering .mini-track { margin-top: 4px; }
+  .puzzle-screen.is-answering .difficulty { padding: 5px 7px; font-size: .62rem; }
+  .puzzle-screen.is-answering .puzzle-card { min-height: 0; margin-top: 8px; padding: 8px 12px; border-radius: 18px; }
+  .puzzle-screen.is-answering .puzzle-card > p { display: none; }
+  .puzzle-screen.is-answering .puzzle-art-frame { height: clamp(165px, 38dvh, 195px); overflow: hidden; }
+  .puzzle-screen.is-answering .puzzle-art-frame > .puzzle-visual {
+    height: 270px;
+    transform: scale(.7);
+    transform-origin: center;
+  }
+  .puzzle-screen.is-answering .answer-form { margin-top: 8px; }
+  .puzzle-screen.is-answering .answer-form > label,
+  .puzzle-screen.is-answering .answer-pattern { display: none; }
+  .puzzle-screen.is-answering .answer-form input { height: 52px; margin-top: 0; }
+  .puzzle-screen.is-answering .feedback { min-height: 16px; margin: 3px 2px; font-size: .75rem; }
+  .puzzle-screen.is-answering .action-row { gap: 8px; }
+  .puzzle-screen.is-answering .action-row button { min-height: 46px; }
+  .puzzle-screen.is-answering .clue-panel,
+  .puzzle-screen.is-answering .reveal-panel { margin-top: 8px; }
+}
 @media (min-width: 600px) { body { padding: 28px 0; } .app-shell { min-height: 820px; border-radius: 32px; box-shadow: 0 20px 60px rgba(24,59,86,.13); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 

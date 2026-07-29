@@ -1,4 +1,4 @@
-import { useEffect, useRef, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { AnswerPattern } from '../components/AnswerPattern'
 import { Button } from '../components/Button'
 import { CluePanel } from '../components/CluePanel'
@@ -38,13 +38,14 @@ export function PuzzleScreen({
   onReveal,
 }: PuzzleScreenProps) {
   const answerInput = useRef<HTMLInputElement>(null)
+  const [answerFocused, setAnswerFocused] = useState(false)
 
   useEffect(() => {
     answerInput.current?.focus()
   }, [puzzle.id])
 
   return (
-    <main className="app-shell puzzle-screen">
+    <main className={`app-shell puzzle-screen${answerFocused ? ' is-answering' : ''}`}>
       <header className="puzzle-header">
         <Button variant="icon" aria-label="Return home" onClick={onHome}>←</Button>
         <div>
@@ -56,7 +57,9 @@ export function PuzzleScreen({
 
       <section className="puzzle-card">
         <p>{puzzle.prompt}</p>
-        <PuzzleVisual puzzle={puzzle} />
+        <div className="puzzle-art-frame">
+          <PuzzleVisual puzzle={puzzle} />
+        </div>
       </section>
 
       <form className="answer-form" onSubmit={onSubmit}>
@@ -67,9 +70,12 @@ export function PuzzleScreen({
           id="answer"
           value={guess}
           onChange={(event) => onGuessChange(event.target.value)}
+          onFocus={() => setAnswerFocused(true)}
+          onBlur={() => window.setTimeout(() => setAnswerFocused(false), 180)}
           disabled={celebrating}
           autoComplete="off"
           autoCapitalize="none"
+          enterKeyHint="done"
           placeholder="Type the phrase…"
         />
         <p className="feedback" role="status">{message || '\u00a0'}</p>
