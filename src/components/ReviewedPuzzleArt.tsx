@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
-  222, 223, 224, 225, 227, 228, 235, 236, 241, 242, 243, 246, 251, 252, 254, 255,
+  222, 223, 224, 225, 227, 228, 229, 235, 236, 241, 242, 243, 246, 251, 252, 254, 255,
   257, 258, 261, 277, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
 ])
 
@@ -31,11 +31,14 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   if (id === 225) return <Frame id={id} label="An uncertain area covered by overlapping grey shades">
     <defs><pattern id="grey-hatch" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M-3 3 3-3M0 12 12 0M9 15l6-6" /></pattern></defs><path className="grey-zone" d="M43 75c35-54 90-42 121-15 42-42 113-20 133 31 18 47-20 96-73 91-42 36-103 22-119-17-56 5-89-46-62-90Z" /><path className="grey-hatch" d="M43 75c35-54 90-42 121-15 42-42 113-20 133 31 18 47-20 96-73 91-42 36-103 22-119-17-56 5-89-46-62-90Z" /><text className="scene-label" x="170" y="129">AREA</text>
   </Frame>
-  if (id === 227) return <Frame id={id} label="A clearly purple fabric patch stitched onto plain cloth">
-    <rect className="plain-cloth" x="36" y="28" width="268" height="184" rx="17" /><path className="purple-patch" d="m103 61 134-8 17 118-145 17Z" /><path className="patch-stitch" d="m114 70 112-7 15 98-121 15Z" /><path className="cloth-seam" d="M53 80h35m-35 28h31m177 72h29" />
+  if (id === 227) return <Frame id={id} label="A bent jacket sleeve repaired with a vivid purple patch stitched over its elbow">
+    <path className="jacket-upper-sleeve" d="M21 49C67 28 119 34 177 72l23 17-42 70-24-15c-42-27-76-30-113-18Z" /><path className="jacket-forearm" d="m177 72 145 87-40 67-148-82Z" /><path className="jacket-seam" d="M31 63c42-16 87-8 137 25m-32 54 40-68m99 147 40-66" /><path className="purple-elbow-patch" d="M137 72c18-14 52-7 69 14 17 22 11 53-11 71-21 17-54 12-70-10-16-23-9-57 12-75Z" /><path className="elbow-stitch" d="M143 82c15-10 41-5 54 12 13 18 8 42-9 55-17 12-42 8-54-9-12-18-8-45 9-58Z" />
   </Frame>
   if (id === 228) return <Frame id={id} label="A book lying fully open with readable pages exposed">
     <path className="book-page" d="M29 61c54-23 104-13 141 17v129c-40-31-90-38-141-14Z" /><path className="book-page" d="M311 61c-54-23-104-13-141 17v129c40-31 90-38 141-14Z" /><path className="book-spine" d="M170 79v128" /><path className="book-lines" d="M52 91h88M52 113h95M52 135h84M200 91h88M193 113h95M205 135h83" />
+  </Frame>
+  if (id === 229) return <Frame id={id} label="A substantial hardback book fully closed and secured by a fastened leather clasp">
+    <path className="closed-book-pages" d="m59 62 224-17 30 132-226 25Z" /><path className="closed-book-page-lines" d="m88 178 216-23m-214 34 216-24" /><path className="closed-book-cover" d="M43 42 280 24l31 131-239 24Z" /><path className="closed-book-spine" d="M43 42 72 179l17 23L59 63Z" /><path className="closed-book-detail" d="m77 62 176-14m-168 94 184-19" /><path className="book-clasp" d="m207 31 27-2 32 135-28 3Z" /><rect className="clasp-fastener" x="229" y="94" width="31" height="28" rx="7" transform="rotate(-7 244.5 108)" /><circle className="clasp-button" cx="245" cy="107" r="5" />
   </Frame>
   if (id === 235) return <Frame id={id} label="Letter tiles move into the missing spaces of an incomplete word">
     <text className="blank-word" x="51" y="112">BL</text><path className="blank-slot" d="M104 119h31m13 0h31" /><text className="blank-word" x="194" y="112">NKS</text><g className="fill-tiles"><rect x="109" y="158" width="29" height="34" rx="5" /><text x="123.5" y="182">A</text><rect x="148" y="158" width="29" height="34" rx="5" /><text x="162.5" y="182">A</text></g><path className="fill-arrow" d="M143 151 126 132m35 19 2-22" />
