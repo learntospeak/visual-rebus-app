@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
-  222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 241, 242, 243, 246, 251, 252, 254, 255,
+  222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 241, 242, 243, 246, 251, 252, 254, 255,
   257, 258, 261, 277, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
 ])
 
@@ -55,6 +55,15 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   </Frame>
   if (id === 236) return <Frame id={id} label="A sturdy bridge spans a deep gap between two cliffs">
     <path className="cliff" d="M0 45h99l18 36-20 29 13 32-21 98H0Zm340 0h-99l-18 36 20 29-13 32 21 98h89Z" /><path className="bridge-deck" d="M82 91h176M89 107h162" /><path className="bridge-cable" d="M96 91c36-64 112-64 148 0M108 91v-23m30 23V45m32 46V34m32 57V45m30 46V68" /><path className="gap-depth" d="m139 216 31-28 31 28" />
+  </Frame>
+  if (id === 237) return <Frame id={id} label="A crowded, heavily worn road continues right while one narrow overgrown path branches left with only a single set of footprints">
+    <path className="travel-land" d="M0 0h340v240H0Z" /><path className="busy-road" d="M165 240c-7-55 8-91 46-121 34-27 63-56 80-119" /><path className="quiet-road" d="M169 220c-16-62-50-80-87-107C55 93 40 62 39 21" /><path className="busy-road-line" d="M168 230c-2-49 17-79 52-106 34-27 57-58 67-112" /><g className="busy-footprints">{[[191,194,-22],[215,174,-30],[226,145,-39],[249,126,-36],[261,94,-25],[280,70,-18],[286,37,-10],[202,215,14],[234,163,4],[254,143,18],[270,110,8],[294,88,22]].map(([x,y,r],index)=><g transform={`translate(${x} ${y}) rotate(${r})`} key={index}><ellipse cx="0" cy="0" rx="5" ry="9" /><circle cx="-4" cy="-9" r="2" /><circle cx="1" cy="-11" r="2" /><circle cx="5" cy="-8" r="2" /></g>)}</g><g className="lone-footprints">{[[145,190,-25],[124,164,-32],[99,139,-38],[76,108,-27],[57,78,-18],[45,43,-8]].map(([x,y,r],index)=><g transform={`translate(${x} ${y}) rotate(${r})`} key={index}><ellipse cx="0" cy="0" rx="6" ry="11" /><circle cx="-5" cy="-11" r="2.5" /><circle cx="1" cy="-14" r="2.5" /><circle cx="6" cy="-10" r="2.5" /></g>)}</g><path className="overgrowth" d="M22 41 8 26m31 6 7-22M54 77 37 63m58 50-6-24m-22 13-19-5m74 52-5-23" />
+  </Frame>
+  if (id === 238) return <Frame id={id} label="A winding road reaches the torn outer edge of a map and physically stops, with empty space beyond">
+    <path className="torn-map" d="M19 27h270v28l17 13-18 16 18 17-17 17 17 17-18 17 18 17-17 15v29H19Z" /><path className="map-contours" d="M38 61c35-20 61-15 89 5m-74 121c31-15 55-12 78 3M188 48c26 13 46 11 75-1" /><path className="ending-road" d="M33 193c34-49 78-22 96-69 17-43 60-19 81-57 15-26 42-8 79 12" /><path className="ending-centre" d="M38 190c33-37 67-18 85-65 17-45 62-20 81-59 14-27 44-3 82 14" /><path className="road-cut" d="m282 66 17 12-17 14" /><g className="stopped-car" transform="translate(242 65) rotate(21)"><path d="M-22 8h44l-5-18h-30Z" /><rect x="-25" y="6" width="50" height="22" rx="7" /><circle cx="-15" cy="29" r="6" /><circle cx="15" cy="29" r="6" /></g><path className="empty-beyond" d="M315 49v142" />
+  </Frame>
+  if (id === 239) return <Frame id={id} label="A small car is thrown into the air while driving over a dramatically rising and falling road">
+    <path className="bumpy-road" d="M8 174c34 0 35-73 70-73s35 73 70 73 35-73 70-73 35 73 70 73 35-73 44-73" /><path className="bumpy-centre" d="M8 174c34 0 35-73 70-73s35 73 70 73 35-73 70-73 35 73 70 73 35-73 44-73" /><g className="bouncing-car" transform="translate(176 62) rotate(-8)"><path d="M-29 8h58l-8-22h-35Z" /><rect x="-34" y="5" width="68" height="28" rx="9" /><circle cx="-22" cy="35" r="8" /><circle cx="22" cy="35" r="8" /><path className="car-window" d="m-10-9-5 16h31L10-9Z" /></g><path className="bounce-lines" d="M146 31 132 12m42 14V3m29 28 14-19M158 111l-9 17m44-19 10 17" />
   </Frame>
   if (id === 241) return <Frame id={id} label="A single fresh footprint leaves a heavily worn track">
     <path className="beaten-track" d="M25 186C87 118 113 158 170 101s85-53 145-70" /><g className="track-prints">{[[53,170],[88,146],[126,139],[160,112],[197,84],[238,63],[277,42]].map(([x,y],i)=><ellipse key={i} cx={x} cy={y} rx="10" ry="17" transform={`rotate(45 ${x} ${y})`} />)}</g><g className="off-print" transform="translate(226 157) rotate(-18)"><ellipse cx="0" cy="0" rx="18" ry="29" /><circle cx="-16" cy="-31" r="6" /><circle cx="-5" cy="-38" r="6" /><circle cx="7" cy="-38" r="6" /><circle cx="18" cy="-31" r="6" /></g>
