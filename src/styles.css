@@ -596,6 +596,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 @media (max-width: 600px) {
   .puzzle-screen.is-answering {
     min-height: 100dvh;
+    scroll-padding-bottom: env(safe-area-inset-bottom);
     padding: max(8px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   }
   .puzzle-screen.is-answering .puzzle-header { grid-template-columns: 38px 1fr auto; gap: 9px; }
