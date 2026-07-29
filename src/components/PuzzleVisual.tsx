@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
+import { hasReviewedPuzzleArt, ReviewedPuzzleArt } from './ReviewedPuzzleArt'
 
 function TwoLeftFeet() {
   return (
@@ -308,6 +309,8 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
   if ([148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214, 215, 216, 217, 220, 221].includes(puzzle.id)) {
     return reworkedArt
   }
+
+  if (hasReviewedPuzzleArt(puzzle.id)) return <ReviewedPuzzleArt id={puzzle.id} />
 
   const generatedArt = generatedPuzzleArt[puzzle.id]
   if (generatedArt) {
