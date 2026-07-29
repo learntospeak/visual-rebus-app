@@ -206,10 +206,10 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .clock-shadow { position: absolute; top: 103px; left: calc(50% - 86px); width: 76px; height: 160px; background: rgba(24,59,86,.42); -webkit-mask: url('/long-clock.svg') center/100% 100% no-repeat; mask: url('/long-clock.svg') center/100% 100% no-repeat; transform: matrix(1, 0, -1.286, .9, 0, 0); transform-origin: 50% 100%; }
 .no-see { position: absolute; bottom: 12px; z-index: 2; color: var(--coral); font-size: 2rem; }
 .visual-10 { gap: 0; }
-.man-figure { z-index: 1; width: 120px; height: 185px; margin-bottom: -5px; background: url('/scruffy-sailor-v2-cropped.png') center/contain no-repeat; filter: drop-shadow(0 7px 6px rgba(24,59,86,.18)); }
-.wood-board { width: min(94%, 300px); height: 72px; background: url('/wood-plank-v2-cropped.png') center/contain no-repeat; filter: drop-shadow(5px 8px 6px rgba(24,59,86,.22)); }
+.man-figure { z-index: 1; width: 120px; height: 185px; margin-bottom: -5px; background: url('/scruffy-sailor-v2-cropped.webp') center/contain no-repeat; filter: drop-shadow(0 7px 6px rgba(24,59,86,.18)); }
+.wood-board { width: min(94%, 300px); height: 72px; background: url('/wood-plank-v2-cropped.webp') center/contain no-repeat; filter: drop-shadow(5px 8px 6px rgba(24,59,86,.22)); }
 .visual-11 { position: relative; }
-.blue-moon { width: 205px; height: 205px; background: url('/blue-moon-v2-cropped.png') center/contain no-repeat; filter: drop-shadow(0 12px 13px rgba(24,59,86,.24)); }
+.blue-moon { width: 205px; height: 205px; background: url('/blue-moon-v2-cropped.webp') center/contain no-repeat; filter: drop-shadow(0 12px 13px rgba(24,59,86,.24)); }
 .moon-word { position: absolute; z-index: 1; padding: 8px 14px; color: white; background: rgba(24,59,86,.62); border: 1px solid rgba(255,255,255,.42); border-radius: 12px; font-size: 1.55rem; text-shadow: 0 2px 4px rgba(0,0,0,.35); box-shadow: 0 5px 12px rgba(24,59,86,.18); }
 .road-horizontal { position: absolute; font-size: 2rem; letter-spacing: .18em; }
 .road-vertical { position: absolute; font-size: 2rem; letter-spacing: .18em; transform: rotate(90deg); color: var(--coral); }
@@ -235,7 +235,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .mouse-blindfold, .mouse-tie { fill: var(--ink); }
 .mouse-nose { fill: var(--coral); stroke: var(--ink); stroke-width: 3px; }
 .mouse-whiskers { fill: none; stroke: var(--ink); stroke-width: 3px; stroke-linecap: round; }
-.bridge-water-scene { width: min(96%, 330px); height: 205px; background: url('/bridge-river-bottles-v4-cropped.png') center/contain no-repeat; filter: drop-shadow(0 12px 10px rgba(24,59,86,.2)); }
+.bridge-water-scene { width: min(96%, 330px); height: 205px; background: url('/bridge-river-bottles-v4-cropped.webp') center/contain no-repeat; filter: drop-shadow(0 12px 10px rgba(24,59,86,.2)); }
 .visual-22 { flex-direction: row; align-items: flex-start; padding-top: 55px; gap: 7px; }
 .sleep-letter { font: 800 2.8rem Manrope; display: inline-block; }
 .sleep-1 { --sleep-fall: 0px; }
@@ -249,10 +249,10 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .has-puzzle-motion .sleep-3 { --sleep-order: 2; }
 .has-puzzle-motion .sleep-4 { --sleep-order: 3; }
 .has-puzzle-motion .sleep-5 { --sleep-order: 4; }
-.rising-star-scene { width: 150px; height: 255px; background: url('/rising-star-final.png') center/contain no-repeat; filter: drop-shadow(0 10px 10px rgba(216,169,25,.2)); }
-.half-baked-scene { width: min(92%, 245px); height: 235px; background: url('/half-baked-idea-v2-cropped.png') center/contain no-repeat; filter: drop-shadow(0 12px 11px rgba(24,59,86,.2)); }
+.rising-star-scene { width: 150px; height: 255px; background: url('/rising-star-final.webp') center/contain no-repeat; filter: drop-shadow(0 10px 10px rgba(216,169,25,.2)); }
+.half-baked-scene { width: min(92%, 245px); height: 235px; background: url('/half-baked-idea-v2-cropped.webp') center/contain no-repeat; filter: drop-shadow(0 12px 11px rgba(24,59,86,.2)); }
 .visual-25 { position: relative; }
-.days-work-scene { width: 235px; height: 250px; background: url('/day-work-calendar-v3.png') center/contain no-repeat; filter: drop-shadow(0 12px 11px rgba(24,59,86,.18)); }
+.days-work-scene { width: 235px; height: 250px; background: url('/day-work-calendar-v3.webp') center/contain no-repeat; filter: drop-shadow(0 12px 11px rgba(24,59,86,.18)); }
 .days-work-label { position: absolute; top: 126px; z-index: 1; color: white; font: 800 1.25rem Manrope, sans-serif; letter-spacing: .13em; text-shadow: 0 2px 4px rgba(24,59,86,.28); }
 
 /* Polished visual-first rebuses. Text is only overlaid where it forms an essential noun. */
@@ -265,8 +265,8 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   background-size: contain;
   filter: drop-shadow(0 10px 9px rgba(24,59,86,.16));
 }
-.right-step-scene { width: 270px; height: 225px; background-image: url('/right-step-v2.png'); }
-.two-peas-scene { width: 230px; height: 235px; background-image: url('/two-peas-pod-v2.png'); }
+.right-step-scene { width: 270px; height: 225px; background-image: url('/right-step-v2.webp'); }
+.two-peas-scene { width: 230px; height: 235px; background-image: url('/two-peas-pod-v2.webp'); }
 .first-aid-podium { position: relative; display: flex; justify-content: center; width: 230px; height: 180px; padding-top: 14px; color: var(--coral); background:
   linear-gradient(145deg,#f7d969,#bd8612) center bottom/82px 130px no-repeat,
   linear-gradient(145deg,#edf1f3,#a9b4bb) left 14px bottom/74px 84px no-repeat,
@@ -274,60 +274,60 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   font: 900 2rem Manrope, sans-serif; letter-spacing: .08em; text-shadow: 0 2px white; filter: drop-shadow(0 11px 9px rgba(24,59,86,.18));
 }
 .first-aid-podium::after { content: '1'; position: absolute; top: 79px; color: rgba(24,59,86,.58); font: 900 2.15rem Manrope, sans-serif; text-shadow: none; }
-.level-field-scene { width: 225px; height: 245px; background-image: url('/level-playing-field-v2.png'); }
-.man-moon-scene { width: 235px; height: 235px; background-image: url('/man-moon-v2.png'); }
-.fast-lane-scene { width: 225px; height: 250px; background-image: url('/fast-lane-v2.png'); }
+.level-field-scene { width: 225px; height: 245px; background-image: url('/level-playing-field-v2.webp'); }
+.man-moon-scene { width: 235px; height: 235px; background-image: url('/man-moon-v2.webp'); }
+.fast-lane-scene { width: 225px; height: 250px; background-image: url('/fast-lane-v2.webp'); }
 .fast-lane-life { position: absolute; top: 116px; left: calc(50% + 28px); z-index: 1; color: white; font: 900 1.05rem Manrope, sans-serif; letter-spacing: .1em; text-shadow: 0 2px 5px #111; transform: translate(-50%,-50%) rotate(90deg); }
-.cornerstone-scene { width: 245px; height: 245px; background-image: url('/cornerstone-v2.png'); }
-.missing-link-scene { width: min(100%,310px); height: 190px; background-image: url('/missing-link-v2.png'); }
-.chain-reaction-scene { width: min(100%,315px); height: 190px; background-image: url('/chain-reaction-v2.png'); }
-.half-time-scene { width: 235px; height: 235px; background-image: url('/half-time-v2.png'); }
-.up-air-scene { width: 235px; height: 245px; background-image: url('/up-in-air-v2.png'); }
-.standing-room-scene { width: 245px; height: 245px; background-image: url('/standing-room-v2.png'); }
-.room-one-more-scene { width: 250px; height: 250px; background-image: url('/room-one-more-v3.png'); }
-.six-feet-under-scene { width: 270px; height: 245px; background-image: url('/six-feet-under-v2.png'); }
+.cornerstone-scene { width: 245px; height: 245px; background-image: url('/cornerstone-v2.webp'); }
+.missing-link-scene { width: min(100%,310px); height: 190px; background-image: url('/missing-link-v2.webp'); }
+.chain-reaction-scene { width: min(100%,315px); height: 190px; background-image: url('/chain-reaction-v2.webp'); }
+.half-time-scene { width: 235px; height: 235px; background-image: url('/half-time-v2.webp'); }
+.up-air-scene { width: 235px; height: 245px; background-image: url('/up-in-air-v2.webp'); }
+.standing-room-scene { width: 245px; height: 245px; background-image: url('/standing-room-v2.webp'); }
+.room-one-more-scene { width: 250px; height: 250px; background-image: url('/room-one-more-v3.webp'); }
+.six-feet-under-scene { width: 270px; height: 245px; background-image: url('/six-feet-under-v2.webp'); }
 .six-feet-marker { position: absolute; top: 137px; left: calc(50% + 103px); z-index: 1; width: 34px; color: var(--coral); font: 900 .78rem Manrope, sans-serif; line-height: 1.05; }
-.mixed-emotions-scene { width: 230px; height: 245px; background-image: url('/mixed-emotions-v2.png'); }
-.walking-air-person { position: absolute; top: 0; z-index: 1; width: 155px; height: 225px; background-image: url('/walking-air-person-v3.png'); }
+.mixed-emotions-scene { width: 230px; height: 245px; background-image: url('/mixed-emotions-v2.webp'); }
+.walking-air-person { position: absolute; top: 0; z-index: 1; width: 155px; height: 225px; background-image: url('/walking-air-person-v3.webp'); }
 .walking-air-word { position: absolute; bottom: 0; color: var(--teal-dark); font: 900 3.4rem Manrope, sans-serif; letter-spacing: .18em; text-shadow: 0 5px 0 #c5ece8; }
 
 /* Puzzles 66–115: reusable spatial vocabulary plus selected editorial scenes. */
 .next-scene { width: 245px; height: 245px; background-position: center; background-repeat: no-repeat; background-size: contain; }
-.bend-backwards-scene { background-image: url('/bend-backwards-75.png'); }
-.closed-doors-scene { background-image: url('/closed-doors-77.png'); }
-.open-secret-scene { background-image: url('/open-secret-78-v2.png'); }
-.elephant-room-scene { background-image: url('/elephant-room-80.png'); }
-.fish-out-water-scene { background-image: url('/fish-out-water-81.png'); }
-.raining-cats-dogs-scene { background-image: url('/raining-cats-dogs-82.png'); }
-.flying-pig-scene { background-image: url('/flying-pig-83.png'); }
-.drop-ocean-scene { background-image: url('/drop-ocean-84.png'); }
-.head-clouds-scene { background-image: url('/head-clouds-85.png'); }
-.silver-lining-scene { background-image: url('/silver-lining-86-v2.png'); }
-.storm-teacup-scene { background-image: url('/storm-teacup-87.png'); }
-.thin-ice-scene { background-image: url('/thin-ice-88.png'); }
-.cold-feet-scene { background-image: url('/cold-feet-89.png'); }
-.hot-collar-scene { background-image: url('/hot-collar-90.png'); }
-.pressed-time-scene { background-image: url('/pressed-time-91.png'); }
-.time-flies-scene { background-image: url('/time-flies-92.png'); }
-.race-time-scene { background-image: url('/race-time-93.png'); }
-.waste-time-scene { background-image: url('/waste-time-94.png'); }
-.tunnel-light-scene { background-image: url('/tunnel-light-96.png'); }
-.tunnel-vision-scene { background-image: url('/tunnel-vision-97.png'); }
-.mixed-signals-scene { background-image: url('/mixed-signals-98.png'); }
-.crossed-wires-scene { background-image: url('/crossed-wires-99.png'); }
-.loose-ends-scene { background-image: url('/loose-ends-100.png'); }
-.strings-attached-scene { background-image: url('/strings-attached-101.png'); }
-.train-thought-scene { width: min(100%, 315px); background-image: url('/train-thought-102.png'); }
-.food-thought-scene { background-image: url('/food-thought-103.png'); }
-.deep-thought-scene { background-image: url('/deep-thought-104.png'); }
-.second-thoughts-scene { background-image: url('/second-thoughts-105.png'); }
-.peace-mind-scene { background-image: url('/peace-mind-106.png'); }
-.big-cheese-scene { background-image: url('/big-cheese-109.png'); }
-.money-talks-scene { background-image: url('/money-talks-110.png'); }
-.cash-flow-scene { background-image: url('/cash-flow-111.png'); }
-.nest-egg-scene { background-image: url('/nest-egg-112.png'); }
-.pie-sky-scene { background-image: url('/pie-sky-114.png'); }
-.piece-cake-scene { background-image: url('/piece-cake-115.png'); }
+.bend-backwards-scene { background-image: url('/bend-backwards-75.webp'); }
+.closed-doors-scene { background-image: url('/closed-doors-77.webp'); }
+.open-secret-scene { background-image: url('/open-secret-78-v2.webp'); }
+.elephant-room-scene { background-image: url('/elephant-room-80.webp'); }
+.fish-out-water-scene { background-image: url('/fish-out-water-81.webp'); }
+.raining-cats-dogs-scene { background-image: url('/raining-cats-dogs-82.webp'); }
+.flying-pig-scene { background-image: url('/flying-pig-83.webp'); }
+.drop-ocean-scene { background-image: url('/drop-ocean-84.webp'); }
+.head-clouds-scene { background-image: url('/head-clouds-85.webp'); }
+.silver-lining-scene { background-image: url('/silver-lining-86-v2.webp'); }
+.storm-teacup-scene { background-image: url('/storm-teacup-87.webp'); }
+.thin-ice-scene { background-image: url('/thin-ice-88.webp'); }
+.cold-feet-scene { background-image: url('/cold-feet-89.webp'); }
+.hot-collar-scene { background-image: url('/hot-collar-90.webp'); }
+.pressed-time-scene { background-image: url('/pressed-time-91.webp'); }
+.time-flies-scene { background-image: url('/time-flies-92.webp'); }
+.race-time-scene { background-image: url('/race-time-93.webp'); }
+.waste-time-scene { background-image: url('/waste-time-94.webp'); }
+.tunnel-light-scene { background-image: url('/tunnel-light-96.webp'); }
+.tunnel-vision-scene { background-image: url('/tunnel-vision-97.webp'); }
+.mixed-signals-scene { background-image: url('/mixed-signals-98.webp'); }
+.crossed-wires-scene { background-image: url('/crossed-wires-99.webp'); }
+.loose-ends-scene { background-image: url('/loose-ends-100.webp'); }
+.strings-attached-scene { background-image: url('/strings-attached-101.webp'); }
+.train-thought-scene { width: min(100%, 315px); background-image: url('/train-thought-102.webp'); }
+.food-thought-scene { background-image: url('/food-thought-103.webp'); }
+.deep-thought-scene { background-image: url('/deep-thought-104.webp'); }
+.second-thoughts-scene { background-image: url('/second-thoughts-105.webp'); }
+.peace-mind-scene { background-image: url('/peace-mind-106.webp'); }
+.big-cheese-scene { background-image: url('/big-cheese-109.webp'); }
+.money-talks-scene { background-image: url('/money-talks-110.webp'); }
+.cash-flow-scene { background-image: url('/cash-flow-111.webp'); }
+.nest-egg-scene { background-image: url('/nest-egg-112.webp'); }
+.pie-sky-scene { background-image: url('/pie-sky-114.webp'); }
+.piece-cake-scene { background-image: url('/piece-cake-115.webp'); }
 
 .next-over, .next-under { position: absolute; font-size: 2.25rem; }
 .next-over { top: 57px; color: var(--coral); }
@@ -471,14 +471,14 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   background-repeat: no-repeat;
   background-size: contain;
 }
-.needle-haystack-scene { background-image: url('/needle-haystack-116.png'); }
-.wolf-sheep-scene { background-image: url('/wolf-sheep-117.png'); }
-.cart-horse-scene { background-image: url('/cart-horse-120.png'); }
-.wrong-tree-scene { background-image: url('/wrong-tree-135.png'); }
-.burn-bridges-scene { background-image: url('/burn-bridges-138.png'); }
-.fork-road-scene { background-image: url('/fork-road-151.png'); }
-.calm-storm-scene { background-image: url('/calm-storm-156.png'); }
-.family-tree-scene { background-image: url('/family-tree-163.png'); }
+.needle-haystack-scene { background-image: url('/needle-haystack-116.webp'); }
+.wolf-sheep-scene { background-image: url('/wolf-sheep-117.webp'); }
+.cart-horse-scene { background-image: url('/cart-horse-120.webp'); }
+.wrong-tree-scene { background-image: url('/wrong-tree-135.webp'); }
+.burn-bridges-scene { background-image: url('/burn-bridges-138.webp'); }
+.fork-road-scene { background-image: url('/fork-road-151.webp'); }
+.calm-storm-scene { background-image: url('/calm-storm-156.webp'); }
+.family-tree-scene { background-image: url('/family-tree-163.webp'); }
 
 .draft-closet-skeleton {
   display: grid; place-items: center; width: 130px; height: 190px;
@@ -537,19 +537,19 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .chip-shoulder-generated {
   width: min(100%, 270px);
   height: 260px;
-  background: url('/chip-shoulder-122.png') center / contain no-repeat;
+  background: url('/chip-shoulder-122.webp') center / contain no-repeat;
 }
 .generated-rebus-art { width:min(100%,270px); height:260px; background-position:center; background-size:contain; background-repeat:no-repeat; }
-.tongue-tied-generated { background-image:url('/tongue-tied-124.png'); }
-.foot-mouth-generated { background-image:url('/foot-mouth-125.png'); }
-.candle-both-ends-generated { width:min(100%,320px); background-image:url('/candle-both-ends-119.png'); }
-.apple-eye-generated { width:min(100%,320px); background-image:url('/apple-eye-121.png'); }
+.tongue-tied-generated { background-image:url('/tongue-tied-124.webp'); }
+.foot-mouth-generated { background-image:url('/foot-mouth-125.webp'); }
+.candle-both-ends-generated { width:min(100%,320px); background-image:url('/candle-both-ends-119.webp'); }
+.apple-eye-generated { width:min(100%,320px); background-image:url('/apple-eye-121.webp'); }
 .closet-reveal-art {
   width:min(100%,235px);
   height:225px;
-  background:url('/closet-118-closed.png') center / contain no-repeat;
+  background:url('/closet-118-closed.webp') center / contain no-repeat;
 }
-.closet-reveal.is-activated .closet-reveal-art { background-image:url('/closet-118-open.png'); }
+.closet-reveal.is-activated .closet-reveal-art { background-image:url('/closet-118-open.webp'); }
 .generated-puzzle-visual img { width:min(100%,320px); height:260px; object-fit:contain; }
 .chapter-five-rebus {
   white-space: pre;
