@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
   222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255,
-  257, 258, 260, 261, 277, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
+  257, 258, 260, 261, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 284, 308, 310, 328, 337, 357, 392, 400, 435, 477, 497, 554,
 ])
 
 export function hasReviewedPuzzleArt(id: number) {
@@ -125,8 +125,35 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   if (id === 261) return <Frame id={id} label="A human nervous system is formed from polished steel cables">
     <circle className="steel-head" cx="170" cy="39" r="25" /><path className="steel-body" d="M170 65v99m0-64-67 59m67-59 67 59m-67-3-43 68m43-68 43 68" /><path className="steel-nerves" d="m170 81-31 26m31-7 31 26m-31-9-42 17m42 0 42 17m-42 5-22 34m22-20 26 38m-68-70-23 20m105-7 28 20" /><circle className="steel-node" cx="139" cy="107" r="5" /><circle className="steel-node" cx="201" cy="126" r="5" /><circle className="steel-node" cx="128" cy="134" r="5" /><circle className="steel-node" cx="212" cy="151" r="5" />
   </Frame>
+  if (id === 271) return <Frame id={id} label="A single cherry balances on the very highest point of a tall layered dessert">
+    <path className="dessert-plate" d="M52 209h236" /><path className="dessert-layer layer-one" d="M73 159h194v45H73Z" /><path className="dessert-layer layer-two" d="M96 113h148v46H96Z" /><path className="dessert-layer layer-three" d="M123 73h94v40h-94Z" /><path className="dessert-icing" d="M123 73c14 15 23-12 37 2 12 12 22-14 35 0 8 9 14 2 22-2" /><circle className="top-cherry" cx="170" cy="45" r="19" /><path className="cherry-stem" d="M170 27c3-17 14-20 26-22" />
+  </Frame>
+  if (id === 272) return <Frame id={id} label="A glowing green GO signal sends a bunch of bananas spinning wildly in every direction">
+    <rect className="go-signal" x="27" y="71" width="91" height="98" rx="20" /><circle cx="72.5" cy="120" r="31" /><path className="go-arrow" d="M121 120h47m-14-15 16 15-16 15" /><g className="wild-bananas">{[[214,62,-35],[271,78,18],[230,132,42],[286,153,-18],[202,188,12]].map(([x,y,r],index)=><path d="M-18-25c37 7 47 34 27 52-18 16-45 4-50-18 15 7 29 1 34-10 5-12 0-20-11-24Z" transform={`translate(${x} ${y}) rotate(${r})`} key={index} />)}</g><path className="banana-motion" d="M193 51 180 35m87 19 12-20m-89 110-18 8m107 37 18 13m-86 7-7 18" />
+  </Frame>
+  if (id === 273) return <Frame id={id} label="A potato glows red-hot on a heat gauge while two oven mitts struggle to hold it">
+    <path className="hot-potato" d="M108 67c33-32 93-22 117 17 30 48-3 108-59 111-54 3-91-47-73-95 4-12 8-23 15-33Z" /><circle className="potato-eye" cx="135" cy="103" r="5" /><circle className="potato-eye" cx="184" cy="132" r="6" /><path className="heat-lines" d="M127 49c-13-17 10-22-1-39m43 34c-11-18 12-22 1-39m42 51c-8-16 12-18 6-34" /><path className="oven-mitt left-mitt" d="M92 145c-29-7-48 11-45 36 3 26 27 45 58 38l31-20-15-45Z" /><path className="oven-mitt right-mitt" d="M229 143c29-8 50 9 48 34-2 27-26 47-57 41l-32-19 14-46Z" /><path className="heat-gauge" d="M292 43v126m0 0a20 20 0 1 0 0 40 20 20 0 0 0 0-40Zm0-3V80" />
+  </Frame>
+  if (id === 274) return <Frame id={id} label="A narrow opened sardine tin is packed edge-to-edge with overlapping fish">
+    <rect className="sardine-tin" x="35" y="55" width="270" height="137" rx="45" /><path className="tin-rim" d="M55 74h230v99H55Z" />{[[82,93],[133,93],[184,93],[235,93],[108,140],[159,140],[210,140],[261,140]].map(([x,y],index)=><g className="tin-fish" transform={`translate(${x} ${y})`} key={index}><path d="M-24 0c15-20 42-20 57 0-15 20-42 20-57 0Z" /><path d="m-24 0-14-12v24Z" /><circle cx="24" cy="-3" r="3" /></g>)}<path className="tin-key" d="M276 43h31m-13 0v27" />
+  </Frame>
+  if (id === 275) return <Frame id={id} label="A small fish is left untouched while an enormous fish barely fits inside a sizzling frying pan">
+    <g className="small-spared-fish" transform="translate(62 75)"><path d="M-23 0c15-18 40-18 54 0-14 18-39 18-54 0Z" /><path d="m-23 0-15-12v24Z" /><circle cx="21" cy="-3" r="3" /></g><path className="frying-pan" d="M108 166c0-45 44-74 98-74s98 29 98 74c0 39-44 56-98 56s-98-17-98-56Zm196-3 34-15" /><g className="big-fry-fish" transform="translate(204 157)"><path d="M-69 0c42-50 116-50 153 0-37 49-111 49-153 0Z" /><path d="m-69 0-34-29v58Z" /><circle cx="65" cy="-8" r="7" /></g><path className="sizzle-lines" d="M150 76c-12-17 9-23-1-39m57 43c-11-19 12-24 1-42m55 50c-8-17 11-22 3-36" />
+  </Frame>
+  if (id === 276) return <Frame id={id} label="A bee buzzes underneath and inside the crown of a traditional bonnet">
+    <path className="bonnet-crown" d="M76 146c1-67 35-111 94-111s93 44 94 111Z" /><path className="bonnet-brim" d="M36 146h268c-10 40-57 59-134 59S46 186 36 146Z" /><path className="bonnet-ribbon" d="M95 123h149v28H95Zm16 72-31 38m149-38 31 38" /><g className="bonnet-bee" transform="translate(170 96)"><ellipse rx="24" ry="16" /><path d="M-12-14v28M0-16v32M12-14v28" /><ellipse className="bee-wing" cx="-15" cy="-21" rx="15" ry="10" transform="rotate(25 -15 -21)" /><ellipse className="bee-wing" cx="15" cy="-21" rx="15" ry="10" transform="rotate(-25 15 -21)" /><path className="bee-antenna" d="M-8-15c-8-12-15-11-19-4m35 4c8-12 15-11 19-4" /></g><path className="bee-buzz" d="M138 82c-12-12-12-24 0-34m64 34c12-12 12-24 0-34" />
+  </Frame>
   if (id === 277) return <Frame id={id} label="A spoken message travels straight out from a horse's mouth">
     <path className="horse-head" d="M62 65c31-31 83-21 102 12l-13 38-35 23-9 47-40-14 8-48-26-28Z" /><path className="horse-ear" d="m70 68-15-39 35 27m55 12 11-41-34 32" /><circle className="horse-eye" cx="113" cy="87" r="6" /><path className="horse-muzzle" d="M75 123c22 5 51 1 76-8" /><path className="speech-straight" d="M148 123h158m-20-13 20 13-20 13" /><circle className="speech-dot" cx="181" cy="123" r="6" /><circle className="speech-dot" cx="209" cy="123" r="6" /><circle className="speech-dot" cx="237" cy="123" r="6" />
+  </Frame>
+  if (id === 278) return <Frame id={id} label="The word ALL is scattered across every room, floor and corner of a small place map">
+    <path className="place-map" d="M34 35h272v170H34Z" /><path className="place-rooms" d="M34 104h272M121 35v170m99-101v101" />{[[71,75,-8],[167,72,9],[262,69,-5],[74,151,11],[166,155,-11],[261,154,7]].map(([x,y,r],index)=><text className="all-stamp" x={x} y={y} transform={`rotate(${r} ${x} ${y})`} key={index}>ALL</text>)}<path className="map-pin" d="M170 118c-20 0-32 16-32 33 0 23 32 50 32 50s32-27 32-50c0-17-12-33-32-33Z" /><circle className="pin-hole" cx="170" cy="151" r="9" />
+  </Frame>
+  if (id === 279) return <Frame id={id} label="An exceptionally long story scroll is cut by scissors into one very short final strip">
+    <path className="long-scroll" d="M23 51h269v94H23c21-25 21-69 0-94Z" /><path className="story-lines" d="M54 76h209M54 98h226M54 120h194" /><path className="scroll-cut" d="M238 38v121" /><g className="story-scissors" transform="translate(239 178)"><circle cx="-13" cy="15" r="12" /><circle cx="13" cy="15" r="12" /><path d="m-8 5 39-45M8 5l-39-45" /></g><path className="short-strip" d="M266 171h54v31h-54Z" /><path className="short-line" d="M276 186h34" />
+  </Frame>
+  if (id === 280) return <Frame id={id} label="The same old photograph appears again and again around a circular timeline arrow">
+    <path className="history-loop" d="M81 190c-54-75 10-163 91-153 76 9 113 99 64 158m-17-3 20 7 7-21" />{[[72,112,-13],[166,51,4],[245,129,14],[153,166,-5]].map(([x,y,r],index)=><g className="history-photo" transform={`translate(${x} ${y}) rotate(${r})`} key={index}><rect x="-37" y="-31" width="74" height="62" rx="4" /><circle cx="-13" cy="-6" r="9" /><path d="M-31 20-9 1 5 13 19-4 31 20Z" /></g>)}
   </Frame>
   if (id === 284) return <Frame id={id} label="A row of laughing faces ends with one final spotlighted laugh">
     {[55,105,155].map(x=><g className="laugh-face" transform={`translate(${x} 119)`} key={x}><circle r="27" /><path d="M-12-5h4m12 0h4M-13 8q13 18 26 0" /></g>)}<path className="laugh-finish" d="M199 44v153" /><g className="last-laugh" transform="translate(260 119)"><circle r="44" /><path d="M-18-8h7m16 0h7M-22 10q22 28 44 0" /></g><path className="laugh-rays" d="M260 53V27m-54 43-18-18m126 18 18-18m-126 116-18 18m126-18 18 18" />
