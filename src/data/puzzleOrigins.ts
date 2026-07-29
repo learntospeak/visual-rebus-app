@@ -188,7 +188,7 @@ export const puzzleOrigins: Readonly<Record<number, string>> = {
   187: 'A “point” can be both a small mark and the central meaning of an argument. Missing the point therefore became a compact way to describe failing to understand what matters most.',
   188: 'A blessing is normally wholly good, but real benefits can bring disadvantages with them. “Mixed blessing” became established in the 1800s for something containing both welcome and unwelcome results.',
   189: 'A “close call” is a danger or failure avoided by a very narrow margin. The expression became common in the 1800s, although whether “call” came from judging, signalling or another use is not certain.',
-  190: 'The modern phrase grew from the nine-dot puzzle, whose solution requires drawing beyond an imagined square. “Think outside the box” is documented from the early 1970s.',
+  190: 'Pandora appears in ancient Greek mythology. In Hesiod’s telling she opens a sealed jar—not a box—and releases hardships into the world; later translations and artworks turned the container into the familiar “Pandora’s box.”',
   191: 'The comparison appeared in English during the 1800s. A large bull surrounded by fragile china became an obvious picture of a clumsy person causing damage in a delicate situation.',
   192: 'Ancient and medieval writers repeated a belief that crocodiles wept while killing or eating their prey. The false natural-history story produced “crocodile tears” for an insincere display of sorrow.',
   193: 'A hidden snake has represented treachery since ancient literature. The grass conceals the danger until it strikes, making the phrase a warning about a deceitful person who appears harmless.',

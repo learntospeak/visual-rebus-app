@@ -109,21 +109,22 @@ const chapterSixGeneratedPuzzleIds = [
 const chapterSevenGeneratedPuzzleIds = [316, 317, 319, 329, 331, 366, 370, 382, 393, 407]
 const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
 const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
+const reworkedVectorPuzzleIds = [148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214, 215, 216, 217, 220, 221]
 
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const { explanation: legacyExplanation, ...puzzleDraft } = draft
   void legacyExplanation
   const score = difficultyScores[draft.id] ?? (draft.id >= 501 ? 10 : draft.id >= 416 ? 9 : draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
-  const usesInlineSvg = [13, 20].includes(draft.id)
+  const usesInlineSvg = [13, 20, ...reworkedVectorPuzzleIds].includes(draft.id)
   const usesLicensedFootprint = draft.id === 13
-  const usesGeneratedArtwork = reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id)
+  const usesGeneratedArtwork = !usesInlineSvg && (reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id))
   const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : draft.id <= 415 ? 'chapter-7' : draft.id <= 500 ? 'chapter-8' : draft.id <= 550 ? 'chapter-9' : 'chapter-10'
   const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id <= 500 ? draft.id - 415 : draft.id <= 550 ? draft.id - 500 : draft.id - 550
 
   return {
     ...puzzleDraft,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${[118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${[118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
@@ -141,7 +142,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       : undefined,
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) ? 2 : 1,
+      version: [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) ? 2 : 1,
       creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : usesGeneratedArtwork ? 'Clue Canvas / OpenAI image generation' : 'Visual Rebus project',
       source: usesLicensedFootprint
         ? 'GiFootprint from Game Icons via react-icons'
@@ -938,8 +939,8 @@ const candidatePuzzles: StarterPuzzleDraft[] = [
     { content: '◉', className: 'draft-blind-eye' }, { content: '●', className: 'draft-blind-spot', ariaLabel: 'A blindfolded eye unable to see a nearby black spot' },
   ], ['One symbol represents sight.', 'A dark bar prevents it from seeing the nearby dot.', 'The phrase describes something overlooked.'], ['A blinded eye cannot see the spot.', 'It is a “blind spot.”']),
   candidate(148, 'window of opportunity', '6 2 11', 'Medium', 'typography', [
-    { content: 'OPPORTUNITY', className: 'draft-opportunity-window', ariaLabel: 'The word OPPORTUNITY visible through a wide open window' },
-  ], ['The long word is visible through an opening.', 'That opening is part of a wall.', 'The phrase means a favourable chance to act.'], ['OPPORTUNITY appears through an open window.', 'It is a “window of opportunity.”']),
+    { content: '', className: 'draft-opportunity-window', ariaLabel: 'An open window briefly reveals a golden prize while an hourglass runs down' },
+  ], ['A valuable chance is visible, but only through one opening.', 'The hourglass says the opening will not last.', 'The answer describes a brief chance to act.'], ['A brief opening reveals a valuable opportunity.', 'It is a “window of opportunity.”']),
   candidate(149, 'key to success', '3 2 7', 'Easy', 'icon', [
     { content: '🔑', className: 'draft-success-key' }, { content: 'SUCCESS', className: 'draft-success-word', ariaLabel: 'A key pointing directly toward the word SUCCESS' },
   ], ['The object can unlock something.', 'Its target is a positive outcome.', 'Combine the object with the target.'], ['A key leads directly to SUCCESS.', 'It is the “key to success.”']),
@@ -947,8 +948,8 @@ const candidatePuzzles: StarterPuzzleDraft[] = [
     { content: '👣', className: 'draft-stone-steps' }, { content: '●  ●  ●', className: 'draft-stepping-stones', ariaLabel: 'Footprints travelling across a row of rounded stepping stones' },
   ], ['Follow the footprints.', 'They move across separate rocks.', 'Name the action before the object.'], ['Feet are stepping across stones.', 'They form a “stepping stone.”']),
   candidate(151, 'fork in the road', '4 2 3 4', 'Easy', 'illustration', [
-    { content: '', className: 'chapter-four-scene fork-road-scene', ariaLabel: 'A giant dining fork embedded exactly where an asphalt road divides' },
-  ], ['The road divides into two routes.', 'A piece of cutlery stands at the exact split.', 'The phrase describes a point requiring a choice.'], ['A fork stands in the fork of a road.', 'It is a “fork in the road.”']),
+    { content: '', className: 'chapter-four-scene fork-road-scene', ariaLabel: 'One road divides into three narrow routes shaped like fork tines' },
+  ], ['Follow the road from the bottom.', 'Its single route divides into several parallel tips.', 'The phrase describes a point requiring a choice.'], ['The road itself branches into the shape of a fork.', 'It is a “fork in the road.”']),
   candidate(152, 'uphill battle', '6 6', 'Medium', 'typography', [
     { content: 'BATTLE', className: 'draft-uphill-battle', ariaLabel: 'The word BATTLE struggling upward along a steep diagonal hill' },
   ], ['The word names a difficult struggle.', 'Its path slopes sharply upward.', 'The phrase describes a very difficult task.'], ['BATTLE climbs a steep hill.', 'It is an “uphill battle.”']),
@@ -968,8 +969,8 @@ const candidatePuzzles: StarterPuzzleDraft[] = [
     { content: '◉', className: 'draft-storm-eye', ariaLabel: 'A large eye sitting in the calm centre of a circular storm' },
   ], ['The centre contains an organ of sight.', 'Everything around it swirls like violent weather.', 'Name the centre before the weather.'], ['An eye occupies the centre of a storm.', 'It is the “eye of the storm.”']),
   candidate(158, 'on cloud nine', '2 5 4', 'Easy', 'icon', [
-    { content: '9', className: 'draft-cloud-nine', ariaLabel: 'The number nine sitting on top of a soft white cloud' },
-  ], ['Read the number.', 'Notice what it is sitting on.', 'The phrase means feeling extremely happy.'], ['Nine sits on a cloud.', 'It is “on cloud nine.”']),
+    { content: '', className: 'draft-cloud-nine', ariaLabel: 'A delighted figure stands on the highest of nine ascending clouds' },
+  ], ['Count the rising shapes carefully.', 'Someone is celebrating on the highest one.', 'The phrase means feeling extremely happy.'], ['A delighted figure stands on the ninth cloud.', 'They are “on cloud nine.”']),
   candidate(159, 'rain on your parade', '4 2 4 6', 'Medium', 'illustration', [
     { content: '☁', className: 'draft-parade-cloud' }, { content: '☂  ♫  ⚑  ♫', className: 'draft-rained-parade', ariaLabel: 'A raincloud pouring rain directly onto a cheerful parade' },
   ], ['A celebration is moving below.', 'Bad weather is falling directly onto it.', 'The phrase means spoiling someone’s enjoyment.'], ['Rain falls on a parade.', 'It shows “rain on your parade.”']),
@@ -977,11 +978,11 @@ const candidatePuzzles: StarterPuzzleDraft[] = [
     { content: '●', className: 'draft-limb-person' }, { content: '', className: 'draft-tree-limb', ariaLabel: 'A person standing precariously at the far outer end of a tree limb' },
   ], ['The figure is far from the trunk.', 'Only a narrow branch supports them.', 'The phrase describes taking a risky position.'], ['A person stands far out on a tree limb.', 'They are “out on a limb.”']),
   candidate(161, 'branching out', '9 3', 'Medium', 'typography', [
-    { content: 'OUT', className: 'draft-branching-out', ariaLabel: 'The word OUT splitting into several branching paths' },
-  ], ['The word begins as one path.', 'It then divides into several branches.', 'The phrase means expanding into new areas.'], ['OUT grows along multiple branches.', 'It is “branching out.”']),
+    { content: 'OUT', className: 'draft-branching-out', ariaLabel: 'One central path grows into four branches spreading outward' },
+  ], ['One route begins at the base.', 'It divides and spreads in several outward directions.', 'The phrase means expanding into new areas.'], ['A single path branches outward.', 'It is “branching out.”']),
   candidate(162, 'root of the problem', '4 2 3 7', 'Medium', 'typography', [
-    { content: 'PROBLEM', className: 'draft-problem-root', ariaLabel: 'The word PROBLEM positioned at the base of a spreading root system' },
-  ], ['The word names a difficulty.', 'It sits where a plant begins underground.', 'The phrase means the fundamental cause of an issue.'], ['PROBLEM sits at the root of a plant.', 'It is the “root of the problem.”']),
+    { content: 'PROBLEM', className: 'draft-problem-root', ariaLabel: 'The word PROBLEM is embedded clearly inside the central root of a tree' },
+  ], ['Look below the ground rather than at the tree.', 'The difficulty is embedded in its central foundation.', 'The phrase means the fundamental cause of an issue.'], ['PROBLEM is built into the tree’s main root.', 'It is the “root of the problem.”']),
   candidate(163, 'family tree', '6 4', 'Easy', 'illustration', [
     { content: '', className: 'chapter-four-scene family-tree-scene', ariaLabel: 'A mature tree holding six framed portraits from three family generations' },
   ], ['The branches hold portraits rather than fruit.', 'The people belong to several generations.', 'Combine the relationship with the plant.'], ['A family’s portraits grow across the branches of a tree.', 'It is a “family tree.”']),
@@ -1004,7 +1005,7 @@ type ChapterFiveSpec = {
 
 const chapterFiveSpecs: ChapterFiveSpec[] = [
   { answer: 'fine print', pattern: '4 5', visual: 'PRINT', description: 'PRINT shown in exceptionally fine, compact lettering' },
-  { answer: 'cross purposes', pattern: '5 8', visual: 'PURPOSE\n    ×\nPURPOSE', description: 'Two PURPOSE words crossing one another', difficulty: 'Hard' },
+  { answer: 'cross purposes', pattern: '5 8', visual: '', description: 'Two PURPOSE arrows travel across one another in conflicting directions', difficulty: 'Hard' },
   { answer: 'double cross', pattern: '6 5', visual: 'CROSS  CROSS', description: 'CROSS shown twice' },
   { answer: 'toe the line', pattern: '3 3 4', visual: 'TOE\n────────────', description: 'TOE placed precisely against a line' },
   { answer: 'line of duty', pattern: '4 2 4', visual: 'D U T Y\n─────────', description: 'DUTY arranged along a line' },
@@ -1014,20 +1015,20 @@ const chapterFiveSpecs: ChapterFiveSpec[] = [
   { answer: 'below average', pattern: '5 7', visual: 'AVERAGE\n\n\nBELOW', description: 'BELOW positioned under AVERAGE' },
   { answer: 'back order', pattern: '4 5', visual: 'REDRO', description: 'ORDER written backwards', difficulty: 'Hard' },
   { answer: 'looking back', pattern: '7 4', visual: 'G N I K O O L  ←', description: 'LOOKING reversed and pointing back', difficulty: 'Hard' },
-  { answer: 'repeat after me', pattern: '6 5 2', visual: 'ME   ME   ME   ME', description: 'ME followed by repeated copies' },
+  { answer: 'repeat after me', pattern: '6 5 2', visual: '', description: 'ME speaks first and three fading echoes repeat after it' },
   { answer: 'above average', pattern: '5 7', visual: 'ABOVE\n\nAVERAGE', description: 'ABOVE positioned over AVERAGE', difficulty: 'Hard' },
   { answer: 'head in the sand', pattern: '4 2 3 4', visual: 'S A N D\n  HEAD\nS A N D', description: 'HEAD buried within SAND' },
-  { answer: 'nowhere to be found', pattern: '7 2 2 5', visual: 'NO   WHERE\n\nFOUND?', description: 'FOUND is absent from NO WHERE', difficulty: 'Hard' },
+  { answer: 'nowhere to be found', pattern: '7 2 2 5', visual: '', description: 'A magnifying glass searches an empty map where every location marker has vanished', difficulty: 'Hard' },
   { answer: 'no turning back', pattern: '2 7 4', visual: 'BACK  ⛔  ↶', description: 'BACK blocked from turning', difficulty: 'Hard' },
   { answer: 'space invader', pattern: '5 7', visual: 'I N V A D E R', description: 'INVADER filled with extra space' },
-  { answer: 'falling apart', pattern: '7 5', visual: 'FALLING                       APART', description: 'FALLING and APART widely separated' },
-  { answer: 'a step ahead', pattern: '1 4 5', visual: 'STEP  →          AHEAD', description: 'A STEP moving AHEAD' },
-  { answer: 'one step behind', pattern: '3 4 6', visual: 'AHEAD          1 STEP', description: 'One STEP behind AHEAD' },
-  { answer: 'no strings attached', pattern: '2 7 8', visual: 'STRING               STRING', description: 'Loose strings not attached', difficulty: 'Hard' },
+  { answer: 'falling apart', pattern: '7 5', visual: '', description: 'The letters of APART separate and fall away in different directions' },
+  { answer: 'a step ahead', pattern: '1 4 5', visual: '', description: 'One bright footprint leads a pack by exactly one pace' },
+  { answer: 'one step behind', pattern: '3 4 6', visual: '', description: 'Exactly one footprint trails behind the others on a marked path' },
+  { answer: 'no strings attached', pattern: '2 7 8', visual: '', description: 'Two gift tags float separately with their strings visibly cut', difficulty: 'Hard' },
   { answer: 'missing the point', pattern: '7 3 5', visual: 'POIN_', description: 'POINT with its final letter missing' },
   { answer: 'mixed blessing', pattern: '5 8', visual: 'B L E S S I N G\nS S E B L I N G', description: 'The letters of BLESSING mixed up', difficulty: 'Hard' },
   { answer: 'a close call', pattern: '1 5 4', visual: 'CALLCALL', description: 'Two CALL words pressed close together' },
-  { answer: 'think outside the box', pattern: '5 7 3 3', visual: 'THINK      ┌──────┐\n           │      │\n           └──────┘', description: 'THINK outside an empty box' },
+  { answer: "pandora's box", pattern: '8 3', visual: '', description: 'An ornate ancient box opens and releases mysterious glowing shapes', format: 'illustration', difficulty: 'Hard' },
   { answer: 'bull in a china shop', pattern: '4 2 1 5 4', visual: '', description: 'A realistic bull inside a delicate china shop', format: 'illustration' },
   { answer: 'crocodile tears', pattern: '9 5', visual: '', description: 'A crocodile shedding conspicuous tears', format: 'illustration' },
   { answer: 'snake in the grass', pattern: '5 2 3 5', visual: '', description: 'A snake concealed in dense grass', format: 'illustration' },
@@ -1048,11 +1049,11 @@ const chapterFiveSpecs: ChapterFiveSpec[] = [
   { answer: 'monkey on your back', pattern: '6 2 4 4', visual: '', description: 'A monkey clinging to a walking person’s back', format: 'illustration' },
   { answer: "lion's share", pattern: '5 5', visual: '', description: 'A lion beside an enormous share and a tiny remainder', format: 'illustration', difficulty: 'Hard' },
   { answer: 'horse of a different colour', pattern: '5 2 1 9 6', visual: '', description: 'One vivid blue horse among three brown horses', format: 'illustration' },
-  { answer: 'first things first', pattern: '5 6 5', visual: 'FIRST\nTHINGS\nFIRST', description: 'FIRST appearing before THINGS' },
-  { answer: 'last but not least', pattern: '4 3 3 5', visual: 'LAST   BUT NOT   LEAST', description: 'LEAST placed last and strongly emphasized' },
-  { answer: 'zero tolerance', pattern: '4 9', visual: '0  TOLERANCE', description: 'Zero directly beside TOLERANCE' },
-  { answer: 'the last straw', pattern: '3 4 5', visual: 'STRAW  STRAW  STRAW                 STRAW', description: 'One final straw isolated at the end' },
-  { answer: 'the final countdown', pattern: '3 5 9', visual: '5   4   3   2   1', description: 'A countdown reaching its final number' },
+  { answer: 'first things first', pattern: '5 6 5', visual: '', description: 'A number-one badge is positioned before a collection of assorted things' },
+  { answer: 'last but not least', pattern: '4 3 3 5', visual: '', description: 'The final object in a sequence is much larger and brighter than all those before it' },
+  { answer: 'zero tolerance', pattern: '4 9', visual: '', description: 'A precision gauge measures absolutely no allowable gap between two blocks' },
+  { answer: 'the last straw', pattern: '3 4 5', visual: '', description: 'One final straw descends toward the overloaded back of a camel' },
+  { answer: 'the final countdown', pattern: '3 5 9', visual: '', description: 'A launch display counts down to one final illuminated signal' },
 ]
 
 const chapterFivePuzzles = chapterFiveSpecs.map((spec, index) => {
@@ -1075,12 +1076,12 @@ const chapterFivePuzzles = chapterFiveSpecs.map((spec, index) => {
 })
 
 const chapterSixSpecs: ChapterFiveSpec[] = [
-  { answer: 'against the clock', pattern: '7 3 5', visual: 'AGAINST  ◷', description: 'AGAINST pressed directly against a clock face', difficulty: 'Hard' },
-  { answer: 'in the nick of time', pattern: '2 3 4 2 4', visual: 'TIME\n   ˅\n   NICK', description: 'A tiny nick cut into the word TIME', difficulty: 'Hard' },
+  { answer: 'against the clock', pattern: '7 3 5', visual: '', description: 'A runner races directly against an oncoming clock as an opponent', difficulty: 'Hard' },
+  { answer: 'in the nick of time', pattern: '2 3 4 2 4', visual: '', description: 'A tiny nick appears at the very last minute on an analogue clock', difficulty: 'Hard' },
   { answer: 'split second', pattern: '5 6', visual: 'SEC   OND', description: 'The word SECOND split cleanly in two', difficulty: 'Hard' },
   { answer: 'the third degree', pattern: '3 5 6', visual: 'DEGREE  DEGREE  DEGREE', description: 'DEGREE shown for the third time', difficulty: 'Hard' },
-  { answer: 'the four corners of the earth', pattern: '3 4 7 2 3 5', visual: 'EARTH                         EARTH\n\n\nEARTH                         EARTH', description: 'EARTH placed in all four corners', difficulty: 'Hard' },
-  { answer: 'blank cheque', pattern: '5 6', visual: '┌──────────────────┐\n│                  │\n└──────────────────┘', description: 'A completely blank cheque-shaped form', difficulty: 'Hard' },
+  { answer: 'the four corners of the earth', pattern: '3 4 7 2 3 5', visual: '', description: 'Four separate sheets of paper each hold one corner piece of the Earth', difficulty: 'Hard' },
+  { answer: 'blank cheque', pattern: '5 6', visual: '', description: 'A detailed bank cheque has empty payee, amount and signature lines', difficulty: 'Hard' },
   { answer: 'paper trail', pattern: '5 5', visual: 'PAPER → PAPER → PAPER →', description: 'PAPER copies forming a trail', difficulty: 'Hard' },
   { answer: 'red tape', pattern: '3 4', visual: 'TAPE  TAPE  TAPE', description: 'The word TAPE presented as a red barrier', difficulty: 'Hard' },
   { answer: 'green light', pattern: '5 5', visual: '●\nLIGHT', description: 'LIGHT beneath a green signal', difficulty: 'Hard' },

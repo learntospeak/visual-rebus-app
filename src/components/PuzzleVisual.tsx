@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
 
@@ -77,6 +77,126 @@ const assetRenderers: Partial<Record<NonNullable<Puzzle['assetKey']>, () => Reac
   'chip-shoulder': ChipOnShoulder,
   'tongue-tied': TongueTied,
   'foot-mouth': FootInMouth,
+}
+
+function ReworkedPuzzleArt({ id }: { id: number }) {
+  if (id === 148) return (
+    <div className="puzzle-visual opportunity-window-art" role="img" aria-label="An open window briefly revealing a golden trophy while an hourglass runs down">
+      <span className="window-wall" aria-hidden="true"><i className="window-open-pane" /><b>★</b></span><span className="window-hourglass" aria-hidden="true">⌛</span>
+    </div>
+  )
+  if (id === 151) return (
+    <div className="puzzle-visual fork-road-art" role="img" aria-label="One road dividing into three narrow routes shaped like the tines of a fork">
+      <span className="fork-road-stem" aria-hidden="true" /><span className="fork-road-left" aria-hidden="true" /><span className="fork-road-middle" aria-hidden="true" /><span className="fork-road-right" aria-hidden="true" />
+    </div>
+  )
+  if (id === 158) return (
+    <div className="puzzle-visual cloud-nine-art" role="img" aria-label="Nine ascending clouds with a delighted person standing on the highest cloud">
+      <span className="cloud-stair" aria-hidden="true">{Array.from({ length: 9 }, (_, index) => <i key={index} style={{ '--cloud-index': index } as CSSProperties} />)}</span>
+      <b aria-hidden="true"><i /></b>
+    </div>
+  )
+  if (id === 161) return (
+    <div className="puzzle-visual branching-out-art" role="img" aria-label="One central path growing into several branches that spread outward">
+      <svg viewBox="0 0 320 230" aria-hidden="true"><path d="M160 210V128M160 133 75 62M160 133l85-71M160 142 39 125M160 142l121-17" /><circle cx="160" cy="210" r="13" /><circle cx="75" cy="62" r="15" /><circle cx="245" cy="62" r="15" /><circle cx="39" cy="125" r="15" /><circle cx="281" cy="125" r="15" /><text x="160" y="118">OUT</text></svg>
+    </div>
+  )
+  if (id === 162) return (
+    <div className="puzzle-visual root-problem-art" role="img" aria-label="A tree whose central root contains the word problem">
+      <svg viewBox="0 0 320 240" aria-hidden="true"><path className="root-ground" d="M22 105h276" /><path className="root-trunk" d="M145 105c4-35-8-59-35-79m65 79c-4-35 8-59 35-79m-49 79V30" /><path className="root-lines" d="M160 102v56m0-30-62 48m62-28 72 42m-72-20-24 51m24-51 33 51m-61-61-77 25m133-28 78 18" /><rect x="106" y="127" width="108" height="40" rx="19" /><text x="160" y="153">PROBLEM</text></svg>
+    </div>
+  )
+  if (id === 167) return (
+    <div className="puzzle-visual cross-purposes-art" role="img" aria-label="Two purpose arrows travelling across one another in conflicting directions">
+      <span className="purpose-horizontal" aria-hidden="true">PURPOSE</span><span className="purpose-vertical" aria-hidden="true">PURPOSE</span>
+    </div>
+  )
+  if (id === 177) return (
+    <div className="puzzle-visual repeat-after-art" role="img" aria-label="The word me speaks first and repeated echoes follow after it">
+      <span className="repeat-speaker" aria-hidden="true">ME</span><span className="repeat-arrow" aria-hidden="true">→</span><span className="repeat-echoes" aria-hidden="true"><i>ME</i><i>ME</i><i>ME</i></span>
+    </div>
+  )
+  if (id === 180) return (
+    <div className="puzzle-visual nowhere-found-art" role="img" aria-label="A magnifying glass searches an empty map where every location marker has disappeared">
+      <span className="search-map" aria-hidden="true"><i /><i /><i /><b>?</b></span><span className="search-glass" aria-hidden="true" />
+    </div>
+  )
+  if (id === 183) return (
+    <div className="puzzle-visual falling-apart-art" role="img" aria-label="The letters in the word apart separate and fall away from one another">
+      <span aria-hidden="true">FALLING</span><b aria-hidden="true">{'APART'.split('').map((letter, index) => <i key={`${letter}-${index}`} style={{ '--fall-index': index } as CSSProperties}>{letter}</i>)}</b>
+    </div>
+  )
+  if (id === 184) return (
+    <div className="puzzle-visual step-ahead-art" role="img" aria-label="One bright footprint is a single pace ahead of a group of footsteps">
+      <span className="step-pack" aria-hidden="true">● ● ●</span><span className="step-leader" aria-hidden="true">●</span><i aria-hidden="true" />
+    </div>
+  )
+  if (id === 185) return (
+    <div className="puzzle-visual step-behind-art" role="img" aria-label="Exactly one footprint trails behind the others on a path">
+      <span className="behind-step" aria-hidden="true">●</span><span className="ahead-steps" aria-hidden="true">● ● ●</span><i aria-hidden="true" />
+    </div>
+  )
+  if (id === 186) return (
+    <div className="puzzle-visual loose-strings-art" role="img" aria-label="Two gift tags float separately with their strings visibly cut and unattached">
+      <span className="string-tag tag-one" aria-hidden="true"><i /></span><span className="string-cut" aria-hidden="true">✂</span><span className="string-tag tag-two" aria-hidden="true"><i /></span>
+    </div>
+  )
+  if (id === 190) return (
+    <div className="puzzle-visual pandora-box-art" role="img" aria-label="An ornate ancient box opens and releases mysterious glowing shapes">
+      <span className="pandora-glow" aria-hidden="true"><i /><i /><i /></span><span className="pandora-lid" aria-hidden="true" /><span className="pandora-chest" aria-hidden="true">◇</span>
+    </div>
+  )
+  if (id === 211) return (
+    <div className="puzzle-visual first-things-art" role="img" aria-label="A number one badge stands before a collection of assorted things">
+      <b aria-hidden="true">1</b><span aria-hidden="true">◆</span><span aria-hidden="true">●</span><span aria-hidden="true">▲</span><span aria-hidden="true">★</span>
+    </div>
+  )
+  if (id === 212) return (
+    <div className="puzzle-visual last-not-least-art" role="img" aria-label="The final shape in a sequence is much larger and brighter than all the others">
+      <span aria-hidden="true">●</span><span aria-hidden="true">●</span><span aria-hidden="true">●</span><b aria-hidden="true">★</b>
+    </div>
+  )
+  if (id === 213) return (
+    <div className="puzzle-visual zero-tolerance-art" role="img" aria-label="A precision gauge shows absolutely no gap between two measured blocks">
+      <span className="tolerance-block left" aria-hidden="true" /><span className="zero-gap" aria-hidden="true">0</span><span className="tolerance-block right" aria-hidden="true" /><i aria-hidden="true">↔</i>
+    </div>
+  )
+  if (id === 214) return (
+    <div className="puzzle-visual last-straw-art" role="img" aria-label="One final straw descends toward the overloaded back of a camel">
+      <svg viewBox="0 0 320 240" aria-hidden="true"><path className="camel" d="M45 168c18-8 28-31 43-54 13-20 32-20 47 2 17-39 47-41 69-5 9 15 18 19 32 13l23-10 17 10-18 16-18 2-10 65h-18l-2-51-67 4-5 47h-18l-7-51-47-3-10 54H61l-1-64-28-5Z" /><path className="straws" d="m91 116 100-8m-94-7 91 18m-84-34 72 40m-54-56 42 51" /><path className="final-straw" d="m174 15-20 68" /></svg>
+    </div>
+  )
+  if (id === 215) return (
+    <div className="puzzle-visual final-countdown-art" role="img" aria-label="A launch countdown reaches its final illuminated number">
+      <span aria-hidden="true"><i>3</i><i>2</i><b>1</b></span><em aria-hidden="true">◆</em><small aria-hidden="true">FINAL</small>
+    </div>
+  )
+  if (id === 216) return (
+    <div className="puzzle-visual against-clock-art" role="img" aria-label="A runner races directly against an oncoming clock">
+      <svg viewBox="0 0 320 220" aria-hidden="true"><circle className="runner-head" cx="73" cy="63" r="14" /><path className="runner-body" d="m78 82 31 22 29-7m-58-15-12 48-30 30m42-30 33 42m-51-62-28 3" /><path className="race-motion" d="M18 74h28M10 96h32M139 111h37" /><circle className="race-clock" cx="238" cy="111" r="58" /><path className="race-hands" d="M238 68v43h34" /></svg>
+    </div>
+  )
+  if (id === 217) return (
+    <div className="puzzle-visual nick-time-art" role="img" aria-label="A tiny nick appears at the very last minute on a clock face">
+      <span className="nicked-clock" aria-hidden="true"><i /><b>⌁</b></span><span className="nick-magnifier" aria-hidden="true" />
+    </div>
+  )
+  if (id === 220) return (
+    <div className="puzzle-visual earth-corners-art" role="img" aria-label="Four separate sheets of paper each show one corner piece of the Earth">
+      <svg viewBox="0 0 340 250" aria-hidden="true">
+        <g className="earth-paper paper-one"><rect x="22" y="18" width="128" height="92" rx="5" /><path className="earth-sea" d="M150 110H76a74 74 0 0 1 74-74Z" /><path className="earth-land" d="m116 73 16-18 16 8-7 17-13 4-5 19-25-5Z" /></g>
+        <g className="earth-paper paper-two"><rect x="190" y="18" width="128" height="92" rx="5" /><path className="earth-sea" d="M190 110h74a74 74 0 0 0-74-74Z" /><path className="earth-land" d="m210 54 20 7 8 16-13 12-4 16-26-8Z" /></g>
+        <g className="earth-paper paper-three"><rect x="22" y="140" width="128" height="92" rx="5" /><path className="earth-sea" d="M150 140H76a74 74 0 0 0 74 74Z" /><path className="earth-land" d="m105 153 27 10 8 25-17 17-24-12 8-16-13-12Z" /></g>
+        <g className="earth-paper paper-four"><rect x="190" y="140" width="128" height="92" rx="5" /><path className="earth-sea" d="M190 140h74a74 74 0 0 1-74 74Z" /><path className="earth-land" d="m205 158 25-8 18 16-7 14 13 15-30 8-18-19Z" /></g>
+      </svg>
+    </div>
+  )
+  if (id === 221) return (
+    <div className="puzzle-visual blank-cheque-art" role="img" aria-label="A detailed bank cheque with blank payee, amount and signature lines">
+      <svg viewBox="0 0 340 210" aria-hidden="true"><rect className="cheque-paper" x="13" y="17" width="314" height="176" rx="10" /><circle className="cheque-logo" cx="44" cy="49" r="16" /><path className="cheque-wave" d="M68 39h228M28 82h282M92 119h205M187 154h110" /><text x="68" y="52">CLUE BANK</text><text x="28" y="76">PAY</text><text x="28" y="113">AMOUNT</text><text x="187" y="148">SIGNATURE</text><rect className="cheque-amount" x="245" y="60" width="64" height="39" rx="4" /><text className="cheque-dollar" x="254" y="86">$</text><text className="cheque-code" x="28" y="174">⑆  012345  ⑆  000000  ⑈</text></svg>
+    </div>
+  )
+  return null
 }
 
 const generatedPuzzleArt: Partial<Record<number, string>> = {
@@ -182,6 +302,11 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
         <small>{activated ? 'Now, name what you see.' : 'Tap the closet to open it.'}</small>
       </button>
     )
+  }
+
+  const reworkedArt = <ReworkedPuzzleArt id={puzzle.id} />
+  if ([148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214, 215, 216, 217, 220, 221].includes(puzzle.id)) {
+    return reworkedArt
   }
 
   const generatedArt = generatedPuzzleArt[puzzle.id]
