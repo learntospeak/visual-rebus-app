@@ -61,11 +61,9 @@ export default function App() {
 
     updateVisibleHeight()
     viewport?.addEventListener('resize', updateVisibleHeight)
-    viewport?.addEventListener('scroll', updateVisibleHeight)
     window.addEventListener('resize', updateVisibleHeight)
     return () => {
       viewport?.removeEventListener('resize', updateVisibleHeight)
-      viewport?.removeEventListener('scroll', updateVisibleHeight)
       window.removeEventListener('resize', updateVisibleHeight)
     }
   }, [])
