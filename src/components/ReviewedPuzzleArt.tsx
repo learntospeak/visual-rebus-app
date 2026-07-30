@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import React, { type CSSProperties, type ReactNode } from 'react'
 
 const reviewedPuzzleIds = new Set([
   222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255,
@@ -107,8 +107,8 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   if (id === 253) return <Frame id={id} label="A single one-times token sits directly upon the face of a large clock">
     <circle className="once-clock" cx="170" cy="139" r="76" /><g className="once-ticks">{Array.from({length:12},(_,index)=><path d="M170 72v12" transform={`rotate(${index * 30} 170 139)`} key={index} />)}</g><path className="once-hands" d="M170 139v-42m0 42 34 19" /><circle className="once-pin" cx="170" cy="139" r="7" /><g className="once-token"><rect x="133" y="20" width="74" height="58" rx="15" /><text x="170" y="59">1×</text></g>
   </Frame>
-  if (id === 254) return <Frame id={id} label="A clock rests directly across two open hands">
-    <path className="palm" d="M23 176c30-22 54-25 83-9l39 20-13 30-54-14-38 5Z" /><path className="palm" d="M317 176c-30-22-54-25-83-9l-39 20 13 30 54-14 38 5Z" /><circle className="small-clock" cx="170" cy="120" r="67" /><path className="small-clock-hands" d="M170 76v44l31 21" /><g className="clock-ticks">{Array.from({length:12},(_,i)=><line key={i} x1="170" y1="60" x2="170" y2="70" transform={`rotate(${i*30} 170 120)`} />)}</g>
+  if (id === 254) return <Frame id={id} label="A clock is visibly supported by two detailed, upward-facing human hands">
+    <g className="supporting-hand left-supporting-hand"><path d="M4 211 50 170c11-10 22-16 36-21l45-18c11-4 21 1 23 10 2 8-4 15-13 19l-25 10 32-4c12-1 20 5 20 14 0 8-6 14-16 16l-46 9c-18 4-31 12-44 25Z" /><path className="palm-crease" d="M54 183c20 0 37 7 50 22m-9-41 18 8m-38 1 18 9" /></g><g className="supporting-hand right-supporting-hand" transform="translate(340 0) scale(-1 1)"><path d="M4 211 50 170c11-10 22-16 36-21l45-18c11-4 21 1 23 10 2 8-4 15-13 19l-25 10 32-4c12-1 20 5 20 14 0 8-6 14-16 16l-46 9c-18 4-31 12-44 25Z" /><path className="palm-crease" d="M54 183c20 0 37 7 50 22m-9-41 18 8m-38 1 18 9" /></g><circle className="small-clock" cx="170" cy="105" r="67" /><path className="small-clock-hands" d="M170 61v44l31 21" /><g className="clock-ticks">{Array.from({length:12},(_,i)=><line key={i} x1="170" y1="45" x2="170" y2="55" transform={`rotate(${i*30} 170 105)`} />)}</g><circle className="clock-pin" cx="170" cy="105" r="6" />
   </Frame>
   if (id === 255) return <Frame id={id} label="A runner crosses the finish line just ahead of a racing clock">
     <path className="finish-line" d="M96 34v177" /><path className="finish-checks" d="M96 40h19v19H96m19 0h19v19h-19M96 78h19v19H96m19 0h19v19h-19M96 116h19v19H96m19 0h19v19h-19" /><g className="scene-runner"><circle cx="70" cy="84" r="12" /><path d="m72 99 22 25 25-8m-28 8-17 39-28 20m28-20 29 31m-36-77-28 5" /></g><circle className="racing-clock" cx="239" cy="139" r="52" /><path className="racing-hands" d="M239 103v36h27" /><path className="motion-lines" d="M286 105h34m-28 23h35m-34 23h27" />

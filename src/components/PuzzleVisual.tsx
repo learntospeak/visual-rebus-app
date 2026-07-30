@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import React, { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
 import { hasReviewedPuzzleArt, ReviewedPuzzleArt } from './ReviewedPuzzleArt'
