@@ -625,10 +625,13 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.has-compact-keyboard .reviewed-puzzle-art svg { width:auto; height:100%; max-width:100%; max-height:100%; }
   .puzzle-screen.has-compact-keyboard .time-hands-clock-scene { width:100%; height:100%; }
   .puzzle-screen.has-compact-keyboard .answer-form { margin-top:0; }
-  .puzzle-screen.has-compact-keyboard .answer-form>label,
-  .puzzle-screen.has-compact-keyboard .answer-pattern { display:none; }
+  .puzzle-screen.has-compact-keyboard .answer-form>label { display:none; }
+  .puzzle-screen.has-compact-keyboard .answer-pattern { display:flex; gap:4px 8px; margin:4px 2px 6px; }
+  .puzzle-screen.has-compact-keyboard .answer-word { gap:2px; }
+  .puzzle-screen.has-compact-keyboard .letter-slot { width:clamp(10px,3.2vw,15px); height:19px; }
+  .puzzle-screen.has-compact-keyboard .locked-letter { font-size:.88rem; }
   .puzzle-screen.has-compact-keyboard .answer-form input { height:48px; margin-top:0; }
-  .puzzle-screen.has-compact-keyboard .feedback { min-height:14px; margin:2px; font-size:.72rem; }
+  .puzzle-screen.has-compact-keyboard .feedback { min-height:18px; margin:3px 2px; font-size:.75rem; }
   .puzzle-screen.has-compact-keyboard .action-row { gap:8px; }
   .puzzle-screen.has-compact-keyboard .action-row button { min-height:42px; }
   .puzzle-screen.has-compact-keyboard .clue-panel,
