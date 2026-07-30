@@ -9,7 +9,7 @@ import type { Puzzle } from '../types'
 const compactKeyRows = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE', 'BACKSPACE'],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'LEFT', 'RIGHT', 'SPACE', 'BACKSPACE'],
 ]
 
 function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
@@ -21,11 +21,12 @@ function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
             <button
               className={`compact-key compact-key-${key.toLowerCase()}`}
               type="button"
-              aria-label={key === 'BACKSPACE' ? 'Delete last character' : key === 'SPACE' ? 'Space' : key}
+              aria-label={key === 'BACKSPACE' ? 'Delete previous character' : key === 'SPACE' ? 'Space' : key === 'LEFT' ? 'Move cursor left' : key === 'RIGHT' ? 'Move cursor right' : key}
+              onPointerDown={(event) => event.preventDefault()}
               onClick={() => onKey(key)}
               key={key}
             >
-              {key === 'BACKSPACE' ? '⌫' : key === 'SPACE' ? 'SPACE' : key}
+              {key === 'BACKSPACE' ? '⌫' : key === 'SPACE' ? 'SPACE' : key === 'LEFT' ? '◀' : key === 'RIGHT' ? '▶' : key}
             </button>
           ))}
         </div>
@@ -74,7 +75,7 @@ export function PuzzleScreen({
   }
 
   useEffect(() => {
-    if (!useCompactKeyboard) answerInput.current?.focus()
+    answerInput.current?.focus({ preventScroll: true })
   }, [puzzle.id, useCompactKeyboard])
 
   function handleCompactKey(key: string) {
@@ -84,7 +85,10 @@ export function PuzzleScreen({
     let nextGuess = guess
     let nextCursor = selectionStart
 
-    if (key === 'BACKSPACE') {
+    if (key === 'LEFT' || key === 'RIGHT') {
+      if (key === 'LEFT') nextCursor = selectionStart === selectionEnd ? Math.max(0, selectionStart - 1) : selectionStart
+      else nextCursor = selectionStart === selectionEnd ? Math.min(guess.length, selectionEnd + 1) : selectionEnd
+    } else if (key === 'BACKSPACE') {
       if (selectionStart !== selectionEnd) {
         nextGuess = `${guess.slice(0, selectionStart)}${guess.slice(selectionEnd)}`
       } else if (selectionStart > 0) {
@@ -97,7 +101,7 @@ export function PuzzleScreen({
       nextCursor += character.length
     }
 
-    onGuessChange(nextGuess)
+    if (nextGuess !== guess) onGuessChange(nextGuess)
     window.requestAnimationFrame(() => {
       input?.focus({ preventScroll: true })
       input?.setSelectionRange(nextCursor, nextCursor)
