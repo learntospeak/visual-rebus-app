@@ -38,12 +38,10 @@ export function PuzzleScreen({
   onReveal,
 }: PuzzleScreenProps) {
   const answerInput = useRef<HTMLInputElement>(null)
-  const puzzleCard = useRef<HTMLElement>(null)
   const [answerFocused, setAnswerFocused] = useState(false)
 
   function handleAnswerFocus() {
     setAnswerFocused(true)
-    window.setTimeout(() => puzzleCard.current?.scrollIntoView({ block: 'start', behavior: 'smooth' }), 280)
   }
 
   useEffect(() => {
@@ -61,7 +59,7 @@ export function PuzzleScreen({
         <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty}</span>
       </header>
 
-      <section className="puzzle-card" ref={puzzleCard}>
+      <section className="puzzle-card">
         <p>{puzzle.prompt}</p>
         <div className="puzzle-art-frame">
           <PuzzleVisual puzzle={puzzle} />

@@ -107,8 +107,17 @@ export function ReviewedPuzzleArt({ id }: { id: number }) {
   if (id === 253) return <Frame id={id} label="A single one-times token sits directly upon the face of a large clock">
     <circle className="once-clock" cx="170" cy="139" r="76" /><g className="once-ticks">{Array.from({length:12},(_,index)=><path d="M170 72v12" transform={`rotate(${index * 30} 170 139)`} key={index} />)}</g><path className="once-hands" d="M170 139v-42m0 42 34 19" /><circle className="once-pin" cx="170" cy="139" r="7" /><g className="once-token"><rect x="133" y="20" width="74" height="58" rx="15" /><text x="170" y="59">1×</text></g>
   </Frame>
-  if (id === 254) return <Frame id={id} label="A clock is visibly supported by two detailed, upward-facing human hands">
-    <g className="supporting-hand left-supporting-hand"><path d="M4 211 50 170c11-10 22-16 36-21l45-18c11-4 21 1 23 10 2 8-4 15-13 19l-25 10 32-4c12-1 20 5 20 14 0 8-6 14-16 16l-46 9c-18 4-31 12-44 25Z" /><path className="palm-crease" d="M54 183c20 0 37 7 50 22m-9-41 18 8m-38 1 18 9" /></g><g className="supporting-hand right-supporting-hand" transform="translate(340 0) scale(-1 1)"><path d="M4 211 50 170c11-10 22-16 36-21l45-18c11-4 21 1 23 10 2 8-4 15-13 19l-25 10 32-4c12-1 20 5 20 14 0 8-6 14-16 16l-46 9c-18 4-31 12-44 25Z" /><path className="palm-crease" d="M54 183c20 0 37 7 50 22m-9-41 18 8m-38 1 18 9" /></g><circle className="small-clock" cx="170" cy="105" r="67" /><path className="small-clock-hands" d="M170 61v44l31 21" /><g className="clock-ticks">{Array.from({length:12},(_,i)=><line key={i} x1="170" y1="45" x2="170" y2="55" transform={`rotate(${i*30} 170 105)`} />)}</g><circle className="clock-pin" cx="170" cy="105" r="6" />
+  if (id === 254) return <Frame id={id} label="A clock rests across two unmistakable open human palms with five separate fingers on each hand">
+    {[0, 1].map((side) => <g className="open-supporting-hand" transform={side ? 'translate(340 0) scale(-1 1)' : undefined} key={side}>
+      <rect className="hand-finger hand-thumb" x="36" y="125" width="25" height="67" rx="13" transform="rotate(-43 48 158)" />
+      <rect className="hand-finger" x="54" y="81" width="25" height="91" rx="13" transform="rotate(-15 66 126)" />
+      <rect className="hand-finger" x="79" y="64" width="26" height="103" rx="13" transform="rotate(-4 92 115)" />
+      <rect className="hand-finger" x="105" y="73" width="25" height="94" rx="13" transform="rotate(7 117 120)" />
+      <rect className="hand-finger" x="129" y="96" width="23" height="78" rx="12" transform="rotate(18 140 135)" />
+      <path className="hand-palm" d="M54 145c0-17 14-29 31-29h38c18 0 32 14 32 32v41c0 13-5 24-15 32l-7 6H75l-8-9c-9-10-13-22-13-36Z" />
+      <path className="hand-wrist" d="M75 205h58l8 35H69Z" />
+      <path className="palm-crease" d="M70 170c20-15 46-15 67 0m-54 25c11-7 27-7 38 0" />
+    </g>)}<circle className="small-clock" cx="170" cy="91" r="61" /><path className="small-clock-hands" d="M170 51v40l29 18" /><g className="clock-ticks">{Array.from({length:12},(_,i)=><line key={i} x1="170" y1="37" x2="170" y2="47" transform={`rotate(${i*30} 170 91)`} />)}</g><circle className="clock-pin" cx="170" cy="91" r="6" />
   </Frame>
   if (id === 255) return <Frame id={id} label="A runner crosses the finish line just ahead of a racing clock">
     <path className="finish-line" d="M96 34v177" /><path className="finish-checks" d="M96 40h19v19H96m19 0h19v19h-19M96 78h19v19H96m19 0h19v19h-19M96 116h19v19H96m19 0h19v19h-19" /><g className="scene-runner"><circle cx="70" cy="84" r="12" /><path d="m72 99 22 25 25-8m-28 8-17 39-28 20m28-20 29 31m-36-77-28 5" /></g><circle className="racing-clock" cx="239" cy="139" r="52" /><path className="racing-hands" d="M239 103v36h27" /><path className="motion-lines" d="M286 105h34m-28 23h35m-34 23h27" />
