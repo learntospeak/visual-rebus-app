@@ -67,7 +67,7 @@ export function PuzzleScreen({
 }: PuzzleScreenProps) {
   const answerInput = useRef<HTMLInputElement>(null)
   const [answerFocused, setAnswerFocused] = useState(false)
-  const [useCompactKeyboard, setUseCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px)').matches)
+  const [useCompactKeyboard, setUseCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px) and (pointer: coarse)').matches)
 
   function handleAnswerFocus() {
     setAnswerFocused(true)
