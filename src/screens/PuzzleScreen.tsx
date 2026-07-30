@@ -78,15 +78,30 @@ export function PuzzleScreen({
   }, [puzzle.id, useCompactKeyboard])
 
   function handleCompactKey(key: string) {
+    const input = answerInput.current
+    const selectionStart = input?.selectionStart ?? guess.length
+    const selectionEnd = input?.selectionEnd ?? selectionStart
+    let nextGuess = guess
+    let nextCursor = selectionStart
+
     if (key === 'BACKSPACE') {
-      onGuessChange(guess.slice(0, -1))
-      return
+      if (selectionStart !== selectionEnd) {
+        nextGuess = `${guess.slice(0, selectionStart)}${guess.slice(selectionEnd)}`
+      } else if (selectionStart > 0) {
+        nextGuess = `${guess.slice(0, selectionStart - 1)}${guess.slice(selectionEnd)}`
+        nextCursor -= 1
+      }
+    } else {
+      const character = key === 'SPACE' ? ' ' : key.toLowerCase()
+      nextGuess = `${guess.slice(0, selectionStart)}${character}${guess.slice(selectionEnd)}`
+      nextCursor += character.length
     }
-    if (key === 'SPACE') {
-      if (guess && !guess.endsWith(' ')) onGuessChange(`${guess} `)
-      return
-    }
-    onGuessChange(`${guess}${key.toLowerCase()}`)
+
+    onGuessChange(nextGuess)
+    window.requestAnimationFrame(() => {
+      input?.focus({ preventScroll: true })
+      input?.setSelectionRange(nextCursor, nextCursor)
+    })
   }
 
   function usePhoneKeyboard() {
@@ -123,7 +138,6 @@ export function PuzzleScreen({
           onFocus={() => { if (!useCompactKeyboard) handleAnswerFocus() }}
           onBlur={() => window.setTimeout(() => setAnswerFocused(false), 180)}
           disabled={celebrating}
-          readOnly={useCompactKeyboard}
           inputMode={useCompactKeyboard ? 'none' : 'text'}
           autoComplete="off"
           autoCapitalize="none"
