@@ -609,8 +609,18 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.is-answering .puzzle-art-frame { height: clamp(165px, 38dvh, 195px); overflow: hidden; }
   .puzzle-screen.is-answering .puzzle-art-frame > .puzzle-visual {
     height: 270px;
-    transform: scale(.7);
+    transform: scale(.6);
     transform-origin: center;
+  }
+  .puzzle-screen.is-answering .puzzle-art-frame > .reviewed-puzzle-art {
+    height: 100%;
+    transform: none;
+  }
+  .puzzle-screen.is-answering .reviewed-puzzle-art svg {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
   .puzzle-screen.is-answering .answer-form { margin-top: 8px; }
   .puzzle-screen.is-answering .answer-form > label,
@@ -621,6 +631,12 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.is-answering .action-row button { min-height: 46px; }
   .puzzle-screen.is-answering .clue-panel,
   .puzzle-screen.is-answering .reveal-panel { margin-top: 8px; }
+}
+@media (max-width: 600px) and (max-height: 560px) {
+  .puzzle-screen.is-answering .puzzle-header { display: none; }
+  .puzzle-screen.is-answering .puzzle-card { margin-top: 0; }
+  .puzzle-screen.is-answering .puzzle-art-frame { height: clamp(155px, 41dvh, 180px); }
+  .puzzle-screen.is-answering .action-row button { min-height: 42px; }
 }
 @media (min-width: 600px) { body { padding: 28px 0; } .app-shell { min-height: 820px; border-radius: 32px; box-shadow: 0 20px 60px rgba(24,59,86,.13); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
@@ -1008,6 +1024,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .behind-person circle { fill:#efb48f; stroke:#173f59; stroke-width:5; }.behind-person>path:not(.old-hat) { fill:none; stroke:#173f59; stroke-width:8; stroke-linecap:round; }.old-hat { fill:#77604d; stroke:#173f59; stroke-width:5; }.times-paper rect { fill:#fffdf3; stroke:#173f59; stroke-width:5; filter:drop-shadow(0 5px 3px rgba(23,63,89,.16)); }.times-paper text { fill:#173f59; font:950 16px Manrope,sans-serif; text-anchor:middle; letter-spacing:.08em; }.times-paper path { fill:none; stroke:#9aa8ac; stroke-width:3; }.timed-runner circle { fill:#ffd05d; stroke:#173f59; stroke-width:4; }.timed-runner path { fill:none; stroke:#173f59; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; }.double-timer>circle:first-child { fill:#fffaf0; stroke:#2b9996; stroke-width:7; }.double-timer path { fill:none; stroke:#ef6a62; stroke-width:6; stroke-linecap:round; }.double-timer>circle:last-child { fill:#173f59; }.timer-rays { fill:none; stroke:#d8a919; stroke-width:4; stroke-linecap:round; stroke-dasharray:6 7; }
 .in-out-house { fill:#f5e4c3; stroke:#173f59; stroke-width:6; stroke-linejoin:round; }.house-roof { fill:none; stroke:#c45d51; stroke-width:14; stroke-linecap:round; stroke-linejoin:round; }.house-door { fill:#fff9e7; stroke:#173f59; stroke-width:5; }.day-card rect,.week-card rect { fill:#fffdf3; stroke:#173f59; stroke-width:4; filter:drop-shadow(0 5px 3px rgba(23,63,89,.16)); }.day-card path,.week-card path { fill:none; stroke:#8aa1a8; stroke-width:3; }.day-card circle { fill:#ffd159; stroke:#cc8e1b; stroke-width:3; }.week-card circle { fill:#ef6a62; }.outside-day rect,.outside-week rect { fill:#dff1ec; }.once-clock { fill:#fffaf0; stroke:#173f59; stroke-width:8; }.once-ticks path { stroke:#7d8f96; stroke-width:4; }.once-hands { fill:none; stroke:#ef6a62; stroke-width:8; stroke-linecap:round; }.once-pin { fill:#173f59; }.once-token rect { fill:#ffd159; stroke:#9d701c; stroke-width:5; filter:drop-shadow(0 7px 5px rgba(23,63,89,.2)); }.once-token text { fill:#173f59; font:950 34px Manrope,sans-serif; text-anchor:middle; }
 .year-line { stroke:#879aa1; stroke-width:4; }.year-dot { fill:#ef5b61; }.year-large { fill:#173f59; font:950 42px Inter,sans-serif; }.year-mid { fill:#526c77; font:850 27px Inter,sans-serif; }.year-small { fill:#8fa0a6; font:800 15px Inter,sans-serif; }.year-arrows { stroke:#a2b1b6; stroke-dasharray:none; }
+.year-horizon { fill:#d9e5de; stroke:#789096; stroke-width:4; }.year-road-lines { fill:none; stroke:#fff7dd; stroke-width:4; }.receding-year rect { fill:#fffdf3; stroke:#173f59; stroke-width:4; filter:drop-shadow(0 5px 3px rgba(23,63,89,.18)); }.receding-year path { stroke:#ef6a62; stroke-width:3; }.receding-year text { fill:#173f59; font:900 17px Inter,sans-serif; text-anchor:middle; }.year-card-1 text { font-size:13px; }.year-card-2 text { font-size:9px; }.year-origin-dot { fill:#ef6a62; stroke:#fff; stroke-width:2; filter:drop-shadow(0 0 6px #ef6a62); }.year-back-arrow { fill:none; stroke:#2cb1a6; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
 .palm { fill:#e7a47a; stroke:#9e563e; stroke-width:5; }.scene-runner circle { fill:#ffd365; stroke:#173f59; stroke-width:4; }.scene-runner path { fill:none; stroke:#173f59; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; }.finish-line,.right-edge { stroke:#173f59; stroke-width:6; }.finish-checks { fill:#173f59; }.motion-lines { stroke:#67a8bc; }
 .brick-wall { fill:#985348; stroke:#502f2b; stroke-width:6; }.brick-lines { fill:none; stroke:#d99578; stroke-width:3; }.wall-writing { fill:none; stroke:#fff079; stroke-width:8; stroke-linecap:round; filter:drop-shadow(0 0 7px #fff079); }.writing-glow { fill:#fff8a5; }
 .baby-blanket { fill:#82c7cf; stroke:#277b88; stroke-width:5; }.baby-head,.baby-hand { fill:#efb48f; stroke:#8b5544; stroke-width:4; }.baby-curl,.baby-smile,.baby-arm { fill:none; stroke:#704337; stroke-width:4; stroke-linecap:round; }.baby-eye { fill:#173f59; }.silver-spoon ellipse { fill:#e9f0f2; stroke:#66777d; stroke-width:6; }.silver-spoon path { stroke:#9caeb4; stroke-width:12; stroke-linecap:round; }
