@@ -595,21 +595,22 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 @media (max-width: 360px) { .app-shell { padding: max(22px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); } .hero { padding-top: 48px; } .puzzle-card { min-height: 300px; padding: 16px; } .puzzle-art-frame, .puzzle-visual { height: 230px; } }
 @media (max-width: 600px) {
   .puzzle-screen.is-answering {
-    min-height: 100dvh;
-    scroll-padding-bottom: env(safe-area-inset-bottom);
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 8px;
+    height: var(--visible-viewport-height, 100dvh);
+    min-height: 0;
+    max-height: var(--visible-viewport-height, 100dvh);
+    overflow-y: auto;
     padding: max(8px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   }
-  .puzzle-screen.is-answering .puzzle-header { grid-template-columns: 38px 1fr auto; gap: 9px; }
-  .puzzle-screen.is-answering .puzzle-header .icon-button { min-width: 38px; min-height: 38px; }
-  .puzzle-screen.is-answering .puzzle-header .eyebrow { font-size: .65rem; letter-spacing: .1em; }
-  .puzzle-screen.is-answering .mini-track { margin-top: 4px; }
-  .puzzle-screen.is-answering .difficulty { padding: 5px 7px; font-size: .62rem; }
-  .puzzle-screen.is-answering .puzzle-card { min-height: 0; margin-top: 8px; padding: 8px 12px; border-radius: 18px; }
+  .puzzle-screen.is-answering .puzzle-header { display: none; }
+  .puzzle-screen.is-answering .puzzle-card { display: grid; min-height: 145px; height: 100%; margin-top: 0; padding: 6px 12px; border-radius: 18px; }
   .puzzle-screen.is-answering .puzzle-card > p { display: none; }
-  .puzzle-screen.is-answering .puzzle-art-frame { height: clamp(165px, 38dvh, 195px); overflow: hidden; }
+  .puzzle-screen.is-answering .puzzle-art-frame { width: 100%; height: 100%; min-height: 145px; overflow: hidden; }
   .puzzle-screen.is-answering .puzzle-art-frame > .puzzle-visual {
     height: 270px;
-    transform: scale(.6);
+    transform: scale(.68);
     transform-origin: center;
   }
   .puzzle-screen.is-answering .puzzle-art-frame > .reviewed-puzzle-art {
@@ -622,7 +623,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
     max-width: 100%;
     max-height: 100%;
   }
-  .puzzle-screen.is-answering .answer-form { margin-top: 8px; }
+  .puzzle-screen.is-answering .answer-form { margin-top: 0; }
   .puzzle-screen.is-answering .answer-form > label,
   .puzzle-screen.is-answering .answer-pattern { display: none; }
   .puzzle-screen.is-answering .answer-form input { height: 52px; margin-top: 0; }
@@ -631,12 +632,19 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.is-answering .action-row button { min-height: 46px; }
   .puzzle-screen.is-answering .clue-panel,
   .puzzle-screen.is-answering .reveal-panel { margin-top: 8px; }
-}
-@media (max-width: 600px) and (max-height: 560px) {
-  .puzzle-screen.is-answering .puzzle-header { display: none; }
-  .puzzle-screen.is-answering .puzzle-card { margin-top: 0; }
-  .puzzle-screen.is-answering .puzzle-art-frame { height: clamp(155px, 41dvh, 180px); }
-  .puzzle-screen.is-answering .action-row button { min-height: 42px; }
+  .account-screen:focus-within {
+    height: var(--visible-viewport-height, 100dvh);
+    min-height: 0;
+    max-height: var(--visible-viewport-height, 100dvh);
+    overflow-y: auto;
+    padding: max(10px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  }
+  .account-screen:focus-within .chapter-map-header h1 { font-size: 1.8rem; }
+  .account-screen:focus-within .account-tabs { margin-top: 12px; }
+  .account-screen:focus-within .account-form { gap: 12px; margin-top: 8px; padding: 18px; }
+  .account-screen:focus-within .account-form h2 { font-size: 1.3rem; }
+  .account-screen:focus-within .account-form input { height: 50px; }
+  .account-screen:focus-within .account-privacy { margin-top: 12px; }
 }
 @media (min-width: 600px) { body { padding: 28px 0; } .app-shell { min-height: 820px; border-radius: 32px; box-shadow: 0 20px 60px rgba(24,59,86,.13); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
@@ -1026,7 +1034,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .year-line { stroke:#879aa1; stroke-width:4; }.year-dot { fill:#ef5b61; }.year-large { fill:#173f59; font:950 42px Inter,sans-serif; }.year-mid { fill:#526c77; font:850 27px Inter,sans-serif; }.year-small { fill:#8fa0a6; font:800 15px Inter,sans-serif; }.year-arrows { stroke:#a2b1b6; stroke-dasharray:none; }
 .year-horizon { fill:#d9e5de; stroke:#789096; stroke-width:4; }.year-road-lines { fill:none; stroke:#fff7dd; stroke-width:4; }.receding-year rect { fill:#fffdf3; stroke:#173f59; stroke-width:4; filter:drop-shadow(0 5px 3px rgba(23,63,89,.18)); }.receding-year path { stroke:#ef6a62; stroke-width:3; }.receding-year text { fill:#173f59; font:900 17px Inter,sans-serif; text-anchor:middle; }.year-card-1 text { font-size:13px; }.year-card-2 text { font-size:9px; }.year-origin-dot { fill:#ef6a62; stroke:#fff; stroke-width:2; filter:drop-shadow(0 0 6px #ef6a62); }.year-back-arrow { fill:none; stroke:#2cb1a6; stroke-width:5; stroke-linecap:round; stroke-linejoin:round; }
 .palm { fill:#e7a47a; stroke:#9e563e; stroke-width:5; }.scene-runner circle { fill:#ffd365; stroke:#173f59; stroke-width:4; }.scene-runner path { fill:none; stroke:#173f59; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; }.finish-line,.right-edge { stroke:#173f59; stroke-width:6; }.finish-checks { fill:#173f59; }.motion-lines { stroke:#67a8bc; }
-.supporting-hand>path:first-child { fill:#efb28d; stroke:#8b5544; stroke-width:5; stroke-linejoin:round; filter:drop-shadow(0 5px 3px rgba(80,45,35,.18)); }.palm-crease { fill:none; stroke:#bd765c; stroke-width:3; stroke-linecap:round; }
+.open-supporting-hand { filter:drop-shadow(0 5px 3px rgba(80,45,35,.18)); }.hand-finger,.hand-palm,.hand-wrist { fill:#efb28d; stroke:#8b5544; stroke-width:5; stroke-linejoin:round; }.hand-palm { stroke-linecap:round; }.hand-wrist { stroke-width:5; }.palm-crease { fill:none; stroke:#bd765c; stroke-width:3; stroke-linecap:round; }
 .brick-wall { fill:#985348; stroke:#502f2b; stroke-width:6; }.brick-lines { fill:none; stroke:#d99578; stroke-width:3; }.wall-writing { fill:none; stroke:#fff079; stroke-width:8; stroke-linecap:round; filter:drop-shadow(0 0 7px #fff079); }.writing-glow { fill:#fff8a5; }
 .baby-blanket { fill:#82c7cf; stroke:#277b88; stroke-width:5; }.baby-head,.baby-hand { fill:#efb48f; stroke:#8b5544; stroke-width:4; }.baby-curl,.baby-smile,.baby-arm { fill:none; stroke:#704337; stroke-width:4; stroke-linecap:round; }.baby-eye { fill:#173f59; }.silver-spoon ellipse { fill:#e9f0f2; stroke:#66777d; stroke-width:6; }.silver-spoon path { stroke:#9caeb4; stroke-width:12; stroke-linecap:round; }
 .steel-head { fill:#c8d2d6; stroke:#53656c; stroke-width:5; }.steel-body,.steel-nerves { fill:none; stroke:#778b93; stroke-width:10; stroke-linecap:round; stroke-linejoin:round; }.steel-nerves { stroke:#dce7ea; stroke-width:5; filter:drop-shadow(1px 2px 1px #3a5059); }.steel-node { fill:#ef6a62; stroke:#fff; stroke-width:2; }

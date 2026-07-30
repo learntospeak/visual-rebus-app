@@ -52,6 +52,24 @@ export default function App() {
     : 0
   const totalStars = Object.values(progress.starsByPuzzle).reduce((total, stars) => total + stars, 0)
 
+  useEffect(() => {
+    const viewport = window.visualViewport
+    const updateVisibleHeight = () => {
+      const visibleHeight = Math.round(viewport?.height ?? window.innerHeight)
+      document.documentElement.style.setProperty('--visible-viewport-height', `${visibleHeight}px`)
+    }
+
+    updateVisibleHeight()
+    viewport?.addEventListener('resize', updateVisibleHeight)
+    viewport?.addEventListener('scroll', updateVisibleHeight)
+    window.addEventListener('resize', updateVisibleHeight)
+    return () => {
+      viewport?.removeEventListener('resize', updateVisibleHeight)
+      viewport?.removeEventListener('scroll', updateVisibleHeight)
+      window.removeEventListener('resize', updateVisibleHeight)
+    }
+  }, [])
+
   function startJourney() {
     setActivePuzzleIndex(progress.currentIndex)
     setPlayMode('journey')
