@@ -287,6 +287,79 @@ const generatedPuzzleArt: Partial<Record<number, string>> = {
   556: '/spanner-works-556.webp',
 }
 
+const premiumPuzzleArt: Partial<Record<number, string>> = {
+  151: '/premium-151-v1.webp',
+  152: '/premium-152-v1.webp',
+  158: '/premium-158-v1.webp',
+  161: '/premium-161-v1.webp',
+  162: '/premium-162-v1.webp',
+  166: '/premium-166-v1.webp',
+  167: '/premium-167-v1.webp',
+  169: '/premium-169-v1.webp',
+  170: '/premium-170-v1.webp',
+  171: '/premium-171-v1.webp',
+  177: '/premium-177-v1.webp',
+  180: '/premium-180-v1.webp',
+  183: '/premium-183-v1.webp',
+  184: '/premium-184-v1.webp',
+  185: '/premium-185-v1.webp',
+  186: '/premium-186-v1.webp',
+  190: '/premium-190-v1.webp',
+  211: '/premium-211-v1.webp',
+  212: '/premium-212-v1.webp',
+  213: '/premium-213-v1.webp',
+  214: '/premium-214-v1.webp',
+  215: '/premium-215-v1.webp',
+  216: '/premium-216-v1.webp',
+  217: '/premium-217-v1.webp',
+  219: '/premium-219-v1.webp',
+  223: '/premium-223-v1.webp',
+  227: '/premium-227-v1.webp',
+  230: '/premium-230-v1.webp',
+  233: '/premium-233-v1.webp',
+  236: '/premium-236-v1.webp',
+  237: '/premium-237-v1.webp',
+  238: '/premium-238-v1.webp',
+  239: '/premium-239-v1.webp',
+  240: '/premium-240-v1.webp',
+  241: '/premium-241-v1.webp',
+  242: '/premium-242-v1.webp',
+  243: '/premium-243-v1.webp',
+  244: '/premium-244-v1.webp',
+  245: '/premium-245-v1.webp',
+  246: '/premium-246-v1.webp',
+  248: '/premium-248-v1.webp',
+  249: '/premium-249-v1.webp',
+  250: '/premium-250-v1.webp',
+  255: '/premium-255-v1.webp',
+  257: '/premium-257-v1.webp',
+  258: '/premium-258-v1.webp',
+  260: '/premium-260-v1.webp',
+  261: '/premium-261-v1.webp',
+  267: '/premium-267-v2.webp',
+}
+
+function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
+  return (
+    <div
+      className="puzzle-visual generated-puzzle-visual"
+      role="img"
+      aria-label={puzzle.elements.map((item) => item.ariaLabel ?? item.content).join(', ')}
+    >
+      <img
+        src={src}
+        alt=""
+        aria-hidden="true"
+        width="320"
+        height="260"
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
+      />
+    </div>
+  )
+}
+
 export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
   const [activated, setActivated] = useState(false)
   useEffect(() => setActivated(false), [puzzle.id])
@@ -305,6 +378,9 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
     )
   }
 
+  const premiumArt = premiumPuzzleArt[puzzle.id]
+  if (premiumArt) return <GeneratedPuzzleArt puzzle={puzzle} src={premiumArt} />
+
   const reworkedArt = <ReworkedPuzzleArt id={puzzle.id} />
   if ([148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214, 215, 216, 217, 220, 221].includes(puzzle.id)) {
     return reworkedArt
@@ -313,26 +389,7 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
   if (hasReviewedPuzzleArt(puzzle.id)) return <ReviewedPuzzleArt id={puzzle.id} />
 
   const generatedArt = generatedPuzzleArt[puzzle.id]
-  if (generatedArt) {
-    return (
-      <div
-        className="puzzle-visual generated-puzzle-visual"
-        role="img"
-        aria-label={puzzle.elements.map((item) => item.ariaLabel ?? item.content).join(', ')}
-      >
-        <img
-          src={generatedArt}
-          alt=""
-          aria-hidden="true"
-          width="320"
-          height="260"
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-        />
-      </div>
-    )
-  }
+  if (generatedArt) return <GeneratedPuzzleArt puzzle={puzzle} src={generatedArt} />
 
   if (puzzle.assetKey) return assetRenderers[puzzle.assetKey]?.() ?? null
 
