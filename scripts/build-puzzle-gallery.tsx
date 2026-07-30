@@ -36,7 +36,7 @@ function Gallery() {
   )
 }
 
-const builtCssFile = (await readdir(builtAssetsDirectory)).find((file) => /^index-[\w-]+\.css$/.test(file))
+const builtCssFile = (await readdir(builtAssetsDirectory)).find((file) => /^index(?:-[\w-]+)?\.css$/.test(file))
 if (!builtCssFile) throw new Error(`Could not find the built application CSS in ${builtAssetsDirectory}`)
 const builtCssPath = path.join(builtAssetsDirectory, builtCssFile)
 const rawAppCss = await readFile(builtCssPath, 'utf8')
