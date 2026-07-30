@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { cp, mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -6,7 +6,7 @@ import { PuzzleVisual } from '../src/components/PuzzleVisual'
 import { puzzles } from '../src/data/puzzles'
 
 const outputDirectory = path.resolve(process.argv[2] ?? path.join(process.cwd(), 'puzzle-gallery'))
-const builtCssPath = path.join(process.cwd(), 'dist', 'assets', 'index.css')
+const builtAssetsDirectory = path.join(process.cwd(), 'dist', 'assets')
 const publicDirectory = path.join(process.cwd(), 'public')
 
 function Gallery() {
@@ -36,6 +36,9 @@ function Gallery() {
   )
 }
 
+const builtCssFile = (await readdir(builtAssetsDirectory)).find((file) => /^index-[\w-]+\.css$/.test(file))
+if (!builtCssFile) throw new Error(`Could not find the built application CSS in ${builtAssetsDirectory}`)
+const builtCssPath = path.join(builtAssetsDirectory, builtCssFile)
 const rawAppCss = await readFile(builtCssPath, 'utf8')
 const cssStart = rawAppCss.indexOf(':root{')
 
@@ -43,7 +46,10 @@ if (cssStart === -1) {
   throw new Error(`Could not find the application CSS root in ${builtCssPath}`)
 }
 
-const appCss = rawAppCss.slice(cssStart).replaceAll('url(/', 'url(./assets/')
+const appCss = rawAppCss
+  .slice(cssStart)
+  .replaceAll('url(../', 'url(./assets/')
+  .replaceAll('url(/', 'url(./assets/')
 
 const galleryCss = `
   :root { background:#e9e5dc; }
