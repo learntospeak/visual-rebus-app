@@ -6,6 +6,34 @@ import { ProgressBar } from '../components/ProgressBar'
 import { PuzzleVisual } from '../components/PuzzleVisual'
 import type { Puzzle } from '../types'
 
+const compactKeyRows = [
+  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+  ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'SPACE', 'BACKSPACE'],
+]
+
+function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
+  return (
+    <div className="compact-answer-keyboard" aria-label="Compact answer keyboard">
+      {compactKeyRows.map((row, rowIndex) => (
+        <div className={`compact-key-row compact-key-row-${rowIndex + 1}`} key={rowIndex}>
+          {row.map((key) => (
+            <button
+              className={`compact-key compact-key-${key.toLowerCase()}`}
+              type="button"
+              aria-label={key === 'BACKSPACE' ? 'Delete last character' : key === 'SPACE' ? 'Space' : key}
+              onClick={() => onKey(key)}
+              key={key}
+            >
+              {key === 'BACKSPACE' ? '⌫' : key === 'SPACE' ? 'SPACE' : key}
+            </button>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 interface PuzzleScreenProps {
   puzzle: Puzzle
   puzzleNumber: number
@@ -39,17 +67,35 @@ export function PuzzleScreen({
 }: PuzzleScreenProps) {
   const answerInput = useRef<HTMLInputElement>(null)
   const [answerFocused, setAnswerFocused] = useState(false)
+  const [useCompactKeyboard, setUseCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px)').matches)
 
   function handleAnswerFocus() {
     setAnswerFocused(true)
   }
 
   useEffect(() => {
-    answerInput.current?.focus()
-  }, [puzzle.id])
+    if (!useCompactKeyboard) answerInput.current?.focus()
+  }, [puzzle.id, useCompactKeyboard])
+
+  function handleCompactKey(key: string) {
+    if (key === 'BACKSPACE') {
+      onGuessChange(guess.slice(0, -1))
+      return
+    }
+    if (key === 'SPACE') {
+      if (guess && !guess.endsWith(' ')) onGuessChange(`${guess} `)
+      return
+    }
+    onGuessChange(`${guess}${key.toLowerCase()}`)
+  }
+
+  function usePhoneKeyboard() {
+    setUseCompactKeyboard(false)
+    window.setTimeout(() => answerInput.current?.focus(), 0)
+  }
 
   return (
-    <main className={`app-shell puzzle-screen${answerFocused ? ' is-answering' : ''}`}>
+    <main className={`app-shell puzzle-screen${answerFocused ? ' is-answering' : ''}${useCompactKeyboard ? ' has-compact-keyboard' : ''}`}>
       <header className="puzzle-header">
         <Button variant="icon" aria-label="Return home" onClick={onHome}>←</Button>
         <div>
@@ -74,14 +120,22 @@ export function PuzzleScreen({
           id="answer"
           value={guess}
           onChange={(event) => onGuessChange(event.target.value)}
-          onFocus={handleAnswerFocus}
+          onFocus={() => { if (!useCompactKeyboard) handleAnswerFocus() }}
           onBlur={() => window.setTimeout(() => setAnswerFocused(false), 180)}
           disabled={celebrating}
+          readOnly={useCompactKeyboard}
+          inputMode={useCompactKeyboard ? 'none' : 'text'}
           autoComplete="off"
           autoCapitalize="none"
           enterKeyHint="done"
           placeholder="Type the phrase…"
         />
+        {useCompactKeyboard && (
+          <>
+            <CompactAnswerKeyboard onKey={handleCompactKey} />
+            <button className="phone-keyboard-button" type="button" onClick={usePhoneKeyboard}>Use phone keyboard instead</button>
+          </>
+        )}
         <p className="feedback" role="status">{message || '\u00a0'}</p>
         <div className="action-row">
           <Button variant="secondary" type="button" onClick={onClue} disabled={celebrating || clueCount === puzzle.clues.length}>
