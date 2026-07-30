@@ -6,6 +6,8 @@ Working domains: `cluecanvas.games` and `cluecanvas.com.au` (registered 19 July 
 
 - **Last puzzle visually revamped:** 310 — *Steal Someone's Thunder*
 - **Resume the quality-repair pass at:** 311 — *Lightning Never Strikes Twice*
+- **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 223, 227, 230, 233, 236–246, 248–250, 255, 257, 258, 260, 261 and 267. These now use compressed raster artwork rather than the previous code-drawn diagrams.
+- **Next session:** continue the main quality-repair pass from puzzle 311, or begin with the next problem-puzzle numbers supplied by the user. Keep using individually composed premium raster artwork for any puzzle whose existing diagram is rejected.
 - Puzzles 240–310 have been repaired or individually reviewed in place without changing their numbering, answers, origins or player-progress compatibility.
 - Continue in ten-puzzle batches, then build, push, merge and deploy each completed batch.
 
