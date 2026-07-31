@@ -3,6 +3,7 @@ import React from 'react'
 const premiumTextPuzzleIds = new Set([
   282, 283, 284, 286, 287,
   320, 321, 328, 333, 334, 335, 336, 337, 338, 340, 350,
+  361, 362, 376, 377, 378, 383, 397,
 ])
 
 export function hasPremiumTextPuzzleArt(id: number) {
@@ -116,6 +117,48 @@ export function PremiumTextPuzzleArt({ id }: { id: number }) {
       <div className="premium-addends"><span>INSULT</span><i>+</i><span>INJURY</span></div>
       <i aria-hidden="true">↓</i>
       <div className="premium-insult-stack"><b>INSULT</b><b>INJURY</b></div>
+    </div>
+  )
+
+  if (id === 361) return (
+    <div className="puzzle-visual premium-text-puzzle-art premium-text-361" role="img" aria-label="The word CLEAR is submerged in thick mud">
+      <div className="premium-mud"><strong>CLEAR</strong><i /><i /><i /></div>
+    </div>
+  )
+
+  if (id === 362) return (
+    <div className="puzzle-visual premium-text-puzzle-art premium-text-362" role="img" aria-label="A grey outer layer peels away to reveal the word COLOURS in bright colours">
+      <div className="premium-colour-peel"><span>COLOURS</span><i aria-hidden="true" /></div>
+    </div>
+  )
+
+  if (id === 376) return (
+    <div className="puzzle-visual premium-text-puzzle-art premium-text-376" role="img" aria-label="The word HOME is stretched along the final section before a finish line">
+      <span className="premium-home-stretch">H&nbsp;&nbsp;O&nbsp;&nbsp;M&nbsp;&nbsp;E</span><i className="premium-check-line" aria-hidden="true" />
+    </div>
+  )
+
+  if (id === 377) return (
+    <div className="puzzle-visual premium-text-puzzle-art premium-text-377" role="img" aria-label="A ball strikes the centre of the word HOME">
+      <span>HO</span><i className="premium-hit-ball" aria-hidden="true" /> <span>ME</span>
+    </div>
+  )
+
+  if (id === 378) return (
+    <div className="puzzle-visual premium-text-puzzle-art premium-text-378" role="img" aria-label="One HOME sits inside a second outlined HOME">
+      <div className="premium-home-outer">HOME<div>HOME</div></div>
+    </div>
+  )
+
+  if (id === 383) return (
+    <div className="puzzle-visual premium-text-puzzle-art premium-text-383" role="img" aria-label="The word DOORS is spread wide with open gaps between every letter">
+      <span>D</span><span>O</span><span>O</span><span>R</span><span>S</span>
+    </div>
+  )
+
+  if (id === 397) return (
+    <div className="puzzle-visual premium-text-puzzle-art premium-text-397" role="img" aria-label="BLACK and WHITE appear as stark opposite halves">
+      <span>BLACK</span><span>WHITE</span>
     </div>
   )
 
