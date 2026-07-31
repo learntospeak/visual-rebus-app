@@ -339,7 +339,7 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   258: '/premium-258-v1.webp',
   260: '/premium-260-v1.webp',
   261: '/premium-261-v1.webp',
-  267: '/premium-267-v3.webp',
+  267: '/premium-267-v4.webp',
   271: '/premium-271-v1.webp',
   272: '/premium-272-v1.webp',
   273: '/premium-273-v1.webp',
