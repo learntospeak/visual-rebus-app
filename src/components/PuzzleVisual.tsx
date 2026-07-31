@@ -3,6 +3,7 @@ import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
 import { hasReviewedPuzzleArt, ReviewedPuzzleArt } from './ReviewedPuzzleArt'
 import { hasPremiumTextPuzzleArt, PremiumTextPuzzleArt } from './PremiumTextPuzzleArt'
+import { hasPremiumWordPuzzleArt, PremiumWordPuzzleArt } from './PremiumWordPuzzleArt'
 
 function TwoLeftFeet() {
   return (
@@ -433,6 +434,17 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   398: '/premium-398-v1.webp?v=4',
   399: '/premium-399-v1.webp?v=4',
   400: '/premium-400-v1.webp?v=4',
+  406: '/premium-406-v1.webp?v=5',
+  415: '/premium-415-v1.webp?v=5',
+  425: '/premium-425-v1.webp?v=5',
+  426: '/premium-426-v1.webp?v=5',
+  428: '/premium-428-v1.webp?v=5',
+  430: '/premium-430-v1.webp?v=5',
+  432: '/premium-432-v1.webp?v=5',
+  436: '/premium-436-v1.webp?v=5',
+  438: '/premium-438-v1.webp?v=5',
+  440: '/premium-440-v1.webp?v=5',
+  448: '/premium-448-v1.webp?v=5',
 }
 
 function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
@@ -478,6 +490,8 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
   if (premiumArt) return <GeneratedPuzzleArt puzzle={puzzle} src={premiumArt} />
 
   if (hasPremiumTextPuzzleArt(puzzle.id)) return <PremiumTextPuzzleArt id={puzzle.id} />
+
+  if (hasPremiumWordPuzzleArt(puzzle.id)) return <PremiumWordPuzzleArt id={puzzle.id} />
 
   const reworkedArt = <ReworkedPuzzleArt id={puzzle.id} />
   if ([148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214, 215, 216, 217, 220, 221].includes(puzzle.id)) {
