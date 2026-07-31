@@ -360,6 +360,16 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   298: '/premium-298-v1.webp',
   299: '/premium-299-v1.webp',
   300: '/premium-300-v1.webp',
+  301: '/premium-301-v1.webp',
+  302: '/premium-302-v1.webp',
+  303: '/premium-303-v1.webp',
+  304: '/premium-304-v1.webp',
+  305: '/premium-305-v1.webp',
+  306: '/premium-306-v1.webp',
+  307: '/premium-307-v1.webp',
+  308: '/premium-308-v1.webp',
+  309: '/premium-309-v1.webp',
+  310: '/premium-310-v1.webp',
 }
 
 function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
