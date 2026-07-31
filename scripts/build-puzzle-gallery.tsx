@@ -28,6 +28,7 @@ function Gallery() {
           <section className="gallery-solution">
             <div><small>ANSWER</small><b>{puzzle.answer}</b></div>
             <div><small>PATTERN</small><b>{puzzle.wordPattern}</b></div>
+            <div className="gallery-clues"><small>CLUES</small><ol>{puzzle.clues.map((clue) => <li key={clue}>{clue}</li>)}</ol></div>
             <p><small>WHERE IT CAME FROM</small>{puzzle.origin}</p>
           </section>
         </article>
@@ -71,6 +72,9 @@ const galleryCss = `
   .gallery-solution>div { display:grid; grid-template-columns:92px 1fr; gap:8px; margin:4px 0; }
   .gallery-solution small { color:#6e7989; font-size:.65rem; font-weight:900; letter-spacing:.08em; }
   .gallery-solution b { color:#183b56; text-transform:capitalize; }
+  .gallery-solution .gallery-clues { align-items:start; margin-top:12px; }
+  .gallery-clues ol { margin:0; padding-left:18px; color:#526271; font-size:.75rem; line-height:1.45; }
+  .gallery-clues li+li { margin-top:5px; }
   .gallery-solution p { margin:14px 0 0; color:#526271; font-size:.78rem; line-height:1.45; }
   .gallery-solution p small { display:block; margin-bottom:5px; }
   @media(max-width:600px) { .gallery-toolbar { flex-wrap:wrap; } .gallery-toolbar input { order:3; width:100%; } .gallery-grid { grid-template-columns:1fr; padding:14px; } }

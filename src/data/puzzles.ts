@@ -1013,6 +1013,36 @@ type ChapterFiveSpec = {
   difficulty?: Puzzle['difficulty']
 }
 
+const clueStopWords = new Set(['a', 'an', 'and', 'are', 'as', 'at', 'by', 'for', 'from', 'in', 'is', 'like', 'of', 'on', 'or', 'the', 'to', 'with', 'your'])
+
+function clueMechanic(description: string) {
+  const clue = description.toLowerCase()
+  if (/inside|within|enclosed|contained|occupies the centre|middle/.test(clue)) return 'Start by deciding what is inside, around or in the middle of something else.'
+  if (/above|higher|over |on top|rests directly on|beneath|below|under |bottom/.test(clue)) return 'Start with the vertical relationship: what is above, below, on or under something else?'
+  if (/before|after|behind|ahead|trailing|final|last|first|sequence/.test(clue)) return 'Reading order matters here. Notice which element comes first, last, before or after another.'
+  if (/twice|two |three |four |five |six |seven |eight |nine |ten |repeated|copies|every|all /.test(clue)) return 'Count the repeated elements carefully; the number or repetition is part of the phrase.'
+  if (/split|broken|divided|separated|apart|missing|open through|gap/.test(clue)) return 'Look for a word or object that has been split, opened, separated or made incomplete.'
+  if (/\b(?:red|blue|green|gold|silver|black|white|colour|color|dark|darkness|bright)\b/.test(clue)) return 'Colour and contrast are deliberate clues, not decoration.'
+  if (/large|larger|small|smaller|tiny|wide|thin|thick|scale|heavy|light/.test(clue)) return 'Compare the size, weight or thickness of the elements rather than reading them normally.'
+  if (/arrow|direction|toward|towards|away|moving|travels|flows|rises|drops|falls|turns|rotat|upward|downward/.test(clue)) return 'Follow the movement or direction shown before naming the objects.'
+  return 'Name the visible words or objects, then describe their most unusual relationship.'
+}
+
+function tailoredClues(spec: ChapterFiveSpec): StarterPuzzleDraft['clues'] {
+  const words = spec.answer.match(/[a-z0-9]+/gi) ?? []
+  const initials = words.map((word) => word[0].toUpperCase()).join('–')
+  const anchor = [...words]
+    .filter((word) => !clueStopWords.has(word.toLowerCase()))
+    .sort((left, right) => right.length - left.length)[0] ?? words.at(-1) ?? spec.answer
+  const observation = spec.description.replace(/\.$/, '')
+
+  return [
+    clueMechanic(spec.description),
+    `Literal observation: ${observation}. Focus especially on “${anchor.toUpperCase()}”.`,
+    `The answer is ${words.length} words and its initials are ${initials}.`,
+  ]
+}
+
 const chapterFiveSpecs: ChapterFiveSpec[] = [
   { answer: 'fine print', pattern: '4 5', visual: 'PRINT', description: 'PRINT shown in exceptionally fine, compact lettering' },
   { answer: 'cross purposes', pattern: '5 8', visual: '', description: 'Two PURPOSE arrows travel across one another in conflicting directions', difficulty: 'Hard' },
@@ -1068,7 +1098,6 @@ const chapterFiveSpecs: ChapterFiveSpec[] = [
 
 const chapterFivePuzzles = chapterFiveSpecs.map((spec, index) => {
   const id = index + 166
-  const subject = spec.answer.split(' ').filter((word) => word.length > 2).slice(-1)[0] ?? spec.answer
   return candidate(
     id,
     spec.answer,
@@ -1076,11 +1105,7 @@ const chapterFivePuzzles = chapterFiveSpecs.map((spec, index) => {
     spec.difficulty ?? 'Medium',
     spec.format ?? 'typography',
     [{ content: spec.visual, className: 'chapter-five-rebus', ariaLabel: spec.description }],
-    [
-      `Study the placement and relationship of every part.`,
-      `The key idea is ${subject.toUpperCase()}, but its context changes the meaning.`,
-      `Say the literal arrangement aloud as a familiar phrase.`,
-    ],
+    tailoredClues(spec),
     [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
   )
 })
@@ -1195,11 +1220,7 @@ const chapterSixPuzzles = chapterSixSpecs.map((spec, index) => candidate(
   spec.difficulty ?? 'Hard',
   spec.format ?? 'typography',
   [{ content: spec.visual, className: 'chapter-five-rebus', ariaLabel: spec.description }],
-  [
-    'Study both the object or word and its exact placement.',
-    'More than one visual relationship contributes to the answer.',
-    'Describe the complete arrangement as a familiar expression.',
-  ],
+  tailoredClues(spec),
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
@@ -1313,11 +1334,7 @@ const chapterSevenPuzzles = chapterSevenSpecs.map((spec, index) => candidate(
   spec.difficulty ?? 'Hard',
   spec.format ?? 'typography',
   [{ content: spec.visual, className: 'chapter-seven-rebus', ariaLabel: spec.description }],
-  [
-    'More than one visual detail contributes to this expert phrase.',
-    'Describe the position, scale, colour or action before naming it.',
-    'Combine those literal observations into a familiar expression.',
-  ],
+  tailoredClues(spec),
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
@@ -1416,11 +1433,7 @@ const chapterEightPuzzles = chapterEightSpecs.map((spec, index) => candidate(
   spec.difficulty ?? 'Hard',
   spec.format ?? 'typography',
   [{ content: spec.visual, className: 'chapter-eight-rebus', ariaLabel: spec.description }],
-  [
-    'This master puzzle combines several visual signals.',
-    'Name the objects, then describe their exact relationship or imbalance.',
-    'Turn the complete arrangement into a familiar expression.',
-  ],
+  tailoredClues(spec),
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
@@ -1484,11 +1497,7 @@ const chapterNinePuzzles = chapterNineSpecs.map((spec, index) => candidate(
   spec.difficulty ?? 'Hard',
   spec.format ?? 'typography',
   [{ content: spec.visual, className: 'chapter-nine-rebus', ariaLabel: spec.description }],
-  [
-    'This finale puzzle combines several advanced visual signals.',
-    'Read the symbols, scale and positioning as one complete scene.',
-    'Convert that scene into a familiar expression.',
-  ],
+  tailoredClues(spec),
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
@@ -1517,11 +1526,7 @@ const chapterTenPuzzles = chapterTenSpecs.map((spec, index) => candidate(
   spec.difficulty ?? 'Hard',
   spec.format ?? 'typography',
   [{ content: spec.visual, className: 'chapter-ten-rebus', ariaLabel: spec.description }],
-  [
-    'This encore puzzle uses advanced visual shorthand.',
-    'Identify every symbol and describe the complete arrangement.',
-    'Use those relationships to name the familiar expression.',
-  ],
+  tailoredClues(spec),
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 

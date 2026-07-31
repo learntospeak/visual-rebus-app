@@ -2,6 +2,7 @@ import React, { useEffect, useState, type CSSProperties, type ReactNode } from '
 import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
 import { hasReviewedPuzzleArt, ReviewedPuzzleArt } from './ReviewedPuzzleArt'
+import { hasPremiumTextPuzzleArt, PremiumTextPuzzleArt } from './PremiumTextPuzzleArt'
 
 function TwoLeftFeet() {
   return (
@@ -355,6 +356,8 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   292: '/premium-292-v1.webp',
   293: '/premium-293-v1.webp',
   295: '/premium-295-v1.webp',
+  297: '/premium-297-v1.webp',
+  298: '/premium-298-v1.webp',
   299: '/premium-299-v1.webp',
   300: '/premium-300-v1.webp',
 }
@@ -400,6 +403,8 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
 
   const premiumArt = premiumPuzzleArt[puzzle.id]
   if (premiumArt) return <GeneratedPuzzleArt puzzle={puzzle} src={premiumArt} />
+
+  if (hasPremiumTextPuzzleArt(puzzle.id)) return <PremiumTextPuzzleArt id={puzzle.id} />
 
   const reworkedArt = <ReworkedPuzzleArt id={puzzle.id} />
   if ([148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214, 215, 216, 217, 220, 221].includes(puzzle.id)) {
