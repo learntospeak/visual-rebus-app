@@ -31,6 +31,7 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
   const ids = new Set<number>()
   const versions = new Set<string>()
   const answers = new Map<string, number>()
+  const clueSignatures = new Map<string, number>()
   const visualSignatures = new Map<string, number>()
   const chapters: Record<string, number> = {}
   const difficulties: Record<string, number> = {}
@@ -60,6 +61,10 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
     if (puzzle.clues.length !== 3 || puzzle.clues.some((clue) => !clue.trim())) {
       errors.push(`${label}: exactly three non-empty clues are required.`)
     }
+    const clueSignature = puzzle.clues.map((clue) => normaliseAnswer(clue)).join('|')
+    const duplicateClues = clueSignatures.get(clueSignature)
+    if (duplicateClues) errors.push(`${label}: duplicates the complete clue set from puzzle ${duplicateClues}.`)
+    clueSignatures.set(clueSignature, puzzle.id)
     if (puzzle.id <= 200 && !puzzle.origin?.trim()) {
       errors.push(`${label}: a non-empty origin note is required for the first 200 puzzles.`)
     }

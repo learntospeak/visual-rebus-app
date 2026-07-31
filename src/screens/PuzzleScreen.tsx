@@ -9,7 +9,8 @@ import type { Puzzle } from '../types'
 const compactKeyRows = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'LEFT', 'RIGHT', 'SPACE', 'BACKSPACE'],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
+  ['LEFT', 'RIGHT', 'SPACE', 'BACKSPACE'],
 ]
 
 function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
@@ -108,11 +109,6 @@ export function PuzzleScreen({
     })
   }
 
-  function usePhoneKeyboard() {
-    setUseCompactKeyboard(false)
-    window.setTimeout(() => answerInput.current?.focus(), 0)
-  }
-
   return (
     <main className={`app-shell puzzle-screen${answerFocused ? ' is-answering' : ''}${useCompactKeyboard ? ' has-compact-keyboard' : ''}`}>
       <header className="puzzle-header">
@@ -149,10 +145,7 @@ export function PuzzleScreen({
           placeholder="Type the phrase…"
         />
         {useCompactKeyboard && (
-          <>
-            <CompactAnswerKeyboard onKey={handleCompactKey} />
-            <button className="phone-keyboard-button" type="button" onClick={usePhoneKeyboard}>Use phone keyboard instead</button>
-          </>
+          <CompactAnswerKeyboard onKey={handleCompactKey} />
         )}
         <p className="feedback" role="status">{message || '\u00a0'}</p>
         <div className="action-row">
