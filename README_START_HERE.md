@@ -4,10 +4,11 @@ Working domains: `cluecanvas.games` and `cluecanvas.com.au` (registered 19 July 
 
 ## Current continuation point
 
-- **Last puzzle visually revamped:** 310 — *Steal Someone's Thunder*
-- **Resume the quality-repair pass at:** 311 — *Lightning Never Strikes Twice*
-- **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 223, 227, 230, 233, 236–246, 248–250, 255, 257, 258, 260, 261 and 267. These now use compressed raster artwork rather than the previous code-drawn diagrams.
-- **Next session:** continue the main quality-repair pass from puzzle 311, or begin with the next problem-puzzle numbers supplied by the user. Keep using individually composed premium raster artwork for any puzzle whose existing diagram is rejected.
+- **Latest premium conversion completed:** puzzles 271–280.
+- **Resume the premium conversion programme at:** 281 — *Unfinished Business*.
+- **Latest targeted repairs:** 177 (*Repeat After Me*), 180 (*Nowhere to Be Found*), 183 (*Falling Apart*), 211 (*First Things First*), 222 (*Paper Trail*), 249 (*Day In Day Out*), 252 (*The Year Dot*), 253 (*Once Upon a Time*), 257 (*The Writing on the Wall*) and 267 (*Break the Ice*).
+- **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 222, 223, 227, 230, 233, 236–246, 248–250, 252, 253, 255, 257, 258, 260, 261, 267 and 271–280. These now use compressed raster artwork rather than the previous code-drawn diagrams.
+- **Next session:** continue converting the existing puzzle designs from 281 onward in ten-puzzle batches. Keep using individually composed premium raster artwork rather than generic vector diagrams.
 - Puzzles 240–310 have been repaired or individually reviewed in place without changing their numbering, answers, origins or player-progress compatibility.
 - Continue in ten-puzzle batches, then build, push, merge and deploy each completed batch.
 
