@@ -4,11 +4,11 @@ Working domains: `cluecanvas.games` and `cluecanvas.com.au` (registered 19 July 
 
 ## Current continuation point
 
-- **Latest conversion batch completed:** puzzles 281–290. Puzzles 281–289 now use reliable responsive typography; puzzle 290 uses premium raster artwork.
-- **Resume the conversion programme at:** 291 — *Rock the Boat*.
+- **Latest conversion batch completed:** puzzles 291–300. Puzzles 294, 296, 297 and 298 now use reliable responsive typography; puzzles 291, 292, 293, 295, 299 and 300 use premium raster artwork.
+- **Resume the conversion programme at:** 301 — *Dark Horse*.
 - **Latest targeted repairs:** 177 (*Repeat After Me*), 180 (*Nowhere to Be Found*), 183 (*Falling Apart*), 211 (*First Things First*), 222 (*Paper Trail*), 249 (*Day In Day Out*), 252 (*The Year Dot*), 253 (*Once Upon a Time*), 257 (*The Writing on the Wall*) and 267 (*Break the Ice*).
-- **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 222, 223, 227, 230, 233, 236–246, 248–250, 252, 253, 255, 257, 258, 260, 261, 267, 271–280 and 290. These now use compressed raster artwork rather than the previous code-drawn diagrams.
-- **Next session:** continue from puzzle 291 in ten-puzzle batches. Preserve any existing premium raster artwork, keep strong text rebuses as responsive typography, and replace only unsuitable vector/emoji scenes with individually composed premium raster artwork.
+- **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 222, 223, 227, 230, 233, 236–246, 248–250, 252, 253, 255, 257, 258, 260, 261, 267, 271–280, 290–293, 295, 299 and 300. These now use compressed raster artwork rather than the previous code-drawn diagrams.
+- **Next session:** continue from puzzle 301 in ten-puzzle batches. Preserve any existing premium raster artwork, keep strong text rebuses as responsive typography, and replace only unsuitable vector/emoji scenes with individually composed premium raster artwork.
 - Puzzles 240–310 have been repaired or individually reviewed in place without changing their numbering, answers, origins or player-progress compatibility.
 - Continue in ten-puzzle batches, then build, push, merge and deploy each completed batch.
 
