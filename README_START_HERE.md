@@ -4,16 +4,16 @@ Working domains: `cluecanvas.games` and `cluecanvas.com.au` (registered 19 July 
 
 ## Current continuation point
 
-- **Latest conversion batch completed:** puzzles 301–310. These ten puzzles now use individually composed premium raster artwork.
-- **Resume the conversion programme at:** 311 — *Lightning Never Strikes Twice*.
+- **Latest conversion batch completed:** puzzles 301–350. Puzzles 301–315, 318, 322–327, 330, 332, 339 and 341–349 use premium raster artwork; 320, 321, 328, 333–338, 340 and 350 use reliable responsive typography; existing approved raster art remains at 316, 317, 319, 329 and 331.
+- **Resume the conversion programme at:** 351 — *Rub Salt in the Wound*.
 - **Latest targeted repairs:** 177 (*Repeat After Me*), 180 (*Nowhere to Be Found*), 183 (*Falling Apart*), 211 (*First Things First*), 222 (*Paper Trail*), 249 (*Day In Day Out*), 252 (*The Year Dot*), 253 (*Once Upon a Time*), 257 (*The Writing on the Wall*) and 267 (*Break the Ice*).
-- **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 222, 223, 227, 230, 233, 236–246, 248–250, 252, 253, 255, 257, 258, 260, 261, 267, 271–280, 290–293, 295, 297–310. These now use compressed raster artwork rather than the previous code-drawn diagrams.
+- **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 222, 223, 227, 230, 233, 236–246, 248–250, 252, 253, 255, 257, 258, 260, 261, 267, 271–280, 290–293, 295, 297–315, 318, 322–327, 330, 332, 339 and 341–349. These now use compressed raster artwork rather than the previous code-drawn diagrams.
 - **Latest responsive text repairs:** puzzles 282–284 and 286–287 now use bounded premium typography layouts that cannot overhang the puzzle card.
 - **Clues:** all 565 puzzles now have unique progressive clue sets. Puzzles 166–565 derive clues from their own visual description, answer and initials; validation rejects any duplicated complete clue set.
 - **Mobile input:** the compact keyboard uses three alphabet rows plus a separate cursor/space/delete row, and premium artwork fills the available compact canvas rather than being scaled down.
-- **Next session:** continue from puzzle 311 in ten-puzzle batches. Preserve any existing premium raster artwork, keep strong text rebuses as responsive typography, and replace only unsuitable vector/emoji scenes with individually composed premium raster artwork.
-- Puzzles 240–310 have been repaired or individually reviewed in place without changing their numbering, answers, origins or player-progress compatibility.
-- Continue in ten-puzzle batches, then build, push, merge and deploy each completed batch.
+- **Next session:** continue from puzzle 351 in 50-puzzle batches. Preserve any existing premium raster artwork, keep strong text rebuses as responsive typography, and replace only unsuitable vector/emoji scenes with individually composed premium raster artwork.
+- Puzzles 240–350 have been repaired or individually reviewed in place without changing their numbering, answers, origins or player-progress compatibility.
+- Continue in 50-puzzle batches, then build, push, merge and deploy each completed batch.
 
 This folder is a no-code planning shell for building the app in VS Code.
 
