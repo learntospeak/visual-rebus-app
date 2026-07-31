@@ -445,6 +445,23 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   438: '/premium-438-v1.webp?v=5',
   440: '/premium-440-v1.webp?v=5',
   448: '/premium-448-v1.webp?v=5',
+  458: '/premium-458-v1.webp?v=6',
+  461: '/premium-461-v1.webp?v=6',
+  462: '/premium-462-v1.webp?v=6',
+  464: '/premium-464-v1.webp?v=6',
+  465: '/premium-465-v1.webp?v=6',
+  472: '/premium-472-v1.webp?v=6',
+  475: '/premium-475-v1.webp?v=6',
+  480: '/premium-480-v1.webp?v=6',
+  481: '/premium-481-v1.webp?v=6',
+  483: '/premium-483-v1.webp?v=6',
+  484: '/premium-484-v1.webp?v=6',
+  488: '/premium-488-v1.webp?v=6',
+  493: '/premium-493-v1.webp?v=6',
+  495: '/premium-495-v1.webp?v=6',
+  496: '/premium-496-v1.webp?v=6',
+  498: '/premium-498-v1.webp?v=6',
+  500: '/premium-500-v1.webp?v=6',
 }
 
 function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
