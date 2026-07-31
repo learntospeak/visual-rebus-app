@@ -350,6 +350,7 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   278: '/premium-278-v1.webp',
   279: '/premium-279-v1.webp',
   280: '/premium-280-v1.webp',
+  290: '/premium-290-v1.webp',
 }
 
 function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
