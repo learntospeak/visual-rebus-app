@@ -502,12 +502,25 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   547: '/premium-547-v1.webp?v=7',
   548: '/premium-548-v1.webp?v=7',
   549: '/premium-549-v1.webp?v=7',
+  551: '/premium-551-v1.webp?v=8',
+  552: '/premium-552-v1.webp?v=8',
+  553: '/premium-553-v1.webp?v=8',
+  555: '/premium-555-v1.webp?v=8',
+  557: '/premium-557-v1.webp?v=8',
+  558: '/premium-558-v1.webp?v=8',
+  559: '/premium-559-v1.webp?v=8',
+  560: '/premium-560-v1.webp?v=8',
+  561: '/premium-561-v1.webp?v=8',
+  562: '/premium-562-v1.webp?v=8',
+  563: '/premium-563-v1.webp?v=8',
+  564: '/premium-564-v1.webp?v=8',
+  565: '/premium-565-v1.webp?v=8',
 }
 
 function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
   return (
     <div
-      className="puzzle-visual generated-puzzle-visual"
+      className={`puzzle-visual generated-puzzle-visual premium-puzzle-${puzzle.id}`}
       role="img"
       aria-label={puzzle.elements.map((item) => item.ariaLabel ?? item.content).join(', ')}
     >

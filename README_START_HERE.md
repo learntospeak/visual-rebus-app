@@ -4,14 +4,14 @@ Working domains: `cluecanvas.games` and `cluecanvas.com.au` (registered 19 July 
 
 ## Current continuation point
 
-- **Latest conversion batch completed:** puzzles 501–550. Forty puzzles now use individually composed premium raster artwork; seven use purpose-built responsive word layouts; existing approved raster art remains at 526, 541 and 550.
-- **Resume the conversion programme at:** 551 — *Off the Hook*.
+- **Premium conversion programme completed:** all puzzles through 565 have now been reviewed and upgraded in batches. The final 551–565 batch adds 13 inspected premium raster illustrations and preserves approved existing art at 554 and 556.
+- **Next review point:** use the desktop gallery for the editorial/play-test pass; there is no remaining premium conversion batch.
 - **Latest targeted repairs:** 177 (*Repeat After Me*), 180 (*Nowhere to Be Found*), 183 (*Falling Apart*), 211 (*First Things First*), 222 (*Paper Trail*), 249 (*Day In Day Out*), 252 (*The Year Dot*), 253 (*Once Upon a Time*), 257 (*The Writing on the Wall*) and 267 (*Break the Ice*).
 - **Premium illustration replacement batch completed:** 151, 152, 158, 161, 162, 166, 167, 169, 170, 171, 177, 180, 183, 184, 185, 186, 190, 211–217, 219, 222, 223, 227, 230, 233, 236–246, 248–250, 252, 253, 255, 257, 258, 260, 261, 267, 271–280, 290–293, 295, 297–315, 318, 322–327, 330, 332, 339 and 341–349. These now use compressed raster artwork rather than the previous code-drawn diagrams.
 - **Latest responsive text repairs:** puzzles 282–284 and 286–287 now use bounded premium typography layouts that cannot overhang the puzzle card.
 - **Clues:** all 565 puzzles now have unique progressive clue sets. Puzzles 166–565 derive clues from their own visual description, answer and initials; validation rejects any duplicated complete clue set.
 - **Mobile input:** the compact keyboard uses three alphabet rows plus a separate cursor/space/delete row, and premium artwork fills the available compact canvas rather than being scaled down.
-- **Next session:** finish the premium conversion at puzzle 551, preserving any existing approved premium artwork.
+- **Next session:** begin the editorial/play-test pass from the desktop gallery and record any individual puzzles that still need refinement.
 - Puzzles 240–350 have been repaired or individually reviewed in place without changing their numbering, answers, origins or player-progress compatibility.
 - Continue in 50-puzzle batches, then build, push, merge and deploy each completed batch.
 
