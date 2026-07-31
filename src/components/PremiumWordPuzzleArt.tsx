@@ -7,6 +7,7 @@ const premiumWordPuzzleIds = new Set([
   451, 452, 453, 454, 455, 456, 457, 459, 460, 463, 466, 467,
   468, 469, 470, 471, 473, 474, 476, 478, 479, 482, 485, 487,
   489, 490, 491, 494, 499,
+  504, 508, 509, 511, 512, 513, 515,
 ])
 
 export function hasPremiumWordPuzzleArt(id: number) {
@@ -79,5 +80,12 @@ export function PremiumWordPuzzleArt({ id }: { id: number }) {
   if (id === 491) return <Art id={id} label="EVEN breaks into BREAK"><span>BR</span><b>EVEN</b><span>EAK</span></Art>
   if (id === 494) return <Art id={id} label="PICK UP lifts TAB"><b>TAB</b><span>↑</span><strong>PICK UP</strong></Art>
   if (id === 499) return <Art id={id} label="WILD breaks unpredictably through CARD"><span>CA</span><b>WILD</b><span>RD</span></Art>
+  if (id === 504) return <Art id={id} label="A stack of chips has dropped all the way to the bottom"><i className="chips-table" /><span>↓</span><div className="chips-down"><b /><b /><b /><b /></div></Art>
+  if (id === 508) return <Art id={id} label="HOPES is secured to a cork board by a bright pin"><div className="hope-board"><i /><b>HOPES</b></div></Art>
+  if (id === 509) return <Art id={id} label="A pin presses the word DOWN firmly beneath it"><span className="word-pin" /><b>DOWN</b></Art>
+  if (id === 511) return <Art id={id} label="The number one stands first in a queue of priority cards"><strong>1</strong><div className="priority-queue"><b /><b /><b /></div></Art>
+  if (id === 512) return <Art id={id} label="BY stands alongside an orderly column of numbers"><b>BY</b><div className="number-column"><i>1</i><i>2</i><i>3</i><i>4</i></div></Art>
+  if (id === 513) return <Art id={id} label="A numbered ticket has risen above the rest"><div className="number-tickets"><i>8</i><b>4</b><i>2</i></div><span>↑</span></Art>
+  if (id === 515) return <Art id={id} label="A game board is surrounded and controlled by numbers"><div className="numbers-game"><i>7</i><i>2</i><b>GAME</b><i>9</i><i>4</i></div></Art>
   return null
 }
