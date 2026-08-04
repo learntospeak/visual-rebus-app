@@ -10,24 +10,24 @@ const compactKeyRows = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
   ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
-  ['LEFT', 'RIGHT', 'SPACE', 'BACKSPACE'],
+  ['SPACE', 'BACKSPACE'],
 ]
 
 function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
   return (
-    <div className="compact-answer-keyboard" aria-label="Compact answer keyboard">
+    <div className="compact-answer-keyboard" aria-label="On-screen answer keyboard">
       {compactKeyRows.map((row, rowIndex) => (
         <div className={`compact-key-row compact-key-row-${rowIndex + 1}`} key={rowIndex}>
           {row.map((key) => (
             <button
               className={`compact-key compact-key-${key.toLowerCase()}`}
               type="button"
-              aria-label={key === 'BACKSPACE' ? 'Delete previous character' : key === 'SPACE' ? 'Space' : key === 'LEFT' ? 'Move cursor left' : key === 'RIGHT' ? 'Move cursor right' : key}
+              aria-label={key === 'BACKSPACE' ? 'Delete previous character' : key === 'SPACE' ? 'Space' : key}
               onPointerDown={(event) => event.preventDefault()}
               onClick={() => onKey(key)}
               key={key}
             >
-              {key === 'BACKSPACE' ? '⌫' : key === 'SPACE' ? 'SPACE' : key === 'LEFT' ? '◀' : key === 'RIGHT' ? '▶' : key}
+              {key === 'BACKSPACE' ? '⌫' : key === 'SPACE' ? 'space' : key}
             </button>
           ))}
         </div>
@@ -86,10 +86,7 @@ export function PuzzleScreen({
     let nextGuess = guess
     let nextCursor = selectionStart
 
-    if (key === 'LEFT' || key === 'RIGHT') {
-      if (key === 'LEFT') nextCursor = selectionStart === selectionEnd ? Math.max(0, selectionStart - 1) : selectionStart
-      else nextCursor = selectionStart === selectionEnd ? Math.min(guess.length, selectionEnd + 1) : selectionEnd
-    } else if (key === 'BACKSPACE') {
+    if (key === 'BACKSPACE') {
       if (selectionStart !== selectionEnd) {
         nextGuess = `${guess.slice(0, selectionStart)}${guess.slice(selectionEnd)}`
       } else if (selectionStart > 0) {
