@@ -15,6 +15,8 @@ export function SolvedScreen({ puzzle, outcome, isLastPuzzle, onHome, onNext }: 
   const stars = '★'.repeat(outcome.stars) + '☆'.repeat(3 - outcome.stars)
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+
     function advanceOnEnter(event: KeyboardEvent) {
       if (event.key !== 'Enter' || event.repeat || event.defaultPrevented) return
       const target = event.target

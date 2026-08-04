@@ -642,8 +642,8 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.has-compact-keyboard .puzzle-card {
     display:grid;
     min-height:0;
-    height:clamp(286px,calc(100vw - 34px),360px);
-    margin-top:8px;
+    height:clamp(270px,calc(100vw - 64px),320px);
+    margin-top:6px;
     padding:6px 10px;
     border-radius:18px;
   }
@@ -656,7 +656,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.reviewed-puzzle-art { height:100%; transform:none; }
   .puzzle-screen.has-compact-keyboard .reviewed-puzzle-art svg { width:auto; height:100%; max-width:100%; max-height:100%; }
   .puzzle-screen.has-compact-keyboard .time-hands-clock-scene { width:100%; height:100%; }
-  .puzzle-screen.has-compact-keyboard .answer-form { margin-top:8px; }
+  .puzzle-screen.has-compact-keyboard .answer-form { margin-top:4px; }
   .puzzle-screen.has-compact-keyboard .answer-form>label { display:none; }
   .puzzle-screen.has-compact-keyboard .answer-pattern { display:flex; gap:4px 8px; margin:4px 2px 6px; }
   .puzzle-screen.has-compact-keyboard .answer-word { gap:2px; }
@@ -668,6 +668,22 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.has-compact-keyboard .action-row button { min-height:42px; }
   .puzzle-screen.has-compact-keyboard .clue-panel,
   .puzzle-screen.has-compact-keyboard .reveal-panel { margin-top:8px; }
+  .solved-screen {
+    min-height:100svh;
+    padding-top:max(10px,env(safe-area-inset-top));
+    padding-bottom:max(12px,env(safe-area-inset-bottom));
+  }
+  .solved-screen .back-button { min-height:36px; }
+  .solved-screen .solved-content { padding-top:4px; }
+  .solved-screen .success-mark { width:58px; height:58px; margin-bottom:9px; font-size:1.75rem; }
+  .solved-screen .kicker { margin-bottom:6px; }
+  .solved-screen .solved-content h1 { font-size:clamp(2rem,10vw,2.5rem); }
+  .solved-screen .solve-rating { margin-top:8px; }
+  .solved-screen .origin-card { margin:12px 0; padding:15px 17px; }
+  .solved-screen .origin-card p { margin-top:7px; font-size:.88rem; line-height:1.4; }
+  .solved-screen .share-button { min-height:46px; margin-bottom:4px; }
+  .solved-screen .share-status { min-height:14px; margin-bottom:4px; }
+  .solved-screen .solved-content>.primary-button { min-height:48px; }
   .account-screen:focus-within {
     height: var(--visible-viewport-height, 100dvh);
     min-height: 0;
