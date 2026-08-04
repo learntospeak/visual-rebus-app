@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent, type RefObject } from 'react'
 import { AnswerPattern } from '../components/AnswerPattern'
 import { Button } from '../components/Button'
 import { CluePanel } from '../components/CluePanel'
@@ -68,7 +68,28 @@ export function PuzzleScreen({
   onReveal,
 }: PuzzleScreenProps) {
   const answerInput = useRef<HTMLInputElement>(null)
+  const feedbackTarget = useRef<HTMLParagraphElement>(null)
+  const clueTarget = useRef<HTMLDivElement>(null)
   const [useCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px)').matches)
+
+  function scrollToResult(target: RefObject<HTMLElement | null>) {
+    window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+      target.current?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'nearest',
+      })
+    }))
+  }
+
+  function handleSubmit(event: FormEvent) {
+    onSubmit(event)
+    scrollToResult(feedbackTarget)
+  }
+
+  function handleClue() {
+    onClue()
+    scrollToResult(clueTarget)
+  }
 
   function handleCompactKey(key: string) {
     const input = answerInput.current
@@ -115,7 +136,7 @@ export function PuzzleScreen({
         </div>
       </section>
 
-      <form className="answer-form" onSubmit={onSubmit}>
+      <form className="answer-form" onSubmit={handleSubmit}>
         <label htmlFor="answer">Your answer</label>
         <AnswerPattern pattern={puzzle.wordPattern} answer={puzzle.answer} locked={lockedLetters} celebrating={celebrating} />
         <input
@@ -133,9 +154,9 @@ export function PuzzleScreen({
         {useCompactKeyboard && (
           <CompactAnswerKeyboard onKey={handleCompactKey} />
         )}
-        <p className="feedback" role="status">{message || '\u00a0'}</p>
+        <p ref={feedbackTarget} className="feedback" role="status">{message || '\u00a0'}</p>
         <div className="action-row">
-          <Button variant="secondary" type="button" onClick={onClue} disabled={celebrating || clueCount === puzzle.clues.length}>
+          <Button variant="secondary" type="button" onClick={handleClue} disabled={celebrating || clueCount === puzzle.clues.length}>
             {clueCount === puzzle.clues.length ? 'All clues shown' : `Clue ${clueCount + 1}`}
           </Button>
           <Button type="submit" disabled={celebrating}>{celebrating ? 'Correct!' : 'Submit'}</Button>
@@ -143,7 +164,9 @@ export function PuzzleScreen({
       </form>
 
       {clueCount > 0 && (
-        <CluePanel clueNumber={clueCount} clue={puzzle.clues[clueCount - 1]} />
+        <div ref={clueTarget} className="clue-scroll-target">
+          <CluePanel clueNumber={clueCount} clue={puzzle.clues[clueCount - 1]} />
+        </div>
       )}
       {clueCount === puzzle.clues.length && !celebrating && (
         <div className="reveal-panel">
