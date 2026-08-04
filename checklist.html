@@ -48,7 +48,7 @@
 
       <div class="status-note">
         <strong>Latest project update — 4 August 2026</strong>
-        The app contains 565 playable puzzle drafts. Mobile play now uses a larger phone-style keyboard, a stable puzzle canvas that does not resize when the answer field is tapped, contained premium artwork, and a compact solved screen. The next content task is continued editorial playtesting and replacement of any remaining unclear diagrams.
+        The full 565-puzzle library is playable, premium conversion is complete through puzzle 565, and every puzzle has its own progressive clues and origin explanation. Mobile play now uses a larger phone-style keyboard, a stable puzzle canvas, contained premium artwork and a compact solved screen. The remaining Phase 6 work is final gallery playtesting, accepted-answer review and replacement of any puzzles testers still find unclear.
       </div>
 
       <div id="phases"></div>
@@ -74,7 +74,7 @@
         ['Phase 3 — Core puzzle engine', '8–12 hours', ['Render puzzle content from structured data.', 'Display word lengths without exposing letters.', 'Normalise case, spaces and punctuation.', 'Support accepted answer variants and near-miss feedback.', 'Save completion and continue to the next puzzle.'], '25 text-based puzzles fully playable.'],
         ['Phase 4 — Six visual formats', '8–14 hours', ['Typography placement.', 'Text plus icon.', 'Illustrated object placement.', 'Scale, colour and rotation.', 'Motion or animation.', 'Simple interaction such as tap or drag.'], 'The engine supports the planned visual variety.'],
         ['Phase 5 — Differentiators', '6–10 hours', ['Three-stage clue ladder.', 'Optional answer reveal.', 'Step-by-step solved explanation.', 'Daily puzzle and streak.', 'Share card that hides the answer.', 'Fair/confusing/wrong-answer feedback.'], 'The app feels meaningfully better than a basic rebus clone.'],
-        ['Phase 6 — Content production', 'Ongoing in 25-puzzle batches', ['Convert the 565 playable drafts into at least 525 editorially approved puzzles.', 'Maintain 50 reserve and replacement candidates.', 'Release content in validated 25-puzzle batches.', 'Test each puzzle with at least three people.', 'Record accepted spellings and regional labels.', 'Reject ambiguous or culturally obscure items.'], '525 approved puzzles plus a healthy replacement pipeline.'],
+        ['Phase 6 — Content production', 'Final editorial and playtesting pass', ['Build and validate the complete 565-puzzle playable library.', 'Complete the premium-art conversion and correction programme through puzzle 565.', 'Give all 565 puzzles unique progressive clue sets.', 'Add a “Where it came from” explanation to all 565 puzzles.', 'Playtest every puzzle from the desktop gallery and record approve, revise or replace decisions.', 'Add accepted spellings and regional labels, then replace any remaining ambiguous or culturally obscure puzzles.'], 'The complete 565-puzzle library is built; final external playtesting and editorial approval remain.'],
         ['Phase 7 — Monetisation and analytics', '6–10 hours', ['No forced ad in the first 10 puzzles.', 'Optional rewarded ad for an extra clue or skip.', 'One clearly described ad-free/supporter purchase.', 'Restore-purchase flow.', 'Minimal analytics: start, solve, fail, clue, reveal, abandon, purchase and crash.'], 'Monetisation does not contradict the purchase promise.'],
         ['Phase 8 — Accessibility and QA', '8–14 hours', ['Large-text mode.', 'High contrast.', 'Reduced motion.', 'Sound and haptics toggles.', 'Screen-reader labels.', 'Offline test.', 'Close/reopen and update survival test.', 'Test at least three Android devices or screen sizes, including the custom keyboard, stable puzzle canvas and compact solved screen.'], 'Stable beta candidate.'],
         ['Phase 9 — Store and legal package', '6–9 hours', ['Unique icon and screenshots.', 'Store title, subtitle, description and keywords.', 'Privacy policy and support email.', 'Google Data safety and age-rating answers.', 'Purchase wording and screenshots match actual behaviour.'], 'Store-ready submission package.'],
@@ -82,9 +82,16 @@
         ['Phase 11 — Mastery assessment', 'Post-journey feature', ['Give players a short baseline challenge.', 'Add comparable milestone challenges after major worlds.', 'Compare solve rate, clues used, solve time and mechanic mastery.', 'Show personal improvement without claiming changes to IQ or general aptitude.', 'Recommend replay paths for weaker mechanics.', 'Unlock an end-of-journey Clue Canvas Challenge and personal summary.'], 'Players can see improvement in their Clue Canvas puzzle-solving skills.']
       ]
 
-      const storageKey = 'visual-rebus-build-checklist-v8'
+      const storageKey = 'visual-rebus-build-checklist-v9'
       const stored = localStorage.getItem(storageKey)
-      const saved = new Set(stored === null ? Array.from({ length: 29 }, (_, index) => `task-${index}`) : JSON.parse(stored))
+      const legacy = localStorage.getItem('visual-rebus-build-checklist-v8')
+      const completedContentMilestones = ['task-30', 'task-31', 'task-32', 'task-33']
+      const previousSelections = stored !== null
+        ? JSON.parse(stored)
+        : legacy !== null
+          ? JSON.parse(legacy)
+          : Array.from({ length: 29 }, (_, index) => `task-${index}`)
+      const saved = new Set([...previousSelections, ...completedContentMilestones])
       const root = document.querySelector('#phases')
       let itemIndex = 0
 
