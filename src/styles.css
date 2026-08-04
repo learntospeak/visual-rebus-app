@@ -627,12 +627,10 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 @media (max-width: 360px) { .app-shell { padding: max(22px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); } .hero { padding-top: 48px; } .puzzle-card { min-height: 300px; padding: 16px; } .puzzle-art-frame, .puzzle-visual { height: 230px; } }
 @media (max-width: 600px) {
   .puzzle-screen.has-compact-keyboard {
-    display:grid;
-    grid-template-rows:auto minmax(175px,1fr) auto;
-    gap:8px;
-    height:var(--visible-viewport-height,100dvh);
-    min-height:0;
-    max-height:var(--visible-viewport-height,100dvh);
+    display:block;
+    height:auto;
+    min-height:100svh;
+    max-height:none;
     overflow-y:auto;
     padding:max(8px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));
   }
@@ -641,17 +639,24 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.has-compact-keyboard .puzzle-header .eyebrow { font-size:.65rem; letter-spacing:.1em; }
   .puzzle-screen.has-compact-keyboard .mini-track { margin-top:4px; }
   .puzzle-screen.has-compact-keyboard .difficulty { padding:5px 7px; font-size:.62rem; }
-  .puzzle-screen.has-compact-keyboard .puzzle-card { display:grid; min-height:175px; height:100%; margin-top:0; padding:6px 10px; border-radius:18px; }
+  .puzzle-screen.has-compact-keyboard .puzzle-card {
+    display:grid;
+    min-height:0;
+    height:clamp(286px,calc(100vw - 34px),360px);
+    margin-top:8px;
+    padding:6px 10px;
+    border-radius:18px;
+  }
   .puzzle-screen.has-compact-keyboard .puzzle-card>p { display:none; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame { width:100%; height:100%; min-height:165px; overflow:hidden; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.puzzle-visual { height:270px; transform:scale(.72); transform-origin:center; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.generated-puzzle-visual,
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.premium-text-puzzle-art { width:100%; height:100%; transform:none; }
-  .puzzle-screen.has-compact-keyboard .generated-puzzle-visual img { width:100%; height:100%; transform:scale(1.08); }
+  .puzzle-screen.has-compact-keyboard .generated-puzzle-visual img { width:100%; height:100%; transform:none; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.reviewed-puzzle-art { height:100%; transform:none; }
   .puzzle-screen.has-compact-keyboard .reviewed-puzzle-art svg { width:auto; height:100%; max-width:100%; max-height:100%; }
   .puzzle-screen.has-compact-keyboard .time-hands-clock-scene { width:100%; height:100%; }
-  .puzzle-screen.has-compact-keyboard .answer-form { margin-top:0; }
+  .puzzle-screen.has-compact-keyboard .answer-form { margin-top:8px; }
   .puzzle-screen.has-compact-keyboard .answer-form>label { display:none; }
   .puzzle-screen.has-compact-keyboard .answer-pattern { display:flex; gap:4px 8px; margin:4px 2px 6px; }
   .puzzle-screen.has-compact-keyboard .answer-word { gap:2px; }
@@ -663,55 +668,6 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.has-compact-keyboard .action-row button { min-height:42px; }
   .puzzle-screen.has-compact-keyboard .clue-panel,
   .puzzle-screen.has-compact-keyboard .reveal-panel { margin-top:8px; }
-  .puzzle-screen.is-answering {
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 8px;
-    height: var(--visible-viewport-height, 100dvh);
-    min-height: 0;
-    max-height: var(--visible-viewport-height, 100dvh);
-    overflow-y: auto;
-    padding: max(8px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
-  }
-  .puzzle-screen.is-answering .puzzle-header { display: none; }
-  .puzzle-screen.is-answering .puzzle-card { display: grid; min-height: 145px; height: 100%; margin-top: 0; padding: 6px 12px; border-radius: 18px; }
-  .puzzle-screen.is-answering .puzzle-card > p { display: none; }
-  .puzzle-screen.is-answering .puzzle-art-frame { width: 100%; height: 100%; min-height: 145px; overflow: hidden; }
-  .puzzle-screen.is-answering .puzzle-art-frame > .puzzle-visual {
-    height: 270px;
-    transform: scale(.68);
-    transform-origin: center;
-  }
-  .puzzle-screen.is-answering .puzzle-art-frame > .generated-puzzle-visual,
-  .puzzle-screen.is-answering .puzzle-art-frame > .premium-text-puzzle-art {
-    width: 100%;
-    height: 100%;
-    transform: none;
-  }
-  .puzzle-screen.is-answering .generated-puzzle-visual img {
-    width: 100%;
-    height: 100%;
-    transform: scale(1.08);
-  }
-  .puzzle-screen.is-answering .puzzle-art-frame > .reviewed-puzzle-art {
-    height: 100%;
-    transform: none;
-  }
-  .puzzle-screen.is-answering .reviewed-puzzle-art svg {
-    width: auto;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-  }
-  .puzzle-screen.is-answering .answer-form { margin-top: 0; }
-  .puzzle-screen.is-answering .answer-form > label,
-  .puzzle-screen.is-answering .answer-pattern { display: none; }
-  .puzzle-screen.is-answering .answer-form input { height: 52px; margin-top: 0; }
-  .puzzle-screen.is-answering .feedback { min-height: 16px; margin: 3px 2px; font-size: .75rem; }
-  .puzzle-screen.is-answering .action-row { gap: 8px; }
-  .puzzle-screen.is-answering .action-row button { min-height: 46px; }
-  .puzzle-screen.is-answering .clue-panel,
-  .puzzle-screen.is-answering .reveal-panel { margin-top: 8px; }
   .account-screen:focus-within {
     height: var(--visible-viewport-height, 100dvh);
     min-height: 0;

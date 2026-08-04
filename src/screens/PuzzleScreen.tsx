@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { AnswerPattern } from '../components/AnswerPattern'
 import { Button } from '../components/Button'
 import { CluePanel } from '../components/CluePanel'
@@ -68,16 +68,7 @@ export function PuzzleScreen({
   onReveal,
 }: PuzzleScreenProps) {
   const answerInput = useRef<HTMLInputElement>(null)
-  const [answerFocused, setAnswerFocused] = useState(false)
-  const [useCompactKeyboard, setUseCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px) and (pointer: coarse)').matches)
-
-  function handleAnswerFocus() {
-    setAnswerFocused(true)
-  }
-
-  useEffect(() => {
-    answerInput.current?.focus({ preventScroll: true })
-  }, [puzzle.id, useCompactKeyboard])
+  const [useCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px)').matches)
 
   function handleCompactKey(key: string) {
     const input = answerInput.current
@@ -107,7 +98,7 @@ export function PuzzleScreen({
   }
 
   return (
-    <main className={`app-shell puzzle-screen${answerFocused ? ' is-answering' : ''}${useCompactKeyboard ? ' has-compact-keyboard' : ''}`}>
+    <main className={`app-shell puzzle-screen${useCompactKeyboard ? ' has-compact-keyboard' : ''}`}>
       <header className="puzzle-header">
         <Button variant="icon" aria-label="Return home" onClick={onHome}>←</Button>
         <div>
@@ -132,8 +123,6 @@ export function PuzzleScreen({
           id="answer"
           value={guess}
           onChange={(event) => onGuessChange(event.target.value)}
-          onFocus={() => { if (!useCompactKeyboard) handleAnswerFocus() }}
-          onBlur={() => window.setTimeout(() => setAnswerFocused(false), 180)}
           disabled={celebrating}
           inputMode={useCompactKeyboard ? 'none' : 'text'}
           autoComplete="off"
