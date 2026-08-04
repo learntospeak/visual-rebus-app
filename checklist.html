@@ -48,16 +48,17 @@
 
       <div class="status-note">
         <strong>Latest project update — 4 August 2026</strong>
-        The full 565-puzzle library is playable, premium conversion is complete through puzzle 565, and every puzzle has its own progressive clues and origin explanation. Mobile play now uses a larger phone-style keyboard, a stable puzzle canvas, contained premium artwork and a compact solved screen. The remaining Phase 6 work is final gallery playtesting, accepted-answer review and replacement of any puzzles testers still find unclear.
+        The full 565-puzzle library is playable, premium conversion is complete through puzzle 565, and every puzzle has its own progressive clues and origin explanation. The launch path is now ordered below: difficulty groups, Play Console and privacy foundations, Android packaging, device QA, store materials, closed testing and production release. Monetisation is deferred so it does not block the initial free launch.
       </div>
 
       <div id="phases"></div>
 
       <div class="overall">
-        <h2>Overall effort</h2>
-        <div>Playable prototype: <strong>12–18 hours</strong></div>
-        <div>Good MVP test build: <strong>45–65 hours</strong></div>
-        <div>Launch-quality 150-puzzle version: <strong>70–110 hours</strong>, mostly content and QA.</div>
+        <h2>Current launch position</h2>
+        <div>Content library: <strong>565 playable puzzles</strong></div>
+        <div>Next product task: <strong>difficulty-grouped play</strong></div>
+        <div>Required closed test: <strong>at least 12 opted-in testers for 14 continuous days</strong></div>
+        <div>Initial release plan: <strong>free, with no ads or purchases</strong>; monetisation can be designed after launch.</div>
       </div>
 
       <div class="actions">
@@ -74,22 +75,22 @@
         ['Phase 3 — Core puzzle engine', '8–12 hours', ['Render puzzle content from structured data.', 'Display word lengths without exposing letters.', 'Normalise case, spaces and punctuation.', 'Support accepted answer variants and near-miss feedback.', 'Save completion and continue to the next puzzle.'], '25 text-based puzzles fully playable.'],
         ['Phase 4 — Six visual formats', '8–14 hours', ['Typography placement.', 'Text plus icon.', 'Illustrated object placement.', 'Scale, colour and rotation.', 'Motion or animation.', 'Simple interaction such as tap or drag.'], 'The engine supports the planned visual variety.'],
         ['Phase 5 — Differentiators', '6–10 hours', ['Three-stage clue ladder.', 'Optional answer reveal.', 'Step-by-step solved explanation.', 'Daily puzzle and streak.', 'Share card that hides the answer.', 'Fair/confusing/wrong-answer feedback.'], 'The app feels meaningfully better than a basic rebus clone.'],
-        ['Phase 6 — Content production', 'Final editorial and playtesting pass', ['Build and validate the complete 565-puzzle playable library.', 'Complete the premium-art conversion and correction programme through puzzle 565.', 'Give all 565 puzzles unique progressive clue sets.', 'Add a “Where it came from” explanation to all 565 puzzles.', 'Playtest every puzzle from the desktop gallery and record approve, revise or replace decisions.', 'Add accepted spellings and regional labels, then replace any remaining ambiguous or culturally obscure puzzles.'], 'The complete 565-puzzle library is built; final external playtesting and editorial approval remain.'],
-        ['Phase 7 — Monetisation and analytics', '6–10 hours', ['No forced ad in the first 10 puzzles.', 'Optional rewarded ad for an extra clue or skip.', 'One clearly described ad-free/supporter purchase.', 'Restore-purchase flow.', 'Minimal analytics: start, solve, fail, clue, reveal, abandon, purchase and crash.'], 'Monetisation does not contradict the purchase promise.'],
-        ['Phase 8 — Accessibility and QA', '8–14 hours', ['Large-text mode.', 'High contrast.', 'Reduced motion.', 'Sound and haptics toggles.', 'Screen-reader labels.', 'Offline test.', 'Close/reopen and update survival test.', 'Test at least three Android devices or screen sizes, including the custom keyboard, stable puzzle canvas and compact solved screen.'], 'Stable beta candidate.'],
-        ['Phase 9 — Store and legal package', '6–9 hours', ['Unique icon and screenshots.', 'Store title, subtitle, description and keywords.', 'Privacy policy and support email.', 'Google Data safety and age-rating answers.', 'Purchase wording and screenshots match actual behaviour.'], 'Store-ready submission package.'],
-        ['Phase 10 — Closed beta and fixes', '4–8 hands-on hours plus waiting period', ['Recruit testers early.', 'Run required closed testing when applicable.', 'Review feedback and analytics.', 'Fix crashes, lost progress, purchase issues and confusing puzzles.'], 'Release candidate.'],
+        ['Phase 6 — Finish the player experience', 'Next', ['Build and validate the complete 565-puzzle playable library.', 'Complete the premium-art conversion and correction programme through puzzle 565.', 'Give all 565 puzzles unique progressive clue sets.', 'Add a “Where it came from” explanation to all 565 puzzles.', 'Group puzzles for players as Easy (1–3), Medium (4–6), Hard (7–8) and Expert (9–10), while retaining Journey and Daily modes.', 'Complete the gallery playtest, add accepted spellings and regional answers, and replace any puzzle that testers still find ambiguous.'], 'Players can choose an appropriate difficulty and the launch library has passed its final editorial review.'],
+        ['Phase 7 — Play Store and Android foundations', 'Start immediately after Phase 6', ['Create and verify a personal Google Play Console developer account and pay the one-time registration fee.', 'Publish a Clue Canvas privacy policy and establish a working public support email.', 'Add account deletion inside the app and a public webpage for account-deletion requests.', 'Create the Capacitor Android project with a permanent package ID and target Android 16 / API 36.', 'Add the app icon and splash assets, configure signing, generate a release Android App Bundle (.aab), and install an internal build.'], 'A signed Android build can be installed and the mandatory account/privacy foundations are complete.'],
+        ['Phase 8 — Android accessibility and QA', 'Before closed testing', ['Test the Android build on at least three real devices or representative screen sizes.', 'Verify the custom keyboard, stable puzzle canvas, Clue/Submit scrolling and compact solved page.', 'Test sign-up, sign-in, cloud sync, sign-out and account deletion from beginning to end.', 'Confirm progress survives close/reopen, device restart, sign-in and an app update.', 'Confirm the core puzzle journey works offline and reconnects safely.', 'Verify large text, high contrast, reduced motion, sound and haptics controls.', 'Check screen-reader labels, focus order and finger-sized touch targets.', 'Complete a 30-puzzle no-crash session and resolve important Google Play pre-launch report findings.'], 'The signed Android build is a stable closed-beta candidate.'],
+        ['Phase 9 — Store listing and policy forms', 'Before starting the closed test', ['Create the Play Console app record as Clue Canvas, classify it as a free Puzzle game and confirm the permanent package ID.', 'Prepare the final app icon, feature graphic and phone screenshots.', 'Complete the store title, short description, full description, category and support contact details.', 'Complete the privacy policy, Data safety form and external account-deletion URL using the app’s real Supabase data handling.', 'Complete the 13+ target-audience, content-rating, ads, app-access and other required declarations; store claims must match the no-ads/no-purchases launch build.'], 'The Play Console app record is complete and ready to accept the closed-test bundle.'],
+        ['Phase 10 — Closed test and production release', 'At least 14 calendar days plus review time', ['Recruit at least 12 testers with Google accounts and prepare the closed-test email list or Google Group.', 'Publish the signed bundle to the closed track and keep at least 12 testers continuously opted in for 14 days.', 'Record tester activity and feedback, fix important problems, and upload the final release candidate.', 'Apply for production access, answer Google’s testing questions, then use a cautious staged production rollout and monitor crashes and reviews.'], 'Clue Canvas is approved for production and released safely on Google Play.'],
         ['Phase 11 — Mastery assessment', 'Post-journey feature', ['Give players a short baseline challenge.', 'Add comparable milestone challenges after major worlds.', 'Compare solve rate, clues used, solve time and mechanic mastery.', 'Show personal improvement without claiming changes to IQ or general aptitude.', 'Recommend replay paths for weaker mechanics.', 'Unlock an end-of-journey Clue Canvas Challenge and personal summary.'], 'Players can see improvement in their Clue Canvas puzzle-solving skills.']
       ]
 
-      const storageKey = 'visual-rebus-build-checklist-v9'
+      const storageKey = 'visual-rebus-build-checklist-v10'
       const stored = localStorage.getItem(storageKey)
-      const legacy = localStorage.getItem('visual-rebus-build-checklist-v8')
+      const legacy = localStorage.getItem('visual-rebus-build-checklist-v9') ?? localStorage.getItem('visual-rebus-build-checklist-v8')
       const completedContentMilestones = ['task-30', 'task-31', 'task-32', 'task-33']
       const previousSelections = stored !== null
         ? JSON.parse(stored)
         : legacy !== null
-          ? JSON.parse(legacy)
+          ? JSON.parse(legacy).filter((id) => Number(id.replace('task-', '')) < 36)
           : Array.from({ length: 29 }, (_, index) => `task-${index}`)
       const saved = new Set([...previousSelections, ...completedContentMilestones])
       const root = document.querySelector('#phases')
