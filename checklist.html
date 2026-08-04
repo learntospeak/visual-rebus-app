@@ -14,6 +14,8 @@
       h1 { margin: 8px 0 10px; font-size: clamp(2rem, 6vw, 3.8rem); line-height: 1; }
       .intro { color: #cbd5e1; max-width: 650px; line-height: 1.6; }
       .summary { position: sticky; top: 12px; z-index: 2; margin: 28px 0; padding: 18px; border: 1px solid #405075; border-radius: 18px; background: rgba(23, 34, 58, .94); backdrop-filter: blur(12px); box-shadow: 0 14px 40px #050b1880; }
+      .status-note { margin: 0 0 28px; padding: 18px; border: 1px solid #2dd4bf80; border-radius: 18px; background: #0f766e33; color: #d7fff5; line-height: 1.55; }
+      .status-note strong { display: block; margin-bottom: 5px; color: #8be9d0; }
       .summary-row { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 10px; font-weight: 800; }
       .track { height: 10px; overflow: hidden; border-radius: 999px; background: #334155; }
       .bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4ade80, #5eead4); transition: width .2s ease; }
@@ -44,6 +46,11 @@
         <div class="track"><div class="bar" id="bar"></div></div>
       </div>
 
+      <div class="status-note">
+        <strong>Latest project update — 2 August 2026</strong>
+        The app contains 565 playable puzzle drafts. A 44-puzzle premium-art correction batch covering puzzles 336–559 has been completed, including the animated eyebrow puzzle, stretched-home puzzle and revised potato-chip puzzle. The next content task is continued editorial playtesting and replacement of any remaining unclear diagrams.
+      </div>
+
       <div id="phases"></div>
 
       <div class="overall">
@@ -67,7 +74,7 @@
         ['Phase 3 — Core puzzle engine', '8–12 hours', ['Render puzzle content from structured data.', 'Display word lengths without exposing letters.', 'Normalise case, spaces and punctuation.', 'Support accepted answer variants and near-miss feedback.', 'Save completion and continue to the next puzzle.'], '25 text-based puzzles fully playable.'],
         ['Phase 4 — Six visual formats', '8–14 hours', ['Typography placement.', 'Text plus icon.', 'Illustrated object placement.', 'Scale, colour and rotation.', 'Motion or animation.', 'Simple interaction such as tap or drag.'], 'The engine supports the planned visual variety.'],
         ['Phase 5 — Differentiators', '6–10 hours', ['Three-stage clue ladder.', 'Optional answer reveal.', 'Step-by-step solved explanation.', 'Daily puzzle and streak.', 'Share card that hides the answer.', 'Fair/confusing/wrong-answer feedback.'], 'The app feels meaningfully better than a basic rebus clone.'],
-        ['Phase 6 — Content production', 'Ongoing in 25-puzzle batches', ['Build 525 approved playable puzzles.', 'Maintain 50 reserve and replacement candidates.', 'Release content in validated 25-puzzle batches.', 'Test each puzzle with at least three people.', 'Record accepted spellings and regional labels.', 'Reject ambiguous or culturally obscure items.'], '525 approved puzzles plus a healthy replacement pipeline.'],
+        ['Phase 6 — Content production', 'Ongoing in 25-puzzle batches', ['Convert the 565 playable drafts into at least 525 editorially approved puzzles.', 'Maintain 50 reserve and replacement candidates.', 'Release content in validated 25-puzzle batches.', 'Test each puzzle with at least three people.', 'Record accepted spellings and regional labels.', 'Reject ambiguous or culturally obscure items.'], '525 approved puzzles plus a healthy replacement pipeline.'],
         ['Phase 7 — Monetisation and analytics', '6–10 hours', ['No forced ad in the first 10 puzzles.', 'Optional rewarded ad for an extra clue or skip.', 'One clearly described ad-free/supporter purchase.', 'Restore-purchase flow.', 'Minimal analytics: start, solve, fail, clue, reveal, abandon, purchase and crash.'], 'Monetisation does not contradict the purchase promise.'],
         ['Phase 8 — Accessibility and QA', '8–14 hours', ['Large-text mode.', 'High contrast.', 'Reduced motion.', 'Sound and haptics toggles.', 'Screen-reader labels.', 'Offline test.', 'Close/reopen and update survival test.', 'Test at least three Android devices or screen sizes.'], 'Stable beta candidate.'],
         ['Phase 9 — Store and legal package', '6–9 hours', ['Unique icon and screenshots.', 'Store title, subtitle, description and keywords.', 'Privacy policy and support email.', 'Google Data safety and age-rating answers.', 'Purchase wording and screenshots match actual behaviour.'], 'Store-ready submission package.'],

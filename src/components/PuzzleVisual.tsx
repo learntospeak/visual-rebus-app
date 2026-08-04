@@ -352,6 +352,7 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   278: '/premium-278-v1.webp',
   279: '/premium-279-v1.webp',
   280: '/premium-280-v1.webp',
+  287: '/premium-287-v1.webp?v=1',
   290: '/premium-290-v2.webp',
   291: '/premium-291-v1.webp',
   292: '/premium-292-v1.webp',
@@ -385,10 +386,12 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   327: '/premium-327-v1.webp?v=3',
   330: '/premium-330-v1.webp?v=3',
   332: '/premium-332-v1.webp?v=3',
+  336: '/premium-336-v2.webp?v=10',
   339: '/premium-339-v1.webp?v=3',
+  340: '/premium-340-v2.webp?v=10',
   341: '/premium-341-v1.webp?v=3',
   342: '/premium-342-v1.webp?v=3',
-  343: '/premium-343-v1.webp?v=3',
+  343: '/premium-343-v2.webp?v=10',
   344: '/premium-344-v1.webp?v=3',
   345: '/premium-345-v1.webp?v=3',
   346: '/premium-346-v1.webp?v=3',
@@ -401,24 +404,31 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   354: '/premium-354-v1.webp?v=4',
   355: '/premium-355-v1.webp?v=4',
   356: '/premium-356-v1.webp?v=4',
-  357: '/premium-357-v1.webp?v=4',
+  357: '/premium-357-v2.webp?v=10',
   358: '/premium-358-v1.webp?v=4',
   359: '/premium-359-v1.webp?v=4',
   360: '/premium-360-v1.webp?v=4',
+  361: '/premium-361-v2.webp?v=10',
+  362: '/premium-362-v2.webp?v=10',
   363: '/premium-363-v1.webp?v=4',
   364: '/premium-364-v1.webp?v=4',
   365: '/premium-365-v1.webp?v=4',
   367: '/premium-367-v1.webp?v=4',
   368: '/premium-368-v1.webp?v=4',
   369: '/premium-369-v1.webp?v=4',
+  370: '/premium-370-v2.webp?v=10',
   371: '/premium-371-v1.webp?v=4',
   372: '/premium-372-v1.webp?v=4',
   373: '/premium-373-v1.webp?v=4',
   374: '/premium-374-v1.webp?v=4',
   375: '/premium-375-v1.webp?v=4',
+  376: '/premium-376-v2.webp?v=10',
+  377: '/premium-377-v2.webp?v=10',
+  378: '/premium-378-v2.webp?v=10',
   379: '/premium-379-v1.webp?v=4',
   380: '/premium-380-v1.webp?v=4',
   381: '/premium-381-v1.webp?v=4',
+  383: '/premium-383-v2.webp?v=10',
   384: '/premium-384-v1.webp?v=4',
   385: '/premium-385-v1.webp?v=4',
   386: '/premium-386-v1.webp?v=4',
@@ -427,25 +437,41 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   389: '/premium-389-v1.webp?v=4',
   390: '/premium-390-v1.webp?v=4',
   391: '/premium-391-v1.webp?v=4',
-  392: '/premium-392-v1.webp?v=4',
+  392: '/premium-392-v2.webp?v=10',
   394: '/premium-394-v1.webp?v=4',
   395: '/premium-395-v1.webp?v=4',
-  396: '/premium-396-v1.webp?v=4',
+  396: '/premium-396-v2.webp?v=10',
   398: '/premium-398-v1.webp?v=4',
   399: '/premium-399-v1.webp?v=4',
   400: '/premium-400-v1.webp?v=4',
+  401: '/premium-401-v2.webp?v=10',
+  402: '/premium-402-v2.webp?v=10',
+  403: '/premium-403-v2.webp?v=10',
+  404: '/premium-404-v2.webp?v=10',
+  405: '/premium-405-v2.webp?v=10',
   406: '/premium-406-v1.webp?v=5',
+  414: '/premium-414-v2.webp?v=10',
   415: '/premium-415-v1.webp?v=5',
+  421: '/premium-421-v2.webp?v=10',
+  422: '/premium-422-v2.webp?v=10',
+  423: '/premium-423-v2.webp?v=10',
+  424: '/premium-424-v2.webp?v=10',
   425: '/premium-425-v1.webp?v=5',
   426: '/premium-426-v1.webp?v=5',
+  427: '/premium-427-v2.webp?v=10',
   428: '/premium-428-v1.webp?v=5',
   430: '/premium-430-v1.webp?v=5',
-  432: '/premium-432-v1.webp?v=5',
+  432: '/premium-432-v2.webp?v=10',
+  434: '/premium-434-v2.webp?v=10',
+  435: '/premium-435-v2.webp?v=10',
   436: '/premium-436-v1.webp?v=5',
   438: '/premium-438-v1.webp?v=5',
   440: '/premium-440-v1.webp?v=5',
+  442: '/premium-442-v2.webp?v=10',
   448: '/premium-448-v1.webp?v=5',
   458: '/premium-458-v1.webp?v=6',
+  459: '/premium-459-v2.webp?v=10',
+  460: '/premium-460-v2.webp?v=10',
   461: '/premium-461-v1.webp?v=6',
   462: '/premium-462-v1.webp?v=6',
   464: '/premium-464-v1.webp?v=6',
@@ -454,9 +480,11 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   475: '/premium-475-v1.webp?v=6',
   480: '/premium-480-v1.webp?v=6',
   481: '/premium-481-v1.webp?v=6',
-  483: '/premium-483-v1.webp?v=6',
+  482: '/premium-482-v2.webp?v=10',
+  483: '/premium-483-v2.webp?v=10',
   484: '/premium-484-v1.webp?v=6',
-  488: '/premium-488-v1.webp?v=6',
+  487: '/premium-487-v2.webp?v=10',
+  488: '/premium-488-v2.webp?v=10',
   493: '/premium-493-v1.webp?v=6',
   495: '/premium-495-v1.webp?v=6',
   496: '/premium-496-v1.webp?v=6',
@@ -465,23 +493,25 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   501: '/premium-501-v1.webp?v=7',
   502: '/premium-502-v1.webp?v=7',
   503: '/premium-503-v1.webp?v=7',
+  504: '/premium-504-v2.webp?v=10',
   505: '/premium-505-v1.webp?v=7',
   506: '/premium-506-v1.webp?v=7',
   507: '/premium-507-v1.webp?v=7',
   510: '/premium-510-v1.webp?v=7',
+  511: '/premium-511-v2.webp?v=10',
+  513: '/premium-513-v2.webp?v=10',
   514: '/premium-514-v1.webp?v=7',
-  516: '/premium-516-v1.webp?v=7',
   517: '/premium-517-v1.webp?v=7',
   518: '/premium-518-v1.webp?v=7',
   519: '/premium-519-v1.webp?v=7',
   520: '/premium-520-v1.webp?v=7',
-  521: '/premium-521-v1.webp?v=7',
+  521: '/premium-521-v2.webp?v=10',
   522: '/premium-522-v1.webp?v=7',
   523: '/premium-523-v1.webp?v=7',
   524: '/premium-524-v1.webp?v=7',
   525: '/premium-525-v1.webp?v=7',
   527: '/premium-527-v1.webp?v=7',
-  528: '/premium-528-v1.webp?v=7',
+  528: '/premium-528-v2.webp?v=10',
   529: '/premium-529-v1.webp?v=7',
   530: '/premium-530-v1.webp?v=7',
   531: '/premium-531-v1.webp?v=7',
@@ -489,7 +519,7 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   533: '/premium-533-v1.webp?v=7',
   534: '/premium-534-v1.webp?v=7',
   535: '/premium-535-v1.webp?v=7',
-  536: '/premium-536-v1.webp?v=7',
+  536: '/premium-536-v2.webp?v=10',
   537: '/premium-537-v1.webp?v=7',
   538: '/premium-538-v1.webp?v=7',
   539: '/premium-539-v1.webp?v=7',
@@ -505,10 +535,11 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   551: '/premium-551-v1.webp?v=8',
   552: '/premium-552-v1.webp?v=8',
   553: '/premium-553-v1.webp?v=8',
+  554: '/premium-554-v2.webp?v=10',
   555: '/premium-555-v1.webp?v=8',
   557: '/premium-557-v1.webp?v=8',
-  558: '/premium-558-v1.webp?v=8',
-  559: '/premium-559-v1.webp?v=8',
+  558: '/premium-558-v2.webp?v=10',
+  559: '/premium-559-v2.webp?v=10',
   560: '/premium-560-v1.webp?v=8',
   561: '/premium-561-v1.webp?v=9',
   562: '/premium-562-v1.webp?v=8',
@@ -538,6 +569,40 @@ function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
   )
 }
 
+function RaisedEyebrowsPuzzleArt({ puzzle }: { puzzle: Puzzle }) {
+  const ariaLabel = puzzle.elements.map((item) => item.ariaLabel ?? item.content).join(', ')
+  return (
+    <div
+      className="puzzle-visual generated-puzzle-visual animated-eyebrows-art premium-puzzle-516"
+      role="img"
+      aria-label={ariaLabel}
+    >
+      <img
+        className="eyebrows-neutral-frame"
+        src="/premium-516-neutral-v2.webp?v=10"
+        alt=""
+        aria-hidden="true"
+        width="320"
+        height="260"
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
+      />
+      <img
+        className="eyebrows-raised-frame"
+        src="/premium-516-raised-v2.webp?v=10"
+        alt=""
+        aria-hidden="true"
+        width="320"
+        height="260"
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
+      />
+    </div>
+  )
+}
+
 export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
   const [activated, setActivated] = useState(false)
   useEffect(() => setActivated(false), [puzzle.id])
@@ -555,6 +620,8 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
       </button>
     )
   }
+
+  if (puzzle.id === 516) return <RaisedEyebrowsPuzzleArt puzzle={puzzle} />
 
   const premiumArt = premiumPuzzleArt[puzzle.id]
   if (premiumArt) return <GeneratedPuzzleArt puzzle={puzzle} src={premiumArt} />
