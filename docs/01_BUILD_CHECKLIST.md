@@ -60,58 +60,81 @@
 
 **Exit result:** the app feels meaningfully better than a basic rebus clone.
 
-## Phase 6 — Finish the player experience
+## Phase 6 — Finish the web game
 
 - [x] Build and validate the complete 565-puzzle playable library.
 - [x] Complete the premium-art conversion and correction programme through puzzle 565.
 - [x] Give all 565 puzzles unique progressive clue sets.
 - [x] Add a “Where it came from” explanation to all 565 puzzles.
-- [ ] Group puzzles for players as Easy (1–3), Medium (4–6), Hard (7–8) and Expert (9–10), while retaining Journey and Daily modes.
-- [ ] Complete the gallery playtest, add accepted spellings and regional answers, and replace any puzzle that testers still find ambiguous.
+- [x] Keep the existing difficulty scores provisional and defer the player-facing Easy/Medium/Hard/Expert groups until closed-test results are available.
+- [ ] Continue the gallery review, add accepted spellings and regional answers, and replace puzzles that testers identify as genuinely ambiguous.
 
-**Exit result:** players can choose an appropriate difficulty and the launch library has passed its final editorial review.
+**Exit result:** the content library is ready to package, while difficulty labels remain adjustable after real testing.
 
-## Phase 7 — Play Store and Android foundations
+## Phase 7 — Google account, privacy and deletion
 
-- [ ] Create and verify a personal Google Play Console developer account and pay the one-time registration fee.
-- [ ] Publish a Clue Canvas privacy policy and establish a working public support email.
-- [ ] Add account deletion inside the app and a public webpage for account-deletion requests.
-- [ ] Create the Capacitor Android project with a permanent package ID and target Android 16 / API 36.
-- [ ] Add the app icon and splash assets, configure signing, generate a release Android App Bundle (`.aab`), and install an internal build.
+- [ ] Secure the Google account that will own Clue Canvas with two-step verification and recovery details.
+- [ ] Register a personal Google Play Console account, accept the agreements and pay the one-time registration fee.
+- [ ] Complete Google’s legal-name, address, phone, email, identity and device-verification steps.
+- [ ] Choose the public developer name and establish a working support email, ideally `support@cluecanvas.games`.
+- [ ] Publish a Clue Canvas privacy policy describing optional accounts, Supabase authentication, cloud progress, retention and deletion.
+- [ ] Add a clear Delete account action inside the signed-in account/settings screen.
+- [ ] Publish an external account-deletion request page on `cluecanvas.games` for people who no longer have the app.
+- [ ] Choose and record the permanent Android package ID before creating the Play app record; proposed ID: `games.cluecanvas.app`.
+- [ ] Document the exact data collected by the launch build so the privacy policy and Play Data safety answers match.
 
-**Exit result:** a signed Android build can be installed and the mandatory account/privacy foundations are complete.
+**Exit result:** the developer account is verified and all mandatory privacy/account-deletion foundations are working.
 
-## Phase 8 — Android accessibility and QA
+## Phase 8 — Package and test the Android app
 
-- [ ] Test the Android build on at least three real devices or representative screen sizes.
-- [ ] Verify the custom keyboard, stable puzzle canvas, Clue/Submit scrolling and compact solved page.
-- [ ] Test sign-up, sign-in, cloud sync, sign-out and account deletion from beginning to end.
-- [ ] Confirm progress survives close/reopen, device restart, sign-in and an app update.
-- [ ] Confirm the core puzzle journey works offline and reconnects safely.
-- [ ] Verify large text, high contrast, reduced motion, sound and haptics controls.
-- [ ] Check screen-reader labels, focus order and finger-sized touch targets.
-- [ ] Complete a 30-puzzle no-crash session and resolve important Google Play pre-launch report findings.
+- [ ] Install Android Studio, the required Java tools and the Android 16 / API 36 SDK.
+- [ ] Add Capacitor to the existing Vite project and configure Clue Canvas, the permanent package ID and `dist` as the web build directory.
+- [ ] Generate the Android project and keep the packaged web assets synchronized with each production build.
+- [ ] Configure HTTPS access, Supabase authentication redirects, Android back-button behaviour, safe areas and network reconnect behaviour.
+- [ ] Create the final adaptive launcher icon and splash-screen assets.
+- [ ] Create the private release keystore, record its passwords securely and make at least two protected backups.
+- [ ] Build a signed release Android App Bundle (`.aab`) for Google Play and an installable test APK.
+- [ ] Install the Android build on the Samsung Galaxy S24 FE and complete sign-up, email confirmation, sign-in, sync and sign-out.
+- [ ] Verify the custom keyboard, fixed puzzle canvas, Clue/Submit scrolling and compact solved page in the packaged app.
+- [ ] Confirm progress survives closing the app, restarting the phone, signing in and installing an update.
+- [ ] Confirm the core puzzle journey works offline and synchronizes safely after reconnecting.
+- [ ] Test large text, high contrast, reduced motion, sound/haptics controls, screen-reader labels and touch targets.
+- [ ] Run at least one 30-puzzle no-crash session and repeat the key checks on two additional devices or representative screen sizes.
 
-**Exit result:** the signed Android build is a stable closed-beta candidate.
+**Exit result:** a signed, stable Android bundle is ready for Play Console testing.
 
-## Phase 9 — Store listing and policy forms
+## Phase 9 — Configure Play Console and recruit testers
 
-- [ ] Create the Play Console app record as Clue Canvas, classify it as a free Puzzle game and confirm the permanent package ID.
-- [ ] Prepare the final app icon, feature graphic and phone screenshots.
-- [ ] Complete the store title, short description, full description, category and support contact details.
-- [ ] Complete the privacy policy, Data safety form and external account-deletion URL using the app’s real Supabase data handling.
-- [ ] Complete the 13+ target-audience, content-rating, ads, app-access and other required declarations; store claims must match the no-ads/no-purchases launch build.
+- [ ] Create the Play Console app record as Clue Canvas, classify it as a free Puzzle game and enter the permanent package ID.
+- [ ] Upload the signed bundle to the internal-testing track before exposing it to the closed-test group.
+- [ ] Prepare the app icon, feature graphic and representative phone screenshots.
+- [ ] Complete the store title, short description, full description, category, website and support contact details.
+- [ ] Enter the privacy-policy and external account-deletion URLs and complete the Data safety form from the documented Supabase behaviour.
+- [ ] Complete the 13+ target-audience, content-rating, ads, app-access and remaining policy declarations; describe the launch build as having no ads or purchases.
+- [ ] Review Google’s automated checks and pre-launch report, then fix all important errors and warnings.
+- [ ] Recruit at least 12 reliable testers with Google accounts; aim for 14–15 people as a buffer.
+- [ ] Create the closed-test email list or Google Group and prepare one clear opt-in/install instruction message.
 
-**Exit result:** the Play Console app record is complete and ready to accept the closed-test bundle.
+**Exit result:** the Play listing, policy declarations, tested bundle and closed-test group are ready.
 
-## Phase 10 — Closed test and production release
+## Phase 10 — Closed test, difficulty review and release
 
-- [ ] Recruit at least 12 testers with Google accounts and prepare the closed-test email list or Google Group.
-- [ ] Publish the signed bundle to the closed track and keep at least 12 testers continuously opted in for 14 days.
-- [ ] Record tester activity and feedback, fix important problems, and upload the final release candidate.
-- [ ] Apply for production access, answer Google’s testing questions, then use a cautious staged production rollout and monitor crashes and reviews.
+- [ ] Publish the approved bundle to the closed track and send testers the official opt-in link.
+- [ ] Confirm at least 12 testers are opted in and keep that number continuously enrolled for the full 14 days.
+- [ ] Require every tester to create or sign in to their own Clue Canvas account so progress reaches Supabase.
+- [ ] Ask testers to attempt each assigned puzzle only once during the audit and avoid replaying it until results are exported.
+- [ ] Let testers play normally: clues and answer reveals are allowed and provide useful difficulty information.
+- [ ] Ask for short direct feedback only when something is broken, confusing or has another reasonable answer.
+- [ ] Monitor Play testing feedback, crashes, Supabase synchronization and tester enrollment throughout the test.
+- [ ] Fix important problems and upload updated closed-test builds without removing testers from the programme.
+- [ ] After 14 continuous days, export each tester’s stars, completed puzzles and revealed puzzles from Supabase.
+- [ ] Classify mostly-three-star puzzles as easier, mixed one-to-three-star puzzles as medium/hard, and frequently revealed but fair puzzles as expert.
+- [ ] Rework puzzles that are frequently revealed and still do not make sense after explanation.
+- [ ] Build the final Easy (1–3), Medium (4–6), Hard (7–8) and Expert (9–10) groups while retaining Journey and Daily modes.
+- [ ] Apply for production access and answer Google’s questions using the recorded test activity, feedback and fixes.
+- [ ] Publish with a cautious staged rollout and monitor crashes, reviews, synchronization and support requests.
 
-**Exit result:** Clue Canvas is approved for production and released safely on Google Play.
+**Exit result:** Clue Canvas has evidence-based difficulty groups and is released safely on Google Play.
 
 ## Phase 11 — Mastery assessment and continuing journey
 
@@ -128,4 +151,4 @@
 
 - Playable prototype: **12–18 hours**.
 - Good MVP test build: **45–65 hours**.
-- Content production and QA scale with every 25-puzzle batch; the 525-puzzle journey is a continuing production programme rather than a single short build.
+- Content production and QA scale with every puzzle batch; the current 565-puzzle library remains a continuing review programme rather than a one-off build.
