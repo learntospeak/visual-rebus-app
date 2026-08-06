@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clue Canvas — Play Store Launch Checklist</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #111827; color: #f8fafc; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: radial-gradient(circle at top, #24345a 0, #111827 38rem); }
+      main { width: min(900px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 80px; }
+      a { color: #8be9d0; }
+      .eyebrow { color: #8be9d0; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: .76rem; }
+      h1 { margin: 8px 0 10px; font-size: clamp(2rem, 6vw, 3.8rem); line-height: 1; }
+      .intro { color: #cbd5e1; max-width: 720px; line-height: 1.6; }
+      .summary { position: sticky; top: 12px; z-index: 2; margin: 28px 0; padding: 18px; border: 1px solid #405075; border-radius: 18px; background: rgba(23, 34, 58, .94); backdrop-filter: blur(12px); box-shadow: 0 14px 40px #050b1880; }
+      .summary-row { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 10px; font-weight: 800; }
+      .track { height: 10px; overflow: hidden; border-radius: 999px; background: #334155; }
+      .bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #4ade80, #5eead4); transition: width .2s ease; }
+      .status-note { margin: 0 0 28px; padding: 18px; border: 1px solid #2dd4bf80; border-radius: 18px; background: #0f766e33; color: #d7fff5; line-height: 1.55; }
+      .status-note strong { display: block; margin-bottom: 5px; color: #8be9d0; }
+      section { margin-top: 22px; padding: 24px; border: 1px solid #334155; border-radius: 20px; background: #182238; }
+      h2 { margin: 0 0 6px; font-size: 1.25rem; }
+      .timing, .exit { color: #94a3b8; }
+      .exit { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid #334155; line-height: 1.5; }
+      ul { display: grid; gap: 10px; margin: 20px 0 0; padding: 0; list-style: none; }
+      label { display: flex; align-items: flex-start; gap: 12px; padding: 10px; border-radius: 10px; cursor: pointer; line-height: 1.45; }
+      label:hover { background: #22304b; }
+      input { width: 20px; height: 20px; flex: 0 0 auto; margin-top: 1px; accent-color: #2dd4bf; }
+      input:checked + span { color: #8290a5; text-decoration: line-through; }
+      .actions { margin-top: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: center; }
+      button { border: 1px solid #64748b; border-radius: 999px; padding: 9px 14px; background: transparent; color: #e2e8f0; cursor: pointer; }
+      button:hover { background: #334155; }
+      @media (max-width: 560px) { main { width: min(100% - 20px, 900px); padding-top: 24px; } section { padding: 18px; } .summary { top: 6px; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">Clue Canvas project</div>
+      <h1>Play Store launch</h1>
+      <p class="intro">A focused checklist from the current web game to a safe Google Play release. Complete it from top to bottom. Progress is saved automatically in this browser.</p>
+
+      <div class="summary">
+        <div class="summary-row"><span>Launch progress</span><span id="count">Loading checklist…</span></div>
+        <div class="track"><div class="bar" id="bar"></div></div>
+      </div>
+
+      <div class="status-note">
+        <strong>Current position — 6 August 2026</strong>
+        The personal Google Play developer account has been created and the registration fee is paid. Next, finish the account verification tasks while we build the privacy and account-deletion foundations.
+        <br /><a href="docs/11_DATA_PRIVACY_INVENTORY.md">Open the current data and privacy inventory</a>
+      </div>
+
+      <div id="stages"></div>
+
+      <div class="actions">
+        <a href="checklist.html">← Main build checklist</a>
+        <button id="reset" type="button">Reset this checklist</button>
+      </div>
+    </main>
+
+    <script>
+      const stages = [
+        ['1 — Finish the developer account', 'Owner tasks — do these first', [
+          'Create the personal Google Play developer account, accept the agreements and pay the registration fee.',
+          'Turn on two-step verification for the owning Google account and confirm its recovery email and phone number.',
+          'Verify the Play Console contact email address and phone number.',
+          'Complete the legal-name, address, Google Payments profile and government-ID checks shown in Play Console.',
+          'Install the Play Console mobile app on the Samsung Galaxy S24 FE and complete physical-device verification.',
+          'Choose the public developer name that players will see.',
+          'Create and verify a public support email; preferred address: support@cluecanvas.games.',
+          'Confirm the Play Console dashboard shows no unfinished account-verification tasks.'
+        ], 'The Play Console account is fully verified and able to create and test an app.'],
+
+        ['2 — Privacy, data and account deletion', 'Development can run alongside account verification', [
+          'Inventory every piece of information the app stores locally and in Supabase, including email, account ID, stars, completions, reveals, streaks and settings.',
+          'Record why each data item is collected, where it is stored, how it is protected, whether it is shared and how long it is retained.',
+          'Write a plain-English Clue Canvas privacy policy that accurately matches the launch build.',
+          'Publish the privacy policy at a permanent cluecanvas.games URL.',
+          'Add a clearly labelled Delete account action to the signed-in account/settings screen.',
+          'Make account deletion remove the Supabase authentication account and its associated cloud-progress data after confirmation.',
+          'Publish a separate cluecanvas.games account-deletion page for people who have uninstalled the app.',
+          'Test deletion end to end: create account, save progress, delete, confirm sign-in fails and confirm associated data is gone.',
+          'Prepare the exact answers needed for Google Play’s Data safety form from the completed data inventory.'
+        ], 'Privacy and deletion work accurately reflects the real app and satisfies the account-creation requirements.'],
+
+        ['3 — Freeze the Android identity', 'Decide once before creating the Play app record', [
+          'Confirm the permanent Android application ID; proposed: games.cluecanvas.app.',
+          'Confirm the public app name is Clue Canvas and the initial release is a free Puzzle game.',
+          'Confirm the launch build contains no ads, in-app purchases or paid subscriptions.',
+          'Record the first Android version name and version code.',
+          'Create the Play Console app record only after the permanent application ID is confirmed.'
+        ], 'The app identity will not need a disruptive package-name change later.'],
+
+        ['4 — Package the web game as Android', 'Development task', [
+          'Install Android Studio, Java and the Android 16 / API 36 SDK.',
+          'Add Capacitor to the existing Vite project and point it at the production dist folder.',
+          'Generate the Android project using the confirmed permanent application ID.',
+          'Configure HTTPS, Supabase authentication redirects, Android back behaviour, safe areas and reconnect handling.',
+          'Add the final adaptive launcher icon and splash-screen assets.',
+          'Generate a private release keystore, store its passwords securely and make two protected backups.',
+          'Build an installable test APK and a signed Android App Bundle (.aab).'
+        ], 'A signed Android build can be installed locally and uploaded to Play Console.'],
+
+        ['5 — Polish and device QA', 'Complete before inviting the closed-test group', [
+          'Install the Android build on the Samsung Galaxy S24 FE and check every screen in portrait mode.',
+          'Verify the puzzle artwork never jumps, disappears, clips or becomes incorrectly zoomed when typing.',
+          'Verify the custom keyboard has comfortable finger-sized keys and supports cursor editing and physical keyboards.',
+          'Verify Clue and Submit bring their results into view without hiding the puzzle unnecessarily.',
+          'Verify the solved screen is compact and the next action is visible without excessive scrolling.',
+          'Test sign-up, email confirmation, sign-in, sync, sign-out and account deletion from beginning to end.',
+          'Confirm progress survives closing the app, restarting the phone, signing in and installing an update.',
+          'Confirm the core journey works offline and synchronizes safely after reconnecting.',
+          'Check readable text, high contrast, reduced motion, screen-reader labels, focus order and touch targets.',
+          'Play at least 30 consecutive puzzles without a crash or navigation failure.',
+          'Repeat the key layout and account tests on at least two additional Android devices or representative screen sizes.',
+          'Continue gallery review and fix any clearly broken, misleading or unreadable puzzle found during testing.'
+        ], 'The packaged app is stable enough for people outside the project to test.'],
+
+        ['6 — Build the Play Store listing', 'Can begin while the Android build is being tested', [
+          'Prepare the final app icon, feature graphic and representative phone screenshots.',
+          'Write the store title, short description and full description without unsupported claims.',
+          'Add cluecanvas.games, the support email, privacy-policy URL and external deletion URL.',
+          'Complete the 13+ target-audience and content-rating questionnaires.',
+          'Complete the ads, app-access and Data safety declarations so they match the tested build.',
+          'Upload the signed bundle to internal testing first.',
+          'Review Google’s automated checks and pre-launch report and fix all important findings.'
+        ], 'The Play listing and internal build are complete and policy declarations match the app.'],
+
+        ['7 — Recruit and prepare closed testers', 'Prepare before starting the 14-day clock', [
+          'Recruit at least 12 reliable testers with Google accounts; aim for 14–15 to allow for dropouts.',
+          'Create the tester email list or Google Group in Play Console.',
+          'Write one simple opt-in and installation message with the official testing link.',
+          'Tell testers they must remain opted in continuously for at least 14 days.',
+          'Ask every tester to create or sign in to their own Clue Canvas account so progress reaches Supabase.',
+          'Assign manageable puzzle ranges so the full library receives useful coverage.',
+          'Ask testers to attempt assigned puzzles once and not replay them until results are exported.',
+          'Give testers a clear feedback channel for crashes, confusing puzzles and alternative valid answers.'
+        ], 'Enough prepared testers can start together without wasting the 14-day testing period.'],
+
+        ['8 — Closed test, difficulty audit and release', 'At least 14 continuous days plus Google review', [
+          'Publish the approved bundle to the closed track and send the official opt-in link.',
+          'Confirm at least 12 testers remain opted in continuously for the full 14 days.',
+          'Monitor crashes, tester feedback, Supabase synchronization and Play Console warnings.',
+          'Fix important defects and upload improved closed-test builds without removing the tester group.',
+          'After day 14, export each tester’s completions, stars and answer reveals from Supabase.',
+          'Use first-attempt star and reveal patterns to classify puzzles as Easy, Medium, Hard or Expert.',
+          'Rework puzzles that are frequently revealed and still judged confusing or unfair.',
+          'Add the final player-facing difficulty groups while retaining Journey and Daily modes.',
+          'Apply for production access using the recorded testing, feedback and fixes.',
+          'Publish with a cautious staged rollout and monitor crashes, reviews, synchronization and support requests.'
+        ], 'Clue Canvas is approved, evidence-tested and released safely on Google Play.']
+      ]
+
+      const storageKey = 'clue-canvas-play-store-checklist-v1'
+      const stored = localStorage.getItem(storageKey)
+      const confirmed = ['launch-task-0', 'launch-task-8']
+      const saved = new Set(stored === null ? confirmed : [...JSON.parse(stored), ...confirmed])
+      const root = document.querySelector('#stages')
+      let taskIndex = 0
+
+      stages.forEach(([title, timing, tasks, exit]) => {
+        const section = document.createElement('section')
+        section.innerHTML = `<h2>${title}</h2><div class="timing">${timing}</div><ul></ul><p class="exit"><strong>Exit result:</strong> ${exit}</p>`
+        const list = section.querySelector('ul')
+        tasks.forEach((task) => {
+          const id = `launch-task-${taskIndex++}`
+          const item = document.createElement('li')
+          item.innerHTML = `<label><input type="checkbox" id="${id}" ${saved.has(id) ? 'checked' : ''}><span>${task}</span></label>`
+          list.append(item)
+        })
+        root.append(section)
+      })
+
+      const boxes = [...document.querySelectorAll('input[type=checkbox]')]
+      function update() {
+        const completed = boxes.filter((box) => box.checked)
+        localStorage.setItem(storageKey, JSON.stringify(completed.map((box) => box.id)))
+        document.querySelector('#count').textContent = `${completed.length} / ${boxes.length} complete`
+        document.querySelector('#bar').style.width = `${completed.length / boxes.length * 100}%`
+      }
+      boxes.forEach((box) => box.addEventListener('change', update))
+      document.querySelector('#reset').addEventListener('click', () => {
+        if (confirm('Clear this Play Store checklist progress?')) {
+          boxes.forEach((box) => { box.checked = confirmed.includes(box.id) })
+          update()
+        }
+      })
+      update()
+    </script>
+  </body>
+</html>
