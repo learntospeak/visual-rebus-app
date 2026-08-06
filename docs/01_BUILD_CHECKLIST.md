@@ -76,7 +76,7 @@
 - [x] Secure the Google account that will own Clue Canvas with two-step verification and recovery details.
 - [x] Register a personal Google Play Console account, accept the agreements and pay the one-time registration fee.
 - [x] Complete Google’s legal-name, address, phone, email, identity and device-verification steps.
-- [x] Use `Clue Canvas` as the public developer name and `cluecanvasadmin@gmail.com` as the working support email.
+- [x] Use `SilentJZ Studio` as the public developer name and `cluecanvasadmin@gmail.com` as the working support email.
 - [ ] Publish a Clue Canvas privacy policy describing optional accounts, Supabase authentication, cloud progress, retention and deletion.
 - [x] Add a clear Delete account action inside the signed-in account/settings screen.
 - [ ] Publish an external account-deletion request page on `cluecanvas.games` for people who no longer have the app.

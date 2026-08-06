@@ -128,7 +128,7 @@ The Supabase service-role or secret key must never be included in browser or And
 
 ## Decisions still needed
 
-- Public developer name: `Clue Canvas`.
+- Public developer name: `SilentJZ Studio`.
 - Public support email: `cluecanvasadmin@gmail.com`.
 - Legal name or trading name that will identify the privacy-policy operator.
 - Contact method for an external deletion request: email `cluecanvasadmin@gmail.com` from the account address.

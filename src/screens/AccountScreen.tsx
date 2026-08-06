@@ -155,6 +155,7 @@ export function AccountScreen({
             </label>
             {message && <p className="account-message" role="status">{message}</p>}
             {error && <p className="account-error" role="alert">{error}</p>}
+            {mode === 'signup' && <p className="account-provider-notice">Cloud accounts are provided by Supabase, which securely processes your email, sign-in and synchronized progress. <a href="https://cluecanvas.games/privacy/" target="_blank" rel="noreferrer">Read the privacy policy</a>.</p>}
             <Button className="full-button" disabled={busy}>
               {busy ? 'Please wait…' : mode === 'signin' ? 'Sign in' : 'Create account'}
             </Button>
