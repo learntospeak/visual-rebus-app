@@ -38,6 +38,7 @@ const GameStoreContext = createContext<GameStoreValue | null>(null)
 function loadSettings(): GameSettings {
   const defaults: GameSettings = {
     soundEnabled: true,
+    hapticsEnabled: true,
     reducedCelebrations: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     largeText: false,
     highContrast: false,

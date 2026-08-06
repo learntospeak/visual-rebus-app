@@ -10,6 +10,7 @@ import { PuzzleScreen } from './screens/PuzzleScreen'
 import { SettingsScreen } from './screens/SettingsScreen'
 import { SolvedScreen } from './screens/SolvedScreen'
 import { startSolveCelebration } from './services/celebration'
+import { playClueSound, playHaptic, playIncorrectSound } from './services/audio'
 import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncPuzzleUrl } from './services/progress'
 import { useGameStore } from './state/GameStore'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
@@ -141,7 +142,9 @@ export default function App() {
     setCelebrating(true)
     cancelCelebration.current = startSolveCelebration({
       soundEnabled: settings.soundEnabled,
+      hapticsEnabled: settings.hapticsEnabled,
       reducedCelebrations: settings.reducedCelebrations,
+      daily: playMode === 'daily',
       onComplete: () => setScreen('solved'),
     })
   }
@@ -172,6 +175,14 @@ export default function App() {
       return
     }
     setMessage(answerFeedback(puzzle, guess))
+    if (settings.soundEnabled) playIncorrectSound()
+    if (settings.hapticsEnabled) playHaptic('wrong')
+  }
+
+  function showClue() {
+    if (clueCount >= puzzle.clues.length) return
+    if (settings.soundEnabled) playClueSound()
+    setClueCount((count) => Math.min(count + 1, puzzle.clues.length))
   }
 
   function nextPuzzle() {
@@ -324,7 +335,7 @@ export default function App() {
       onHome={() => setScreen('home')}
       onGuessChange={updateGuess}
       onSubmit={submitAnswer}
-      onClue={() => setClueCount((count) => Math.min(count + 1, puzzle.clues.length))}
+      onClue={showClue}
       onReveal={() => completePuzzle(true)}
     />
   )

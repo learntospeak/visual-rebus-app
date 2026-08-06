@@ -115,6 +115,7 @@ export interface DailyProgress {
 
 export interface GameSettings {
   soundEnabled: boolean
+  hapticsEnabled: boolean
   reducedCelebrations: boolean
   largeText: boolean
   highContrast: boolean
