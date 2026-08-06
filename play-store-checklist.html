@@ -47,7 +47,7 @@
 
       <div class="status-note">
         <strong>Current position — 6 August 2026</strong>
-        The personal Google Play developer account has been created and the registration fee is paid. Next, finish the account verification tasks while we build the privacy and account-deletion foundations.
+        The developer account, registration, two-step verification, contact and identity checks, and physical-device verification are complete. Next, confirm the public developer name and support email while we build the privacy and account-deletion foundations.
         <br /><a href="docs/11_DATA_PRIVACY_INVENTORY.md">Open the current data and privacy inventory</a>
       </div>
 
@@ -154,7 +154,10 @@
 
       const storageKey = 'clue-canvas-play-store-checklist-v1'
       const stored = localStorage.getItem(storageKey)
-      const confirmed = ['launch-task-0', 'launch-task-8']
+      const confirmed = [
+        'launch-task-0', 'launch-task-1', 'launch-task-2', 'launch-task-3', 'launch-task-4', 'launch-task-5', 'launch-task-6', 'launch-task-7',
+        'launch-task-8', 'launch-task-9', 'launch-task-10', 'launch-task-12', 'launch-task-13', 'launch-task-16'
+      ]
       const saved = new Set(stored === null ? confirmed : [...JSON.parse(stored), ...confirmed])
       const root = document.querySelector('#stages')
       let taskIndex = 0

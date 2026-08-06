@@ -134,6 +134,13 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .account-message { color: #176a64; background: #e3f6f3; }
 .account-error { color: #993c35; background: #fff0ee; }
 .account-privacy { margin: 22px 20px 0; color: var(--muted); text-align: center; font-size: .75rem; line-height: 1.5; }
+.account-privacy a, .settings-actions a { color: var(--teal-dark); font-weight: 700; }
+.delete-account-link { min-height: 44px; border: 0; color: #a53c35; background: transparent; font-weight: 800; }
+.delete-account-panel { display: grid; gap: 12px; padding: 16px; border: 1px solid #efb8b3; border-radius: 14px; background: #fff0ee; }
+.delete-account-panel strong { color: #8f352f; }
+.delete-account-panel div { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.delete-account-panel button { min-height: 44px; padding: 8px 10px; border: 1px solid #d9a29d; border-radius: 11px; color: #78332e; background: white; font-weight: 800; }
+.delete-account-panel .delete-account-confirm { color: white; border-color: #b9443c; background: #b9443c; }
 .sync-status { display: flex; align-items: center; gap: 8px; font-weight: 800; }
 .sync-status span { color: var(--teal); font-size: .65rem; }
 .sync-error span { color: var(--coral); }

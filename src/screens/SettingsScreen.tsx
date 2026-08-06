@@ -38,7 +38,7 @@ export function SettingsScreen({ settings, onChange, onHome, onReplayTutorial, o
         </button>
         <Button variant="secondary" onClick={onReplayTutorial}>Replay tutorial</Button>
         <Button variant="text" onClick={onResetProgress}>Reset puzzle progress</Button>
-        <p>Privacy and support links will be connected before release.</p>
+        <p><a href="https://cluecanvas.games/privacy/" target="_blank" rel="noreferrer">Privacy policy</a> · <a href="https://cluecanvas.games/delete-account/" target="_blank" rel="noreferrer">Account deletion</a> · <a href="mailto:cluecanvasadmin@gmail.com">Support</a></p>
       </section>
     </main>
   )

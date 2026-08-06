@@ -48,7 +48,7 @@
 
       <div class="status-note">
         <strong>Latest project update — 6 August 2026</strong>
-        The Google Play developer account has been created and the registration fee has been paid. The remaining launch work now has its own detailed Play Store checklist. The immediate tasks are completing Google’s verification, documenting the app’s data handling, and adding the required privacy and account-deletion features before Android packaging.
+        The Google Play developer account, two-step verification, identity checks and device verification are complete. The remaining launch work now has its own detailed Play Store checklist. The immediate tasks are confirming the public developer identity and support email, then adding the required privacy and account-deletion features before Android packaging.
       </div>
 
       <div id="phases"></div>
@@ -57,7 +57,7 @@
         <h2>Current launch position</h2>
         <div>Content library: <strong>565 playable puzzles</strong></div>
         <div>Developer account: <strong>created and registration fee paid</strong></div>
-        <div>Next task: <strong>complete verification and privacy/account-deletion foundations</strong></div>
+        <div>Next task: <strong>confirm the developer name/support email and build the privacy/account-deletion foundations</strong></div>
         <div>Difficulty groups: <strong>finalise after analysing closed-test star data</strong></div>
         <div>Required closed test: <strong>at least 12 opted-in testers for 14 continuous days</strong></div>
         <div>Initial release plan: <strong>free, with no ads or purchases</strong>; monetisation can be designed after launch.</div>
@@ -89,7 +89,7 @@
       const storageKey = 'visual-rebus-build-checklist-v11'
       const stored = localStorage.getItem(storageKey)
       const legacy = localStorage.getItem('visual-rebus-build-checklist-v10') ?? localStorage.getItem('visual-rebus-build-checklist-v9') ?? localStorage.getItem('visual-rebus-build-checklist-v8')
-      const confirmedMilestones = ['task-30', 'task-31', 'task-32', 'task-33', 'task-34', 'task-37']
+      const confirmedMilestones = ['task-30', 'task-31', 'task-32', 'task-33', 'task-34', 'task-36', 'task-37', 'task-38', 'task-39', 'task-41', 'task-44']
       const previousSelections = stored !== null
         ? JSON.parse(stored)
         : legacy !== null

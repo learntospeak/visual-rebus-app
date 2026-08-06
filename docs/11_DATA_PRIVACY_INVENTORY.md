@@ -10,7 +10,7 @@ This document records the behaviour of the current launch code. It is the source
 - Signed-in accounts use Supabase Authentication and cloud progress storage.
 - The app has no advertising, payments, analytics SDK, location access, contacts access, camera access or microphone access.
 - Clue Canvas does not sell player data.
-- A compliant in-app account-deletion flow and public deletion-request page still need to be implemented before release.
+- The in-app account-deletion flow, protected Supabase function and public deletion-request page have been implemented. The public pages and an authenticated end-to-end deletion still need final live verification before release.
 
 ## Data stored on the player’s device
 
@@ -107,28 +107,32 @@ Supabase provides:
 
 Before publication, the privacy policy must name Supabase, explain its role, and link to relevant privacy information.
 
-## Account deletion work required
+## Account deletion implementation
 
-Before Google Play release:
+Implemented locally or in Supabase:
 
-1. Add a prominent **Delete account** action for signed-in players.
-2. Require a deliberate confirmation that explains the deletion is permanent.
-3. Call a protected server-side Supabase function that authenticates the caller and deletes only that caller’s account.
-4. Delete the Supabase authentication user; the existing foreign-key cascade then deletes `player_progress`.
-5. Sign out and clear the deleted account’s locally stored authentication session.
-6. Clearly tell the player whether local guest progress remains, and provide a separate option to erase it.
-7. Publish a permanent web page where a former player can request deletion without reinstalling the app.
-8. Test that the deleted credentials no longer sign in and the related database row is gone.
+1. A prominent **Delete account and data** action for signed-in players.
+2. A deliberate confirmation explaining that deletion is permanent.
+3. A protected server-side Supabase function that authenticates the caller and deletes only that caller’s account.
+4. Deletion of the Supabase authentication user, with the existing foreign-key cascade deleting `player_progress`.
+5. Local sign-out and erasure of progress on the device used for deletion.
+6. A public web page where a former player can request deletion without reinstalling the app.
+
+Still required before Google Play submission:
+
+1. Publish the privacy and deletion pages to their permanent live URLs.
+2. Test deletion with a disposable authenticated account.
+3. Confirm the deleted credentials no longer sign in and the related database row is gone.
 
 The Supabase service-role or secret key must never be included in browser or Android application code. Administrative deletion must run in a protected server-side function.
 
 ## Decisions still needed
 
-- Public developer name.
-- Final support email; proposed: `support@cluecanvas.games`.
+- Public developer name: `Clue Canvas`.
+- Public support email: `cluecanvasadmin@gmail.com`.
 - Legal name or trading name that will identify the privacy-policy operator.
-- Contact method for an external deletion request.
-- Whether local puzzle progress should be erased automatically when a cloud account is deleted or offered as a separate explicit choice.
+- Contact method for an external deletion request: email `cluecanvasadmin@gmail.com` from the account address.
+- Local puzzle progress is erased automatically on the device used for an in-app cloud-account deletion.
 - Final retention wording for service logs and any deletion-request records.
 
 ## Data Safety working classification

@@ -36,3 +36,9 @@ export async function saveCloudProgress(userId: string, progress: SavedProgress)
 
   if (error) throw error
 }
+
+export async function deleteCloudAccount() {
+  if (!supabase) throw new Error('Cloud accounts are not configured yet.')
+  const { error } = await supabase.functions.invoke('delete-account', { body: {} })
+  if (error) throw error
+}

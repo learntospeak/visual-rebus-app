@@ -73,12 +73,12 @@
 
 ## Phase 7 — Google account, privacy and deletion
 
-- [ ] Secure the Google account that will own Clue Canvas with two-step verification and recovery details.
+- [x] Secure the Google account that will own Clue Canvas with two-step verification and recovery details.
 - [x] Register a personal Google Play Console account, accept the agreements and pay the one-time registration fee.
-- [ ] Complete Google’s legal-name, address, phone, email, identity and device-verification steps.
-- [ ] Choose the public developer name and establish a working support email, ideally `support@cluecanvas.games`.
+- [x] Complete Google’s legal-name, address, phone, email, identity and device-verification steps.
+- [x] Use `Clue Canvas` as the public developer name and `cluecanvasadmin@gmail.com` as the working support email.
 - [ ] Publish a Clue Canvas privacy policy describing optional accounts, Supabase authentication, cloud progress, retention and deletion.
-- [ ] Add a clear Delete account action inside the signed-in account/settings screen.
+- [x] Add a clear Delete account action inside the signed-in account/settings screen.
 - [ ] Publish an external account-deletion request page on `cluecanvas.games` for people who no longer have the app.
 - [ ] Choose and record the permanent Android package ID before creating the Play app record; proposed ID: `games.cluecanvas.app`.
 - [x] Document the exact data collected by the launch build so the privacy policy and Play Data safety answers match in `docs/11_DATA_PRIVACY_INVENTORY.md`.
