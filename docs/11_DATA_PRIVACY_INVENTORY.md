@@ -10,7 +10,7 @@ This document records the behaviour of the current launch code. It is the source
 - Signed-in accounts use Supabase Authentication and cloud progress storage.
 - The app has no advertising, payments, analytics SDK, location access, contacts access, camera access or microphone access.
 - Clue Canvas does not sell player data.
-- The in-app account-deletion flow, protected Supabase function and public deletion-request page have been implemented. The public pages and an authenticated end-to-end deletion still need final live verification before release.
+- The in-app account-deletion flow, protected Supabase function, privacy policy and public deletion-request page are implemented and live. An authenticated end-to-end deletion with a disposable account still needs final verification before release.
 
 ## Data stored on the player’s device
 
@@ -120,9 +120,8 @@ Implemented locally or in Supabase:
 
 Still required before Google Play submission:
 
-1. Publish the privacy and deletion pages to their permanent live URLs.
-2. Test deletion with a disposable authenticated account.
-3. Confirm the deleted credentials no longer sign in and the related database row is gone.
+1. Test deletion with a disposable authenticated account.
+2. Confirm the deleted credentials no longer sign in and the related database row is gone.
 
 The Supabase service-role or secret key must never be included in browser or Android application code. Administrative deletion must run in a protected server-side function.
 
