@@ -80,7 +80,7 @@
 - [x] Publish a Clue Canvas privacy policy describing optional accounts, Supabase authentication, cloud progress, retention and deletion.
 - [x] Add a clear Delete account action inside the signed-in account/settings screen.
 - [x] Publish an external account-deletion request page on `cluecanvas.games` for people who no longer have the app.
-- [ ] Choose and record the permanent Android package ID before creating the Play app record; proposed ID: `games.cluecanvas.app`.
+- [x] Lock and record the permanent Android package ID as `games.cluecanvas.app` in `docs/13_ANDROID_IDENTITY.md` before creating the Play app record.
 - [x] Document the exact data collected by the launch build so the privacy policy and Play Data safety answers match in `docs/11_DATA_PRIVACY_INVENTORY.md`.
 
 **Exit result:** the developer account is verified and all mandatory privacy/account-deletion foundations are working.
