@@ -61,6 +61,10 @@ export function saveProgress(progress: SavedProgress) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
 }
 
+export function clearLocalProgress() {
+  localStorage.removeItem(STORAGE_KEY)
+}
+
 function uniqueNumbers(...lists: number[][]) {
   return [...new Set(lists.flat())].sort((a, b) => a - b)
 }

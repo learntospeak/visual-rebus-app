@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { puzzles } from '../data/puzzles'
-import { loadProgress, mergeProgress, saveProgress } from '../services/progress'
+import { clearLocalProgress, emptyProgress, loadProgress, mergeProgress, saveProgress } from '../services/progress'
 import {
+  deleteCloudAccount,
   isSupabaseConfigured,
   loadCloudProgress,
   saveCloudProgress,
@@ -29,6 +30,7 @@ interface GameStoreValue {
   signIn: (email: string, password: string) => Promise<string>
   signUp: (email: string, password: string) => Promise<string>
   signOut: () => Promise<void>
+  deleteAccount: () => Promise<void>
 }
 
 const GameStoreContext = createContext<GameStoreValue | null>(null)
@@ -185,6 +187,18 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
       hydratedUserId.current = null
       setAccount(null)
       setSyncState('offline')
+    },
+    deleteAccount: async () => {
+      if (!supabase || !account) throw new Error('Sign in before deleting your account.')
+      await deleteCloudAccount()
+      hydratedUserId.current = null
+      activatingUserId.current = null
+      setAccount(null)
+      setSyncState('offline')
+      clearLocalProgress()
+      progressRef.current = { ...emptyProgress, daily: { ...emptyProgress.daily } }
+      setProgress(progressRef.current)
+      await supabase.auth.signOut({ scope: 'local' })
     },
   }), [account, activateUser, authReady, progress, settings, syncState])
 

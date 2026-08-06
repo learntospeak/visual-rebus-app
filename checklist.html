@@ -47,8 +47,8 @@
       </div>
 
       <div class="status-note">
-        <strong>Latest project update — 4 August 2026</strong>
-        The full 565-puzzle library is playable. No custom difficulty-audit system is required: signed-in closed testers will play each puzzle once, and their existing Supabase-synced stars, completions and reveals will inform the final difficulty groups after testing. The next owner task is creating the Google Play developer account; the next development work is privacy/account deletion followed by Android packaging.
+        <strong>Latest project update — 6 August 2026</strong>
+        The Google Play developer account, two-step verification, identity checks and device verification are complete. The public developer is SilentJZ Studio and the support email is cluecanvasadmin@gmail.com. The immediate work is completing and publishing the required privacy and account-deletion features before Android packaging.
       </div>
 
       <div id="phases"></div>
@@ -56,7 +56,8 @@
       <div class="overall">
         <h2>Current launch position</h2>
         <div>Content library: <strong>565 playable puzzles</strong></div>
-        <div>Next owner task: <strong>create and verify the Google Play developer account</strong></div>
+        <div>Developer account: <strong>created and registration fee paid</strong></div>
+        <div>Next task: <strong>finish and publish the privacy/account-deletion foundations</strong></div>
         <div>Difficulty groups: <strong>finalise after analysing closed-test star data</strong></div>
         <div>Required closed test: <strong>at least 12 opted-in testers for 14 continuous days</strong></div>
         <div>Initial release plan: <strong>free, with no ads or purchases</strong>; monetisation can be designed after launch.</div>
@@ -64,6 +65,7 @@
 
       <div class="actions">
         <a href="/">← Back to the app</a>
+        <a href="play-store-checklist.html">Open Play Store checklist →</a>
         <button id="reset" type="button">Reset checklist</button>
       </div>
     </main>
@@ -87,13 +89,13 @@
       const storageKey = 'visual-rebus-build-checklist-v11'
       const stored = localStorage.getItem(storageKey)
       const legacy = localStorage.getItem('visual-rebus-build-checklist-v10') ?? localStorage.getItem('visual-rebus-build-checklist-v9') ?? localStorage.getItem('visual-rebus-build-checklist-v8')
-      const completedContentMilestones = ['task-30', 'task-31', 'task-32', 'task-33', 'task-34']
+      const confirmedMilestones = ['task-30', 'task-31', 'task-32', 'task-33', 'task-34', 'task-36', 'task-37', 'task-38', 'task-39', 'task-41', 'task-44']
       const previousSelections = stored !== null
         ? JSON.parse(stored)
         : legacy !== null
           ? JSON.parse(legacy).filter((id) => Number(id.replace('task-', '')) < 36)
           : Array.from({ length: 29 }, (_, index) => `task-${index}`)
-      const saved = new Set([...previousSelections, ...completedContentMilestones])
+      const saved = new Set([...previousSelections, ...confirmedMilestones])
       const root = document.querySelector('#phases')
       let itemIndex = 0
 

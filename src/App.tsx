@@ -31,6 +31,7 @@ export default function App() {
     signIn,
     signUp,
     signOut,
+    deleteAccount,
   } = useGameStore()
   const [screen, setScreen] = useState<Screen>(() => hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
   const [accountReturn, setAccountReturn] = useState<Screen>('settings')
@@ -274,6 +275,7 @@ export default function App() {
         onSignIn={signIn}
         onSignUp={signUp}
         onSignOut={signOut}
+        onDeleteAccount={deleteAccount}
       />
     )
   }

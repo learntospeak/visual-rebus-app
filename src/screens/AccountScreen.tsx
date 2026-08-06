@@ -11,6 +11,7 @@ interface AccountScreenProps {
   onSignIn: (email: string, password: string) => Promise<string>
   onSignUp: (email: string, password: string) => Promise<string>
   onSignOut: () => Promise<void>
+  onDeleteAccount: () => Promise<void>
 }
 
 const syncLabels: Record<CloudSyncState, string> = {
@@ -30,6 +31,7 @@ export function AccountScreen({
   onSignIn,
   onSignUp,
   onSignOut,
+  onDeleteAccount,
 }: AccountScreenProps) {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
   const [email, setEmail] = useState('')
@@ -37,6 +39,7 @@ export function AccountScreen({
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [confirmingDeletion, setConfirmingDeletion] = useState(false)
 
   async function submit(event: FormEvent) {
     event.preventDefault()
@@ -69,6 +72,21 @@ export function AccountScreen({
     }
   }
 
+  async function deleteAccount() {
+    setBusy(true)
+    setMessage('')
+    setError('')
+    try {
+      await onDeleteAccount()
+      setConfirmingDeletion(false)
+      setMessage('Your account and its cloud progress were permanently deleted. Progress on this device was also erased.')
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to delete your account. Please try again.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
   return (
     <main className="app-shell account-screen">
       <header className="chapter-map-header">
@@ -94,6 +112,18 @@ export function AccountScreen({
           <p className={`sync-status sync-${syncState}`}><span aria-hidden="true">●</span>{syncLabels[syncState]}</p>
           <p>Your best puzzle scores and daily progress follow you between devices.</p>
           <Button variant="secondary" className="full-button" disabled={busy} onClick={signOut}>Sign out</Button>
+          {!confirmingDeletion ? (
+            <button className="delete-account-link" disabled={busy} onClick={() => setConfirmingDeletion(true)}>Delete account and data</button>
+          ) : (
+            <div className="delete-account-panel" role="alert">
+              <strong>Permanently delete this account?</strong>
+              <p>Your account, cloud progress and progress on this device will be erased. This cannot be undone.</p>
+              <div>
+                <button disabled={busy} onClick={() => setConfirmingDeletion(false)}>Cancel</button>
+                <button className="delete-account-confirm" disabled={busy} onClick={deleteAccount}>{busy ? 'Deleting…' : 'Permanently delete'}</button>
+              </div>
+            </div>
+          )}
         </section>
       ) : (
         <>
@@ -125,6 +155,7 @@ export function AccountScreen({
             </label>
             {message && <p className="account-message" role="status">{message}</p>}
             {error && <p className="account-error" role="alert">{error}</p>}
+            {mode === 'signup' && <p className="account-provider-notice">Cloud accounts are provided by Supabase, which securely processes your email, sign-in and synchronized progress. <a href="https://cluecanvas.games/privacy/" target="_blank" rel="noreferrer">Read the privacy policy</a>.</p>}
             <Button className="full-button" disabled={busy}>
               {busy ? 'Please wait…' : mode === 'signin' ? 'Sign in' : 'Create account'}
             </Button>
@@ -133,7 +164,7 @@ export function AccountScreen({
       )}
       {message && account && <p className="account-message" role="status">{message}</p>}
       {error && account && <p className="account-error" role="alert">{error}</p>}
-      <p className="account-privacy">An account is optional. Your email is used for sign-in, and your game progress is saved to your account.</p>
+      <p className="account-privacy">An account is optional. Your email is used for sign-in, and your game progress is saved to your account. <a href="https://cluecanvas.games/privacy/" target="_blank" rel="noreferrer">Privacy policy</a> · <a href="https://cluecanvas.games/delete-account/" target="_blank" rel="noreferrer">Deletion help</a></p>
     </main>
   )
 }
