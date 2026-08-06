@@ -156,7 +156,7 @@
       const stored = localStorage.getItem(storageKey)
       const confirmed = [
         'launch-task-0', 'launch-task-1', 'launch-task-2', 'launch-task-3', 'launch-task-4', 'launch-task-5', 'launch-task-6', 'launch-task-7',
-        'launch-task-8', 'launch-task-9', 'launch-task-10', 'launch-task-12', 'launch-task-13', 'launch-task-16'
+        'launch-task-8', 'launch-task-9', 'launch-task-10', 'launch-task-11', 'launch-task-12', 'launch-task-13', 'launch-task-14', 'launch-task-16'
       ]
       const saved = new Set(stored === null ? confirmed : [...JSON.parse(stored), ...confirmed])
       const root = document.querySelector('#stages')

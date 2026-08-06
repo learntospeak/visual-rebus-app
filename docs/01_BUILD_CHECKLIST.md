@@ -77,9 +77,9 @@
 - [x] Register a personal Google Play Console account, accept the agreements and pay the one-time registration fee.
 - [x] Complete Google’s legal-name, address, phone, email, identity and device-verification steps.
 - [x] Use `SilentJZ Studio` as the public developer name and `cluecanvasadmin@gmail.com` as the working support email.
-- [ ] Publish a Clue Canvas privacy policy describing optional accounts, Supabase authentication, cloud progress, retention and deletion.
+- [x] Publish a Clue Canvas privacy policy describing optional accounts, Supabase authentication, cloud progress, retention and deletion.
 - [x] Add a clear Delete account action inside the signed-in account/settings screen.
-- [ ] Publish an external account-deletion request page on `cluecanvas.games` for people who no longer have the app.
+- [x] Publish an external account-deletion request page on `cluecanvas.games` for people who no longer have the app.
 - [ ] Choose and record the permanent Android package ID before creating the Play app record; proposed ID: `games.cluecanvas.app`.
 - [x] Document the exact data collected by the launch build so the privacy policy and Play Data safety answers match in `docs/11_DATA_PRIVACY_INVENTORY.md`.
 
