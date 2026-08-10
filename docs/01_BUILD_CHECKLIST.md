@@ -87,11 +87,11 @@
 
 ## Phase 8 — Package and test the Android app
 
-- [ ] Install Android Studio, the required Java tools and the Android 16 / API 36 SDK.
-- [ ] Add Capacitor to the existing Vite project and configure Clue Canvas, the permanent package ID and `dist` as the web build directory.
-- [ ] Generate the Android project and keep the packaged web assets synchronized with each production build.
-- [ ] Configure HTTPS access, Supabase authentication redirects, Android back-button behaviour, safe areas and network reconnect behaviour.
-- [ ] Create the final adaptive launcher icon and splash-screen assets.
+- [x] Install Android Studio, the required Java tools and the Android 16 / API 36 SDK.
+- [x] Add Capacitor to the existing Vite project and configure Clue Canvas, the permanent package ID and `dist` as the web build directory.
+- [x] Generate the Android project and keep the packaged web assets synchronized with each production build.
+- [x] Configure HTTPS access, Supabase authentication redirects, Android back-button behaviour, safe areas and network reconnect behaviour.
+- [x] Create the final adaptive launcher icon and splash-screen assets.
 - [ ] Create the private release keystore, record its passwords securely and make at least two protected backups.
 - [ ] Build a signed release Android App Bundle (`.aab`) for Google Play and an installable test APK.
 - [ ] Install the Android build on the Samsung Galaxy S24 FE and complete sign-up, email confirmation, sign-in, sync and sign-out.

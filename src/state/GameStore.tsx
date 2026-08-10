@@ -1,3 +1,5 @@
+import { App as CapacitorApp } from '@capacitor/app'
+import { Capacitor } from '@capacitor/core'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { puzzles } from '../data/puzzles'
 import { clearLocalProgress, emptyProgress, loadProgress, mergeProgress, saveProgress } from '../services/progress'
@@ -145,6 +147,43 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
     return () => window.clearTimeout(timeout)
   }, [account, progress])
 
+  useEffect(() => {
+    if (!account || !supabase) return
+    let active = true
+
+    const retryCloudSave = () => {
+      if (!active || !navigator.onLine) return
+      setSyncState('saving')
+      void saveCloudProgress(account.id, progressRef.current)
+        .then(() => {
+          if (active) setSyncState('synced')
+        })
+        .catch((error) => {
+          console.error('Unable to save progress after reconnecting.', error)
+          if (active) setSyncState('error')
+        })
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') retryCloudSave()
+    }
+
+    window.addEventListener('online', retryCloudSave)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    const appStateListener = Capacitor.isNativePlatform()
+      ? CapacitorApp.addListener('appStateChange', ({ isActive }) => {
+          if (isActive) retryCloudSave()
+        })
+      : null
+
+    return () => {
+      active = false
+      window.removeEventListener('online', retryCloudSave)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      if (appStateListener) void appStateListener.then((handle) => handle.remove())
+    }
+  }, [account])
+
   useEffect(() => localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)), [settings])
   useEffect(() => {
     document.documentElement.classList.toggle('large-text', settings.largeText)
@@ -172,7 +211,9 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: window.location.origin },
+        options: {
+          emailRedirectTo: Capacitor.isNativePlatform() ? 'https://cluecanvas.games/' : window.location.origin,
+        },
       })
       if (error) throw error
       if (data.session?.user) {

@@ -1,3 +1,5 @@
+import { App as CapacitorApp } from '@capacitor/app'
+import { Capacitor } from '@capacitor/core'
 import { useEffect, useRef, useState } from 'react'
 import { puzzles } from './data/puzzles'
 import { AccountScreen } from './screens/AccountScreen'
@@ -69,6 +71,26 @@ export default function App() {
       window.removeEventListener('resize', updateVisibleHeight)
     }
   }, [])
+
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return
+
+    const listener = CapacitorApp.addListener('backButton', () => {
+      if (screen === 'home' || screen === 'onboarding' || screen === 'account-prompt') {
+        void CapacitorApp.minimizeApp()
+        return
+      }
+
+      cancelCelebration.current?.()
+      setCelebrating(false)
+      if (screen === 'account') setScreen(accountReturn)
+      else setScreen('home')
+    })
+
+    return () => {
+      void listener.then((handle) => handle.remove())
+    }
+  }, [accountReturn, screen])
 
   function startJourney() {
     setActivePuzzleIndex(progress.currentIndex)

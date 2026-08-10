@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent, type RefObject } from 'react'
+import { useEffect, useRef, useState, type FormEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type RefObject } from 'react'
 import { AnswerPattern } from '../components/AnswerPattern'
 import { Button } from '../components/Button'
 import { CluePanel } from '../components/CluePanel'
@@ -14,6 +14,43 @@ const compactKeyRows = [
 ]
 
 function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
+  const onKeyRef = useRef(onKey)
+  const repeatDelay = useRef<number | null>(null)
+  const repeatInterval = useRef<number | null>(null)
+  const lastPointerBackspaceAt = useRef(0)
+
+  useEffect(() => {
+    onKeyRef.current = onKey
+  }, [onKey])
+
+  function stopBackspaceRepeat() {
+    if (repeatDelay.current !== null) window.clearTimeout(repeatDelay.current)
+    if (repeatInterval.current !== null) window.clearInterval(repeatInterval.current)
+    repeatDelay.current = null
+    repeatInterval.current = null
+    lastPointerBackspaceAt.current = performance.now()
+  }
+
+  useEffect(() => stopBackspaceRepeat, [])
+
+  function startBackspaceRepeat(event: ReactPointerEvent<HTMLButtonElement>) {
+    if (event.pointerType === 'mouse' && event.button !== 0) return
+    event.preventDefault()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    lastPointerBackspaceAt.current = performance.now()
+    onKeyRef.current('BACKSPACE')
+    repeatDelay.current = window.setTimeout(() => {
+      onKeyRef.current('BACKSPACE')
+      repeatInterval.current = window.setInterval(() => onKeyRef.current('BACKSPACE'), 70)
+    }, 360)
+  }
+
+  function handleBackspaceClick(event: ReactMouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+    if (performance.now() - lastPointerBackspaceAt.current < 750) return
+    onKeyRef.current('BACKSPACE')
+  }
+
   return (
     <div className="compact-answer-keyboard" aria-label="On-screen answer keyboard">
       {compactKeyRows.map((row, rowIndex) => (
@@ -23,8 +60,12 @@ function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
               className={`compact-key compact-key-${key.toLowerCase()}`}
               type="button"
               aria-label={key === 'BACKSPACE' ? 'Delete previous character' : key === 'SPACE' ? 'Space' : key}
-              onPointerDown={(event) => event.preventDefault()}
-              onClick={() => onKey(key)}
+              onPointerDown={key === 'BACKSPACE' ? startBackspaceRepeat : (event) => event.preventDefault()}
+              onPointerUp={key === 'BACKSPACE' ? stopBackspaceRepeat : undefined}
+              onPointerCancel={key === 'BACKSPACE' ? stopBackspaceRepeat : undefined}
+              onLostPointerCapture={key === 'BACKSPACE' ? stopBackspaceRepeat : undefined}
+              onContextMenu={key === 'BACKSPACE' ? (event) => event.preventDefault() : undefined}
+              onClick={key === 'BACKSPACE' ? handleBackspaceClick : () => onKey(key)}
               key={key}
             >
               {key === 'BACKSPACE' ? '⌫' : key === 'SPACE' ? 'space' : key}
@@ -72,11 +113,11 @@ export function PuzzleScreen({
   const clueTarget = useRef<HTMLDivElement>(null)
   const [useCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px)').matches)
 
-  function scrollToResult(target: RefObject<HTMLElement | null>) {
+  function scrollToResult(target: RefObject<HTMLElement | null>, block: ScrollLogicalPosition = 'nearest') {
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
       target.current?.scrollIntoView({
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-        block: 'nearest',
+        block,
       })
     }))
   }
@@ -88,7 +129,7 @@ export function PuzzleScreen({
 
   function handleClue() {
     onClue()
-    scrollToResult(clueTarget)
+    scrollToResult(clueTarget, 'start')
   }
 
   function handleCompactKey(key: string) {
@@ -120,6 +161,17 @@ export function PuzzleScreen({
 
   return (
     <main className={`app-shell puzzle-screen${useCompactKeyboard ? ' has-compact-keyboard' : ''}`}>
+      {celebrating && (
+        <div className="solve-celebration" role="status" aria-live="assertive">
+          <div className="celebration-confetti" aria-hidden="true">
+            {Array.from({ length: 12 }, (_, index) => <i key={index} />)}
+          </div>
+          <div className="celebration-badge">
+            <span aria-hidden="true">✓</span>
+            <strong>Correct!</strong>
+          </div>
+        </div>
+      )}
       <header className="puzzle-header">
         <Button variant="icon" aria-label="Return home" onClick={onHome}>←</Button>
         <div>
