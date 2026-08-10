@@ -94,10 +94,10 @@
 - [x] Create the final adaptive launcher icon and splash-screen assets.
 - [x] Create the private release keystore, record its passwords securely and make at least two protected backups.
 - [x] Build a signed release Android App Bundle (`.aab`) for Google Play and an installable test APK.
-- [ ] Install the Android build on the Samsung Galaxy S24 FE and complete sign-up, email confirmation, sign-in, sync and sign-out.
-- [ ] Verify the custom keyboard, fixed puzzle canvas, Clue/Submit scrolling and compact solved page in the packaged app.
-- [ ] Confirm progress survives closing the app, restarting the phone, signing in and installing an update.
-- [ ] Confirm the core puzzle journey works offline and synchronizes safely after reconnecting.
+- [x] Install the Android build on the Samsung Galaxy S24 FE and complete sign-up, email confirmation, sign-in, sync and sign-out.
+- [x] Verify the custom keyboard, fixed puzzle canvas, Clue/Submit scrolling and compact solved page in the packaged app.
+- [x] Confirm progress survives closing the app, restarting the phone, signing in and installing an update.
+- [x] Confirm the core puzzle journey works offline and synchronizes safely after reconnecting.
 - [ ] Test large text, high contrast, reduced motion, sound/haptics controls, screen-reader labels and touch targets.
 - [ ] Run at least one 30-puzzle no-crash session and repeat the key checks on two additional devices or representative screen sizes.
 
