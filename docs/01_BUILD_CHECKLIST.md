@@ -105,8 +105,8 @@
 
 ## Phase 9 — Configure Play Console and recruit testers
 
-- [ ] Create the Play Console app record as Clue Canvas, classify it as a free Puzzle game and enter the permanent package ID.
-- [ ] Upload the signed bundle to the internal-testing track before exposing it to the closed-test group.
+- [x] Create the Play Console app record as Clue Canvas, classify it as a free Puzzle game and enter the permanent package ID.
+- [x] Upload the signed bundle to the internal-testing track before exposing it to the closed-test group.
 - [ ] Prepare the app icon, feature graphic and representative phone screenshots.
 - [ ] Complete the store title, short description, full description, category, website and support contact details.
 - [ ] Enter the privacy-policy and external account-deletion URLs and complete the Data safety form from the documented Supabase behaviour.
