@@ -159,6 +159,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .account-form input { width: 100%; height: 54px; padding: 0 15px; color: var(--ink); background: #fff; border: 2px solid #d5dbe0; border-radius: 13px; font-size: 1rem; text-transform: none; }
 .account-form input:focus { border-color: var(--teal); }
 .account-form label small { color: var(--muted); font-size: .72rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.forgot-password-link { min-height: 40px; justify-self: center; padding: 6px 10px; color: var(--teal-dark); background: transparent; border: 0; font-weight: 800; }
 .account-message, .account-error { margin: 13px 2px 0; padding: 12px 14px; border-radius: 12px; font-size: .82rem; line-height: 1.4; overflow-wrap: anywhere; }
 .account-message { color: #176a64; background: #e3f6f3; }
 .account-error { color: #993c35; background: #fff0ee; }

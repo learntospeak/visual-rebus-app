@@ -5,11 +5,14 @@ import type { CloudSyncState, PlayerAccount } from '../state/GameStore'
 interface AccountScreenProps {
   account: PlayerAccount | null
   authReady: boolean
+  passwordRecovery: boolean
   cloudEnabled: boolean
   syncState: CloudSyncState
   onBack: () => void
   onSignIn: (email: string, password: string) => Promise<string>
   onSignUp: (email: string, password: string) => Promise<string>
+  onRequestPasswordReset: (email: string) => Promise<string>
+  onUpdatePassword: (password: string) => Promise<string>
   onSignOut: () => Promise<void>
   onDeleteAccount: () => Promise<void>
 }
@@ -25,15 +28,18 @@ const syncLabels: Record<CloudSyncState, string> = {
 export function AccountScreen({
   account,
   authReady,
+  passwordRecovery,
   cloudEnabled,
   syncState,
   onBack,
   onSignIn,
   onSignUp,
+  onRequestPasswordReset,
+  onUpdatePassword,
   onSignOut,
   onDeleteAccount,
 }: AccountScreenProps) {
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin')
+  const [mode, setMode] = useState<'signin' | 'signup' | 'forgot'>('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
@@ -49,11 +55,28 @@ export function AccountScreen({
     try {
       const result = mode === 'signin'
         ? await onSignIn(email.trim(), password)
-        : await onSignUp(email.trim(), password)
+        : mode === 'signup'
+          ? await onSignUp(email.trim(), password)
+          : await onRequestPasswordReset(email.trim())
       setMessage(result)
       setPassword('')
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Something went wrong. Please try again.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function setNewPassword(event: FormEvent) {
+    event.preventDefault()
+    setBusy(true)
+    setMessage('')
+    setError('')
+    try {
+      setMessage(await onUpdatePassword(password))
+      setPassword('')
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to update your password.')
     } finally {
       setBusy(false)
     }
@@ -104,6 +127,22 @@ export function AccountScreen({
           <span className="account-spinner" aria-hidden="true" />
           <p>Checking your account…</p>
         </section>
+      ) : passwordRecovery ? (
+        <form className="account-form" onSubmit={setNewPassword}>
+          <div>
+            <span className="eyebrow">ACCOUNT RECOVERY</span>
+            <h2>Choose a new password</h2>
+            <p>Enter a new password for your Clue Canvas account.</p>
+          </div>
+          <label>
+            New password
+            <input type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} required autoFocus />
+            <small>Use at least 8 characters.</small>
+          </label>
+          {message && <p className="account-message" role="status">{message}</p>}
+          {error && <p className="account-error" role="alert">{error}</p>}
+          <Button className="full-button" disabled={busy}>{busy ? 'Updating…' : 'Update password'}</Button>
+        </form>
       ) : account ? (
         <section className="account-card">
           <div className="account-success" aria-hidden="true">✓</div>
@@ -133,15 +172,16 @@ export function AccountScreen({
           </div>
           <form className="account-form" onSubmit={submit}>
             <div>
-              <span className="eyebrow">{mode === 'signin' ? 'WELCOME BACK' : 'FREE ACCOUNT'}</span>
-              <h2>{mode === 'signin' ? 'Continue your journey' : 'Keep your progress safe'}</h2>
-              <p>{mode === 'signin' ? 'Sign in to load your saved progress.' : 'Your current device progress will be added to your account.'}</p>
+              <span className="eyebrow">{mode === 'signin' ? 'WELCOME BACK' : mode === 'signup' ? 'FREE ACCOUNT' : 'ACCOUNT RECOVERY'}</span>
+              <h2>{mode === 'signin' ? 'Continue your journey' : mode === 'signup' ? 'Keep your progress safe' : 'Reset your password'}</h2>
+              <p>{mode === 'signin' ? 'Sign in to load your saved progress.' : mode === 'signup' ? 'Your current device progress will be added to your account.' : 'We’ll email you a secure link to choose a new password.'}</p>
             </div>
             <label>
               Email
               <input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
             </label>
-            <label>
+            {mode === 'signin' && <button type="button" className="forgot-password-link" disabled={busy} onClick={() => { setMode('forgot'); setMessage(''); setError('') }}>Forgot password?</button>}
+            {mode !== 'forgot' && <label>
               Password
               <input
                 type="password"
@@ -152,13 +192,14 @@ export function AccountScreen({
                 required
               />
               {mode === 'signup' && <small>Use at least 8 characters.</small>}
-            </label>
+            </label>}
             {message && <p className="account-message" role="status">{message}</p>}
             {error && <p className="account-error" role="alert">{error}</p>}
             {mode === 'signup' && <p className="account-provider-notice">Cloud accounts are provided by Supabase, which securely processes your email, sign-in and synchronized progress. <a href="https://cluecanvas.games/privacy/" target="_blank" rel="noreferrer">Read the privacy policy</a>.</p>}
             <Button className="full-button" disabled={busy}>
-              {busy ? 'Please wait…' : mode === 'signin' ? 'Sign in' : 'Create account'}
+              {busy ? 'Please wait…' : mode === 'signin' ? 'Sign in' : mode === 'signup' ? 'Create account' : 'Send reset link'}
             </Button>
+            {mode === 'forgot' && <button type="button" className="forgot-password-link" disabled={busy} onClick={() => { setMode('signin'); setMessage(''); setError('') }}>Back to sign in</button>}
           </form>
         </>
       )}

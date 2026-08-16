@@ -27,10 +27,13 @@ interface GameStoreValue {
   setSettings: React.Dispatch<React.SetStateAction<GameSettings>>
   account: PlayerAccount | null
   authReady: boolean
+  passwordRecovery: boolean
   cloudEnabled: boolean
   syncState: CloudSyncState
   signIn: (email: string, password: string) => Promise<string>
   signUp: (email: string, password: string) => Promise<string>
+  requestPasswordReset: (email: string) => Promise<string>
+  updatePassword: (password: string) => Promise<string>
   signOut: () => Promise<void>
   deleteAccount: () => Promise<void>
 }
@@ -40,6 +43,7 @@ const GameStoreContext = createContext<GameStoreValue | null>(null)
 function loadSettings(): GameSettings {
   const defaults: GameSettings = {
     soundEnabled: true,
+    musicEnabled: true,
     hapticsEnabled: true,
     reducedCelebrations: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     largeText: false,
@@ -60,6 +64,7 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<GameSettings>(loadSettings)
   const [account, setAccount] = useState<PlayerAccount | null>(null)
   const [authReady, setAuthReady] = useState(!isSupabaseConfigured)
+  const [passwordRecovery, setPasswordRecovery] = useState(false)
   const [syncState, setSyncState] = useState<CloudSyncState>(isSupabaseConfigured ? 'connecting' : 'offline')
   const progressRef = useRef(progress)
   const hydratedUserId = useRef<string | null>(null)
@@ -111,8 +116,9 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
       }
     })
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (!active) return
+      if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true)
       if (session?.user) {
         window.setTimeout(() => void activateUser(session.user), 0)
       } else {
@@ -197,6 +203,7 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
     setSettings,
     account,
     authReady,
+    passwordRecovery,
     cloudEnabled: isSupabaseConfigured,
     syncState,
     signIn: async (email: string, password: string) => {
@@ -222,6 +229,25 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
       }
       return 'Account created. Check your email to confirm it, then sign in.'
     },
+    requestPasswordReset: async (email: string) => {
+      if (!supabase) throw new Error('Cloud accounts are not configured yet.')
+      const redirectTo = Capacitor.isNativePlatform()
+        ? 'https://cluecanvas.games/?password-recovery=1'
+        : `${window.location.origin}/?password-recovery=1`
+      const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo })
+      if (error) throw error
+      return 'If an account exists for that email, a password-reset link is on its way.'
+    },
+    updatePassword: async (password: string) => {
+      if (!supabase) throw new Error('Cloud accounts are not configured yet.')
+      const { error } = await supabase.auth.updateUser({ password })
+      if (error) throw error
+      setPasswordRecovery(false)
+      const cleanedUrl = new URL(window.location.href)
+      cleanedUrl.searchParams.delete('password-recovery')
+      window.history.replaceState({}, '', `${cleanedUrl.pathname}${cleanedUrl.search}`)
+      return 'Password updated. You are signed in.'
+    },
     signOut: async () => {
       if (!supabase) return
       const { error } = await supabase.auth.signOut()
@@ -242,7 +268,7 @@ export function GameStoreProvider({ children }: { children: ReactNode }) {
       setProgress(progressRef.current)
       await supabase.auth.signOut({ scope: 'local' })
     },
-  }), [account, activateUser, authReady, progress, settings, syncState])
+  }), [account, activateUser, authReady, passwordRecovery, progress, settings, syncState])
 
   return <GameStoreContext.Provider value={value}>{children}</GameStoreContext.Provider>
 }

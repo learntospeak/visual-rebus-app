@@ -1,6 +1,9 @@
 type SupportedAudioContext = AudioContext & { resume: () => Promise<void> }
 
 let sharedContext: SupportedAudioContext | null = null
+let musicGain: GainNode | null = null
+let musicTimer: number | null = null
+let nextMusicBar = 0
 
 function getAudioContext() {
   const AudioContextClass = window.AudioContext
@@ -31,6 +34,64 @@ function tone(
   gain.connect(context.destination)
   oscillator.start(start)
   oscillator.stop(start + duration + .02)
+}
+
+function musicTone(context: AudioContext, frequency: number, start: number, duration: number, volume: number) {
+  if (!musicGain) return
+  const oscillator = context.createOscillator()
+  const gain = context.createGain()
+  oscillator.type = 'sine'
+  oscillator.frequency.setValueAtTime(frequency, start)
+  gain.gain.setValueAtTime(0.0001, start)
+  gain.gain.exponentialRampToValueAtTime(volume, start + .35)
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration)
+  oscillator.connect(gain)
+  gain.connect(musicGain)
+  oscillator.start(start)
+  oscillator.stop(start + duration + .05)
+}
+
+function scheduleMusic() {
+  const context = sharedContext
+  if (!context || !musicGain || context.state !== 'running') return
+  const barLength = 6.4
+  const chords = [
+    [261.63, 329.63, 392],
+    [220, 261.63, 329.63],
+    [174.61, 220, 261.63],
+    [196, 246.94, 293.66],
+  ]
+  if (nextMusicBar < context.currentTime + .2) nextMusicBar = context.currentTime + .1
+  while (nextMusicBar < context.currentTime + 8) {
+    const chord = chords[Math.floor(nextMusicBar / barLength) % chords.length]
+    chord.forEach((frequency, index) => musicTone(context, frequency, nextMusicBar + index * .8, 4.8, index === 0 ? .34 : .22))
+    musicTone(context, chord[2] * 2, nextMusicBar + 4.8, 1.4, .1)
+    nextMusicBar += barLength
+  }
+}
+
+export function startBackgroundMusic() {
+  const context = getAudioContext()
+  if (!context || musicGain) return
+  musicGain = context.createGain()
+  musicGain.gain.setValueAtTime(.035, context.currentTime)
+  musicGain.connect(context.destination)
+  nextMusicBar = context.currentTime + .1
+  scheduleMusic()
+  musicTimer = window.setInterval(scheduleMusic, 4000)
+}
+
+export function stopBackgroundMusic() {
+  if (musicTimer !== null) window.clearInterval(musicTimer)
+  musicTimer = null
+  if (musicGain && sharedContext) {
+    musicGain.gain.cancelScheduledValues(sharedContext.currentTime)
+    musicGain.gain.setTargetAtTime(0.0001, sharedContext.currentTime, .12)
+    const oldGain = musicGain
+    window.setTimeout(() => oldGain.disconnect(), 700)
+  }
+  musicGain = null
+  nextMusicBar = 0
 }
 
 export function playSolveChime() {
