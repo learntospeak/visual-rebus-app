@@ -80,24 +80,24 @@
 - [x] Publish a Clue Canvas privacy policy describing optional accounts, Supabase authentication, cloud progress, retention and deletion.
 - [x] Add a clear Delete account action inside the signed-in account/settings screen.
 - [x] Publish an external account-deletion request page on `cluecanvas.games` for people who no longer have the app.
-- [ ] Choose and record the permanent Android package ID before creating the Play app record; proposed ID: `games.cluecanvas.app`.
+- [x] Lock and record the permanent Android package ID as `games.cluecanvas.app` in `docs/13_ANDROID_IDENTITY.md` before creating the Play app record.
 - [x] Document the exact data collected by the launch build so the privacy policy and Play Data safety answers match in `docs/11_DATA_PRIVACY_INVENTORY.md`.
 
 **Exit result:** the developer account is verified and all mandatory privacy/account-deletion foundations are working.
 
 ## Phase 8 — Package and test the Android app
 
-- [ ] Install Android Studio, the required Java tools and the Android 16 / API 36 SDK.
-- [ ] Add Capacitor to the existing Vite project and configure Clue Canvas, the permanent package ID and `dist` as the web build directory.
-- [ ] Generate the Android project and keep the packaged web assets synchronized with each production build.
-- [ ] Configure HTTPS access, Supabase authentication redirects, Android back-button behaviour, safe areas and network reconnect behaviour.
-- [ ] Create the final adaptive launcher icon and splash-screen assets.
-- [ ] Create the private release keystore, record its passwords securely and make at least two protected backups.
-- [ ] Build a signed release Android App Bundle (`.aab`) for Google Play and an installable test APK.
-- [ ] Install the Android build on the Samsung Galaxy S24 FE and complete sign-up, email confirmation, sign-in, sync and sign-out.
-- [ ] Verify the custom keyboard, fixed puzzle canvas, Clue/Submit scrolling and compact solved page in the packaged app.
-- [ ] Confirm progress survives closing the app, restarting the phone, signing in and installing an update.
-- [ ] Confirm the core puzzle journey works offline and synchronizes safely after reconnecting.
+- [x] Install Android Studio, the required Java tools and the Android 16 / API 36 SDK.
+- [x] Add Capacitor to the existing Vite project and configure Clue Canvas, the permanent package ID and `dist` as the web build directory.
+- [x] Generate the Android project and keep the packaged web assets synchronized with each production build.
+- [x] Configure HTTPS access, Supabase authentication redirects, Android back-button behaviour, safe areas and network reconnect behaviour.
+- [x] Create the final adaptive launcher icon and splash-screen assets.
+- [x] Create the private release keystore, record its passwords securely and make at least two protected backups.
+- [x] Build a signed release Android App Bundle (`.aab`) for Google Play and an installable test APK.
+- [x] Install the Android build on the Samsung Galaxy S24 FE and complete sign-up, email confirmation, sign-in, sync and sign-out.
+- [x] Verify the custom keyboard, fixed puzzle canvas, Clue/Submit scrolling and compact solved page in the packaged app.
+- [x] Confirm progress survives closing the app, restarting the phone, signing in and installing an update.
+- [x] Confirm the core puzzle journey works offline and synchronizes safely after reconnecting.
 - [ ] Test large text, high contrast, reduced motion, sound/haptics controls, screen-reader labels and touch targets.
 - [ ] Run at least one 30-puzzle no-crash session and repeat the key checks on two additional devices or representative screen sizes.
 
@@ -105,8 +105,8 @@
 
 ## Phase 9 — Configure Play Console and recruit testers
 
-- [ ] Create the Play Console app record as Clue Canvas, classify it as a free Puzzle game and enter the permanent package ID.
-- [ ] Upload the signed bundle to the internal-testing track before exposing it to the closed-test group.
+- [x] Create the Play Console app record as Clue Canvas, classify it as a free Puzzle game and enter the permanent package ID.
+- [x] Upload the signed bundle to the internal-testing track before exposing it to the closed-test group.
 - [ ] Prepare the app icon, feature graphic and representative phone screenshots.
 - [ ] Complete the store title, short description, full description, category, website and support contact details.
 - [ ] Enter the privacy-policy and external account-deletion URLs and complete the Data safety form from the documented Supabase behaviour.

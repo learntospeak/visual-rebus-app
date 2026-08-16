@@ -23,6 +23,8 @@ export function SettingsScreen({ settings, onChange, onHome, onReplayTutorial, o
       </header>
       <section className="settings-list" aria-label="Game settings">
         <Toggle label="Sound" detail="Puzzle sounds and celebrations" checked={settings.soundEnabled} onChange={() => toggle('soundEnabled')} />
+        <Toggle label="Background music" detail="Quiet music while you play" checked={settings.musicEnabled} onChange={() => toggle('musicEnabled')} />
+        <Toggle label="Haptics" detail="Gentle vibration for correct and wrong answers" checked={settings.hapticsEnabled} onChange={() => toggle('hapticsEnabled')} />
         <Toggle label="Reduced celebrations" detail="Use calmer, shorter effects" checked={settings.reducedCelebrations} onChange={() => toggle('reducedCelebrations')} />
         <Toggle label="Larger text" detail="Increase interface text size" checked={settings.largeText} onChange={() => toggle('largeText')} />
         <Toggle label="High contrast" detail="Strengthen text and borders" checked={settings.highContrast} onChange={() => toggle('highContrast')} />

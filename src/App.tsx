@@ -1,3 +1,5 @@
+import { App as CapacitorApp } from '@capacitor/app'
+import { Capacitor } from '@capacitor/core'
 import { useEffect, useRef, useState } from 'react'
 import { puzzles } from './data/puzzles'
 import { AccountScreen } from './screens/AccountScreen'
@@ -10,6 +12,7 @@ import { PuzzleScreen } from './screens/PuzzleScreen'
 import { SettingsScreen } from './screens/SettingsScreen'
 import { SolvedScreen } from './screens/SolvedScreen'
 import { startSolveCelebration } from './services/celebration'
+import { playClueSound, playHaptic, playIncorrectSound, startBackgroundMusic, stopBackgroundMusic } from './services/audio'
 import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncPuzzleUrl } from './services/progress'
 import { useGameStore } from './state/GameStore'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
@@ -26,10 +29,13 @@ export default function App() {
     setSettings,
     account,
     authReady,
+    passwordRecovery,
     cloudEnabled,
     syncState,
     signIn,
     signUp,
+    requestPasswordReset,
+    updatePassword,
     signOut,
     deleteAccount,
   } = useGameStore()
@@ -54,6 +60,37 @@ export default function App() {
   const totalStars = Object.values(progress.starsByPuzzle).reduce((total, stars) => total + stars, 0)
 
   useEffect(() => {
+    if (passwordRecovery) {
+      setAccountReturn('home')
+      setScreen('account')
+    }
+  }, [passwordRecovery])
+
+  useEffect(() => {
+    if (!settings.musicEnabled) {
+      stopBackgroundMusic()
+      return
+    }
+
+    const startMusic = () => {
+      if (document.visibilityState === 'visible') startBackgroundMusic()
+    }
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') startMusic()
+      else stopBackgroundMusic()
+    }
+    window.addEventListener('pointerdown', startMusic, { once: true })
+    window.addEventListener('keydown', startMusic, { once: true })
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => {
+      window.removeEventListener('pointerdown', startMusic)
+      window.removeEventListener('keydown', startMusic)
+      document.removeEventListener('visibilitychange', handleVisibility)
+      stopBackgroundMusic()
+    }
+  }, [settings.musicEnabled])
+
+  useEffect(() => {
     const viewport = window.visualViewport
     const updateVisibleHeight = () => {
       const visibleHeight = Math.round(viewport?.height ?? window.innerHeight)
@@ -68,6 +105,26 @@ export default function App() {
       window.removeEventListener('resize', updateVisibleHeight)
     }
   }, [])
+
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return
+
+    const listener = CapacitorApp.addListener('backButton', () => {
+      if (screen === 'home' || screen === 'onboarding' || screen === 'account-prompt') {
+        void CapacitorApp.minimizeApp()
+        return
+      }
+
+      cancelCelebration.current?.()
+      setCelebrating(false)
+      if (screen === 'account') setScreen(accountReturn)
+      else setScreen('home')
+    })
+
+    return () => {
+      void listener.then((handle) => handle.remove())
+    }
+  }, [accountReturn, screen])
 
   function startJourney() {
     setActivePuzzleIndex(progress.currentIndex)
@@ -141,7 +198,9 @@ export default function App() {
     setCelebrating(true)
     cancelCelebration.current = startSolveCelebration({
       soundEnabled: settings.soundEnabled,
+      hapticsEnabled: settings.hapticsEnabled,
       reducedCelebrations: settings.reducedCelebrations,
+      daily: playMode === 'daily',
       onComplete: () => setScreen('solved'),
     })
   }
@@ -172,6 +231,14 @@ export default function App() {
       return
     }
     setMessage(answerFeedback(puzzle, guess))
+    if (settings.soundEnabled) playIncorrectSound()
+    if (settings.hapticsEnabled) playHaptic('wrong')
+  }
+
+  function showClue() {
+    if (clueCount >= puzzle.clues.length) return
+    if (settings.soundEnabled) playClueSound()
+    setClueCount((count) => Math.min(count + 1, puzzle.clues.length))
   }
 
   function nextPuzzle() {
@@ -269,11 +336,14 @@ export default function App() {
       <AccountScreen
         account={account}
         authReady={authReady}
+        passwordRecovery={passwordRecovery}
         cloudEnabled={cloudEnabled}
         syncState={syncState}
         onBack={() => setScreen(accountReturn)}
         onSignIn={signIn}
         onSignUp={signUp}
+        onRequestPasswordReset={requestPasswordReset}
+        onUpdatePassword={updatePassword}
         onSignOut={signOut}
         onDeleteAccount={deleteAccount}
       />
@@ -324,7 +394,7 @@ export default function App() {
       onHome={() => setScreen('home')}
       onGuessChange={updateGuess}
       onSubmit={submitAnswer}
-      onClue={() => setClueCount((count) => Math.min(count + 1, puzzle.clues.length))}
+      onClue={showClue}
       onReveal={() => completePuzzle(true)}
     />
   )
