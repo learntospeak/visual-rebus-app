@@ -178,7 +178,7 @@ export function PuzzleScreen({
           <span className="eyebrow">PUZZLE {puzzleNumber} OF {puzzleCount}</span>
           <ProgressBar value={puzzleNumber} max={puzzleCount} compact label={`Puzzle ${puzzleNumber} of ${puzzleCount}`} />
         </div>
-        <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty}</span>
+        <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty} · {puzzle.difficultyScore}/10</span>
       </header>
 
       <section className="puzzle-card">

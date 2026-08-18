@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
-import type { Puzzle } from '../types'
+import type { DifficultyFeedback, Puzzle } from '../types'
 
 interface SolvedScreenProps {
   puzzle: Puzzle
@@ -8,10 +8,16 @@ interface SolvedScreenProps {
   isLastPuzzle: boolean
   onHome: () => void
   onNext: () => void
+  showReminderOffer: boolean
+  onEnableReminder: () => Promise<boolean>
+  onDismissReminder: () => void
+  difficultyFeedback?: DifficultyFeedback
+  onDifficultyFeedback: (feedback: DifficultyFeedback) => void
 }
 
-export function SolvedScreen({ puzzle, outcome, isLastPuzzle, onHome, onNext }: SolvedScreenProps) {
+export function SolvedScreen({ puzzle, outcome, isLastPuzzle, onHome, onNext, showReminderOffer, onEnableReminder, onDismissReminder, difficultyFeedback, onDifficultyFeedback }: SolvedScreenProps) {
   const [shareMessage, setShareMessage] = useState('')
+  const [reminderMessage, setReminderMessage] = useState('')
   const stars = '★'.repeat(outcome.stars) + '☆'.repeat(3 - outcome.stars)
 
   useEffect(() => {
@@ -74,6 +80,28 @@ export function SolvedScreen({ puzzle, outcome, isLastPuzzle, onHome, onNext }: 
             <p>{puzzle.origin}</p>
           </div>
         )}
+        {showReminderOffer && <div className="daily-reminder-offer">
+          <span className="eyebrow">COME BACK TOMORROW</span>
+          <strong>Would you like a reminder?</strong>
+          <p>Clue Canvas can send one reminder when tomorrow’s daily puzzle is ready.</p>
+          {reminderMessage && <p className="account-error" role="alert">{reminderMessage}</p>}
+          <Button onClick={() => void onEnableReminder().then((enabled) => {
+            if (!enabled) setReminderMessage('Notifications weren’t enabled. You can try again later in Settings.')
+          })}>Remind me at 7:00 pm</Button>
+          <button type="button" className="forgot-password-link" onClick={onDismissReminder}>Not now</button>
+        </div>}
+        <div className="difficulty-feedback">
+          <span>How difficult was this puzzle?</span>
+          <div role="group" aria-label="Rate this puzzle’s difficulty">
+            {([
+              ['too-easy', 'Too easy'],
+              ['about-right', 'About right'],
+              ['too-hard', 'Too hard'],
+            ] as const).map(([value, label]) => (
+              <button type="button" className={difficultyFeedback === value ? 'is-selected' : ''} aria-pressed={difficultyFeedback === value} onClick={() => onDifficultyFeedback(value)} key={value}>{label}</button>
+            ))}
+          </div>
+        </div>
         <Button variant="secondary" className="share-button" onClick={shareResult}>Share result <span aria-hidden="true">↗</span></Button>
         <p className="share-status" role="status">{shareMessage}</p>
         <Button onClick={onNext}>

@@ -56,6 +56,9 @@
 - [x] Step-by-step solved explanation.
 - [x] Date-based daily puzzle with current/longest streak; reveals do not extend it.
 - [x] Spoiler-free result sharing through the device share sheet with clipboard fallback.
+- [x] Optional player-timed local reminder for the next daily puzzle.
+- [x] Provisional structural difficulty calibration with one-tap player feedback.
+- [x] Varied post-starter journey selection to avoid repeated themes and mechanisms.
 - [ ] Add a discreet Report Puzzle action only when it connects to a real feedback channel; local-only feedback UI was removed.
 
 **Exit result:** the app feels meaningfully better than a basic rebus clone.
