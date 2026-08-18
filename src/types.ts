@@ -100,10 +100,12 @@ export interface SavedProgress {
   starsByPuzzle: Record<number, number>
   revealedIds: number[]
   feedbackByPuzzle: Record<number, PuzzleFeedback>
+  difficultyFeedbackByPuzzle: Record<number, DifficultyFeedback>
   daily: DailyProgress
 }
 
 export type PuzzleFeedback = 'fair' | 'confusing' | 'wrong-answer'
+export type DifficultyFeedback = 'too-easy' | 'about-right' | 'too-hard'
 
 export interface DailyProgress {
   completedDates: string[]
@@ -116,6 +118,9 @@ export interface DailyProgress {
 export interface GameSettings {
   soundEnabled: boolean
   musicEnabled: boolean
+  dailyReminderEnabled: boolean
+  dailyReminderTime: string
+  dailyReminderPrompted: boolean
   hapticsEnabled: boolean
   reducedCelebrations: boolean
   largeText: boolean

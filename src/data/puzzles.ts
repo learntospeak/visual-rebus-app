@@ -26,6 +26,22 @@ const difficultyScores: Record<number, number> = {
   56: 3, 57: 3, 58: 2, 59: 3, 60: 4, 61: 4, 62: 5, 63: 4, 64: 5, 65: 3,
 }
 
+function calibratedDifficulty(draft: StarterPuzzleDraft) {
+  const manualScore = difficultyScores[draft.id]
+  if (manualScore) return manualScore
+
+  const words = draft.answer.split(/\s+/).length
+  const visibleText = draft.elements.map((element) => element.content).join(' ').toLowerCase()
+  const meaningfulWords = draft.answer.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).filter((word) => word.length > 3)
+  const visibleAnswerWords = meaningfulWords.filter((word) => visibleText.includes(word)).length
+  let score = 2 + Math.max(0, words - 2) * .75
+  if (draft.format === 'typography' || draft.format === 'rotation') score += .75
+  if (draft.format === 'illustration' || draft.format === 'icon') score -= .5
+  if (meaningfulWords.length && visibleAnswerWords / meaningfulWords.length >= .5) score -= 1.25
+  if ((mechanicTags[draft.id]?.length ?? 1) > 1) score += .5
+  return Math.max(1, Math.min(10, Math.round(score)))
+}
+
 const mechanicTags: Record<number, MechanicTag[]> = {
   1: ['above-below'],
   2: ['rotation', 'repetition'],
@@ -124,7 +140,8 @@ const reviewedStyledPuzzleIds = [
 function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const { explanation: legacyExplanation, ...puzzleDraft } = draft
   void legacyExplanation
-  const score = difficultyScores[draft.id] ?? (draft.id >= 501 ? 10 : draft.id >= 416 ? 9 : draft.id >= 316 ? 8 : ({ Easy: 2, Medium: 4, Hard: 6 } as const)[draft.difficulty])
+  const score = calibratedDifficulty(draft)
+  const difficulty = score <= 3 ? 'Easy' : score <= 6 ? 'Medium' : 'Hard'
   const usesInlineSvg = [13, 20, ...reworkedVectorPuzzleIds].includes(draft.id)
   const usesLicensedFootprint = draft.id === 13
   const usesGeneratedArtwork = !usesInlineSvg && (reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id))
@@ -133,6 +150,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
 
   return {
     ...puzzleDraft,
+    difficulty,
     origin: puzzleOrigins[draft.id],
     contentVersion: `p${String(draft.id).padStart(3, '0')}-v${[118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
     chapterId,

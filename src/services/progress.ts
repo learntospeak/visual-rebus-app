@@ -7,6 +7,7 @@ export const emptyProgress: SavedProgress = {
   starsByPuzzle: {},
   revealedIds: [],
   feedbackByPuzzle: {},
+  difficultyFeedbackByPuzzle: {},
   daily: { completedDates: [], revealedDates: [], currentStreak: 0, longestStreak: 0, lastCompletedDate: null },
 }
 
@@ -45,6 +46,7 @@ export function loadProgress(puzzles: Puzzle[]): SavedProgress {
       starsByPuzzle: saved.starsByPuzzle && typeof saved.starsByPuzzle === 'object' ? saved.starsByPuzzle : {},
       revealedIds: Array.isArray(saved.revealedIds) ? saved.revealedIds : [],
       feedbackByPuzzle: saved.feedbackByPuzzle && typeof saved.feedbackByPuzzle === 'object' ? saved.feedbackByPuzzle : {},
+      difficultyFeedbackByPuzzle: saved.difficultyFeedbackByPuzzle && typeof saved.difficultyFeedbackByPuzzle === 'object' ? saved.difficultyFeedbackByPuzzle : {},
       daily: {
         ...emptyProgress.daily,
         ...(saved.daily && typeof saved.daily === 'object' ? saved.daily : {}),
@@ -98,6 +100,10 @@ export function mergeProgress(local: SavedProgress, cloud: SavedProgress | null)
     feedbackByPuzzle: {
       ...(cloud.feedbackByPuzzle ?? {}),
       ...local.feedbackByPuzzle,
+    },
+    difficultyFeedbackByPuzzle: {
+      ...(cloud.difficultyFeedbackByPuzzle ?? {}),
+      ...local.difficultyFeedbackByPuzzle,
     },
     daily: {
       completedDates: uniqueStrings(local.daily.completedDates, cloud.daily?.completedDates ?? []),

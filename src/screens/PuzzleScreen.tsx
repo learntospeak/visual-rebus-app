@@ -9,8 +9,8 @@ import type { Puzzle } from '../types'
 const compactKeyRows = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
-  ['SPACE', 'BACKSPACE'],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'],
+  ['SPACE'],
 ]
 
 function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
@@ -178,7 +178,7 @@ export function PuzzleScreen({
           <span className="eyebrow">PUZZLE {puzzleNumber} OF {puzzleCount}</span>
           <ProgressBar value={puzzleNumber} max={puzzleCount} compact label={`Puzzle ${puzzleNumber} of ${puzzleCount}`} />
         </div>
-        <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty}</span>
+        <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty} · {puzzle.difficultyScore}/10</span>
       </header>
 
       <section className="puzzle-card">

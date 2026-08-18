@@ -44,6 +44,9 @@ function loadSettings(): GameSettings {
   const defaults: GameSettings = {
     soundEnabled: true,
     musicEnabled: true,
+    dailyReminderEnabled: false,
+    dailyReminderTime: '19:00',
+    dailyReminderPrompted: false,
     hapticsEnabled: true,
     reducedCelebrations: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     largeText: false,

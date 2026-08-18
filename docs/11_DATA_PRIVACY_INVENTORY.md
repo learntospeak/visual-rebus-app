@@ -25,6 +25,7 @@ Stored fields:
 - best star score for each completed puzzle;
 - puzzle IDs whose answers were revealed;
 - legacy puzzle-feedback values, if any remain from an older build;
+- optional player ratings of whether a puzzle felt too easy, about right or too hard;
 - daily-puzzle completion dates and reveal dates;
 - current and longest daily streak; and
 - the last daily completion date.
@@ -40,6 +41,9 @@ Browser storage key: `visual-rebus-settings-v1`
 Stored fields:
 
 - sound enabled;
+- background music enabled;
+- daily-reminder enabled state, selected local time and whether the reminder offer was shown;
+- haptics enabled;
 - reduced celebrations;
 - larger text;
 - high contrast; and

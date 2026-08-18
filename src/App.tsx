@@ -13,6 +13,8 @@ import { SettingsScreen } from './screens/SettingsScreen'
 import { SolvedScreen } from './screens/SolvedScreen'
 import { startSolveCelebration } from './services/celebration'
 import { playClueSound, playHaptic, playIncorrectSound, startBackgroundMusic, stopBackgroundMusic } from './services/audio'
+import { disableDailyReminder, enableDailyReminder, listenForDailyReminder, refreshDailyReminder, supportsDailyReminders } from './services/reminders'
+import { nextVariedPuzzleIndex } from './services/journey'
 import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncPuzzleUrl } from './services/progress'
 import { useGameStore } from './state/GameStore'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
@@ -65,6 +67,8 @@ export default function App() {
       setScreen('account')
     }
   }, [passwordRecovery])
+
+  useEffect(() => listenForDailyReminder(() => setScreen('daily')), [])
 
   useEffect(() => {
     if (!settings.musicEnabled) {
@@ -190,6 +194,9 @@ export default function App() {
       }
       return next
     })
+    if (playMode === 'daily' && settings.dailyReminderEnabled) {
+      void refreshDailyReminder(settings.dailyReminderTime, true)
+    }
     if (revealed) {
       setLockedLetters(Array(answerLetters(puzzle.answer).length).fill(true))
       setScreen('solved')
@@ -246,13 +253,15 @@ export default function App() {
       setScreen('home')
       return
     }
-    if (activePuzzleIndex === puzzles.length - 1) {
+    if (progress.completedIds.length >= puzzles.length) {
       setScreen('home')
       return
     }
-    const nextIndex = activePuzzleIndex + 1
+    const nextIndex = activePuzzleIndex < 24
+      ? activePuzzleIndex + 1
+      : nextVariedPuzzleIndex(puzzles, activePuzzleIndex, [...progress.completedIds, ...progress.revealedIds])
     setActivePuzzleIndex(nextIndex)
-    if (activePuzzleIndex === progress.currentIndex) {
+    if (playMode === 'journey') {
       setProgress((current) => ({ ...current, currentIndex: nextIndex }))
       setPlayMode('journey')
     }
@@ -270,6 +279,26 @@ export default function App() {
     setActivePuzzleIndex(dayNumber % puzzles.length)
     setPlayMode('daily')
     setScreen('puzzle')
+  }
+
+  async function changeDailyReminder(enabled: boolean) {
+    if (!enabled) {
+      await disableDailyReminder()
+      setSettings((current) => ({ ...current, dailyReminderEnabled: false, dailyReminderPrompted: true }))
+      return false
+    }
+    const completedToday = progress.daily.completedDates.includes(localDateKey()) || progress.daily.revealedDates.includes(localDateKey())
+    const granted = await enableDailyReminder(settings.dailyReminderTime, completedToday)
+    setSettings((current) => ({ ...current, dailyReminderEnabled: granted, dailyReminderPrompted: true }))
+    return granted
+  }
+
+  function changeDailyReminderTime(time: string) {
+    setSettings((current) => ({ ...current, dailyReminderTime: time }))
+    if (settings.dailyReminderEnabled) {
+      const completedToday = progress.daily.completedDates.includes(localDateKey()) || progress.daily.revealedDates.includes(localDateKey())
+      void refreshDailyReminder(time, completedToday)
+    }
   }
 
   if (screen === 'onboarding') {
@@ -327,6 +356,8 @@ export default function App() {
             setActivePuzzleIndex(0)
           }
         }}
+        onReminderChange={(enabled) => void changeDailyReminder(enabled)}
+        onReminderTimeChange={changeDailyReminderTime}
       />
     )
   }
@@ -362,7 +393,7 @@ export default function App() {
         onHome={() => setScreen('home')}
         onOpenPuzzle={(index) => {
           setActivePuzzleIndex(index)
-          setPlayMode(index < progress.currentIndex ? 'replay' : 'journey')
+          setPlayMode(progress.completedIds.includes(puzzles[index].id) || progress.revealedIds.includes(puzzles[index].id) ? 'replay' : 'journey')
           setScreen('puzzle')
         }}
       />
@@ -377,6 +408,14 @@ export default function App() {
         isLastPuzzle={activePuzzleIndex === puzzles.length - 1}
         onHome={() => setScreen('home')}
         onNext={nextPuzzle}
+        showReminderOffer={Boolean(solveOutcome?.daily) && !settings.dailyReminderPrompted && supportsDailyReminders()}
+        onEnableReminder={() => changeDailyReminder(true)}
+        onDismissReminder={() => setSettings((current) => ({ ...current, dailyReminderPrompted: true }))}
+        difficultyFeedback={progress.difficultyFeedbackByPuzzle[puzzle.id]}
+        onDifficultyFeedback={(feedback) => setProgress((current) => ({
+          ...current,
+          difficultyFeedbackByPuzzle: { ...current.difficultyFeedbackByPuzzle, [puzzle.id]: feedback },
+        }))}
       />
     )
   }
