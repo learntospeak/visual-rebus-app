@@ -119,6 +119,67 @@ export function playClueSound() {
   tone(context, 880, start + .07, .24, .055, 'sine')
 }
 
+const livingPuzzleSounds = new Set([408, 410, 456, 499])
+
+export function hasLivingPuzzleSound(puzzleId: number) {
+  return livingPuzzleSounds.has(puzzleId)
+}
+
+function noiseAccent(
+  context: AudioContext,
+  duration: number,
+  volume: number,
+  filterType: BiquadFilterType,
+  frequency: number,
+  playbackRate = 1,
+) {
+  const frames = Math.ceil(context.sampleRate * duration)
+  const buffer = context.createBuffer(1, frames, context.sampleRate)
+  const channel = buffer.getChannelData(0)
+  let previous = 0
+  for (let index = 0; index < frames; index += 1) {
+    const white = Math.random() * 2 - 1
+    previous = previous * .88 + white * .12
+    channel[index] = previous
+  }
+  const source = context.createBufferSource()
+  const filter = context.createBiquadFilter()
+  const gain = context.createGain()
+  source.buffer = buffer
+  source.playbackRate.value = playbackRate
+  filter.type = filterType
+  filter.frequency.value = frequency
+  gain.gain.setValueAtTime(.0001, context.currentTime)
+  gain.gain.exponentialRampToValueAtTime(volume, context.currentTime + .025)
+  gain.gain.exponentialRampToValueAtTime(.0001, context.currentTime + duration)
+  source.connect(filter)
+  filter.connect(gain)
+  gain.connect(context.destination)
+  source.start()
+}
+
+export function playLivingPuzzleAccent(puzzleId: number) {
+  const context = getAudioContext()
+  if (!context || !hasLivingPuzzleSound(puzzleId)) return
+  const start = context.currentTime
+
+  if (puzzleId === 408) {
+    noiseAccent(context, .78, .055, 'bandpass', 1450, .82)
+    tone(context, 164.81, start + .12, .7, .012, 'sine')
+  } else if (puzzleId === 410) {
+    noiseAccent(context, .62, .038, 'lowpass', 760, .72)
+    tone(context, 110, start + .16, .26, .025, 'triangle')
+    tone(context, 82.41, start + .36, .38, .018, 'sine')
+  } else if (puzzleId === 456) {
+    noiseAccent(context, .24, .075, 'highpass', 1700, 1.15)
+    tone(context, 146.83, start, .12, .035, 'triangle')
+    tone(context, 98, start + .085, .18, .025, 'triangle')
+  } else if (puzzleId === 499) {
+    noiseAccent(context, .28, .04, 'bandpass', 2200, 1.45)
+    tone(context, 392, start + .09, .2, .018, 'sine')
+  }
+}
+
 export function playDailyStreakAccent() {
   const context = getAudioContext()
   if (!context) return

@@ -91,6 +91,8 @@ interface PuzzleScreenProps {
   onSubmit: (event: FormEvent) => void
   onClue: () => void
   onReveal: () => void
+  onInteractionSolved: () => void
+  soundEnabled?: boolean
 }
 
 export function PuzzleScreen({
@@ -107,11 +109,14 @@ export function PuzzleScreen({
   onSubmit,
   onClue,
   onReveal,
+  onInteractionSolved,
+  soundEnabled = false,
 }: PuzzleScreenProps) {
   const answerInput = useRef<HTMLInputElement>(null)
   const feedbackTarget = useRef<HTMLParagraphElement>(null)
   const clueTarget = useRef<HTMLDivElement>(null)
   const [useCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px)').matches)
+  const usesInteractionSequence = Boolean(puzzle.interactionSequenceKey)
 
   function scrollToResult(target: RefObject<HTMLElement | null>, block: ScrollLogicalPosition = 'nearest') {
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
@@ -182,13 +187,20 @@ export function PuzzleScreen({
       </header>
 
       <section className="puzzle-card">
-        <p>{puzzle.prompt}</p>
+        {puzzle.prompt && <p>{puzzle.prompt}</p>}
         <div className="puzzle-art-frame">
-          <PuzzleVisual puzzle={puzzle} />
+          <PuzzleVisual puzzle={puzzle} soundEnabled={soundEnabled} onSolved={onInteractionSolved} />
         </div>
       </section>
 
-      <form className="answer-form" onSubmit={handleSubmit}>
+      {usesInteractionSequence ? (
+        <section className="interaction-solving-panel" aria-label="Interactive puzzle controls">
+          <p>Complete each mechanism to solve the room. The final arrangement is the answer.</p>
+          <Button variant="secondary" type="button" onClick={handleClue} disabled={celebrating || clueCount === puzzle.clues.length}>
+            {clueCount === puzzle.clues.length ? 'All clues shown' : `Clue ${clueCount + 1}`}
+          </Button>
+        </section>
+      ) : <form className="answer-form" onSubmit={handleSubmit}>
         <label htmlFor="answer">Your answer</label>
         <AnswerPattern pattern={puzzle.wordPattern} answer={puzzle.answer} locked={lockedLetters} celebrating={celebrating} />
         <input
@@ -213,7 +225,7 @@ export function PuzzleScreen({
           </Button>
           <Button type="submit" disabled={celebrating}>{celebrating ? 'Correct!' : 'Submit'}</Button>
         </div>
-      </form>
+      </form>}
 
       {clueCount > 0 && (
         <div ref={clueTarget} className="clue-scroll-target">

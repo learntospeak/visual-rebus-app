@@ -103,6 +103,34 @@ const html = `<!doctype html>
   }else if(location.hash){
     requestAnimationFrame(()=>document.querySelector(location.hash)?.scrollIntoView());
   }
+  document.addEventListener('click',event=>{
+    const puzzle=event.target.closest('.premium-easter-egg');
+    if(puzzle)puzzle.classList.toggle('is-activated');
+    const sequenceButton=event.target.closest('.sequential-access-action');
+    const sequence=sequenceButton?.closest('[data-sequential-flow]');
+    if(sequence){
+      const flow=JSON.parse(sequence.dataset.sequentialFlow);
+      const currentIndex=flow.indexOf(sequence.dataset.sequentialStep);
+      const next=flow[Math.min(currentIndex+1,flow.length-1)];
+      const scene=sequence.querySelector('.sequential-scene');
+      scene?.classList.remove('step-'+sequence.dataset.sequentialStep);
+      scene?.classList.add('step-'+next);
+      sequence.dataset.sequentialStep=next;
+      const solved=next===flow[flow.length-1];
+      if(solved){
+        sequence.classList.add('is-solved');
+        sequenceButton.remove();
+        const label=sequence.querySelector('.escape-room-status span');
+        const instruction=sequence.querySelector('.escape-room-status strong');
+        if(label)label.textContent='MECHANISM COMPLETE';
+        if(instruction)instruction.textContent='Study the completed arrangement.';
+      }else{
+        const label=sequence.querySelector('.escape-room-status span');
+        if(label)label.textContent='LOCK '+(currentIndex+2)+' OF '+(flow.length-1);
+        sequenceButton.innerHTML='<span aria-hidden="true">◆</span>Continue mechanism';
+      }
+    }
+  });
 </script></body></html>`
 
 await mkdir(outputDirectory, { recursive: true })

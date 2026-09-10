@@ -92,6 +92,7 @@ export interface Puzzle {
   qa: QaMetadata
   motion?: MotionInstruction
   interaction?: InteractionInstruction
+  interactionSequenceKey?: string
 }
 
 export interface SavedProgress {

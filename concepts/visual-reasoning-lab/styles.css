@@ -1,0 +1,2001 @@
+:root {
+  --vr-paper: #f3efe7;
+  --vr-surface: #fbf9f4;
+  --vr-ink: #102a38;
+  --vr-midnight: #0d2633;
+  --vr-midnight-2: #081b25;
+  --vr-teal: #1f7772;
+  --vr-teal-light: #dcebea;
+  --vr-coral: #a9473f;
+  --vr-brass: #b5894b;
+  --vr-brass-ink: #76531f;
+  --vr-brass-light: #ead9b8;
+  --vr-text: #566773;
+  --vr-line: #d8d5ce;
+  --vr-success: #276c58;
+  --vr-danger: #97483f;
+  --vr-shadow: 0 18px 52px rgba(8, 27, 37, 0.13);
+  --vr-soft-shadow: 0 7px 22px rgba(8, 27, 37, 0.08);
+  color: var(--vr-ink);
+  background: #d8d6d0;
+  font-family: Inter, Aptos, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 300px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.8), transparent 34rem),
+    #d8d6d0;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button,
+input,
+[tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--vr-teal);
+  outline-offset: 3px;
+}
+
+h1[tabindex="-1"]:focus,
+[data-focus-heading]:focus {
+  outline: none;
+}
+
+.vr-screen--dark button:focus-visible,
+.vr-screen--dark input:focus-visible,
+.vr-screen--dark [tabindex]:focus-visible,
+.vr-sheet--dark button:focus-visible,
+.vr-sheet--dark input:focus-visible,
+.vr-sheet--dark [tabindex]:focus-visible {
+  outline-color: #e7c98f;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.46;
+}
+
+.vr-app {
+  width: min(100%, 480px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow-x: clip;
+  overflow-y: visible;
+  background: var(--vr-paper);
+  box-shadow: var(--vr-shadow);
+}
+
+.vr-screen {
+  min-height: 100dvh;
+  padding: max(14px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+  animation: vr-enter 220ms ease-out both;
+}
+
+.vr-screen--dark {
+  background: var(--vr-midnight);
+  color: #f8f4ea;
+}
+
+.vr-screen--play {
+  display: flex;
+  flex-direction: column;
+}
+
+.vr-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.vr-topbar {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.vr-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.vr-brand-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  transform: rotate(-4deg);
+  border-radius: 9px;
+  background: var(--vr-ink);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+}
+
+.vr-screen--dark .vr-brand-mark {
+  background: #f5efe3;
+  color: var(--vr-midnight);
+}
+
+.vr-brand-copy {
+  display: grid;
+  gap: 2px;
+  line-height: 1;
+}
+
+.vr-brand-name {
+  color: var(--vr-ink);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.vr-screen--dark .vr-brand-name {
+  color: #fff;
+}
+
+.vr-brand-sub {
+  color: var(--vr-coral);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.vr-pill,
+.vr-local-pill {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(31, 119, 114, 0.28);
+  border-radius: 999px;
+  background: rgba(220, 235, 234, 0.72);
+  color: #145e5a;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.vr-screen--dark .vr-pill,
+.vr-screen--dark .vr-local-pill {
+  border-color: rgba(234, 217, 184, 0.3);
+  background: rgba(181, 137, 75, 0.12);
+  color: #e6c995;
+}
+
+.vr-eyebrow {
+  margin: 0 0 9px;
+  color: var(--vr-coral);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.vr-screen--dark .vr-eyebrow {
+  color: #d9b476;
+}
+
+.vr-display,
+.vr-title,
+.vr-subtitle,
+.vr-card-title {
+  margin: 0;
+  color: var(--vr-ink);
+  font-family: Manrope, Inter, Aptos, "Segoe UI", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.vr-screen--dark .vr-display,
+.vr-screen--dark .vr-title,
+.vr-screen--dark .vr-subtitle,
+.vr-screen--dark .vr-card-title {
+  color: #f9f5ec;
+}
+
+.vr-display {
+  max-width: 420px;
+  font-size: clamp(34px, 9.7vw, 47px);
+  line-height: 1;
+}
+
+.vr-title {
+  font-size: 29px;
+  line-height: 1.05;
+}
+
+.vr-subtitle {
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.vr-card-title {
+  font-size: 19px;
+  line-height: 1.1;
+}
+
+.vr-lede,
+.vr-copy,
+.vr-small-copy {
+  color: var(--vr-text);
+  line-height: 1.58;
+}
+
+.vr-screen--dark .vr-lede,
+.vr-screen--dark .vr-copy,
+.vr-screen--dark .vr-small-copy {
+  color: #bcc7cb;
+}
+
+.vr-lede {
+  margin: 14px 0 24px;
+  font-size: 15px;
+}
+
+.vr-copy {
+  margin: 8px 0 0;
+  font-size: 14px;
+}
+
+.vr-small-copy {
+  margin: 7px 0 0;
+  font-size: 12px;
+}
+
+.vr-btn,
+.vr-icon-btn,
+.vr-text-btn,
+.vr-game-card,
+.vr-option,
+.vr-plate-select,
+.vr-inspect-btn,
+.vr-hotspot,
+.vr-zone-button,
+.vr-inventory-item,
+.vr-control,
+.vr-matrix-option,
+.vr-router,
+.vr-fragment {
+  border: 0;
+  cursor: pointer;
+}
+
+.vr-btn {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: var(--vr-coral);
+  color: #fff;
+  padding: 11px 17px;
+  box-shadow: 0 5px 14px rgba(95, 35, 31, 0.16);
+  font-size: 15px;
+  font-weight: 750;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.vr-btn:hover:not(:disabled) {
+  background: #b95148;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(95, 35, 31, 0.2);
+}
+
+.vr-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(95, 35, 31, 0.15);
+}
+
+.vr-btn--secondary {
+  border-color: var(--vr-line);
+  background: var(--vr-surface);
+  color: var(--vr-ink);
+  box-shadow: none;
+}
+
+.vr-btn--secondary:hover:not(:disabled) {
+  background: #fff;
+  box-shadow: var(--vr-soft-shadow);
+}
+
+.vr-btn--teal {
+  background: var(--vr-teal);
+  color: #fff;
+}
+
+.vr-btn--teal:hover:not(:disabled) {
+  background: #196661;
+}
+
+.vr-btn--brass {
+  border-color: #cba76b;
+  background: linear-gradient(135deg, #d4b579, #aa7c3d);
+  color: #172c35;
+  box-shadow: 0 6px 18px rgba(181, 137, 75, 0.18);
+}
+
+.vr-btn--brass:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dec38c, #b5894b);
+}
+
+.vr-btn--wide {
+  width: 100%;
+}
+
+.vr-icon-btn {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--vr-line);
+  border-radius: 12px;
+  background: rgba(251, 249, 244, 0.88);
+  color: var(--vr-ink);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.vr-screen--dark .vr-icon-btn {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.vr-icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.vr-text-btn {
+  min-height: 44px;
+  background: transparent;
+  color: #145e5a;
+  padding: 7px;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.vr-actions {
+  display: grid;
+  grid-template-columns: minmax(108px, 0.72fr) minmax(0, 1.28fr);
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.vr-actions--single {
+  grid-template-columns: 1fr;
+}
+
+.vr-hero {
+  padding: 10px 0 6px;
+}
+
+.vr-tool-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 22px 0 25px;
+}
+
+.vr-tool-slot {
+  display: grid;
+  min-height: 74px;
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  border: 1px solid var(--vr-line);
+  border-radius: 13px;
+  background: rgba(251, 249, 244, 0.64);
+  color: var(--vr-text);
+  padding: 9px 5px;
+  text-align: center;
+}
+
+.vr-tool-slot.is-earned {
+  border-color: rgba(181, 137, 75, 0.5);
+  background: #f6eddd;
+  color: #6e4e22;
+}
+
+.vr-tool-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.vr-tool-slot span:last-child {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vr-section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 25px 1px 12px;
+}
+
+.vr-section-head h2 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.vr-section-head span {
+  color: var(--vr-text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.vr-game-list {
+  display: grid;
+  gap: 12px;
+}
+
+.vr-game-card {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 118px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--vr-line);
+  border-radius: 16px;
+  background: var(--vr-surface);
+  padding: 0;
+  box-shadow: 0 3px 12px rgba(8, 27, 37, 0.05);
+  text-align: left;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.vr-game-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(31, 119, 114, 0.38);
+  box-shadow: var(--vr-soft-shadow);
+}
+
+.vr-game-card.is-complete {
+  border-color: rgba(39, 108, 88, 0.42);
+}
+
+.vr-game-thumb {
+  position: relative;
+  min-height: 128px;
+  overflow: hidden;
+  background: var(--vr-midnight);
+}
+
+.vr-game-thumb--connection {
+  background: url("./assets/connection-board-twelve.png") 1% 2% / 400% 300% no-repeat;
+}
+
+.vr-game-thumb--room {
+  background: url("./assets/investigation-study.png") center / cover no-repeat;
+}
+
+.vr-game-thumb--logic {
+  display: grid;
+  grid-template-columns: repeat(3, 19px);
+  align-content: center;
+  justify-content: center;
+  gap: 5px;
+  background: #112e3c;
+}
+
+.vr-thumb-cell {
+  width: 19px;
+  height: 19px;
+  transform: rotate(var(--r, 0deg));
+  border: 1px solid #d5b373;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.vr-thumb-cell:nth-child(2n) {
+  border-radius: 50%;
+}
+
+.vr-game-card-body {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+  padding: 15px;
+}
+
+.vr-card-kicker {
+  margin-bottom: 6px;
+  color: var(--vr-coral);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vr-card-copy {
+  margin: 6px 0 11px;
+  color: var(--vr-text);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.vr-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--vr-text);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.vr-complete-text {
+  color: var(--vr-success);
+}
+
+.vr-bonus-card {
+  position: relative;
+  min-height: 290px;
+  margin-top: 13px;
+  overflow: hidden;
+  border: 1px solid rgba(181, 137, 75, 0.44);
+  border-radius: 18px;
+  background: var(--vr-midnight);
+  box-shadow: 0 12px 28px rgba(8, 27, 37, 0.18);
+  color: #fff;
+}
+
+.vr-bonus-card.is-complete {
+  border-color: rgba(234, 217, 184, 0.82);
+  box-shadow: 0 0 0 1px rgba(181, 137, 75, 0.2), 0 16px 34px rgba(8, 27, 37, 0.22);
+}
+
+.vr-bonus-art {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 21, 29, 0.06), rgba(7, 21, 29, 0.94)),
+    url("./assets/midnight-vault.png") center 34% / cover no-repeat;
+  filter: saturate(0.84);
+}
+
+.vr-bonus-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 290px;
+  flex-direction: column;
+  justify-content: end;
+  padding: 20px;
+}
+
+.vr-bonus-lock {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 29px;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(232, 205, 156, 0.35);
+  border-radius: 999px;
+  background: rgba(8, 27, 37, 0.7);
+  color: #e7c991;
+  padding: 5px 9px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.vr-bonus-content .vr-card-title {
+  font-size: 25px;
+}
+
+.vr-bonus-content p {
+  max-width: 330px;
+  margin: 8px 0 14px;
+  color: #c6d0d3;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.vr-lab-footer {
+  margin-top: 28px;
+  border-top: 1px solid var(--vr-line);
+  padding-top: 17px;
+  text-align: center;
+}
+
+.vr-lab-footer p {
+  margin: 0 0 7px;
+  color: var(--vr-text);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.vr-footer-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vr-play-head {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.vr-play-meta {
+  min-width: 0;
+  text-align: center;
+}
+
+.vr-play-title {
+  overflow: hidden;
+  margin: 0;
+  color: var(--vr-ink);
+  font-size: 13px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vr-screen--dark .vr-play-title {
+  color: #fff;
+}
+
+.vr-play-step {
+  margin: 2px 0 0;
+  color: var(--vr-text);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.vr-screen--dark .vr-play-step {
+  color: #aebbc0;
+}
+
+.vr-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 17px;
+}
+
+.vr-progress span {
+  height: 3px;
+  flex: 1;
+  border-radius: 999px;
+  background: #d3d4d1;
+}
+
+.vr-progress span.is-active,
+.vr-progress span.is-done {
+  background: var(--vr-teal);
+}
+
+.vr-screen--dark .vr-progress span {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.vr-screen--dark .vr-progress span.is-active,
+.vr-screen--dark .vr-progress span.is-done {
+  background: var(--vr-brass);
+}
+
+.vr-objective {
+  margin-bottom: 15px;
+  border-left: 2px solid var(--vr-brass);
+  padding: 2px 0 2px 12px;
+}
+
+.vr-objective-label {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--vr-brass-ink);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vr-screen--dark .vr-objective-label {
+  color: #d9b476;
+}
+
+.vr-objective strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.vr-surface {
+  border: 1px solid var(--vr-line);
+  border-radius: 16px;
+  background: var(--vr-surface);
+  box-shadow: var(--vr-soft-shadow);
+}
+
+.vr-screen--dark .vr-surface {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: #102d3b;
+}
+
+.vr-surface-head {
+  padding: 18px 17px 14px;
+}
+
+.vr-surface-head .vr-copy {
+  margin-top: 7px;
+}
+
+.vr-intro-visual {
+  position: relative;
+  min-height: 225px;
+  margin: 20px 0 23px;
+  overflow: hidden;
+  border-radius: 17px;
+  background: var(--vr-midnight);
+  box-shadow: var(--vr-soft-shadow);
+}
+
+.vr-intro-visual--connection {
+  background:
+    linear-gradient(180deg, transparent, rgba(8, 27, 37, 0.55)),
+    url("./assets/connection-board-twelve.png") center / cover no-repeat;
+}
+
+.vr-intro-visual--room {
+  background:
+    linear-gradient(180deg, transparent 45%, rgba(8, 27, 37, 0.62)),
+    url("./assets/investigation-study.png") center / cover no-repeat;
+}
+
+.vr-intro-visual--logic {
+  display: grid;
+  place-items: center;
+  background: #0d2836;
+}
+
+.vr-intro-number {
+  position: absolute;
+  right: 13px;
+  bottom: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: Georgia, serif;
+  font-size: 42px;
+}
+
+.vr-flow-list {
+  display: grid;
+  margin: 23px 0;
+  border-top: 1px solid var(--vr-line);
+}
+
+.vr-flow-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 11px;
+  border-bottom: 1px solid var(--vr-line);
+  padding: 13px 0;
+}
+
+.vr-flow-number {
+  color: var(--vr-brass-ink);
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+}
+
+.vr-flow-row strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+
+.vr-flow-row p {
+  margin: 0;
+  color: var(--vr-text);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.vr-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  padding: 0 12px 12px;
+}
+
+.vr-plate {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #c8c5bd;
+  border-radius: 11px;
+  background: #0a202b;
+  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease, opacity 170ms ease;
+}
+
+.vr-plate.is-selected {
+  z-index: 1;
+  transform: translateY(-2px);
+  border-color: #c99d59;
+  box-shadow: 0 0 0 2px #c99d59, 0 8px 18px rgba(8, 27, 37, 0.18);
+}
+
+.vr-plate.is-archived {
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.vr-plate:focus-within {
+  box-shadow: inset 0 0 0 3px var(--vr-teal), 0 8px 18px rgba(8, 27, 37, 0.14);
+}
+
+.vr-plate-select:focus-visible,
+.vr-inspect-btn:focus-visible {
+  outline: 0;
+}
+
+.vr-plate-select {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.vr-plate-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  background-image: url("./assets/connection-board-twelve.png");
+  background-repeat: no-repeat;
+  background-size: 400% 300%;
+}
+
+.vr-plate-caption {
+  display: block;
+  min-height: 45px;
+  padding: 8px 9px;
+  background: #0c2633;
+  color: #e8ecea;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.vr-plate-index {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid rgba(229, 202, 153, 0.5);
+  border-radius: 50%;
+  background: rgba(7, 25, 34, 0.82);
+  color: #e7c991;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.vr-inspect-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: transparent;
+  color: transparent;
+}
+
+.vr-inspect-btn::after {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  background: rgba(8, 27, 37, 0.8);
+  color: #fff;
+  content: "i";
+  font-family: Georgia, serif;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.vr-selection-tray {
+  position: sticky;
+  z-index: 5;
+  bottom: 8px;
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 11px 12px 12px;
+  border: 1px solid rgba(181, 137, 75, 0.46);
+  border-radius: 13px;
+  background: rgba(13, 38, 51, 0.96);
+  color: #fff;
+  padding: 8px 9px 8px 13px;
+  box-shadow: 0 10px 24px rgba(8, 27, 37, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.vr-selection-count {
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.vr-selection-tray .vr-btn {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.vr-archive {
+  display: grid;
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+
+.vr-archive-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(181, 137, 75, 0.35);
+  border-radius: 11px;
+  background: #f5eddf;
+  padding: 9px;
+}
+
+.vr-archive-row strong {
+  color: #6d4d20;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.vr-archive-thumbs {
+  display: flex;
+}
+
+.vr-archive-thumbs span {
+  display: block;
+  width: 25px;
+  height: 25px;
+  margin-left: -5px;
+  border: 1px solid #f5eddf;
+  border-radius: 50%;
+  background-image: url("./assets/connection-board-twelve.png");
+  background-size: 400% 300%;
+}
+
+.vr-option-list {
+  display: grid;
+  gap: 9px;
+  padding: 0 13px 14px;
+}
+
+.vr-option {
+  display: flex;
+  min-height: 51px;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #cecec8;
+  border-radius: 12px;
+  background: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.vr-option:hover {
+  border-color: rgba(31, 119, 114, 0.55);
+}
+
+.vr-option.is-selected {
+  border-color: var(--vr-teal);
+  background: #e5f0ef;
+  box-shadow: inset 0 0 0 1px var(--vr-teal);
+}
+
+.vr-option-mark {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #abb5ba;
+  border-radius: 50%;
+  color: transparent;
+  font-size: 11px;
+}
+
+.vr-option.is-selected .vr-option-mark {
+  border-color: var(--vr-teal);
+  background: var(--vr-teal);
+  color: #fff;
+}
+
+.vr-feedback,
+.vr-clue {
+  margin: 0 13px 13px;
+  border-radius: 11px;
+  padding: 11px 12px;
+  font-size: 12px;
+  line-height: 1.48;
+}
+
+.vr-feedback strong,
+.vr-clue strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 12px;
+}
+
+.vr-feedback--wrong {
+  border: 1px solid rgba(151, 72, 63, 0.2);
+  background: #f8e9e6;
+  color: #7e3c35;
+}
+
+.vr-feedback--correct {
+  border: 1px solid rgba(39, 108, 88, 0.22);
+  background: #e3eee9;
+  color: #225d4d;
+}
+
+.vr-clue {
+  border-left: 2px solid var(--vr-brass);
+  border-radius: 2px 11px 11px 2px;
+  background: #f5eddd;
+  color: #674b25;
+}
+
+.vr-matrix-wrap {
+  padding: 0 12px 14px;
+}
+
+.vr-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 9px;
+  border: 1px solid rgba(181, 137, 75, 0.33);
+  border-radius: 13px;
+  background: #0b2532;
+}
+
+.vr-matrix-cell,
+.vr-matrix-option {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(234, 217, 184, 0.38);
+  border-radius: 8px;
+  background: #f7f3e9;
+}
+
+.vr-matrix-cell--missing {
+  border-style: dashed;
+  background: rgba(255, 255, 255, 0.05);
+  color: #d3b171;
+  font-family: Georgia, serif;
+  font-size: 25px;
+}
+
+.vr-matrix-cell svg,
+.vr-matrix-option svg {
+  width: 78%;
+  height: 78%;
+}
+
+.vr-matrix-cell.is-tracing {
+  animation: vr-trace 650ms ease both;
+}
+
+.vr-matrix-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0 12px 14px;
+}
+
+.vr-matrix-option {
+  min-height: 84px;
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.vr-matrix-option:hover {
+  transform: translateY(-1px);
+  border-color: var(--vr-brass);
+}
+
+.vr-matrix-option.is-selected {
+  border-color: var(--vr-brass);
+  box-shadow: 0 0 0 2px var(--vr-brass);
+}
+
+.vr-matrix-letter {
+  position: absolute;
+  top: 5px;
+  left: 6px;
+  color: #6a5a42;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.vr-rule-list {
+  display: grid;
+  gap: 8px;
+  padding: 0 12px 14px;
+}
+
+.vr-rule-button {
+  display: grid;
+  min-height: 51px;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #cccac3;
+  border-radius: 11px;
+  background: #fff;
+  padding: 9px 11px;
+  color: var(--vr-ink);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 650;
+  text-align: left;
+}
+
+.vr-rule-button.is-selected {
+  border-color: var(--vr-teal);
+  background: #e5f0ef;
+}
+
+.vr-rule-check {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid #aab4b8;
+  border-radius: 6px;
+  color: transparent;
+}
+
+.vr-rule-button.is-selected .vr-rule-check {
+  border-color: var(--vr-teal);
+  background: var(--vr-teal);
+  color: #fff;
+}
+
+.vr-room-scene {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 15px 15px 0 0;
+  background: url("./assets/investigation-study.png") center / cover no-repeat;
+}
+
+.vr-room-scene::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 68%, rgba(4, 16, 23, 0.38));
+  content: "";
+}
+
+.vr-hotspot {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(8, 27, 37, 0.92) 0 14px, transparent 15px);
+  color: #f0d7a6;
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.vr-hotspot.is-complete {
+  background: radial-gradient(circle, var(--vr-success) 0 14px, transparent 15px);
+  color: #fff;
+}
+
+.vr-room-scene.is-focus-mode .vr-hotspot {
+  animation: vr-focus-pulse 1.5s ease-in-out infinite;
+}
+
+.vr-zone-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  padding: 10px;
+  background: #0b2633;
+}
+
+.vr-zone-button {
+  min-height: 45px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d5dfe1;
+  padding: 6px 3px;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.vr-zone-button.is-complete {
+  color: #a5d6c8;
+}
+
+.vr-inventory {
+  display: flex;
+  min-height: 66px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 11px;
+  overflow-x: auto;
+  border: 1px solid rgba(181, 137, 75, 0.35);
+  border-radius: 12px;
+  background: #102d3b;
+  padding: 8px;
+  scrollbar-width: none;
+}
+
+.vr-inventory-label {
+  flex: 0 0 auto;
+  color: #b8c4c8;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.vr-inventory-item {
+  display: inline-flex;
+  min-width: 92px;
+  min-height: 46px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(234, 217, 184, 0.25);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e8e6df;
+  padding: 7px 9px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.vr-inventory-item.is-selected {
+  border-color: var(--vr-brass);
+  background: rgba(181, 137, 75, 0.16);
+  color: #f2d7a6;
+}
+
+.vr-inventory-item span:first-child {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: Georgia, serif;
+  font-size: 12px;
+}
+
+.vr-sheet-overlay {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  background: rgba(4, 15, 22, 0.7);
+  backdrop-filter: blur(5px);
+  animation: vr-fade 160ms ease both;
+}
+
+.vr-sheet {
+  width: min(100%, 480px);
+  max-height: min(88dvh, 760px);
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px 20px 0 0;
+  background: var(--vr-surface);
+  color: var(--vr-ink);
+  box-shadow: 0 -18px 50px rgba(4, 15, 22, 0.28);
+  animation: vr-sheet-up 220ms ease-out both;
+}
+
+.vr-sheet--dark {
+  background: #102d3b;
+  color: #fff;
+}
+
+.vr-sheet-head {
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--vr-line);
+  padding: 10px 15px;
+}
+
+.vr-sheet--dark .vr-sheet-head {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.vr-sheet-head h2 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+}
+
+.vr-sheet-body {
+  padding: 15px;
+}
+
+.vr-inspect-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 11px;
+  background-image: url("./assets/connection-board-twelve.png");
+  background-repeat: no-repeat;
+  background-size: 400% 300%;
+}
+
+.vr-closeup {
+  position: relative;
+  display: grid;
+  min-height: 255px;
+  overflow: hidden;
+  place-items: center;
+  border: 1px solid rgba(234, 217, 184, 0.18);
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(181, 137, 75, 0.13), transparent 45%),
+    #0a222e;
+  color: #f0e7d6;
+}
+
+.vr-ledger {
+  width: 82%;
+  transform: rotate(-2deg);
+  border: 1px solid #8a6c42;
+  border-radius: 6px;
+  background: #e9dfcb;
+  color: #233b45;
+  padding: 18px;
+  box-shadow: 0 13px 24px rgba(0, 0, 0, 0.24);
+}
+
+.vr-ledger-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(35, 59, 69, 0.24);
+  padding: 9px 0;
+  font-family: Georgia, serif;
+  font-size: 13px;
+}
+
+.vr-symbols {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.vr-symbol {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: Georgia, serif;
+  font-size: 16px;
+}
+
+.vr-lens {
+  position: relative;
+  width: 118px;
+  height: 118px;
+  border: 9px solid var(--vr-brass);
+  border-radius: 50%;
+  box-shadow: inset 0 0 30px rgba(134, 204, 205, 0.3), 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.vr-lens::after {
+  position: absolute;
+  right: -48px;
+  bottom: -27px;
+  width: 63px;
+  height: 15px;
+  transform: rotate(45deg);
+  transform-origin: left center;
+  border-radius: 999px;
+  background: var(--vr-brass);
+  content: "";
+}
+
+.vr-charred-note {
+  position: relative;
+  width: 76%;
+  min-height: 150px;
+  transform: rotate(2deg);
+  background: #d6c5a5;
+  color: #3f3528;
+  padding: 24px 20px;
+  clip-path: polygon(3% 2%, 94% 0, 100% 12%, 96% 97%, 8% 100%, 0 86%);
+  font-family: Georgia, serif;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.vr-charred-note::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 22px #4b2e1d;
+  content: "";
+}
+
+.vr-chart {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  transform: rotate(var(--chart-rotation, 0deg));
+  border: 2px solid #c89e5b;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 28%, #bd9250 29% 30%, transparent 31% 49%, #806334 50% 51%, transparent 52%),
+    conic-gradient(from 10deg, transparent 0 14%, rgba(181,137,75,.22) 14% 15%, transparent 15% 48%, rgba(181,137,75,.22) 48% 49%, transparent 49% 82%, rgba(181,137,75,.22) 82% 83%, transparent 83%);
+  transition: transform 240ms ease;
+}
+
+.vr-chart-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  transform: translate(-50%, -50%) rotate(var(--mark-angle)) translateY(-77px) rotate(calc(-1 * var(--mark-angle)));
+  border: 1px solid rgba(234, 217, 184, 0.45);
+  border-radius: 50%;
+  background: #102d3b;
+  color: #e7c98f;
+  font-family: Georgia, serif;
+  font-size: 15px;
+}
+
+.vr-chart-digits {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  transform: rotate(calc(-1 * var(--chart-rotation, 0deg)));
+  color: #fff0cb;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.vr-control-row {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.vr-control {
+  display: inline-flex;
+  min-width: 52px;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(234, 217, 184, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f2e5cd;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.vr-code-dials {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.vr-code-dial {
+  display: grid;
+  grid-template-rows: 44px 62px 44px;
+  justify-items: center;
+  border: 1px solid #7d643d;
+  border-radius: 11px;
+  background: #0a202b;
+  padding: 5px;
+}
+
+.vr-code-dial button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: #d9bd88;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.vr-code-value {
+  display: grid;
+  width: 52px;
+  place-items: center;
+  border-top: 1px solid #70593a;
+  border-bottom: 1px solid #70593a;
+  color: #fff2d3;
+  font-family: Georgia, serif;
+  font-size: 29px;
+}
+
+.vr-folio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.vr-folio {
+  position: relative;
+  min-height: 150px;
+  border: 1px solid #9a7d4e;
+  border-radius: 7px 11px 11px 7px;
+  background: linear-gradient(90deg, #735433 0 9%, #c5a66e 10% 12%, #8e6a42 13% 100%);
+  color: #f1dfb9;
+  cursor: pointer;
+  padding: 13px 8px;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+.vr-folio strong {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.vr-folio .vr-symbols {
+  gap: 3px;
+}
+
+.vr-folio .vr-symbol {
+  width: 25px;
+  height: 25px;
+  font-size: 10px;
+}
+
+.vr-reward {
+  text-align: center;
+}
+
+.vr-reward-object {
+  position: relative;
+  display: grid;
+  width: 118px;
+  height: 118px;
+  margin: 22px auto;
+  place-items: center;
+  border: 1px solid #c8a260;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255,255,255,.32), transparent 15%),
+    linear-gradient(145deg, #1b414e, #071c26);
+  color: #e0c080;
+  box-shadow: inset 0 0 0 8px #a77d42, inset 0 0 0 10px #e1c182, 0 15px 34px rgba(8, 27, 37, 0.2);
+  font-family: Georgia, serif;
+  font-size: 29px;
+}
+
+.vr-reward-object--cell {
+  border-radius: 23px;
+}
+
+.vr-reward-object--key {
+  border-radius: 18px 50% 50% 18px;
+}
+
+.vr-reward-meta {
+  color: var(--vr-brass-ink);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vr-vault-stage {
+  position: relative;
+  min-height: 390px;
+  overflow: hidden;
+  border: 1px solid rgba(181, 137, 75, 0.45);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(7, 21, 29, 0.1), rgba(7, 21, 29, 0.64)),
+    url("./assets/midnight-vault.png") center / cover no-repeat;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
+}
+
+.vr-vault-sockets {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  left: 13px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.vr-vault-socket {
+  min-height: 46px;
+  border: 1px solid rgba(234, 217, 184, 0.35);
+  border-radius: 9px;
+  background: rgba(7, 25, 34, 0.78);
+  color: #e9d2a5;
+  padding: 7px 4px;
+  backdrop-filter: blur(8px);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.vr-vault-console {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  border: 1px solid rgba(234, 217, 184, 0.28);
+  border-radius: 12px;
+  background: rgba(6, 22, 30, 0.92);
+  padding: 11px;
+  backdrop-filter: blur(10px);
+}
+
+.vr-tool-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.vr-tool-action {
+  min-height: 48px;
+  border: 1px solid rgba(234, 217, 184, 0.28);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8dcc5;
+  cursor: pointer;
+  padding: 7px 5px;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.vr-tool-action.is-used {
+  border-color: var(--vr-brass);
+  background: rgba(181, 137, 75, 0.17);
+  color: #f2d9aa;
+}
+
+.vr-routing {
+  padding: 13px;
+}
+
+.vr-routing-board {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  border: 1px solid rgba(234, 217, 184, 0.22);
+  border-radius: 12px;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+    #071d27;
+  background-size: 22px 22px;
+}
+
+.vr-routing-board svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vr-beam {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px currentColor);
+  transition: d 280ms ease;
+}
+
+.vr-beam--teal { color: #55c7bf; stroke: currentColor; }
+.vr-beam--gold { color: #e7bc60; stroke: currentColor; }
+.vr-beam--violet { color: #a58ad6; stroke: currentColor; }
+
+.vr-router-row {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+
+.vr-router {
+  min-height: 48px;
+  border: 1px solid rgba(234, 217, 184, 0.3);
+  border-radius: 9px;
+  background: rgba(12, 43, 55, 0.94);
+  color: #f0dfbe;
+  padding: 6px 4px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.vr-router.is-crossed {
+  border-color: var(--vr-brass);
+  background: rgba(181, 137, 75, 0.22);
+}
+
+.vr-vault-open {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, rgba(255, 239, 195, 0.95), rgba(181, 137, 75, 0.3) 27%, rgba(7, 20, 28, 0.94) 62%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vr-vault-open.is-open {
+  opacity: 1;
+  animation: vr-vault-open 850ms ease both;
+}
+
+.vr-artefact {
+  display: grid;
+  width: 125px;
+  height: 165px;
+  place-items: center;
+  transform: perspective(500px) rotateY(-7deg);
+  border: 1px solid #cfb476;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 40% 30%, rgba(99,151,164,.34), transparent 27%),
+    linear-gradient(145deg, #162f3c, #030b10);
+  color: #e8ce99;
+  box-shadow: inset 0 0 0 5px #080f14, 0 20px 42px rgba(0,0,0,.5);
+  font-family: Georgia, serif;
+  font-size: 39px;
+}
+
+.vr-toast {
+  position: fixed;
+  z-index: 50;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  left: 50%;
+  width: min(calc(100% - 32px), 430px);
+  transform: translate(-50%, 16px);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 12px;
+  background: rgba(7, 26, 35, 0.96);
+  color: #fff;
+  padding: 12px 14px;
+  box-shadow: 0 15px 36px rgba(4, 15, 22, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  transition: opacity 170ms ease, transform 170ms ease;
+}
+
+.vr-toast.is-visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+@keyframes vr-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes vr-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes vr-sheet-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes vr-trace {
+  0% { box-shadow: 0 0 0 0 rgba(213, 179, 115, 0); }
+  45% { box-shadow: 0 0 0 3px rgba(213, 179, 115, 0.85); }
+  100% { box-shadow: 0 0 0 0 rgba(213, 179, 115, 0); }
+}
+
+@keyframes vr-focus-pulse {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(234, 202, 145, 0)); }
+  50% { filter: drop-shadow(0 0 7px rgba(234, 202, 145, 0.95)); }
+}
+
+@keyframes vr-vault-open {
+  from { opacity: 0; clip-path: circle(0 at 50% 45%); }
+  to { opacity: 1; clip-path: circle(75% at 50% 45%); }
+}
+
+@media (min-width: 560px) {
+  body {
+    padding: 24px 0;
+  }
+
+  .vr-app {
+    min-height: calc(100dvh - 48px);
+    border: 1px solid rgba(16, 42, 56, 0.11);
+    border-radius: 26px;
+  }
+
+  .vr-screen {
+    min-height: calc(100dvh - 48px);
+  }
+}
+
+@media (max-width: 350px) {
+  .vr-screen {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .vr-game-card {
+    grid-template-columns: 102px minmax(0, 1fr);
+  }
+
+  .vr-game-thumb {
+    min-height: 122px;
+  }
+
+  .vr-game-card-body {
+    padding: 12px;
+  }
+
+  .vr-card-title {
+    font-size: 17px;
+  }
+
+  .vr-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .vr-matrix-wrap,
+  .vr-board,
+  .vr-matrix-options,
+  .vr-option-list,
+  .vr-rule-list {
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .vr-zone-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vr-tool-action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vr-vault-stage {
+    min-height: 430px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
