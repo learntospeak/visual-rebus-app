@@ -97,6 +97,8 @@ const mechanicTags: Record<number, MechanicTag[]> = {
   107: ['scale', 'split'], 108: ['scale'], 109: ['scale', 'text-image'], 110: ['text-image'],
   111: ['direction', 'text-image'], 112: ['inside-outside', 'text-image'], 113: ['text-image', 'direction'],
   114: ['inside-outside', 'above-below'], 115: ['split', 'text-image'],
+  252: ['sequence', 'reversal', 'count'],
+  253: ['sequence', 'above-below', 'rotation'],
 }
 
 const visualTemplates: Record<number, Puzzle['visualTemplate']> = {
@@ -147,12 +149,36 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const usesGeneratedArtwork = !usesInlineSvg && (reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id))
   const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : draft.id <= 415 ? 'chapter-7' : draft.id <= 500 ? 'chapter-8' : draft.id <= 550 ? 'chapter-9' : 'chapter-10'
   const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id <= 500 ? draft.id - 415 : draft.id <= 550 ? draft.id - 500 : draft.id - 550
+  const interactionSequenceKey: string | undefined = undefined
 
   return {
     ...puzzleDraft,
+    acceptedAnswers: draft.id === 252 ? ['year dot'] : puzzleDraft.acceptedAnswers,
+    format: [252, 253].includes(draft.id) || interactionSequenceKey ? 'interaction' : puzzleDraft.format,
+    interaction: draft.id === 252 ? {
+      type: 'tap',
+      targetId: 'year-calendar',
+      instruction: 'Tap the calendar repeatedly to travel backwards through its years.',
+      completionCondition: 'The final numbered page turns over to reveal a single dot.',
+    } : draft.id === 253 ? {
+      type: 'tap',
+      targetId: 'once-clock',
+      instruction: 'Tap once to send the single numeral around the clock.',
+      completionCondition: 'The numeral completes one orbit and comes to rest directly upon TIME.',
+    } : puzzleDraft.interaction,
+    interactionSequenceKey,
+    clues: draft.id === 252 ? [
+      'Every loose page belongs to an earlier year.',
+      'Keep turning the calendar towards the very beginning.',
+      'What remains after the first numbered year has gone?',
+    ] : draft.id === 253 ? [
+      'Notice how many journeys and chimes occur.',
+      'The single numeral finishes above the clock’s word.',
+      'Read one occurrence, then describe its position relative to TIME.',
+    ] : puzzleDraft.clues,
     difficulty,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${[118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${[252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
@@ -170,13 +196,15 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       : undefined,
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1,
+      version: [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1,
       creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : usesGeneratedArtwork ? 'Clue Canvas / OpenAI image generation' : 'Visual Rebus project',
-      source: usesLicensedFootprint
+      source: draft.id === 252 ? 'Original in-repository interactive calendar composition'
+        : draft.id === 253 ? 'Original in-repository interactive clock composition'
+        : usesLicensedFootprint
         ? 'GiFootprint from Game Icons via react-icons'
         : usesInlineSvg ? 'Original in-repository vector artwork' : usesGeneratedArtwork ? 'Project-owned generated artwork stored in-repository' : 'Original text and CSS composition',
       licence: usesLicensedFootprint ? 'CC BY 3.0' : 'Project-owned original',
-      kind: usesInlineSvg ? 'inline-svg' : usesGeneratedArtwork ? 'project-asset' : 'text-css',
+      kind: [252, 253].includes(draft.id) ? 'text-css' : interactionSequenceKey ? 'project-asset' : usesInlineSvg ? 'inline-svg' : usesGeneratedArtwork ? 'project-asset' : 'text-css',
     },
     qa: {
       status: draft.id <= 25 ? 'Tested' : 'Draft',
@@ -473,12 +501,15 @@ const starterPuzzles: StarterPuzzleDraft[] = [
     acceptedAnswers: [],
     wordPattern: '3 6',
     difficulty: 'Easy',
-    format: 'typography',
-    prompt: 'Where is the secret?',
-    elements: [{ content: 'SECRET', className: 'word top-secret' }],
+    format: 'interaction',
+    prompt: '',
+    elements: [{ content: '', activatedContent: 'SECRET', className: 'top-secret-reveal', ariaLabel: 'A sealed letter that reveals a hidden document when tapped' }],
     clues: ['Position tells you the missing word.', 'SECRET is at the very top.', 'The phrase describes highly classified information.'],
     explanation: ['SECRET is positioned at the top of the card.', 'That makes it “top secret.”'],
     region: 'Global',
+    interaction: {
+      type: 'tap', targetId: 'secret-letter', instruction: 'Tap the sealed letter.', completionCondition: 'A document marked SECRET slides out above it.',
+    },
   },
   {
     id: 20,
@@ -648,8 +679,8 @@ const candidatePuzzles: StarterPuzzleDraft[] = [
     { content: 'DOWN', className: 'word' }, { content: '↓', className: 'cc-arrow' }, { content: '🌍', className: 'cc-globe-small' },
   ], ['Follow the arrow.', 'DOWN travels toward the planet.', 'The planet is EARTH.'], ['DOWN points directly toward Earth.', 'It gives “down to earth.”']),
   candidate(44, 'right on time', '5 2 4', 'Medium', 'typography', [
-    { content: 'RIGHT', className: 'word cc-accent' }, { content: 'TIME', className: 'word cc-underlined-base' },
-  ], ['The words are vertically connected.', 'RIGHT is directly on TIME.', 'Use the small connecting word ON.'], ['RIGHT rests directly on top of TIME.', 'It reads “right on time.”']),
+    { content: '→', className: 'cc-right-street-sign', ariaLabel: 'A street sign pointing right' }, { content: 'TIME', className: 'word cc-underlined-base' },
+  ], ['The symbol shows a direction.', 'The right-pointing street sign is directly on TIME.', 'Use the small connecting word ON.'], ['A right-pointing street sign rests directly on top of TIME.', 'It reads “right on time.”']),
   candidate(45, 'ahead of time', '5 2 4', 'Medium', 'typography', [
     { content: 'AHEAD', className: 'word cc-accent' }, { content: 'TIME', className: 'word' },
   ], ['Reading order matters.', 'AHEAD comes before TIME.', 'The missing linking word is OF.'], ['AHEAD is positioned before TIME.', 'This represents “ahead of time.”']),
@@ -1335,11 +1366,11 @@ const chapterSevenSpecs: ChapterFiveSpec[] = [
   { answer: 'keep your ear to the ground', pattern: '4 4 3 2 3 6', visual: 'KEEP\n   👂\n════════════\n  GROUND', description: 'A tracker presses an ear to the ground to sense approaching footsteps', difficulty: 'Hard' },
   { answer: 'tip the scales', pattern: '3 3 6', visual: '       ╱●\n  ────┼────\n●╱    │', description: 'A balance scale is visibly tipped hard to one side', difficulty: 'Hard' },
   { answer: 'hanging by a thread', pattern: '7 2 1 6', visual: '', description: 'A key suspended precariously from one thin fraying thread', format: 'illustration', difficulty: 'Hard' },
-  { answer: 'lose the plot', pattern: '4 3 4', visual: 'P  L  ?  T', description: 'One essential part of PLOT has been lost', difficulty: 'Hard' },
+  { answer: 'lose the plot', pattern: '4 3 4', visual: '', description: 'A connected detective storyboard loses its crucial conclusion panel through an open window', format: 'illustration', difficulty: 'Hard' },
   { answer: 'the plot thickens', pattern: '3 4 8', visual: 'PLOT\nPPLLOOTT\nPPPPLLLLOOOOTTTT', description: 'PLOT becomes progressively thicker on each line', difficulty: 'Hard' },
-  { answer: 'steal the show', pattern: '5 3 4', visual: 'STEAL  ←  SHOW', description: 'STEAL pulls SHOW away from its position', difficulty: 'Hard' },
+  { answer: 'steal the show', pattern: '5 3 4', visual: '', description: 'A masked thief escapes a curtain call carrying away the glowing spotlight while the performers remain in darkness', format: 'illustration', difficulty: 'Hard' },
   { answer: 'the show must go on', pattern: '3 4 4 2 2', visual: 'SHOW  →  ON  →  ON  →', description: 'SHOW continues moving onward through repeated ON words', difficulty: 'Hard' },
-  { answer: 'behind the scenes', pattern: '6 3 6', visual: 'SCENES      BEHIND', description: 'BEHIND is placed literally behind SCENES', difficulty: 'Hard' },
+  { answer: 'behind the scenes', pattern: '6 3 6', visual: '', description: 'The hidden reverse of a fantasy theatre set reveals braces ropes counterweights and stagehands operating the illusion', format: 'illustration', difficulty: 'Hard' },
   { answer: 'centre stage', pattern: '6 5', visual: 'ST  CENTRE  AGE', description: 'CENTRE occupies the exact middle of STAGE', difficulty: 'Hard' },
   { answer: 'stage fright', pattern: '5 6', visual: 'S T A G E\n  ~ ~ ~', description: 'A frightened performer freezes behind the curtain at the edge of a stage', difficulty: 'Hard' },
   { answer: 'curtain call', pattern: '7 4', visual: '╲████╱  ╲████╱\n   (  ☎  )\n  ★ STAGE ★', description: 'A final call appears between opening theatre curtains', difficulty: 'Hard' },
@@ -1370,9 +1401,9 @@ const chapterEightSpecs: ChapterFiveSpec[] = [
   { answer: 'turn a blind eye', pattern: '4 1 5 3', visual: 'TURN  ↻  🚫👁', description: 'An eye marked blind has been deliberately turned away', difficulty: 'Hard' },
   { answer: 'more than meets the eye', pattern: '4 4 5 3 3', visual: '〈  M O R E  〉\n       👁', description: 'An eye sees a plain box while its reflection reveals an intricate hidden world', difficulty: 'Hard' },
   { answer: 'eyes bigger than your stomach', pattern: '4 6 4 4 7', visual: 'E   Y   E   S\n     stomach', description: 'EYES are vastly larger than the tiny stomach beneath them', difficulty: 'Hard' },
-  { answer: 'a sight for sore eyes', pattern: '1 5 3 4 4', visual: 'SORE  〈 SIGHT 〉  EYES', description: 'SIGHT appears directly between SORE and EYES', difficulty: 'Hard' },
+  { answer: 'a sight for sore eyes', pattern: '1 5 3 4 4', visual: '', description: 'A cold exhausted traveller with reddened eyes finally sees a welcoming illuminated home', format: 'illustration', difficulty: 'Hard' },
   { answer: 'stars in your eyes', pattern: '5 2 4 4', visual: '〈 ★ 〉     〈 ★ 〉', description: 'Bright stars occupy the centre of two eye shapes', difficulty: 'Hard' },
-  { answer: 'actions speak louder than words', pattern: '7 5 6 4 5', visual: 'ACTIONS  ACTIONS  ACTIONS\n          words', description: 'ACTIONS dominate while words appear quiet and small', difficulty: 'Hard' },
+  { answer: 'actions speak louder than words', pattern: '7 5 6 4 5', visual: '', description: 'A silent rescuer pulls someone from floodwater while a distant podium speaker produces faint ribbons that vanish in the storm', format: 'illustration', difficulty: 'Hard' },
   { answer: 'put words in your mouth', pattern: '3 5 2 4 5', visual: '（   W O R D S   ）', description: 'Five letter tiles spelling WORDS are placed inside an open mouth', difficulty: 'Hard' },
   { answer: 'word on the street', pattern: '4 2 3 6', visual: '       WORD\n══════ STREET ══════', description: 'WORD sits directly on top of STREET', difficulty: 'Hard' },
   { answer: 'eat your words', pattern: '3 4 5', visual: 'WOR  EAT  DS', description: 'The word EAT forms a toothed mouth that chomps the word WORDS', difficulty: 'Hard' },
@@ -1384,10 +1415,10 @@ const chapterEightSpecs: ChapterFiveSpec[] = [
   { answer: 'play it by ear', pattern: '4 2 2 3', visual: '♫  ?  ♬\n   👂\n  ▶', description: 'An ear improvises the next musical notes without a written score', difficulty: 'Hard' },
   { answer: 'head and shoulders above the rest', pattern: '4 3 9 5 3 4', visual: '       HEAD\n    SHOULDERS\n\nREST  REST  REST', description: 'HEAD and SHOULDERS stand high above everything labelled REST', difficulty: 'Hard' },
   { answer: 'put your heads together', pattern: '3 4 5 8', visual: 'HEADHEAD', description: 'Two people touch their heads together while sharing one idea', difficulty: 'Hard' },
-  { answer: 'keep a level head', pattern: '4 1 5 4', visual: 'KEEP   ── HEAD ──   ◉', description: 'KEEP holds HEAD perfectly level beside a spirit-level bubble', difficulty: 'Hard' },
+  { answer: 'keep a level head', pattern: '4 1 5 4', visual: '', description: 'A calm tightrope walker balances a centred carpenter’s spirit level across their head despite strong wind', format: 'illustration', difficulty: 'Hard' },
   { answer: 'from head to toe', pattern: '4 4 2 3', visual: 'HEAD\n  ↓\n  ↓\n TOE', description: 'A direct path runs from HEAD down to TOE', difficulty: 'Hard' },
   { answer: 'think on your feet', pattern: '5 2 4 4', visual: '   THINK\n  🦶  🦶', description: 'THINK balances directly on two feet', difficulty: 'Hard' },
-  { answer: 'the best of both worlds', pattern: '3 4 2 4 6', visual: 'WORLD   BEST   WORLD', description: 'BEST is positioned between both WORLD words', difficulty: 'Hard' },
+  { answer: 'the best of both worlds', pattern: '3 4 2 4 6', visual: '', description: 'One harmonious home bridges a peaceful coast and a vibrant city and enjoys the finest feature of each', format: 'illustration', difficulty: 'Hard' },
   { answer: 'worlds apart', pattern: '6 5', visual: 'WORLD            WORLD', description: 'Two WORLD words are separated by an enormous distance', difficulty: 'Hard' },
   { answer: 'the world at your feet', pattern: '3 5 2 4 4', visual: '     🌍\n   🦶  🦶', description: 'The world rests immediately at a pair of feet', difficulty: 'Hard' },
   { answer: 'a world of difference', pattern: '1 5 2 10', visual: 'WORLD   DIFFERENCE   WORLD', description: 'DIFFERENCE creates the only separation between two worlds', difficulty: 'Hard' },
@@ -1397,7 +1428,7 @@ const chapterEightSpecs: ChapterFiveSpec[] = [
   { answer: 'third time lucky', pattern: '5 4 5', visual: '1     2     ★ 3 ★', description: 'The third position alone receives the lucky stars', difficulty: 'Hard' },
   { answer: "three strikes and you're out", pattern: '5 7 3 5 3', visual: '╱     ╱     ╱       OUT →', description: 'Three clear strikes send OUT beyond the boundary', difficulty: 'Hard' },
   { answer: 'twenty four seven', pattern: '6 4 5', visual: '24\n──\n 7', description: 'Twenty-four is placed continuously over seven', difficulty: 'Hard' },
-  { answer: 'break the mould', pattern: '5 3 5', visual: 'MO  ╱ BREAK ╲  ULD', description: 'BREAK splits apart the middle of MOULD', difficulty: 'Hard' },
+  { answer: 'break the mould', pattern: '5 3 5', visual: '', description: 'A vivid unconventional ceramic bird bursts free from a cracked rigid casting form while identical pieces remain behind', format: 'illustration', difficulty: 'Hard' },
   { answer: 'set in stone', pattern: '3 2 5', visual: 'ST  SET  ONE', description: 'SET is embedded inside the word STONE', difficulty: 'Hard' },
   { answer: 'chip off the old block', pattern: '4 3 3 3 5', visual: '▪        OLD BLOCK', description: 'A small chip has separated from an old solid block', difficulty: 'Hard' },
   { answer: 'a stumbling block', pattern: '1 9 5', visual: 'STUM\n   ▦ BLOCK\n       BLING', description: 'A person stumbles when their shoe catches on a large stone block', difficulty: 'Hard' },
@@ -1407,7 +1438,7 @@ const chapterEightSpecs: ChapterFiveSpec[] = [
   { answer: 'fit like a glove', pattern: '3 4 1 5', visual: 'GLO[ FIT ]VE', description: 'FIT sits perfectly inside GLOVE', difficulty: 'Hard' },
   { answer: 'the missing piece', pattern: '3 7 5', visual: 'PUZ  □  LE\n     ?', description: 'One essential piece is missing from PUZZLE', difficulty: 'Hard' },
   { answer: 'complete the picture', pattern: '8 3 7', visual: '┌────────────┐\n│ ◢╲  ☀  ╱◣ │\n│╱__╲____╱__╲│\n└────────────┘', description: 'Every section of a framed landscape has been fitted into place', difficulty: 'Hard' },
-  { answer: 'a place in the sun', pattern: '1 5 2 3 3', visual: '      ☀\n    PLACE', description: 'PLACE occupies the warm position directly in the sun', difficulty: 'Hard' },
+  { answer: 'a place in the sun', pattern: '1 5 2 3 3', visual: '', description: 'One inviting empty chair occupies the only pool of sunlight on an otherwise shaded crowded terrace', format: 'illustration', difficulty: 'Hard' },
   { answer: 'everything under the sun', pattern: '10 5 3 3', visual: '        ☀\n   EVERYTHING', description: 'EVERYTHING sits beneath a single sun', difficulty: 'Hard' },
   { answer: 'reach for the stars', pattern: '5 3 3 5', visual: '★   ★   ★\n    ↑\n  REACH', description: 'REACH stretches upward toward the stars', difficulty: 'Hard' },
   { answer: 'written in the stars', pattern: '7 2 3 5', visual: 'ST  WRITTEN  ARS', description: 'WRITTEN is embedded inside STARS', difficulty: 'Hard' },
@@ -1440,7 +1471,7 @@ const chapterEightSpecs: ChapterFiveSpec[] = [
   { answer: 'keep your cards close to your chest', pattern: '4 4 5 5 2 4 5', visual: '   ♠♥♦♣\n  ╲  ●  ╱\n   ╲CHEST╱', description: 'A hidden hand of cards is held tightly against a chest', difficulty: 'Hard' },
   { answer: 'play your cards right', pattern: '4 4 5 5', visual: 'PLAY   CARDS               RIGHT →', description: 'PLAY moves the cards all the way to the right', difficulty: 'Hard' },
   { answer: 'the cards are stacked against you', pattern: '3 5 3 7 7 3', visual: '▱\n ▱\n  ▱\n   ▱▌YOU', description: 'A precarious leaning stack of playing cards presses against YOU', difficulty: 'Hard' },
-  { answer: 'wild card', pattern: '4 4', visual: 'C  W I L D  ARD', description: 'WILD has broken unpredictably into CARD', difficulty: 'Hard' },
+  { answer: 'wild card', pattern: '4 4', visual: '', description: 'One illustrated playing card escapes an orderly deck and transforms the table around it into untamed jungle', format: 'illustration', difficulty: 'Hard' },
   { answer: 'poker face', pattern: '5 4', visual: '♠  ┌─────┐  ♥\n   │ •_• │\n♦  └─────┘  ♣', description: 'Playing-card suits surround a completely unreadable expression', difficulty: 'Hard' },
 ]
 

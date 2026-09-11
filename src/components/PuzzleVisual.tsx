@@ -1,9 +1,14 @@
 import React, { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
+import { hasLivingPuzzleSound, playLivingPuzzleAccent } from '../services/audio'
 import { hasReviewedPuzzleArt, ReviewedPuzzleArt } from './ReviewedPuzzleArt'
 import { hasPremiumTextPuzzleArt, PremiumTextPuzzleArt } from './PremiumTextPuzzleArt'
 import { hasPremiumWordPuzzleArt, PremiumWordPuzzleArt } from './PremiumWordPuzzleArt'
+import { getSequentialPuzzleDefinition } from '../interactions/definitions'
+import { SequentialPuzzle } from './SequentialPuzzle'
+import { YearDotCalendarPuzzle } from './YearDotCalendarPuzzle'
+import { OnceUponTimePuzzle } from './OnceUponTimePuzzle'
 
 function TwoLeftFeet() {
   return (
@@ -290,6 +295,76 @@ const generatedPuzzleArt: Partial<Record<number, string>> = {
 }
 
 const premiumPuzzleArt: Partial<Record<number, string>> = {
+  1: '/premium-001-living-v1.webp',
+  2: '/premium-002-living-v1.webp',
+  4: '/premium-004-living-v1.webp',
+  5: '/premium-005-living-v1.webp',
+  6: '/premium-006-living-v1.webp',
+  7: '/premium-007-living-v1.webp',
+  8: '/premium-008-living-v1.webp',
+  9: '/premium-009-living-v1.webp',
+  11: '/premium-011-living-v1.webp',
+  12: '/premium-012-living-v1.webp',
+  13: '/premium-013-living-v1.webp',
+  14: '/premium-014-living-v1.webp',
+  15: '/premium-015-living-v1.webp',
+  16: '/premium-016-living-v1.webp',
+  17: '/premium-017-living-v1.webp',
+  18: '/premium-018-living-v1.webp',
+  19: '/premium-019-living-v1.webp',
+  20: '/premium-020-living-v1.webp',
+  22: '/premium-022-v2.webp',
+  26: '/premium-026-v2.webp',
+  29: '/premium-029-v2.webp',
+  30: '/premium-030-v2.webp',
+  31: '/premium-031-v3.webp',
+  32: '/premium-032-v2.webp',
+  33: '/premium-033-v2.webp',
+  34: '/premium-034-v2.webp',
+  35: '/premium-035-v2.webp',
+  36: '/premium-036-v2.webp',
+  40: '/premium-040-v2.webp',
+  42: '/premium-042-v2.webp',
+  43: '/premium-043-v2.webp',
+  46: '/premium-046-v3.webp',
+  47: '/premium-047-v2.webp',
+  48: '/premium-048-v2.webp',
+  49: '/premium-049-v2.webp',
+  52: '/premium-052-v3.webp',
+  53: '/premium-053-v2.webp',
+  54: '/premium-054-v2.webp',
+  55: '/premium-055-v3.webp',
+  58: '/premium-058-v2.webp',
+  60: '/premium-060-v2.webp',
+  66: '/premium-066-v2.webp',
+  67: '/premium-067-v2.webp',
+  68: '/premium-068-v2.webp',
+  69: '/premium-069-v2.webp',
+  70: '/premium-070-v2.webp',
+  71: '/premium-071-v2.webp',
+  72: '/premium-072-v2.webp',
+  73: '/premium-073-v2.webp',
+  74: '/premium-074-v2.webp',
+  76: '/premium-076-v2.webp',
+  79: '/premium-079-v2.webp',
+  144: '/premium-144-v2.webp',
+  145: '/premium-145-v2.webp',
+  168: '/premium-168-v2.webp',
+  172: '/premium-172-v2.webp',
+  173: '/premium-173-v2.webp',
+  174: '/premium-174-v2.webp',
+  175: '/premium-175-v2.webp',
+  176: '/premium-176-lookback-v3.webp',
+  178: '/premium-178-v2.webp',
+  179: '/premium-179-v2.webp',
+  181: '/premium-181-v2.webp',
+  182: '/premium-182-v2.webp',
+  187: '/premium-187-v2.webp',
+  188: '/premium-188-v2.webp',
+  189: '/premium-189-v2.webp',
+  107: '/premium-107-v2.webp',
+  113: '/premium-113-v2.webp',
+  136: '/premium-136-v2.webp',
   151: '/premium-151-v1.webp',
   152: '/premium-152-v1.webp',
   158: '/premium-158-v1.webp',
@@ -315,11 +390,23 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   216: '/premium-216-v1.webp',
   217: '/premium-217-v1.webp',
   219: '/premium-219-v1.webp',
+  218: '/premium-218-v2.webp',
+  220: '/premium-220-v2.webp',
+  221: '/premium-221-v2.webp',
   222: '/premium-222-v1.webp',
   223: '/premium-223-v1.webp',
+  224: '/premium-224-v2.webp',
+  225: '/premium-225-v2.webp',
+  226: '/premium-226-drop-v3.webp',
+  228: '/premium-228-v2.webp',
+  229: '/premium-229-v2.webp',
+  231: '/premium-231-v2.webp',
+  232: '/premium-232-v2.webp',
   227: '/premium-227-v1.webp',
   230: '/premium-230-v1.webp',
-  233: '/premium-233-v1.webp',
+  233: '/premium-233-v2.webp',
+  234: '/premium-234-v2.webp',
+  235: '/premium-235-v2.webp',
   236: '/premium-236-v1.webp',
   237: '/premium-237-v1.webp',
   238: '/premium-238-v1.webp',
@@ -334,6 +421,8 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   248: '/premium-248-v1.webp',
   249: '/premium-249-v2.webp',
   250: '/premium-250-v1.webp',
+  247: '/premium-247-v3.webp',
+  251: '/premium-251-v3.png',
   252: '/premium-252-v2.webp',
   253: '/premium-253-v1.webp',
   255: '/premium-255-v1.webp',
@@ -347,6 +436,21 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   273: '/premium-273-v1.webp',
   274: '/premium-274-v1.webp',
   275: '/premium-275-v1.webp',
+  281: '/premium-281-v2.webp',
+  282: '/premium-282-v2.webp',
+  283: '/premium-283-v2.webp',
+  284: '/premium-284-v2.webp',
+  285: '/premium-285-v2.webp',
+  286: '/premium-286-v2.webp',
+  288: '/premium-288-v2.webp',
+  289: '/premium-289-v2.webp',
+  294: '/premium-294-v2.webp',
+  296: '/premium-296-v2.webp',
+  320: '/premium-320-v2.webp',
+  321: '/premium-321-v2.webp',
+  328: '/premium-328-v2.webp',
+  335: '/premium-335-v2.webp',
+  337: '/premium-337-v2.webp',
   276: '/premium-276-v1.webp',
   277: '/premium-277-v1.webp',
   278: '/premium-278-v1.webp',
@@ -357,6 +461,55 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   291: '/premium-291-v1.webp',
   292: '/premium-292-v1.webp',
   293: '/premium-293-v1.webp',
+  408: '/premium-408-living-v1.webp',
+  410: '/premium-410-living-v1.webp',
+  411: '/premium-411-living-v1.webp',
+  412: '/premium-412-living-v1.webp',
+  413: '/premium-413-living-v1.webp',
+  429: '/premium-429-living-v1.webp',
+  431: '/premium-431-living-v1.webp',
+  433: '/premium-433-living-v1.webp',
+  437: '/premium-437-living-v1.webp',
+  439: '/premium-439-living-v1.webp',
+  441: '/premium-441-living-v1.webp',
+  443: '/premium-443-living-v1.webp',
+  444: '/premium-444-living-v1.webp',
+  445: '/premium-445-living-v1.webp',
+  446: '/premium-446-living-v1.webp',
+  447: '/premium-447-living-v1.webp',
+  449: '/premium-449-living-v1.webp',
+  450: '/premium-450-living-v1.webp',
+  451: '/premium-451-living-v1.webp',
+  452: '/premium-452-living-v1.webp',
+  453: '/premium-453-living-v1.webp',
+  454: '/premium-454-living-v1.webp',
+  455: '/premium-455-living-v1.webp',
+  456: '/premium-456-living-v1.webp',
+  457: '/premium-457-living-v1.webp',
+  463: '/premium-463-living-v1.webp',
+  466: '/premium-466-living-v1.webp',
+  467: '/premium-467-living-v1.webp',
+  468: '/premium-468-living-v1.webp',
+  469: '/premium-469-living-v1.webp',
+  470: '/premium-470-living-v1.webp',
+  471: '/premium-471-living-v1.webp',
+  473: '/premium-473-living-v1.webp',
+  474: '/premium-474-living-v1.webp',
+  476: '/premium-476-living-v1.webp',
+  477: '/premium-477-living-v1.webp',
+  478: '/premium-478-living-v1.webp',
+  479: '/premium-479-living-v1.webp',
+  485: '/premium-485-living-v1.webp',
+  489: '/premium-489-living-v1.webp',
+  490: '/premium-490-living-v1.webp',
+  491: '/premium-491-living-v1.webp',
+  494: '/premium-494-living-v1.webp',
+  497: '/premium-497-living-v1.webp',
+  499: '/premium-499-living-v1.webp',
+  508: '/premium-508-living-v1.webp',
+  509: '/premium-509-living-v1.webp',
+  512: '/premium-512-living-v1.webp',
+  515: '/premium-515-living-v1.webp',
   295: '/premium-295-v1.webp',
   297: '/premium-297-v1.webp?v=2',
   298: '/premium-298-v1.webp?v=2',
@@ -548,10 +701,28 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   565: '/premium-565-v1.webp?v=8',
 }
 
-function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
-  return (
+const livingPuzzleIds = new Set([
+  408, 410, 411, 412, 413, 429, 431, 433, 437, 439, 441, 443, 444, 445, 446, 447, 449,
+  450, 451, 452, 453, 454, 455, 456, 457, 463, 466, 467, 468, 469, 470, 471, 473, 474,
+  476, 477, 478, 479, 485, 489, 490, 491, 494, 497, 499, 508, 509, 512, 515,
+])
+
+const openingPremiumPuzzleIds = new Set([
+  1, 2, 3, 4, 5, 6, 7, 8, 9,
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+])
+
+const editorialPremiumPuzzleIds = new Set([
+  22, 26, 29, 30, 31, 32, 33, 34, 35, 36, 40, 42, 43, 46, 47, 48, 49, 52, 53, 54, 55, 58, 60, 66, 67, 68, 69, 70, 71, 72, 73, 74, 76, 79, 95, 107, 113, 136, 144, 145, 168, 172, 173, 174, 175, 176, 178, 179, 181, 182, 187, 188, 189, 218, 220, 221, 224, 225, 226, 228, 229, 231, 232, 233, 234, 235, 247, 249, 251, 281, 282, 283, 284, 285, 286, 288, 289, 294, 296, 320, 321, 328, 335, 337,
+])
+
+function GeneratedPuzzleArt({ puzzle, src, soundEnabled = false }: { puzzle: Puzzle; src: string; soundEnabled?: boolean }) {
+  const living = livingPuzzleIds.has(puzzle.id)
+  const openingPremium = openingPremiumPuzzleIds.has(puzzle.id)
+  const editorialPremium = editorialPremiumPuzzleIds.has(puzzle.id)
+  const artwork = (
     <div
-      className={`puzzle-visual generated-puzzle-visual premium-puzzle-${puzzle.id}`}
+      className={`puzzle-visual generated-puzzle-visual premium-puzzle-${puzzle.id}${living ? ' living-puzzle-art' : ''}${openingPremium ? ' opening-premium-art' : ''}${editorialPremium ? ' editorial-premium-art' : ''}`}
       role="img"
       aria-label={puzzle.elements.map((item) => item.ariaLabel ?? item.content).join(', ')}
     >
@@ -565,7 +736,62 @@ function GeneratedPuzzleArt({ puzzle, src }: { puzzle: Puzzle; src: string }) {
         decoding="async"
         fetchPriority="high"
       />
+      {(living || openingPremium) && <span className="living-light" aria-hidden="true" />}
     </div>
+  )
+
+  if (!living || !soundEnabled || !hasLivingPuzzleSound(puzzle.id)) return artwork
+  return (
+    <div className="living-puzzle-shell">
+      {artwork}
+      <button className="living-sound-button" type="button" onClick={() => playLivingPuzzleAccent(puzzle.id)} aria-label="Play this artwork's subtle sound">
+        <span aria-hidden="true">♪</span> Hear the scene
+      </button>
+    </div>
+  )
+}
+
+function PremiumBrokenHeart({ puzzle, activated, onActivate }: { puzzle: Puzzle; activated: boolean; onActivate: () => void }) {
+  return (
+    <button
+      type="button"
+      className={`puzzle-visual generated-puzzle-visual opening-premium-art premium-broken-heart${activated ? ' is-activated' : ''}`}
+      aria-label={activated ? 'A sculptural red heart broken into two separated halves' : puzzle.interaction?.instruction}
+      onClick={onActivate}
+    >
+      <span className="premium-heart-image" aria-hidden="true">
+        <img className="premium-heart-left" src="/premium-006-living-v1.webp" alt="" width="320" height="260" loading="eager" decoding="async" />
+        <img className="premium-heart-right" src="/premium-006-living-v1.webp" alt="" width="320" height="260" loading="eager" decoding="async" />
+      </span>
+      <span className="living-light" aria-hidden="true" />
+      <small>{activated ? 'Now, name what you see.' : puzzle.interaction?.instruction}</small>
+    </button>
+  )
+}
+
+function PremiumSplitDecision() {
+  return (
+    <div className="puzzle-visual premium-split-decision" role="img" aria-label="The word DECISION split into two separated pieces">
+      <span className="decision-glow" aria-hidden="true" />
+      <span className="decision-half decision-left" aria-hidden="true">DECI</span>
+      <span className="decision-fracture" aria-hidden="true" />
+      <span className="decision-half decision-right" aria-hidden="true">SION</span>
+    </div>
+  )
+}
+
+function PremiumTopSecret({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button
+      type="button"
+      className={`puzzle-visual generated-puzzle-visual opening-premium-art premium-top-secret${activated ? ' is-activated' : ''}`}
+      aria-label={activated ? 'An open envelope with SECRET revealed inside its dark lining' : 'A sealed envelope. Tap it to open it.'}
+      onClick={onActivate}
+    >
+      <img className="secret-envelope-closed" src="/premium-019-living-v1.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="secret-envelope-open" src="/premium-019-open-secret-v3.png" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="living-light" aria-hidden="true" />
+    </button>
   )
 }
 
@@ -603,9 +829,370 @@ function RaisedEyebrowsPuzzleArt({ puzzle }: { puzzle: Puzzle }) {
   )
 }
 
-export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
+function PremiumGrowingApartPrototype() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-growing-apart" role="img" aria-label="Two seedlings sprouting from separate pots, growing upward and away from one another">
+      <img className="growing-apart-background" src="/premium-070-background-v3.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <svg className="growing-apart-animation" viewBox="0 0 900 900" aria-hidden="true">
+        <defs>
+          <linearGradient id="growing-pot" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#f4d27b" /><stop offset=".42" stopColor="#a96d21" /><stop offset="1" stopColor="#523011" />
+          </linearGradient>
+          <linearGradient id="growing-leaf" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#b9c969" /><stop offset=".38" stopColor="#477448" /><stop offset="1" stopColor="#173c35" />
+          </linearGradient>
+          <filter id="growing-shadow" x="-50%" y="-50%" width="200%" height="220%">
+            <feDropShadow dx="0" dy="12" stdDeviation="12" floodColor="#031b1e" floodOpacity=".55" />
+          </filter>
+        </defs>
+
+        <g className="growing-pot growing-pot-left" filter="url(#growing-shadow)">
+          <ellipse cx="316" cy="728" rx="92" ry="24" fill="#392515" />
+          <path d="M234 741h164l-20 112q-62 28-124 0z" fill="url(#growing-pot)" stroke="#efcf75" strokeWidth="4" />
+          <rect x="220" y="713" width="192" height="45" rx="15" fill="url(#growing-pot)" stroke="#efcf75" strokeWidth="4" />
+          <path d="M238 729h156" stroke="#ffe6a0" strokeWidth="5" strokeLinecap="round" opacity=".55" />
+        </g>
+        <g className="growing-pot growing-pot-right" filter="url(#growing-shadow)">
+          <ellipse cx="584" cy="728" rx="92" ry="24" fill="#392515" />
+          <path d="M502 741h164l-20 112q-62 28-124 0z" fill="url(#growing-pot)" stroke="#efcf75" strokeWidth="4" />
+          <rect x="488" y="713" width="192" height="45" rx="15" fill="url(#growing-pot)" stroke="#efcf75" strokeWidth="4" />
+          <path d="M506 729h156" stroke="#ffe6a0" strokeWidth="5" strokeLinecap="round" opacity=".55" />
+        </g>
+
+        <g className="growing-plant growing-plant-left">
+          <path className="growing-stem growing-stem-shadow" pathLength="1" d="M316 724 C314 625 284 548 235 476 C185 403 145 318 126 190" />
+          <path className="growing-stem growing-stem-highlight" pathLength="1" d="M316 724 C314 625 284 548 235 476 C185 403 145 318 126 190" />
+          <path className="growing-branch growing-branch-early" pathLength="1" d="M286 584 C238 570 205 541 180 505" />
+          <path className="growing-branch growing-branch-mid" pathLength="1" d="M237 478 C286 447 309 414 318 374" />
+          <path className="growing-branch growing-branch-late" pathLength="1" d="M185 395 C139 382 102 350 78 315" />
+          <path className="growing-branch growing-branch-top" pathLength="1" d="M145 290 C184 266 205 237 212 207" />
+          <g className="growing-leaf leaf-early" transform="translate(179 505) rotate(-42)"><ellipse rx="43" ry="22" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-early" transform="translate(274 550) rotate(28)"><ellipse rx="39" ry="20" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-mid" transform="translate(318 374) rotate(-45)"><ellipse rx="46" ry="23" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-mid" transform="translate(208 438) rotate(24)"><ellipse rx="42" ry="21" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-late" transform="translate(78 315) rotate(-30)"><ellipse rx="48" ry="24" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-late" transform="translate(166 340) rotate(32)"><ellipse rx="44" ry="22" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-top" transform="translate(212 207) rotate(-46)"><ellipse rx="47" ry="23" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-top" transform="translate(126 190) rotate(-25)"><ellipse rx="50" ry="25" fill="url(#growing-leaf)" /></g>
+        </g>
+
+        <g className="growing-plant growing-plant-right">
+          <path className="growing-stem growing-stem-shadow" pathLength="1" d="M584 724 C586 625 616 548 665 476 C715 403 755 318 774 190" />
+          <path className="growing-stem growing-stem-highlight" pathLength="1" d="M584 724 C586 625 616 548 665 476 C715 403 755 318 774 190" />
+          <path className="growing-branch growing-branch-early" pathLength="1" d="M614 584 C662 570 695 541 720 505" />
+          <path className="growing-branch growing-branch-mid" pathLength="1" d="M663 478 C614 447 591 414 582 374" />
+          <path className="growing-branch growing-branch-late" pathLength="1" d="M715 395 C761 382 798 350 822 315" />
+          <path className="growing-branch growing-branch-top" pathLength="1" d="M755 290 C716 266 695 237 688 207" />
+          <g className="growing-leaf leaf-early" transform="translate(721 505) rotate(42)"><ellipse rx="43" ry="22" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-early" transform="translate(626 550) rotate(-28)"><ellipse rx="39" ry="20" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-mid" transform="translate(582 374) rotate(45)"><ellipse rx="46" ry="23" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-mid" transform="translate(692 438) rotate(-24)"><ellipse rx="42" ry="21" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-late" transform="translate(822 315) rotate(30)"><ellipse rx="48" ry="24" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-late" transform="translate(734 340) rotate(-32)"><ellipse rx="44" ry="22" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-top" transform="translate(688 207) rotate(46)"><ellipse rx="47" ry="23" fill="url(#growing-leaf)" /></g>
+          <g className="growing-leaf leaf-top" transform="translate(774 190) rotate(25)"><ellipse rx="50" ry="25" fill="url(#growing-leaf)" /></g>
+        </g>
+      </svg>
+    </div>
+  )
+}
+
+function PremiumGrowingApart() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-growing-apart" role="img" aria-label="Identical twin sisters ageing while their appearance and the distance between them become increasingly different">
+      <img className="apart-twins-frame apart-twins-frame-1" src="/premium-070-twins-1-v6.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="apart-twins-frame apart-twins-frame-2" src="/premium-070-twins-2-v6.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="apart-twins-frame apart-twins-frame-3" src="/premium-070-twins-3-v6.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="apart-twins-frame apart-twins-frame-4" src="/premium-070-twins-4-v6.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+    </div>
+  )
+}
+
+function PremiumBeatAroundBush() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-beat-bush" role="img" aria-label="The word BEAT moving in a circle around a central bush">
+      <img src="/premium-136-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="premium-beat-orbit" aria-hidden="true">
+        <span className="premium-beat-word beat-north"><b>BEAT</b></span>
+        <span className="premium-beat-word beat-east"><b>BEAT</b></span>
+        <span className="premium-beat-word beat-south"><b>BEAT</b></span>
+        <span className="premium-beat-word beat-west"><b>BEAT</b></span>
+      </span>
+    </div>
+  )
+}
+
+function PremiumLookingBack() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-looking-back" role="img" aria-label="A woman walking away and then turning her head to look back">
+      <img className="looking-back-forward" src="/premium-176-forward-v3.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="looking-back-turned" src="/premium-176-lookback-v3.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+    </div>
+  )
+}
+
+function PremiumAroundClock() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-around-clock" role="img" aria-label="A continuous gold arrow orbit travelling around an antique clock">
+      <img className="around-clock-background" src="/premium-095-clock-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="around-clock-orbit" src="/premium-095-orbit-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+    </div>
+  )
+}
+
+function PremiumCloseCall() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-close-call" role="img" aria-label="Two CALL plaques moving extremely close together">
+      <img className="close-call-left" src="/premium-189-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="close-call-right" src="/premium-189-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+    </div>
+  )
+}
+
+function PremiumSplitSecond({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-split-second${activated ? ' is-activated' : ''}`} aria-label="The word SECOND split into SEC and OND. Tap to split it farther." onClick={onActivate}>
+      <img className="split-second-left" src="/premium-218-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="split-second-right" src="/premium-218-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+    </button>
+  )
+}
+
+function PremiumGreenLight({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-green-light${activated ? ' is-activated' : ''}`} aria-label="An antique traffic signal with a green light. Tap to switch the green light on." onClick={onActivate}>
+      <img src="/premium-224-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="green-light-glow" aria-hidden="true" />
+    </button>
+  )
+}
+
+function PremiumPageTurner({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-page-turner${activated ? ' is-activated' : ''}`} aria-label={activated ? 'An antique book with its page turned. Tap to raise the page again.' : 'An antique book with a page turning. Tap to complete the page turn.'} onClick={onActivate}>
+      <img className="page-turn-raised" src="/premium-231-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="page-turn-early" src="/premium-231-early-crossing-v5.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="page-turn-crossing" src="/premium-231-crossing-v4.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="page-turn-late" src="/premium-231-late-crossing-v5.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="page-turn-complete" src="/premium-231-complete-v3.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+    </button>
+  )
+}
+
+function PremiumBlueBlood({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-blue-blood${activated ? ' is-activated' : ''}`} aria-label="A blue liquid drop. Tap it to reveal a faint police officer inside." onClick={onActivate}>
+      <img className="blue-blood-drop" src="/premium-226-drop-v3.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <img className="blue-blood-officer" src="/premium-226-officer-v3.png" alt="" aria-hidden="true" width="200" height="300" loading="eager" decoding="async" />
+    </button>
+  )
+}
+
+function PremiumFillBlanks({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  const slots = ['B', 'L', '', '', 'N', 'K', 'S']
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-fill-blanks${activated ? ' is-activated' : ''}`} aria-label={activated ? 'FILL has moved into the blanks between BL and NKS.' : 'BL, two blank spaces, and NKS sit above a FILL tile. Tap the tile.'} onClick={onActivate}>
+      <img src="/premium-235-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="fill-blank-slots" aria-hidden="true">
+        {slots.map((letter, index) => <b key={`${letter}-${index}`}>{letter}</b>)}
+      </span>
+      <span className="fill-moving-tile" aria-hidden="true">FILL</span>
+    </button>
+  )
+}
+
+function PremiumBehindTimes() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-behind-times" role="img" aria-label="A person stands behind an edition of The Times displayed on a golden platform">
+      <img src="/premium-247-v3.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+    </div>
+  )
+}
+
+function PremiumDayInDayOut() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-day-in-out" role="img" aria-label="One DAY calendar pad is inside while another DAY calendar pad is outside the doorway">
+      <img src="/premium-249-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="day-pad-label day-pad-outside" aria-hidden="true">DAY</span>
+      <span className="day-pad-label day-pad-inside" aria-hidden="true">DAY</span>
+    </div>
+  )
+}
+
+function PremiumMonthOfSundays() {
+  const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-month-sundays" role="img" aria-label="Every day in a February calendar is SUN">
+      <img src="/premium-251-v3.png" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <strong className="sunday-month-title" aria-hidden="true">FEBRUARY</strong>
+      <span className="sunday-weekdays" aria-hidden="true">
+        {weekdays.map((day, index) => <b key={`${day}-${index}`}>{day}</b>)}
+      </span>
+      <span className="sunday-calendar" aria-hidden="true">
+        {Array.from({ length: 28 }, (_, index) => <b key={index} style={{ '--sun-index': index } as CSSProperties}>SUN</b>)}
+      </span>
+    </div>
+  )
+}
+
+function PremiumUnfinishedBusiness({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-unfinished-business${activated ? ' is-activated' : ''}`} aria-label={activated ? 'The two loose S tiles have completed BUSINESS.' : 'BUSINE is unfinished, with two loose S tiles waiting below. Tap to finish it.'} onClick={onActivate}>
+      <img src="/premium-281-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="business-letter-slots" aria-hidden="true">
+        {'BUSINESS'.split('').map((letter, index) => <b className={index > 5 ? 'loose-business-letter' : ''} key={`${letter}-${index}`}>{letter}</b>)}
+      </span>
+    </button>
+  )
+}
+
+function PremiumTwoTogether({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-two-together${activated ? ' is-activated' : ''}`} aria-label={activated ? 'Two and two have moved together at the centre.' : 'Two separate numeral twos wait on rails. Tap to put them together.'} onClick={onActivate}>
+      <img src="/premium-282-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="together-two together-two-left" aria-hidden="true">2</span>
+      <span className="together-two together-two-right" aria-hidden="true">2</span>
+    </button>
+  )
+}
+
+function PremiumThingAfterThing() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-thing-sequence" role="img" aria-label="One THING follows directly after another in a gallery">
+      <img src="/premium-283-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="thing-plaque thing-plaque-front" aria-hidden="true">THING</span>
+      <span className="thing-plaque thing-plaque-middle" aria-hidden="true">THING</span>
+      <span className="thing-plaque thing-plaque-back" aria-hidden="true">THING</span>
+    </div>
+  )
+}
+
+function PremiumPlayOnWords({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-play-words${activated ? ' is-activated' : ''}`} aria-label={activated ? 'A PLAY is revealed on a stage resting above WORDS.' : 'A closed miniature theatre rests above WORDS. Tap the curtains.'} onClick={onActivate}>
+      <img src="/premium-285-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="play-stage-reveal" aria-hidden="true"><b>PLAY</b></span>
+      <span className="play-curtain play-curtain-left" aria-hidden="true" />
+      <span className="play-curtain play-curtain-right" aria-hidden="true" />
+      <span className="words-pedestal" aria-hidden="true">WORDS</span>
+    </button>
+  )
+}
+
+function PremiumWordForWord() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-word-for-word" role="img" aria-label="WORD appears on each side of the number four">
+      <img src="/premium-286-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="word-for-word word-for-left" aria-hidden="true">WORD</span>
+      <span className="word-for-four" aria-hidden="true">4</span>
+      <span className="word-for-word word-for-right" aria-hidden="true">WORD</span>
+    </div>
+  )
+}
+
+function PremiumMindGap() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-mind-gap" role="img" aria-label="MIND occupies the physical gap between G and AP">
+      <img src="/premium-288-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="mind-gap-left" aria-hidden="true">G</span>
+      <span className="mind-gap-centre" aria-hidden="true">MIND</span>
+      <span className="mind-gap-right" aria-hidden="true">AP</span>
+    </div>
+  )
+}
+
+function PremiumBusinessPleasure() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-business-pleasure" role="img" aria-label="BUSINESS is positioned before PLEASURE">
+      <img src="/premium-289-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="business-before" aria-hidden="true">BUSINESS</span>
+      <span className="pleasure-behind" aria-hidden="true">PLEASURE</span>
+    </div>
+  )
+}
+
+function PremiumSinkSwim() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-sink-swim" role="img" aria-label="SWIM remains at the waterline while SINK hangs deep below it">
+      <img src="/premium-294-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="swim-label" aria-hidden="true">SWIM</span>
+      <span className="sink-label" aria-hidden="true">SINK</span>
+      <span className="sink-bubbles" aria-hidden="true"><i /><i /><i /></span>
+    </div>
+  )
+}
+
+function PremiumGoFlow({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-go-flow${activated ? ' is-activated' : ''}`} aria-label={activated ? 'GO is travelling downstream with the water flow.' : 'GO rests in a flowing channel. Tap it to go with the flow.'} onClick={onActivate}>
+      <img src="/premium-296-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="flow-go" aria-hidden="true">GO</span>
+    </button>
+  )
+}
+
+function PremiumDealBreaker({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-deal-breaker${activated ? ' is-activated' : ''}`} aria-label={activated ? 'The broken halves of DEAL have pulled farther apart.' : 'DEAL is broken through its centre. Tap the halves.'} onClick={onActivate}>
+      <img src="/premium-320-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="deal-half deal-half-left" aria-hidden="true">DE</span>
+      <span className="deal-half deal-half-right" aria-hidden="true">AL</span>
+    </button>
+  )
+}
+
+function PremiumBlessingDisguise({ activated, onActivate }: { activated: boolean; onActivate: () => void }) {
+  return (
+    <button type="button" className={`puzzle-visual generated-puzzle-visual editorial-premium-art premium-easter-egg premium-blessing-disguise${activated ? ' is-activated' : ''}`} aria-label={activated ? 'The DISGUISE has lifted to reveal BLESSING inside.' : 'A DISGUISE conceals something glowing. Tap to lift it.'} onClick={onActivate}>
+      <img src="/premium-321-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="hidden-blessing" aria-hidden="true">BLESSING</span>
+      <span className="disguise-mask" aria-hidden="true"><i /><b>DISGUISE</b><i /></span>
+    </button>
+  )
+}
+
+function PremiumRedLetterDay() {
+  const days = ['MON', 'TUE', 'WED', 'THU', 'DAY', 'SAT', 'SUN']
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-red-letter-day" role="img" aria-label="One DAY in a seven-day calendar is displayed in red">
+      <img src="/premium-328-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="red-day-labels" aria-hidden="true">{days.map((day) => <b key={day}>{day}</b>)}</span>
+    </div>
+  )
+}
+
+function PremiumSlimChance() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-slim-chance" role="img" aria-label="CHANCE is compressed into an extremely slim display case">
+      <img src="/premium-335-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="slim-chance-word" aria-hidden="true">CHANCE</span>
+    </div>
+  )
+}
+
+function PremiumOddsEnds() {
+  return (
+    <div className="puzzle-visual generated-puzzle-visual editorial-premium-art premium-odds-ends" role="img" aria-label="Odd numbers sit at both ends around END">
+      <img src="/premium-337-v2.webp" alt="" aria-hidden="true" width="320" height="260" loading="eager" decoding="async" />
+      <span className="odd-number odd-one" aria-hidden="true">1</span>
+      <span className="odd-number odd-three" aria-hidden="true">3</span>
+      <span className="odd-number odd-five" aria-hidden="true">5</span>
+      <span className="odds-end-word" aria-hidden="true">END</span>
+      <span className="odd-number odd-seven" aria-hidden="true">7</span>
+      <span className="odd-number odd-nine" aria-hidden="true">9</span>
+    </div>
+  )
+}
+
+export function PuzzleVisual({ puzzle, soundEnabled = false, onSolved }: { puzzle: Puzzle; soundEnabled?: boolean; onSolved?: () => void }) {
   const [activated, setActivated] = useState(false)
   useEffect(() => setActivated(false), [puzzle.id])
+
+  if (puzzle.id === 252) return <YearDotCalendarPuzzle soundEnabled={soundEnabled} />
+  if (puzzle.id === 253) return <OnceUponTimePuzzle soundEnabled={soundEnabled} />
+
+  const sequentialDefinition = getSequentialPuzzleDefinition(puzzle.interactionSequenceKey)
+  if (sequentialDefinition) return <SequentialPuzzle definition={sequentialDefinition} onSolved={onSolved} />
 
   if (puzzle.assetKey === 'closet-skeleton') {
     return (
@@ -621,10 +1208,74 @@ export function PuzzleVisual({ puzzle }: { puzzle: Puzzle }) {
     )
   }
 
+  if (puzzle.id === 6) {
+    return <PremiumBrokenHeart puzzle={puzzle} activated={activated} onActivate={() => setActivated(true)} />
+  }
+
+  if (puzzle.id === 3) return <PremiumSplitDecision />
+
+  if (puzzle.id === 19) {
+    return <PremiumTopSecret activated={activated} onActivate={() => setActivated(true)} />
+  }
+
   if (puzzle.id === 516) return <RaisedEyebrowsPuzzleArt puzzle={puzzle} />
 
+  if (puzzle.id === 70) return <PremiumGrowingApart />
+
+  if (puzzle.id === 136) return <PremiumBeatAroundBush />
+
+  if (puzzle.id === 95) return <PremiumAroundClock />
+
+  if (puzzle.id === 176) return <PremiumLookingBack />
+
+  if (puzzle.id === 189) return <PremiumCloseCall />
+
+  if (puzzle.id === 218) return <PremiumSplitSecond activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 224) return <PremiumGreenLight activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 226) return <PremiumBlueBlood activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 231) return <PremiumPageTurner activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 235) return <PremiumFillBlanks activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 247) return <PremiumBehindTimes />
+
+  if (puzzle.id === 249) return <PremiumDayInDayOut />
+
+  if (puzzle.id === 251) return <PremiumMonthOfSundays />
+
+  if (puzzle.id === 281) return <PremiumUnfinishedBusiness activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 282) return <PremiumTwoTogether activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 283) return <PremiumThingAfterThing />
+
+  if (puzzle.id === 285) return <PremiumPlayOnWords activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 286) return <PremiumWordForWord />
+
+  if (puzzle.id === 288) return <PremiumMindGap />
+
+  if (puzzle.id === 289) return <PremiumBusinessPleasure />
+
+  if (puzzle.id === 294) return <PremiumSinkSwim />
+
+  if (puzzle.id === 296) return <PremiumGoFlow activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 320) return <PremiumDealBreaker activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 321) return <PremiumBlessingDisguise activated={activated} onActivate={() => setActivated((value) => !value)} />
+
+  if (puzzle.id === 328) return <PremiumRedLetterDay />
+
+  if (puzzle.id === 335) return <PremiumSlimChance />
+
+  if (puzzle.id === 337) return <PremiumOddsEnds />
+
   const premiumArt = premiumPuzzleArt[puzzle.id]
-  if (premiumArt) return <GeneratedPuzzleArt puzzle={puzzle} src={premiumArt} />
+  if (premiumArt) return <GeneratedPuzzleArt puzzle={puzzle} src={premiumArt} soundEnabled={soundEnabled} />
 
   if (hasPremiumTextPuzzleArt(puzzle.id)) return <PremiumTextPuzzleArt id={puzzle.id} />
 

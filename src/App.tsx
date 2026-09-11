@@ -435,6 +435,8 @@ export default function App() {
       onSubmit={submitAnswer}
       onClue={showClue}
       onReveal={() => completePuzzle(true)}
+      onInteractionSolved={() => completePuzzle(false)}
+      soundEnabled={settings.soundEnabled}
     />
   )
 }

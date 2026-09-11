@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#100b08">
+  <title>The Chronologist's Cabinet</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="experience">
+    <header class="masthead">
+      <p class="eyebrow">A standalone mobile puzzle study</p>
+      <h1>The Chronologist's Cabinet</h1>
+    </header>
+
+    <section class="game-shell" aria-label="The Chronologist's Cabinet challenge">
+      <div class="viewport" id="viewport">
+        <div class="rivets" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+        <section class="scene active" id="orderScene" data-scene="order" aria-label="Timeline mechanism">
+          <div class="scene-title"><span>THE INSTRUMENT RAIL</span></div>
+          <div class="rail-crop" aria-hidden="true"></div>
+          <div class="timeline" aria-label="Four empty timeline sockets">
+            <button class="socket" data-slot="0" aria-label="First timeline socket"></button>
+            <button class="socket" data-slot="1" aria-label="Second timeline socket"></button>
+            <button class="socket" data-slot="2" aria-label="Third timeline socket"></button>
+            <button class="socket" data-slot="3" aria-label="Fourth timeline socket"></button>
+          </div>
+          <div class="tray-panel" aria-hidden="true"><span class="tray-rule"></span></div>
+          <button class="piece timepiece" data-piece="digital" data-sprite="3" aria-label="Digital wristwatch"><span class="piece-art"></span></button>
+          <button class="piece timepiece" data-piece="sundial" data-sprite="0" aria-label="Brass sundial"><span class="piece-art"></span></button>
+          <button class="piece timepiece" data-piece="pocket" data-sprite="2" aria-label="Antique pocket watch"><span class="piece-art"></span></button>
+          <button class="piece timepiece" data-piece="hourglass" data-sprite="1" aria-label="Brass hourglass"><span class="piece-art"></span></button>
+        </section>
+
+        <section class="scene" id="keyScene" data-scene="key" aria-label="Locked cabinet drawer" aria-hidden="true">
+          <div class="scene-title"><span>THE RELEASED DRAWER</span></div>
+          <div class="drawer-crop" aria-hidden="true"></div>
+          <div class="drawer-mouth" aria-hidden="true"></div>
+          <button class="keyhole" id="keyhole" aria-label="Cabinet keyhole"></button>
+          <button class="piece key-piece" id="keyPiece" aria-label="Ornate brass key"><img src="assets/cabinet-key.png" alt=""></button>
+        </section>
+
+        <section class="scene" id="dialScene" data-scene="dial" aria-label="Year dial" aria-hidden="true">
+          <div class="scene-title"><span>THE YEAR MECHANISM</span></div>
+          <div class="dial-crop" aria-hidden="true"></div>
+          <div class="dial-zone locked" id="dialZone" role="slider" tabindex="-1" aria-label="Locked year dial" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
+            <div class="dial-pointer" id="dialPointer" aria-hidden="true"></div>
+            <output class="year-window" id="yearWindow">2026</output>
+          </div>
+          <p class="engraving" aria-hidden="true">TEMPUS RETROCEDERE</p>
+        </section>
+
+        <section class="scene" id="originScene" data-scene="origin" aria-label="The first mark" aria-hidden="true">
+          <div class="scene-title"><span>THE FIRST MARK</span></div>
+          <div class="lens-crop" aria-hidden="true"></div>
+          <div class="origin" id="origin" aria-hidden="true"><span></span></div>
+          <div class="answer-lock" id="answerLock" hidden>
+            <p>What phrase did the cabinet show you?</p>
+            <form id="answerForm">
+              <label class="sr-only" for="answerInput">Enter the hidden phrase</label>
+              <input id="answerInput" name="answer" type="text" autocomplete="off" spellcheck="false" placeholder="Enter the phrase" maxlength="48">
+              <button type="submit" aria-label="Submit answer">Turn key</button>
+            </form>
+            <p class="answer-feedback" id="answerFeedback" aria-live="polite"></p>
+          </div>
+          <div class="final-seal" id="finalSeal" hidden>
+            <span class="seal-mark">•</span>
+            <p>THE YEAR DOT</p>
+            <small>The final lock yields.</small>
+          </div>
+        </section>
+        <div class="flash" aria-hidden="true"></div>
+      </div>
+      <div class="status-bar" aria-live="polite">
+        <span class="status-mark" aria-hidden="true"></span>
+        <p id="status">Four instruments wait without an age.</p>
+      </div>
+    </section>
+
+    <nav class="controls" aria-label="Puzzle controls">
+      <button id="clueButton">Consult the ledger</button>
+      <button id="soundButton" aria-pressed="true">Sound on</button>
+      <button id="resetButton">Reset</button>
+    </nav>
+    <aside class="ledger" id="ledger" hidden>
+      <button class="ledger-close" id="ledgerClose" aria-label="Close ledger">×</button>
+      <p class="ledger-label">A pencilled note</p>
+      <p id="clueText"></p>
+      <button id="nextClue" class="ledger-next">Turn the page</button>
+    </aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

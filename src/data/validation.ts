@@ -25,12 +25,44 @@ function answerWordPattern(answer: string) {
     .join(' ')
 }
 
+// Catch answer variants that describe the same rebus while avoiding broad
+// fuzzy matching (which produces false positives for deliberately related
+// phrases such as "strings attached" and "no strings attached").
+function answerConceptSignature(answer: string) {
+  const optionalWords = new Set(['a', 'an', 'the', 'your'])
+  return answer
+    .toLocaleLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word && !optionalWords.has(word))
+    .map((word) => {
+      if (word.endsWith('ing') && word.length > 5) {
+        return word.slice(0, -3).replace(/(.)\1$/, '$1')
+      }
+      if (word.endsWith('es') && word.length > 4) return word.slice(0, -2)
+      if (word.endsWith('s') && word.length > 3) return word.slice(0, -1)
+      return word
+    })
+    .join(' ')
+}
+
+const approvedConceptVariantPairs = new Set(['138:263'])
+
+function conceptPairKey(firstId: number, secondId: number) {
+  return [firstId, secondId].sort((left, right) => left - right).join(':')
+}
+
 export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
   const errors: string[] = []
   const warnings: string[] = []
   const ids = new Set<number>()
   const versions = new Set<string>()
   const answers = new Map<string, number>()
+  const canonicalAnswers = new Map(
+    puzzles.map((puzzle) => [normaliseAnswer(puzzle.answer), puzzle.id] as const),
+  )
+  const answerConcepts = new Map<string, number>()
   const clueSignatures = new Map<string, number>()
   const visualSignatures = new Map<string, number>()
   const chapters: Record<string, number> = {}
@@ -51,6 +83,17 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
     const previousAnswer = answers.get(normalizedAnswer)
     if (previousAnswer) errors.push(`${label}: duplicates the answer from puzzle ${previousAnswer}.`)
     answers.set(normalizedAnswer, puzzle.id)
+
+    const conceptSignature = answerConceptSignature(puzzle.answer)
+    const previousConcept = answerConcepts.get(conceptSignature)
+    if (
+      previousConcept
+      && previousConcept !== previousAnswer
+      && !approvedConceptVariantPairs.has(conceptPairKey(previousConcept, puzzle.id))
+    ) {
+      errors.push(`${label}: appears to be a grammatical variant of puzzle ${previousConcept}.`)
+    }
+    answerConcepts.set(conceptSignature, puzzle.id)
 
     const expectedPattern = answerWordPattern(puzzle.answer)
     const actualPattern = puzzle.wordPattern.replace(/-/g, ' ').replace(/\s+/g, ' ').trim()
@@ -75,6 +118,10 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
       if (!normalized) errors.push(`${label}: contains an empty accepted answer.`)
       if (normalized === normalizedAnswer) warnings.push(`${label}: accepted answer duplicates the canonical answer.`)
       if (accepted.has(normalized)) errors.push(`${label}: contains duplicate accepted answer “${answer}”.`)
+      const canonicalPuzzle = canonicalAnswers.get(normalized)
+      if (canonicalPuzzle && canonicalPuzzle !== puzzle.id) {
+        errors.push(`${label}: accepted answer “${answer}” duplicates the canonical answer from puzzle ${canonicalPuzzle}.`)
+      }
       accepted.add(normalized)
     }
 
@@ -86,7 +133,7 @@ export function validatePuzzles(puzzles: Puzzle[]): ContentValidationResult {
     if (!puzzle.visualTemplate) errors.push(`${label}: a reusable visual template is required.`)
     if (puzzle.visualTemplate === 'custom-vector' && !puzzle.assetKey) errors.push(`${label}: custom-vector template requires an asset key.`)
     if (puzzle.format === 'motion' && !puzzle.motion) errors.push(`${label}: motion format requires motion instructions.`)
-    if (puzzle.format === 'interaction' && !puzzle.interaction) errors.push(`${label}: interaction format requires interaction instructions.`)
+    if (puzzle.format === 'interaction' && !puzzle.interaction && !puzzle.interactionSequenceKey) errors.push(`${label}: interaction format requires interaction instructions or a sequential interaction definition.`)
     if (!puzzle.artwork.creator || !puzzle.artwork.source || !puzzle.artwork.licence) errors.push(`${label}: incomplete artwork ownership metadata.`)
     if (!puzzle.qa.status) errors.push(`${label}: missing QA status.`)
     if (puzzle.qa.status === 'Approved' && puzzle.qa.testerResults.length < 3) {
