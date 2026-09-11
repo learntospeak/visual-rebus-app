@@ -197,7 +197,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
     ] : puzzleDraft.clues,
     difficulty,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : [252, 441].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
@@ -215,7 +215,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       : undefined,
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1,
+      version: [252, 253, 441].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1,
       creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : usesGeneratedArtwork ? 'Clue Canvas / OpenAI image generation' : 'Visual Rebus project',
       source: draft.id === 252 ? 'Original in-repository interactive calendar composition'
         : draft.id === 253 ? 'Original in-repository interactive clock composition'
