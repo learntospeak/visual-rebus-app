@@ -9,7 +9,7 @@ const imageSources: Record<number, string> = {
   439: '/premium-439-all-ears-v2.webp',
   443: '/premium-443-level-head-v1.webp',
   444: '/premium-444-head-to-toe-v1.webp',
-  445: '/premium-445-think-feet-v1.webp',
+  445: '/premium-445-thinking-foot-v2.webp',
   446: '/premium-446-both-worlds-v1.webp',
   447: '/premium-447-worlds-apart-v1.webp',
   451: '/premium-451-company-crowd-v1.webp',
@@ -30,7 +30,7 @@ const labels: Record<number, string> = {
   441: 'One unusually tall person stands with their head and shoulders above the surrounding group.',
   443: 'A calm tightrope walker keeps a carpenter’s level perfectly balanced across their head.',
   444: 'A gold route travels the full length of a person from their head to their toe.',
-  445: 'A thoughtful person stands with their ideas physically beneath their feet.',
+  445: 'A bronze foot has a thought bubble containing an animated loading symbol.',
   446: 'One harmonious home bridges the finest parts of a coast and a city.',
   447: 'Two magnificent worlds sit an enormous distance apart.',
   449: 'The word DIFFERENCE forms the only division between two matching worlds.',
@@ -59,7 +59,7 @@ function overlayFor(id: number): ReactNode {
   if (id === 433) return <><span className="street-target-ring" /><b className="street-word">WORD</b></>
   if (id === 437) return <span className="falling-note-layer">{['♪', '♫', '♪', '♩', '♫'].map((note, index) => <i key={index} style={{ '--note-x': `${13 + index * 16}%`, '--note-delay': `${index * -.72}s` } as CSSProperties}>{note}</i>)}</span>
   if (id === 443) return <span className="level-head-glint" aria-hidden="true" />
-  if (id === 445) return <span className="thinking-feet-sparks" aria-hidden="true"><i /><i /><i /></span>
+  if (id === 445) return <span className="thinking-foot-loader" aria-hidden="true" />
   if (id === 447) return <span className="worlds-apart-depth" aria-hidden="true" />
   if (id === 453) return <span className="third-lucky-light" aria-hidden="true" />
   return null
