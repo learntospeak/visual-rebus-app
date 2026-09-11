@@ -37,7 +37,6 @@ export function OnceUponTimePuzzle({ soundEnabled = false }: { soundEnabled?: bo
         ))}
       </span>
       <span className="once-clock" aria-hidden="true">
-        <i className="once-clock-crown" />
         <i className="once-clock-minute-marks" />
         <i className="once-clock-inner-ring" />
         {clockNumbers.map((number, index) => (
