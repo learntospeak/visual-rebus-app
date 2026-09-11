@@ -158,6 +158,17 @@ function noiseAccent(
   source.start()
 }
 
+export function playPaperFlipAccent(intensity = 0) {
+  const context = getAudioContext()
+  if (!context) return
+  const start = context.currentTime
+  const layers = Math.min(4, 1 + Math.floor(intensity / 2))
+  for (let index = 0; index < layers; index += 1) {
+    window.setTimeout(() => noiseAccent(context, .16, .026, 'highpass', 1250 + intensity * 120, 1.12 + index * .08), index * 55)
+  }
+  tone(context, 118 - intensity * 5, start, .12, .018, 'triangle')
+}
+
 export function playLivingPuzzleAccent(puzzleId: number) {
   const context = getAudioContext()
   if (!context || !hasLivingPuzzleSound(puzzleId)) return

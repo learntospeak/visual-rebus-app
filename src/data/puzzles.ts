@@ -97,7 +97,7 @@ const mechanicTags: Record<number, MechanicTag[]> = {
   107: ['scale', 'split'], 108: ['scale'], 109: ['scale', 'text-image'], 110: ['text-image'],
   111: ['direction', 'text-image'], 112: ['inside-outside', 'text-image'], 113: ['text-image', 'direction'],
   114: ['inside-outside', 'above-below'], 115: ['split', 'text-image'],
-  252: ['sequence', 'scale', 'rotation'],
+  252: ['sequence', 'reversal', 'count'],
   253: ['sequence', 'above-below', 'rotation'],
 }
 
@@ -149,15 +149,27 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const usesGeneratedArtwork = !usesInlineSvg && (reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id))
   const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : draft.id <= 415 ? 'chapter-7' : draft.id <= 500 ? 'chapter-8' : draft.id <= 550 ? 'chapter-9' : 'chapter-10'
   const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id <= 500 ? draft.id - 415 : draft.id <= 550 ? draft.id - 500 : draft.id - 550
-  const interactionSequenceKey = draft.id === 252 ? 'year-dot' : draft.id === 253 ? 'once-upon-time' : undefined
+  const interactionSequenceKey = draft.id === 253 ? 'once-upon-time' : undefined
 
   return {
     ...puzzleDraft,
-    format: interactionSequenceKey ? 'interaction' : puzzleDraft.format,
+    acceptedAnswers: draft.id === 252 ? ['year dot'] : puzzleDraft.acceptedAnswers,
+    format: draft.id === 252 || interactionSequenceKey ? 'interaction' : puzzleDraft.format,
+    interaction: draft.id === 252 ? {
+      type: 'tap',
+      targetId: 'year-calendar',
+      instruction: 'Tap the calendar repeatedly to travel backwards through its years.',
+      completionCondition: 'The final numbered page turns over to reveal a single dot.',
+    } : puzzleDraft.interaction,
     interactionSequenceKey,
+    clues: draft.id === 252 ? [
+      'Every loose page belongs to an earlier year.',
+      'Keep turning the calendar towards the very beginning.',
+      'What remains after the first numbered year has gone?',
+    ] : puzzleDraft.clues,
     difficulty,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${[118, 119, 121, 252, 253].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 252 ? 4 : [118, 119, 121, 253].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
@@ -175,13 +187,14 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       : undefined,
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: [118, 119, 121, 252, 253].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1,
+      version: draft.id === 252 ? 4 : [118, 119, 121, 253].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1,
       creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : usesGeneratedArtwork ? 'Clue Canvas / OpenAI image generation' : 'Visual Rebus project',
-      source: usesLicensedFootprint
+      source: draft.id === 252 ? 'Original in-repository interactive calendar composition'
+        : usesLicensedFootprint
         ? 'GiFootprint from Game Icons via react-icons'
         : usesInlineSvg ? 'Original in-repository vector artwork' : usesGeneratedArtwork ? 'Project-owned generated artwork stored in-repository' : 'Original text and CSS composition',
       licence: usesLicensedFootprint ? 'CC BY 3.0' : 'Project-owned original',
-      kind: interactionSequenceKey ? 'project-asset' : usesInlineSvg ? 'inline-svg' : usesGeneratedArtwork ? 'project-asset' : 'text-css',
+      kind: draft.id === 252 ? 'text-css' : interactionSequenceKey ? 'project-asset' : usesInlineSvg ? 'inline-svg' : usesGeneratedArtwork ? 'project-asset' : 'text-css',
     },
     qa: {
       status: draft.id <= 25 ? 'Tested' : 'Draft',

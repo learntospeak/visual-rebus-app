@@ -7,6 +7,7 @@ import { hasPremiumTextPuzzleArt, PremiumTextPuzzleArt } from './PremiumTextPuzz
 import { hasPremiumWordPuzzleArt, PremiumWordPuzzleArt } from './PremiumWordPuzzleArt'
 import { getSequentialPuzzleDefinition } from '../interactions/definitions'
 import { SequentialPuzzle } from './SequentialPuzzle'
+import { YearDotCalendarPuzzle } from './YearDotCalendarPuzzle'
 
 function TwoLeftFeet() {
   return (
@@ -1185,6 +1186,8 @@ function PremiumOddsEnds() {
 export function PuzzleVisual({ puzzle, soundEnabled = false, onSolved }: { puzzle: Puzzle; soundEnabled?: boolean; onSolved?: () => void }) {
   const [activated, setActivated] = useState(false)
   useEffect(() => setActivated(false), [puzzle.id])
+
+  if (puzzle.id === 252) return <YearDotCalendarPuzzle soundEnabled={soundEnabled} />
 
   const sequentialDefinition = getSequentialPuzzleDefinition(puzzle.interactionSequenceKey)
   if (sequentialDefinition) return <SequentialPuzzle definition={sequentialDefinition} onSolved={onSolved} />

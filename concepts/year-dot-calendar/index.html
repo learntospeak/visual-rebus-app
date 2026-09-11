@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#16100c">
+  <title>The Last Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="experience">
+    <header>
+      <p>A mobile puzzle study</p>
+      <h1>The Last Page</h1>
+    </header>
+
+    <section class="game-shell" aria-label="Interactive calendar puzzle">
+      <div class="stage" id="stage">
+        <div class="desk-light" aria-hidden="true"></div>
+        <div class="calendar-wrap" id="calendarWrap">
+          <button class="calendar" id="calendar" aria-label="A calendar showing year 2026. Turn its pages.">
+            <span class="calendar-back" aria-hidden="true"></span>
+            <span class="binding" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span class="page-stack" aria-hidden="true"></span>
+            <span class="calendar-page" id="calendarPage">
+              <span class="page-heading" id="pageHeading">YEAR</span>
+              <strong class="year" id="year">2026</strong>
+              <span class="page-rule" aria-hidden="true"></span>
+              <span class="page-mark">ARCHIVE No. <b id="archiveNumber">001</b></span>
+              <span class="turned-corner" aria-hidden="true"></span>
+            </span>
+          </button>
+          <div class="flying-pages" id="flyingPages" aria-hidden="true"></div>
+        </div>
+
+        <div class="answer-lock" id="answerLock" hidden>
+          <p>What phrase is shown by the final page?</p>
+          <form id="answerForm">
+            <label class="sr-only" for="answerInput">Enter the hidden phrase</label>
+            <input id="answerInput" type="text" autocomplete="off" spellcheck="false" maxlength="48" placeholder="Enter the phrase">
+            <button type="submit">Unlock</button>
+          </form>
+          <p id="answerFeedback" aria-live="polite"></p>
+        </div>
+
+        <div class="solved" id="solved" hidden>
+          <span>•</span>
+          <p>THE YEAR DOT</p>
+          <small>The last page has been found.</small>
+        </div>
+      </div>
+
+      <div class="status" aria-live="polite">
+        <i aria-hidden="true"></i>
+        <p id="status">The top page will not lie still.</p>
+      </div>
+    </section>
+
+    <nav class="controls" aria-label="Puzzle controls">
+      <button id="hintButton">A small hint</button>
+      <button id="soundButton" aria-pressed="true">Sound on</button>
+      <button id="resetButton">Reset</button>
+    </nav>
+
+    <aside class="hint" id="hint" hidden>
+      <button id="hintClose" aria-label="Close hint">×</button>
+      <small>Pencilled in the margin</small>
+      <p id="hintText"></p>
+      <button class="next-hint" id="nextHint">Another hint</button>
+    </aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

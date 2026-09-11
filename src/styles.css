@@ -282,6 +282,90 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
 .year-dot-scene.step-solved .year-medallion span { opacity:0; }
 .year-dot-scene.step-solved .year-origin-socket { opacity:1; box-shadow:0 0 0 7px rgba(7,30,24,.7),0 0 20px rgba(255,215,106,.7); }
 
+/* Puzzle 252: mobile-first calendar journey from YEAR to the final dot. */
+.year-dot-calendar-puzzle {
+  isolation:isolate;
+  overflow:hidden;
+  border:1px solid #8c632e;
+  border-radius:18px;
+  color:#eadfc8;
+  background:repeating-linear-gradient(92deg,#24160f 0,#2f1d13 4px,#1c110c 9px,#352116 13px);
+  box-shadow:inset 0 0 32px rgba(0,0,0,.66),0 10px 22px rgba(24,59,86,.16);
+  touch-action:manipulation;
+}
+.calendar-desk-light { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 30%,rgba(255,215,145,.2),transparent 57%); }
+.year-dot-calendar {
+  position:absolute;
+  z-index:2;
+  left:50%;
+  top:8px;
+  width:min(72%,230px);
+  height:218px;
+  padding:0;
+  border:0;
+  color:#2e2115;
+  background:transparent;
+  filter:drop-shadow(0 11px 9px rgba(0,0,0,.58));
+  transform:translateX(-50%);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.year-dot-calendar:focus-visible { outline:3px solid #efca76; outline-offset:5px; border-radius:8px; }
+.year-dot-calendar:disabled { opacity:1; cursor:default; }
+.calendar-board { position:absolute; inset:7px -5px -5px; border:2px solid #8c5828; border-radius:7px; background:linear-gradient(145deg,#69331f,#2b130d); box-shadow:inset 0 0 0 4px #21100b,inset 0 0 0 6px #9a6530; }
+.calendar-paper-stack { position:absolute; z-index:2; inset:13px 3px 1px; border-radius:3px; background:repeating-linear-gradient(0deg,#bcae8c 0 2px,#dfd0aa 2px 4px); transform:translateY(4px); }
+.calendar-rings { position:absolute; z-index:9; left:10%; right:10%; top:-4px; height:42px; display:flex; justify-content:space-around; pointer-events:none; }
+.calendar-rings i { width:17px; border:5px solid #a57734; border-bottom:0; border-radius:50% 50% 0 0; box-shadow:inset 2px 0 #edc872,2px 1px 3px #000; }
+.calendar-sheet {
+  position:absolute;
+  z-index:4;
+  inset:11px 3px 1px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border:1px solid #b69c6c;
+  border-radius:3px;
+  background-color:#eadcb9;
+  background-image:radial-gradient(circle at 50% 20%,rgba(255,255,255,.62),transparent 42%),repeating-linear-gradient(0deg,transparent 0 21px,rgba(75,53,30,.045) 22px 23px);
+  box-shadow:inset 0 0 28px rgba(91,62,29,.23),0 2px 4px #000;
+}
+.calendar-year-label { position:absolute; top:44px; color:#72542e; font:900 .65rem/1 Manrope,sans-serif; letter-spacing:.3em; }
+.calendar-year-value { color:#302116; font:400 clamp(3.5rem,18vw,5rem)/.85 Georgia,serif; letter-spacing:-.065em; text-shadow:0 2px #fff8dd; }
+.calendar-sheet>small { position:absolute; bottom:16px; color:#8e744d; font:800 .48rem/1 Manrope,sans-serif; letter-spacing:.13em; }
+.calendar-lifted-corner { position:absolute; right:0; bottom:0; width:48px; aspect-ratio:1; background:linear-gradient(135deg,rgba(115,83,45,.14) 0 48%,#c2b28d 50%,#f5e9c9 72%); clip-path:polygon(100% 0,100% 100%,0 100%); transform-origin:100% 100%; animation:calendar-corner-lift 1.8s ease-in-out infinite; }
+.year-dot-calendar.is-turning .calendar-lifted-corner { animation:none; }
+.calendar-flying-pages { position:absolute; z-index:14; inset:11px 3px 1px; pointer-events:none; }
+.calendar-flying-page {
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#4a3520;
+  border:1px solid #b39a6a;
+  border-radius:3px;
+  background:#eadcb9;
+  box-shadow:0 5px 9px rgba(0,0,0,.34);
+  font:400 2.5rem/1 Georgia,serif;
+  font-style:normal;
+  opacity:0;
+  transform-origin:50% 0;
+  animation:calendar-page-fly 680ms cubic-bezier(.25,.7,.25,1) var(--page-delay) forwards;
+}
+.calendar-flying-page small { position:absolute; top:42px; color:#80633b; font:800 .52rem/1 Manrope,sans-serif; letter-spacing:.24em; }
+.calendar-final-dot { width:42px; height:42px; border-radius:50%; background:#2b1e12; box-shadow:inset 0 2px 3px rgba(255,255,255,.12),0 4px 8px rgba(49,31,15,.24); animation:calendar-dot-arrive .72s cubic-bezier(.2,.85,.2,1); }
+.year-dot-calendar-status { position:absolute; z-index:18; left:10px; right:10px; bottom:5px; min-height:31px; display:flex; align-items:center; justify-content:center; gap:7px; margin:0; padding:5px 10px; color:#d1bb92; border:1px solid rgba(186,139,58,.32); border-radius:9px; background:rgba(17,10,7,.88); font:700 clamp(.57rem,2.5vw,.7rem)/1.2 Manrope,sans-serif; text-align:center; pointer-events:none; }
+.year-dot-calendar-status>i { flex:0 0 auto; width:5px; height:5px; border-radius:50%; background:#c79c46; box-shadow:0 0 7px #d7a94d; }
+
+@keyframes calendar-corner-lift { 0%,65%,100%{transform:rotate(0)}78%{transform:rotate(-8deg) translate(-3px,-3px)} }
+@keyframes calendar-page-fly {
+  0%{opacity:1;transform:translate(0,0) rotateX(0) rotateZ(0)}
+  28%{opacity:1;transform:translate(0,-9%) rotateX(52deg) rotateZ(calc(var(--page-spin)*.25))}
+  100%{opacity:0;transform:translate(var(--page-x),-68%) rotateX(78deg) rotateZ(var(--page-spin)) scale(.7)}
+}
+@keyframes calendar-dot-arrive { from{opacity:0;transform:scale(.05)}65%{transform:scale(1.16)}to{opacity:1;transform:scale(1)} }
+
 .storybook-page { position:absolute; z-index:3; left:20%; top:22%; width:60%; height:25%; perspective:400px; cursor:grab; }
 .storybook-page-front,.storybook-page-back { position:absolute; inset:0; border:1px solid rgba(193,145,57,.65); border-radius:42% 8% 8% 42%/12% 8% 8% 12%; background:linear-gradient(96deg,rgba(245,222,164,.12),rgba(255,238,193,.38)); transform-origin:left center; box-shadow:inset 10px 0 18px rgba(59,28,7,.12); transition:transform .88s cubic-bezier(.2,.82,.24,1),opacity .5s ease; }
 .storybook-page-back { opacity:0; transform:rotateY(88deg); }
@@ -796,6 +880,7 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   .puzzle-screen.has-compact-keyboard .puzzle-card>p { display:none; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame { width:100%; height:100%; min-height:165px; overflow:hidden; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.puzzle-visual { height:270px; transform:scale(.72); transform-origin:center; }
+  .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.year-dot-calendar-puzzle { width:100%; height:100%; transform:none; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.generated-puzzle-visual,
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.premium-text-puzzle-art { width:100%; height:100%; transform:none; }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame>.living-puzzle-shell { width:100%; height:100%; }
