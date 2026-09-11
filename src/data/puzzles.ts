@@ -129,7 +129,8 @@ const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
 const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
 const canonicalPremiumBatchIds = [338, 350, 408, 413, 429, 431, 433, 437, 439, 441]
 const canonicalPremiumGeneratedPuzzleIds = [408, 413, 429, 431, 433, 437, 439, 441]
-const canonicalPremiumInteractivePuzzleIds = [338, 350, 413, 433]
+const canonicalPremiumInteractivePuzzleIds = [408, 431, 433]
+const canonicalPremiumRevisionIds = [350, 408, 431, 433, 439, 441]
 const reworkedVectorPuzzleIds = [
   148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214,
   215, 216, 217, 220, 221, 222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246,
@@ -168,21 +169,16 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       targetId: 'once-clock',
       instruction: 'Tap the clock to move the ones from underneath it.',
       completionCondition: 'The group of ones travels upward and settles above the clock face.',
-    } : draft.id === 338 ? {
+    } : draft.id === 408 ? {
       type: 'tap',
-      targetId: 'chaos-number-tiles',
-      instruction: 'Tap the number tiles to reshuffle the sixes and sevens.',
-      completionCondition: 'The sixes and sevens settle into another disorderly arrangement.',
-    } : draft.id === 350 ? {
+      targetId: 'plot-reader',
+      instruction: 'Tap the reading scene to let the waiting gust enter.',
+      completionCondition: 'The page marked PLOT is blown out of the book and lost through the open window.',
+    } : draft.id === 431 ? {
       type: 'tap',
-      targetId: 'insult-plaque',
-      instruction: 'Tap the INSULT plaque to add it to the injury.',
-      completionCondition: 'INSULT lands directly on top of the cracked INJURY plaque.',
-    } : draft.id === 413 ? {
-      type: 'tap',
-      targetId: 'stage-focus-ring',
-      instruction: 'Tap the stage to tighten the spotlight.',
-      completionCondition: 'The spotlight isolates the performer in the exact centre of the stage.',
+      targetId: 'film-clapperboard',
+      instruction: 'Tap the film scene to snap the action board.',
+      completionCondition: 'The clapperboard closes and the listeners immediately understand the louder action.',
     } : draft.id === 433 ? {
       type: 'tap',
       targetId: 'street-word',
@@ -201,7 +197,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
     ] : puzzleDraft.clues,
     difficulty,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
@@ -219,7 +215,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       : undefined,
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1,
+      version: [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1,
       creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : usesGeneratedArtwork ? 'Clue Canvas / OpenAI image generation' : 'Visual Rebus project',
       source: draft.id === 252 ? 'Original in-repository interactive calendar composition'
         : draft.id === 253 ? 'Original in-repository interactive clock composition'
