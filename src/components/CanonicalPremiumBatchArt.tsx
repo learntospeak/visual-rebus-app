@@ -49,10 +49,12 @@ export function hasCanonicalPremiumBatchArt(id: number) {
 
 export function CanonicalPremiumBatchArt({ id }: { id: number }) {
   const [activated, setActivated] = useState(false)
+  const [motionCycle, setMotionCycle] = useState(0)
   const interactive = interactiveIds.has(id)
 
   function activate() {
-    setActivated((value) => !value)
+    if (id === 441) setMotionCycle((value) => value + 1)
+    else setActivated((value) => !value)
     playHaptic('success')
   }
 
@@ -93,9 +95,12 @@ export function CanonicalPremiumBatchArt({ id }: { id: number }) {
   )
 
   if (id === 441) return (
-    <button type="button" className={`puzzle-visual canonical-premium-batch premium-batch-441${activated ? ' is-activated' : ''}`} aria-label={labels[id]} onClick={activate}>
-      <img className="above-rest-integrated-frame" src="/premium-441-integrated-v5.webp" alt="" aria-hidden="true" width="1200" height="780" loading="eager" decoding="async" />
-      <img className="above-rest-integrated-frame above-rest-shimmy-frame" src="/premium-441-shimmy-v5.webp" alt="" aria-hidden="true" width="1200" height="780" decoding="async" />
+    <button type="button" className="puzzle-visual canonical-premium-batch premium-batch-441" aria-label={labels[id]} onClick={activate}>
+      <span key={motionCycle} className={`above-rest-sequence${motionCycle > 0 ? ' is-playing' : ''}`} aria-hidden="true">
+        <img className="above-rest-frame above-rest-neutral-frame" src="/premium-441-neutral-v6.webp" alt="" width="1200" height="780" loading="eager" decoding="async" />
+        <img className="above-rest-frame above-rest-left-frame" src="/premium-441-shoulder-left-v6.webp" alt="" width="1200" height="780" decoding="async" />
+        <img className="above-rest-frame above-rest-right-frame" src="/premium-441-shoulder-right-v6.webp" alt="" width="1200" height="780" decoding="async" />
+      </span>
     </button>
   )
 
