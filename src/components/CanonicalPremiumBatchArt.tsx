@@ -7,6 +7,14 @@ const imageSources: Record<number, string> = {
   433: '/premium-433-living-v1.webp',
   437: '/premium-437-living-v1.webp',
   439: '/premium-439-all-ears-v2.webp',
+  443: '/premium-443-level-head-v1.webp',
+  444: '/premium-444-head-to-toe-v1.webp',
+  445: '/premium-445-think-feet-v1.webp',
+  446: '/premium-446-both-worlds-v1.webp',
+  447: '/premium-447-worlds-apart-v1.webp',
+  451: '/premium-451-company-crowd-v1.webp',
+  452: '/premium-452-six-dozen-v1.webp',
+  453: '/premium-453-third-lucky-v1.webp',
 }
 
 const labels: Record<number, string> = {
@@ -20,9 +28,19 @@ const labels: Record<number, string> = {
   437: 'Musical notes fall uselessly onto ears that are completely blocked.',
   439: 'An entire audience is represented by attentive ears.',
   441: 'One unusually tall person stands with their head and shoulders above the surrounding group.',
+  443: 'A calm tightrope walker keeps a carpenter’s level perfectly balanced across their head.',
+  444: 'A gold route travels the full length of a person from their head to their toe.',
+  445: 'A thoughtful person stands with their ideas physically beneath their feet.',
+  446: 'One harmonious home bridges the finest parts of a coast and a city.',
+  447: 'Two magnificent worlds sit an enormous distance apart.',
+  449: 'The word DIFFERENCE forms the only division between two matching worlds.',
+  450: 'A cancelled END marker fails to stop the path before it reaches the world.',
+  451: 'Two people converse comfortably while three people are tightly crowded together.',
+  452: 'The number six balances exactly against six individual tokens.',
+  453: 'The third of three doors alone opens onto a lucky golden light.',
 }
 
-const interactiveIds = new Set([408, 431, 433, 441])
+const interactiveIds = new Set([408, 431, 433, 441, 453])
 const tiles = [6, 7, 6, 7, 7, 6, 7, 6]
 const tileLayouts = [
   [-112, -62, -12, -13, -87, -48],
@@ -40,11 +58,16 @@ function overlayFor(id: number): ReactNode {
   if (id === 429) return <><span className="sore-sight-glow" /><i className="sore-eye-glint glint-one" /><i className="sore-eye-glint glint-two" /></>
   if (id === 433) return <><span className="street-target-ring" /><b className="street-word">WORD</b></>
   if (id === 437) return <span className="falling-note-layer">{['♪', '♫', '♪', '♩', '♫'].map((note, index) => <i key={index} style={{ '--note-x': `${13 + index * 16}%`, '--note-delay': `${index * -.72}s` } as CSSProperties}>{note}</i>)}</span>
+  if (id === 443) return <span className="level-head-glint" aria-hidden="true" />
+  if (id === 444) return <><b className="head-to-toe-label head-label">HEAD</b><b className="head-to-toe-label toe-label">TOE</b></>
+  if (id === 445) return <span className="thinking-feet-sparks" aria-hidden="true"><i /><i /><i /></span>
+  if (id === 447) return <span className="worlds-apart-depth" aria-hidden="true" />
+  if (id === 453) return <span className="third-lucky-light" aria-hidden="true" />
   return null
 }
 
 export function hasCanonicalPremiumBatchArt(id: number) {
-  return id === 338 || id === 350 || id === 408 || id === 431 || id === 441 || id in imageSources
+  return id === 338 || id === 350 || id === 408 || id === 431 || id === 441 || id === 449 || id === 450 || id in imageSources
 }
 
 export function CanonicalPremiumBatchArt({ id }: { id: number }) {
@@ -102,6 +125,22 @@ export function CanonicalPremiumBatchArt({ id }: { id: number }) {
         <img className="above-rest-frame above-rest-right-frame" src="/premium-441-shoulder-right-v6.webp" alt="" width="1200" height="780" decoding="async" />
       </span>
     </button>
+  )
+
+  if (id === 449) return (
+    <div className="puzzle-visual canonical-premium-batch premium-batch-449" role="img" aria-label={labels[id]}>
+      <span className="difference-world difference-world-left" aria-hidden="true"><i /><i /><i /></span>
+      <strong className="difference-plaque">DIFFERENCE</strong>
+      <span className="difference-world difference-world-right" aria-hidden="true"><i /><i /><i /></span>
+    </div>
+  )
+
+  if (id === 450) return (
+    <div className="puzzle-visual canonical-premium-batch premium-batch-450" role="img" aria-label={labels[id]}>
+      <span className="end-world-track" aria-hidden="true" />
+      <span className="cancelled-end" aria-hidden="true"><b>END</b><i /><i /></span>
+      <span className="continued-world" aria-hidden="true"><i /><i /><i /></span>
+    </div>
   )
 
   const content = <><img src={imageSources[id]} alt="" aria-hidden="true" width="1200" height="977" loading="eager" decoding="async" />{overlayFor(id)}</>

@@ -127,9 +127,9 @@ const chapterSixGeneratedPuzzleIds = [
 const chapterSevenGeneratedPuzzleIds = [316, 317, 319, 329, 331, 366, 370, 382, 393, 407]
 const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
 const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
-const canonicalPremiumBatchIds = [338, 350, 408, 413, 429, 431, 433, 437, 439, 441]
-const canonicalPremiumGeneratedPuzzleIds = [408, 413, 429, 431, 433, 437, 439, 441]
-const canonicalPremiumInteractivePuzzleIds = [408, 431, 433, 441]
+const canonicalPremiumBatchIds = [338, 350, 408, 413, 429, 431, 433, 437, 439, 441, 443, 444, 445, 446, 447, 449, 450, 451, 452, 453]
+const canonicalPremiumGeneratedPuzzleIds = [408, 413, 429, 431, 433, 437, 439, 441, 443, 444, 445, 446, 447, 451, 452, 453]
+const canonicalPremiumInteractivePuzzleIds = [408, 431, 433, 441, 453]
 const canonicalPremiumRevisionIds = [350, 408, 431, 433, 439, 441]
 const reworkedVectorPuzzleIds = [
   148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214,
@@ -189,6 +189,11 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       targetId: 'above-rest-character',
       instruction: 'Tap the unusually tall character.',
       completionCondition: 'The naturally integrated tall character alternates his raised shoulders in a brief shimmy above the crowd.',
+    } : draft.id === 453 ? {
+      type: 'tap',
+      targetId: 'lucky-third-door',
+      instruction: 'Tap the third door.',
+      completionCondition: 'The third door alone blooms with fortunate golden light.',
     } : puzzleDraft.interaction,
     interactionSequenceKey,
     clues: draft.id === 252 ? [
