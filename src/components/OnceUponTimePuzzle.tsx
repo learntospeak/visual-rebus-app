@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { playHaptic, playOnceChimeAccent } from '../services/audio'
 
 const ones = [-2, -1, 0, 1, 2]
+const clockNumbers = Array.from({ length: 12 }, (_, index) => index + 1)
 
 export function OnceUponTimePuzzle({ soundEnabled = false }: { soundEnabled?: boolean }) {
   const [revealed, setRevealed] = useState(false)
@@ -36,15 +37,23 @@ export function OnceUponTimePuzzle({ soundEnabled = false }: { soundEnabled?: bo
         ))}
       </span>
       <span className="once-clock" aria-hidden="true">
+        <i className="once-clock-crown" />
         <i className="once-clock-minute-marks" />
         <i className="once-clock-inner-ring" />
-        <span className="once-clock-number once-clock-twelve">12</span>
-        <span className="once-clock-number once-clock-three">3</span>
-        <span className="once-clock-number once-clock-six">6</span>
-        <span className="once-clock-number once-clock-nine">9</span>
+        {clockNumbers.map((number, index) => (
+          <span
+            className="once-clock-number"
+            key={number}
+            style={{
+              '--clock-angle': `${index * 30}deg`,
+              '--clock-angle-back': `${index * -30}deg`,
+            } as React.CSSProperties}
+          >{number}</span>
+        ))}
         <i className="once-clock-hand once-clock-hour-hand" />
         <i className="once-clock-hand once-clock-minute-hand" />
         <i className="once-clock-pin" />
+        <i className="once-clock-glass" />
       </span>
     </button>
   )
