@@ -130,7 +130,7 @@ const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
 const canonicalPremiumBatchIds = [338, 350, 408, 413, 429, 431, 433, 437, 439, 441, 443, 444, 445, 446, 447, 449, 450, 451, 452, 453]
 const canonicalPremiumGeneratedPuzzleIds = [408, 413, 429, 431, 433, 437, 439, 441, 443, 444, 445, 446, 447, 451, 452, 453]
 const canonicalPremiumInteractivePuzzleIds = [408, 431, 433, 441, 453]
-const canonicalPremiumRevisionIds = [350, 408, 431, 433, 439, 441]
+const canonicalPremiumRevisionIds = [350, 408, 431, 433, 439, 441, 444]
 const reworkedVectorPuzzleIds = [
   148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214,
   215, 216, 217, 220, 221, 222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246,
