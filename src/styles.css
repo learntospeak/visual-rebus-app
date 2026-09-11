@@ -1494,9 +1494,7 @@ button.canonical-premium-batch:focus-visible { outline:3px solid #e4ba5e; outlin
 .street-word::after { position:absolute; left:-9%; right:-5%; bottom:-5px; height:4px; border-radius:50%; background:rgba(231,197,115,.72); filter:blur(.4px); content:""; transform:rotate(1deg); }
 .premium-batch-433.is-activated .street-word { opacity:.92; transform:translate(-50%,-50%) rotate(-2deg) scale(1); }.premium-batch-433.is-activated .street-target-ring{animation:none;opacity:.18}
 .falling-note-layer { position:absolute; z-index:3; inset:0; overflow:hidden; }.falling-note-layer i{position:absolute;left:var(--note-x);top:-18%;color:#f5d98d;font:900 1.5rem/1 Georgia,serif;text-shadow:0 3px 8px rgba(0,0,0,.55);animation:premium-note-fall 4.3s linear var(--note-delay) infinite}
-.canonical-premium-batch>img.above-rest-gold-frame { z-index:2; opacity:.9; filter:sepia(1) saturate(3.1) brightness(1.2) contrast(1.07); animation:above-rest-gold 3.2s ease-in-out infinite; }
-.canonical-premium-batch>img.above-rest-gold-head { clip-path:ellipse(3.05% 7.7% at 50% 8.7%); }
-.canonical-premium-batch>img.above-rest-gold-body { clip-path:polygon(46.3% 15.5%,53.7% 15.5%,55.2% 18.5%,56% 23%,55.2% 40%,53.4% 43%,46.6% 43%,44.8% 40%,44% 23%,44.8% 18.5%); }
+.canonical-premium-batch>img.above-rest-gold-frame { z-index:2; opacity:.9; filter:sepia(1) saturate(3.1) brightness(1.2) contrast(1.07); -webkit-mask:url('/premium-441-character-mask.svg') center/cover no-repeat; mask:url('/premium-441-character-mask.svg') center/cover no-repeat; animation:above-rest-gold 3.2s ease-in-out infinite; }
 
 @keyframes chaos-tile-nudge { 0%,100%{margin-top:0}50%{margin-top:-5px} }
 @keyframes plot-gust-pass { 0%{opacity:0;transform:translateX(-20px)}35%{opacity:1}100%{opacity:0;transform:translateX(45px)} }
