@@ -169,6 +169,15 @@ export function playPaperFlipAccent(intensity = 0) {
   tone(context, 118 - intensity * 5, start, .12, .018, 'triangle')
 }
 
+export function playOnceChimeAccent() {
+  const context = getAudioContext()
+  if (!context) return
+  const start = context.currentTime
+  tone(context, 196, start, .14, .025, 'triangle')
+  tone(context, 523.25, start + 1.12, .82, .07, 'sine')
+  tone(context, 1046.5, start + 1.12, .62, .025, 'sine')
+}
+
 export function playLivingPuzzleAccent(puzzleId: number) {
   const context = getAudioContext()
   if (!context || !hasLivingPuzzleSound(puzzleId)) return
