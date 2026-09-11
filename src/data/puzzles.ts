@@ -129,7 +129,7 @@ const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
 const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
 const canonicalPremiumBatchIds = [338, 350, 408, 413, 429, 431, 433, 437, 439, 441]
 const canonicalPremiumGeneratedPuzzleIds = [408, 413, 429, 431, 433, 437, 439, 441]
-const canonicalPremiumInteractivePuzzleIds = [408, 431, 433]
+const canonicalPremiumInteractivePuzzleIds = [408, 431, 433, 441]
 const canonicalPremiumRevisionIds = [350, 408, 431, 433, 439, 441]
 const reworkedVectorPuzzleIds = [
   148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214,
@@ -184,6 +184,11 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       targetId: 'street-word',
       instruction: 'Tap the word plaque to place it on the street.',
       completionCondition: 'WORD comes to rest directly on the street.',
+    } : draft.id === 441 ? {
+      type: 'tap',
+      targetId: 'above-rest-character',
+      instruction: 'Tap the unusually tall character.',
+      completionCondition: 'The isolated character jumps and shimmies their head and shoulders above the crowd.',
     } : puzzleDraft.interaction,
     interactionSequenceKey,
     clues: draft.id === 252 ? [
@@ -197,7 +202,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
     ] : puzzleDraft.clues,
     difficulty,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : draft.id === 441 ? 5 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : draft.id === 441 ? 6 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
@@ -215,7 +220,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       : undefined,
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: draft.id === 441 ? 5 : [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1,
+      version: draft.id === 441 ? 6 : [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) || canonicalPremiumRevisionIds.includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1,
       creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : usesGeneratedArtwork ? 'Clue Canvas / OpenAI image generation' : 'Visual Rebus project',
       source: draft.id === 252 ? 'Original in-repository interactive calendar composition'
         : draft.id === 253 ? 'Original in-repository interactive clock composition'

@@ -7,7 +7,6 @@ const imageSources: Record<number, string> = {
   433: '/premium-433-living-v1.webp',
   437: '/premium-437-living-v1.webp',
   439: '/premium-439-all-ears-v2.webp',
-  441: '/premium-441-living-v1.webp',
 }
 
 const labels: Record<number, string> = {
@@ -20,10 +19,10 @@ const labels: Record<number, string> = {
   433: 'The word WORD is painted directly onto a city street.',
   437: 'Musical notes fall uselessly onto ears that are completely blocked.',
   439: 'An entire audience is represented by attentive ears.',
-  441: 'One person’s head and shoulders rise above everyone else in the group.',
+  441: 'One unusually tall person stands with their head and shoulders above the surrounding group.',
 }
 
-const interactiveIds = new Set([408, 431, 433])
+const interactiveIds = new Set([408, 431, 433, 441])
 const tiles = [6, 7, 6, 7, 7, 6, 7, 6]
 const tileLayouts = [
   [-112, -62, -12, -13, -87, -48],
@@ -41,12 +40,11 @@ function overlayFor(id: number): ReactNode {
   if (id === 429) return <><span className="sore-sight-glow" /><i className="sore-eye-glint glint-one" /><i className="sore-eye-glint glint-two" /></>
   if (id === 433) return <><span className="street-target-ring" /><b className="street-word">WORD</b></>
   if (id === 437) return <span className="falling-note-layer">{['♪', '♫', '♪', '♩', '♫'].map((note, index) => <i key={index} style={{ '--note-x': `${13 + index * 16}%`, '--note-delay': `${index * -.72}s` } as CSSProperties}>{note}</i>)}</span>
-  if (id === 441) return <img className="above-rest-gold-frame" src="/premium-441-living-v1.webp" alt="" aria-hidden="true" width="1200" height="977" decoding="async" />
   return null
 }
 
 export function hasCanonicalPremiumBatchArt(id: number) {
-  return id === 338 || id === 350 || id === 408 || id === 431 || id in imageSources
+  return id === 338 || id === 350 || id === 408 || id === 431 || id === 441 || id in imageSources
 }
 
 export function CanonicalPremiumBatchArt({ id }: { id: number }) {
@@ -91,6 +89,14 @@ export function CanonicalPremiumBatchArt({ id }: { id: number }) {
       <img className="quiet-words-frame" src="/premium-431-words-v2.webp" alt="" aria-hidden="true" width="1000" height="1000" loading="eager" decoding="async" />
       <img className="loud-actions-frame" src="/premium-431-actions-v2.webp" alt="" aria-hidden="true" width="1000" height="1000" loading="eager" decoding="async" />
       <span className="clapper-impact" aria-hidden="true" />
+    </button>
+  )
+
+  if (id === 441) return (
+    <button type="button" className={`puzzle-visual canonical-premium-batch premium-batch-441${activated ? ' is-activated' : ''}`} aria-label={labels[id]} onClick={activate}>
+      <img className="above-rest-crowd" src="/premium-441-crowd-v3.webp" alt="" aria-hidden="true" width="1200" height="977" loading="eager" decoding="async" />
+      <span className="above-rest-character" aria-hidden="true"><img src="/premium-441-tall-character-v3.webp" alt="" width="768" height="1152" decoding="async" /></span>
+      <img className="above-rest-foreground" src="/premium-441-crowd-v3.webp" alt="" aria-hidden="true" width="1200" height="977" decoding="async" />
     </button>
   )
 
