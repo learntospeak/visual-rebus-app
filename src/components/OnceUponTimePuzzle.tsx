@@ -1,27 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { playHaptic, playOnceChimeAccent } from '../services/audio'
 
 const ones = [-2, -1, 0, 1, 2]
 
 export function OnceUponTimePuzzle({ soundEnabled = false }: { soundEnabled?: boolean }) {
-  const [turning, setTurning] = useState(false)
-  const resetTimer = useRef<number | undefined>(undefined)
-
-  useEffect(() => () => window.clearTimeout(resetTimer.current), [])
+  const [revealed, setRevealed] = useState(false)
 
   function begin() {
-    if (turning) return
-    setTurning(true)
+    if (revealed) return
+    setRevealed(true)
     playHaptic('success')
     if (soundEnabled) playOnceChimeAccent()
-    resetTimer.current = window.setTimeout(() => setTurning(false), 1500)
   }
 
   return (
     <button
       type="button"
-      className={`puzzle-visual once-upon-time-puzzle${turning ? ' is-turning' : ''}`}
-      aria-label="Five golden number ones stand above a traditional clock face. Tap to turn them once."
+      className={`puzzle-visual once-upon-time-puzzle${revealed ? ' is-revealed' : ''}`}
+      aria-label={revealed ? 'Five golden number ones have moved from underneath the clock to above it.' : 'Five golden number ones wait underneath a traditional clock face. Tap the clock to move them.'}
       onClick={begin}
     >
       <span className="once-stage-glow" aria-hidden="true" />
@@ -31,9 +27,10 @@ export function OnceUponTimePuzzle({ soundEnabled = false }: { soundEnabled?: bo
             key={position}
             style={{
               '--one-x': `${position * 38}px`,
+              '--one-curve': `${position * -12}px`,
               '--one-arc': `${Math.abs(position) * 3}px`,
               '--one-tilt': `${position * -7}deg`,
-              '--one-delay': `${(position + 2) * 70}ms`,
+              '--one-delay': `${(position + 2) * 85}ms`,
             } as React.CSSProperties}
           >1</b>
         ))}
