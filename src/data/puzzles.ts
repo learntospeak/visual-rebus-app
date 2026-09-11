@@ -127,6 +127,9 @@ const chapterSixGeneratedPuzzleIds = [
 const chapterSevenGeneratedPuzzleIds = [316, 317, 319, 329, 331, 366, 370, 382, 393, 407]
 const chapterEightGeneratedPuzzleIds = [416, 417, 418, 419, 420]
 const lateMasterGeneratedPuzzleIds = [486, 492, 526, 541, 550, 556]
+const canonicalPremiumBatchIds = [338, 350, 408, 413, 429, 431, 433, 437, 439, 441]
+const canonicalPremiumGeneratedPuzzleIds = [408, 413, 429, 431, 433, 437, 439, 441]
+const canonicalPremiumInteractivePuzzleIds = [338, 350, 413, 433]
 const reworkedVectorPuzzleIds = [
   148, 151, 158, 161, 162, 167, 177, 180, 183, 184, 185, 186, 190, 211, 212, 213, 214,
   215, 216, 217, 220, 221, 222, 223, 224, 225, 227, 228, 229, 230, 233, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246,
@@ -146,7 +149,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   const difficulty = score <= 3 ? 'Easy' : score <= 6 ? 'Medium' : 'Hard'
   const usesInlineSvg = [13, 20, ...reworkedVectorPuzzleIds].includes(draft.id)
   const usesLicensedFootprint = draft.id === 13
-  const usesGeneratedArtwork = !usesInlineSvg && (reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id))
+  const usesGeneratedArtwork = !usesInlineSvg && (reworkedGeneratedPuzzleIds.includes(draft.id) || chapterFiveGeneratedPuzzleIds.includes(draft.id) || chapterSixGeneratedPuzzleIds.includes(draft.id) || chapterSevenGeneratedPuzzleIds.includes(draft.id) || chapterEightGeneratedPuzzleIds.includes(draft.id) || lateMasterGeneratedPuzzleIds.includes(draft.id) || canonicalPremiumGeneratedPuzzleIds.includes(draft.id) || [7, 10, 11, 21, 23, 24, 25, 27, 28, 37, 38, 39, 41, 50, 51, 56, 59, 61, 62, 63, 64, 65, 75, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 109, 110, 111, 112, 114, 115, 116, 117, 118, 119, 120, 121, 122, 124, 125, 135, 138, 151, 156, 163].includes(draft.id))
   const chapterId = draft.id <= 25 ? 'chapter-1' : draft.id <= 75 ? 'chapter-2' : draft.id <= 115 ? 'chapter-3' : draft.id <= 165 ? 'chapter-4' : draft.id <= 215 ? 'chapter-5' : draft.id <= 315 ? 'chapter-6' : draft.id <= 415 ? 'chapter-7' : draft.id <= 500 ? 'chapter-8' : draft.id <= 550 ? 'chapter-9' : 'chapter-10'
   const chapterOrder = draft.id <= 25 ? draft.id : draft.id <= 75 ? draft.id - 25 : draft.id <= 115 ? draft.id - 75 : draft.id <= 165 ? draft.id - 115 : draft.id <= 215 ? draft.id - 165 : draft.id <= 315 ? draft.id - 215 : draft.id <= 415 ? draft.id - 315 : draft.id <= 500 ? draft.id - 415 : draft.id <= 550 ? draft.id - 500 : draft.id - 550
   const interactionSequenceKey: string | undefined = undefined
@@ -154,7 +157,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
   return {
     ...puzzleDraft,
     acceptedAnswers: draft.id === 252 ? ['year dot'] : puzzleDraft.acceptedAnswers,
-    format: [252, 253].includes(draft.id) || interactionSequenceKey ? 'interaction' : puzzleDraft.format,
+    format: [252, 253, ...canonicalPremiumInteractivePuzzleIds].includes(draft.id) || interactionSequenceKey ? 'interaction' : puzzleDraft.format,
     interaction: draft.id === 252 ? {
       type: 'tap',
       targetId: 'year-calendar',
@@ -165,6 +168,26 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       targetId: 'once-clock',
       instruction: 'Tap the clock to move the ones from underneath it.',
       completionCondition: 'The group of ones travels upward and settles above the clock face.',
+    } : draft.id === 338 ? {
+      type: 'tap',
+      targetId: 'chaos-number-tiles',
+      instruction: 'Tap the number tiles to reshuffle the sixes and sevens.',
+      completionCondition: 'The sixes and sevens settle into another disorderly arrangement.',
+    } : draft.id === 350 ? {
+      type: 'tap',
+      targetId: 'insult-plaque',
+      instruction: 'Tap the INSULT plaque to add it to the injury.',
+      completionCondition: 'INSULT lands directly on top of the cracked INJURY plaque.',
+    } : draft.id === 413 ? {
+      type: 'tap',
+      targetId: 'stage-focus-ring',
+      instruction: 'Tap the stage to tighten the spotlight.',
+      completionCondition: 'The spotlight isolates the performer in the exact centre of the stage.',
+    } : draft.id === 433 ? {
+      type: 'tap',
+      targetId: 'street-word',
+      instruction: 'Tap the word plaque to place it on the street.',
+      completionCondition: 'WORD comes to rest directly on the street.',
     } : puzzleDraft.interaction,
     interactionSequenceKey,
     clues: draft.id === 252 ? [
@@ -178,7 +201,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
     ] : puzzleDraft.clues,
     difficulty,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 9 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
@@ -196,7 +219,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       : undefined,
     unlock: { requiresPuzzleIds: draft.id === 1 ? [] : [draft.id - 1] },
     artwork: {
-      version: [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1,
+      version: [252, 253].includes(draft.id) ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) || canonicalPremiumBatchIds.includes(draft.id) ? 2 : 1,
       creator: usesLicensedFootprint ? 'Lorc / Game-icons.net' : usesGeneratedArtwork ? 'Clue Canvas / OpenAI image generation' : 'Visual Rebus project',
       source: draft.id === 252 ? 'Original in-repository interactive calendar composition'
         : draft.id === 253 ? 'Original in-repository interactive clock composition'
@@ -204,7 +227,7 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
         ? 'GiFootprint from Game Icons via react-icons'
         : usesInlineSvg ? 'Original in-repository vector artwork' : usesGeneratedArtwork ? 'Project-owned generated artwork stored in-repository' : 'Original text and CSS composition',
       licence: usesLicensedFootprint ? 'CC BY 3.0' : 'Project-owned original',
-      kind: [252, 253].includes(draft.id) ? 'text-css' : interactionSequenceKey ? 'project-asset' : usesInlineSvg ? 'inline-svg' : usesGeneratedArtwork ? 'project-asset' : 'text-css',
+      kind: [252, 253, 338, 350].includes(draft.id) ? 'text-css' : interactionSequenceKey ? 'project-asset' : usesInlineSvg ? 'inline-svg' : usesGeneratedArtwork ? 'project-asset' : 'text-css',
     },
     qa: {
       status: draft.id <= 25 ? 'Tested' : 'Draft',

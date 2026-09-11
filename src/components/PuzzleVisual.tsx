@@ -9,6 +9,7 @@ import { getSequentialPuzzleDefinition } from '../interactions/definitions'
 import { SequentialPuzzle } from './SequentialPuzzle'
 import { YearDotCalendarPuzzle } from './YearDotCalendarPuzzle'
 import { OnceUponTimePuzzle } from './OnceUponTimePuzzle'
+import { CanonicalPremiumBatchArt, hasCanonicalPremiumBatchArt } from './CanonicalPremiumBatchArt'
 
 function TwoLeftFeet() {
   return (
@@ -1273,6 +1274,8 @@ export function PuzzleVisual({ puzzle, soundEnabled = false, onSolved }: { puzzl
   if (puzzle.id === 335) return <PremiumSlimChance />
 
   if (puzzle.id === 337) return <PremiumOddsEnds />
+
+  if (hasCanonicalPremiumBatchArt(puzzle.id)) return <CanonicalPremiumBatchArt id={puzzle.id} />
 
   const premiumArt = premiumPuzzleArt[puzzle.id]
   if (premiumArt) return <GeneratedPuzzleArt puzzle={puzzle} src={premiumArt} soundEnabled={soundEnabled} />
