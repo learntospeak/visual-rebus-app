@@ -94,9 +94,8 @@ export function CanonicalPremiumBatchArt({ id }: { id: number }) {
 
   if (id === 441) return (
     <button type="button" className={`puzzle-visual canonical-premium-batch premium-batch-441${activated ? ' is-activated' : ''}`} aria-label={labels[id]} onClick={activate}>
-      <img className="above-rest-crowd" src="/premium-441-crowd-v3.webp" alt="" aria-hidden="true" width="1200" height="977" loading="eager" decoding="async" />
-      <span className="above-rest-character" aria-hidden="true"><img src="/premium-441-tall-character-v3.webp" alt="" width="768" height="1152" decoding="async" /></span>
-      <img className="above-rest-foreground" src="/premium-441-crowd-v3.webp" alt="" aria-hidden="true" width="1200" height="977" decoding="async" />
+      <img className="above-rest-integrated-frame" src="/premium-441-integrated-v5.webp" alt="" aria-hidden="true" width="1200" height="780" loading="eager" decoding="async" />
+      <img className="above-rest-integrated-frame above-rest-shimmy-frame" src="/premium-441-shimmy-v5.webp" alt="" aria-hidden="true" width="1200" height="780" decoding="async" />
     </button>
   )
 
