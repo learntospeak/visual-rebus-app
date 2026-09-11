@@ -59,7 +59,6 @@ function overlayFor(id: number): ReactNode {
   if (id === 433) return <><span className="street-target-ring" /><b className="street-word">WORD</b></>
   if (id === 437) return <span className="falling-note-layer">{['♪', '♫', '♪', '♩', '♫'].map((note, index) => <i key={index} style={{ '--note-x': `${13 + index * 16}%`, '--note-delay': `${index * -.72}s` } as CSSProperties}>{note}</i>)}</span>
   if (id === 443) return <span className="level-head-glint" aria-hidden="true" />
-  if (id === 444) return <><b className="head-to-toe-label head-label">HEAD</b><b className="head-to-toe-label toe-label">TOE</b></>
   if (id === 445) return <span className="thinking-feet-sparks" aria-hidden="true"><i /><i /><i /></span>
   if (id === 447) return <span className="worlds-apart-depth" aria-hidden="true" />
   if (id === 453) return <span className="third-lucky-light" aria-hidden="true" />
