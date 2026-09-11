@@ -163,8 +163,8 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
     } : draft.id === 253 ? {
       type: 'tap',
       targetId: 'once-clock',
-      instruction: 'Tap the clock to turn the ones above it.',
-      completionCondition: 'The group of ones completes a single turn above the clock face.',
+      instruction: 'Tap the clock to move the ones from underneath it.',
+      completionCondition: 'The group of ones travels upward and settles above the clock face.',
     } : puzzleDraft.interaction,
     interactionSequenceKey,
     clues: draft.id === 252 ? [
@@ -172,13 +172,13 @@ function migrateStarterPuzzle(draft: StarterPuzzleDraft): Puzzle {
       'Keep turning the calendar towards the very beginning.',
       'What remains after the first numbered year has gone?',
     ] : draft.id === 253 ? [
-      'Watch what happens to the numerals above the clock.',
-      'Each numeral makes one complete turn.',
-      'Say the numerals aloud, then describe their position relative to the clock.',
+      'Watch where the numerals begin and where they finish.',
+      'The number ones move from below the clock to above it.',
+      'Say the numerals aloud, then describe their final position relative to time.',
     ] : puzzleDraft.clues,
     difficulty,
     origin: puzzleOrigins[draft.id],
-    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 5 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
+    contentVersion: `p${String(draft.id).padStart(3, '0')}-v${draft.id === 253 ? 6 : draft.id === 252 ? 4 : [118, 119, 121].includes(draft.id) ? 3 : [13, 122, 124, 125].includes(draft.id) || reworkedGeneratedPuzzleIds.includes(draft.id) || reworkedVectorPuzzleIds.includes(draft.id) || reviewedStyledPuzzleIds.includes(draft.id) ? 2 : 1}`,
     chapterId,
     chapterOrder,
     difficultyScore: score,
