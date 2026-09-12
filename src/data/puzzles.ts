@@ -1,3 +1,4 @@
+import { ownerClueUpdates } from './ownerArtworkReview'
 import type { MechanicTag, Puzzle } from '../types'
 import { puzzleOrigins } from './puzzleOrigins'
 
@@ -1608,4 +1609,4 @@ const chapterTenPuzzles = chapterTenSpecs.map((spec, index) => candidate(
   [spec.description + '.', `Together the elements represent “${spec.answer}.”`],
 ))
 
-export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles, ...chapterSevenPuzzles, ...chapterEightPuzzles, ...chapterNinePuzzles, ...chapterTenPuzzles].map(migrateStarterPuzzle)
+export const puzzles: Puzzle[] = [...starterPuzzles, ...candidatePuzzles, ...chapterFivePuzzles, ...chapterSixPuzzles, ...chapterSevenPuzzles, ...chapterEightPuzzles, ...chapterNinePuzzles, ...chapterTenPuzzles].map(migrateStarterPuzzle).map(puzzle => ownerClueUpdates[puzzle.id] ? { ...puzzle, clues: ownerClueUpdates[puzzle.id] } : puzzle)

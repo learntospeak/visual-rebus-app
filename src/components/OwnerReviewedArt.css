@@ -1,0 +1,30 @@
+/* Scoped sizing prevents image cropping and keeps clue labels in source coordinates. */
+.puzzle-visual.owner-reviewed-art { display:flex; align-items:center; justify-content:center; padding:0; overflow:hidden; isolation:isolate; background:#0b2522; border:1px solid #ab8c50; border-radius:16px; width:100%; }
+.puzzle-visual.owner-reviewed-art>svg { display:block; width:100%; height:100%; max-width:100%; overflow:hidden; flex:1; }
+.owner-reviewed-art text { filter:drop-shadow(0 1px 1px #0003); }
+button.owner-reviewed-art { cursor:pointer; }
+button.owner-reviewed-art:focus-visible { outline:3px solid #2bafa1; outline-offset:4px; }
+.owner-loose-letter,.owner-show { transition:transform 1s ease-in-out; }
+.owner-fill { transition:transform 1s ease-in-out; }
+.owner-fill.filled { transform:translate(-60px,-184px); }
+.owner-switch { transition:y .3s ease; }
+.puzzle-screen.has-compact-keyboard .puzzle-art-frame>.puzzle-visual.owner-reviewed-art { width:100%; height:100%; transform:none; }
+@media(prefers-reduced-motion:reduce){.owner-reviewed-art * { animation-duration:.01ms!important;transition-duration:.01ms!important; }}
+.year-dot-sr-status { position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+.owner-cape { transition:transform 1.4s cubic-bezier(.45,.1,.3,1); transform-origin:450px 450px; }
+.owner-skip-sequence.playing .owner-skipper { animation:owner-skip 2.2s ease-in-out both; }
+.owner-skip-sequence.playing .second { animation-name:owner-skip-second; animation-delay:.55s; }
+@keyframes owner-skip { 0%{transform:translate(0,0)} 45%{transform:translate(220px,-145px) rotate(-8deg)} 82%,100%{transform:translate(470px,0)} }
+@keyframes owner-skip-second { 0%{transform:translate(0,0)} 45%{transform:translate(280px,-150px) rotate(-8deg)} 82%,100%{transform:translate(595px,0)} }
+.owner-drift.playing { animation:owner-drift 7s linear both; }
+@keyframes owner-drift { 0%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(115px,110px) rotate(3deg)} 100%{transform:translate(195px,235px) rotate(-2deg)} }
+.owner-broken,.owner-shards,.owner-fall,.owner-laugh { opacity:0; }
+.owner-strike.playing .owner-hammer { animation:owner-hammer .95s ease-in both; }
+.owner-strike.playing .owner-broken { animation:owner-reveal .08s .52s both; }
+.owner-strike.playing .owner-shards { animation:owner-shards .9s .52s both; }
+@keyframes owner-hammer { 0%{transform:translateY(0) rotate(-7deg)} 54%{transform:translateY(150px)} 75%{transform:translateY(120px)} 100%{transform:translateY(135px)} }
+@keyframes owner-reveal { from{opacity:0} to{opacity:1} }
+@keyframes owner-shards { 0%{opacity:0;transform:translateY(0)} 12%{opacity:1} 100%{opacity:0;transform:translateY(170px)} }
+.owner-fall-sequence.playing .owner-fall { animation:owner-reveal .35s .25s both; }
+.owner-fall-sequence.playing .owner-laugh { animation:owner-reveal .4s 1.25s both; }
+@media(prefers-reduced-motion:reduce){.owner-reviewed-art * { animation-delay:0ms!important;animation-duration:.01ms!important;transition-duration:.01ms!important; }}
