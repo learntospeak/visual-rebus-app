@@ -17,7 +17,7 @@ function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
   const onKeyRef = useRef(onKey)
   const repeatDelay = useRef<number | null>(null)
   const repeatInterval = useRef<number | null>(null)
-  const lastPointerBackspaceAt = useRef(0)
+  const lastPointerBackspaceAt = useRef(Number.NEGATIVE_INFINITY)
 
   useEffect(() => {
     onKeyRef.current = onKey
@@ -47,7 +47,7 @@ function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
 
   function handleBackspaceClick(event: ReactMouseEvent<HTMLButtonElement>) {
     event.preventDefault()
-    if (performance.now() - lastPointerBackspaceAt.current < 750) return
+    if (event.detail !== 0 && performance.now() - lastPointerBackspaceAt.current < 750) return
     onKeyRef.current('BACKSPACE')
   }
 
@@ -115,7 +115,14 @@ export function PuzzleScreen({
   const answerInput = useRef<HTMLInputElement>(null)
   const feedbackTarget = useRef<HTMLParagraphElement>(null)
   const clueTarget = useRef<HTMLDivElement>(null)
-  const [useCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px)').matches)
+  const [useCompactKeyboard, setUseCompactKeyboard] = useState(() => window.matchMedia('(max-width: 600px), (pointer: coarse)').matches)
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 600px), (pointer: coarse)')
+    const update = () => setUseCompactKeyboard(media.matches)
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
   const usesInteractionSequence = Boolean(puzzle.interactionSequenceKey)
 
   function scrollToResult(target: RefObject<HTMLElement | null>, block: ScrollLogicalPosition = 'nearest') {
@@ -138,6 +145,7 @@ export function PuzzleScreen({
   }
 
   function handleCompactKey(key: string) {
+    if (celebrating) return
     const input = answerInput.current
     const selectionStart = input?.selectionStart ?? guess.length
     const selectionEnd = input?.selectionEnd ?? selectionStart
@@ -159,7 +167,6 @@ export function PuzzleScreen({
 
     if (nextGuess !== guess) onGuessChange(nextGuess)
     window.requestAnimationFrame(() => {
-      input?.focus({ preventScroll: true })
       input?.setSelectionRange(nextCursor, nextCursor)
     })
   }
@@ -210,6 +217,14 @@ export function PuzzleScreen({
           onChange={(event) => onGuessChange(event.target.value)}
           disabled={celebrating}
           inputMode={useCompactKeyboard ? 'none' : 'text'}
+          readOnly={useCompactKeyboard}
+          onKeyDown={(event) => {
+            if (!useCompactKeyboard || event.ctrlKey || event.metaKey || event.altKey || event.nativeEvent.isComposing) return
+            if (event.key === 'Backspace' || /^[a-zA-Z ]$/.test(event.key)) {
+              event.preventDefault()
+              handleCompactKey(event.key === 'Backspace' ? 'BACKSPACE' : event.key === ' ' ? 'SPACE' : event.key)
+            }
+          }}
           autoComplete="off"
           autoCapitalize="none"
           enterKeyHint="done"

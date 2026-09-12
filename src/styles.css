@@ -700,7 +700,9 @@ h1 { margin: 0; font-family: Manrope, sans-serif; letter-spacing: -0.055em; line
   -webkit-user-select:none;
 }
 .compact-key-row { display:flex; justify-content:center; gap:var(--compact-key-gap); }
-.compact-key-row-3::before { content:''; flex:0 0 calc(var(--compact-key-width) + 14px); }
+.compact-key-row-3 { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); }
+.compact-key-row-3::before { content:''; }
+.compact-key-row-3 .compact-key-backspace { grid-column:span 2; width:100%; }
 .compact-key {
   flex:0 0 var(--compact-key-width);
   min-width:0;
