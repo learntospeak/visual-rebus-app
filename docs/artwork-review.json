@@ -1,0 +1,97 @@
+{
+  "date": "2026-09-12",
+  "sourceCommit": "1b65132ca3cca1079372857441c324fd0c53207d",
+  "scope": "Original owner-supplied upgrade list: 130 puzzles. Current source images inspected for 126 puzzles. Four code-rendered scenes (3, 338, 350, 450) need live visual review and are not graded here. Initial artwork was inspected; this is not an interaction or mobile playtest. These are subjective review candidates, not approved replacements.",
+  "items": [
+    {
+      "id": 36,
+      "category": "visual",
+      "title": "Decorative frame template",
+      "confidence": "Style judgement",
+      "reason": "The two identical ornate plaques dominate the composition. Beside the stronger scene illustrations, this can feel like a reusable gold-sign template rather than a distinctive puzzle image.",
+      "suggestion": "Consider a simpler, deliberately designed pair of adjacent objects or signs. Preserve the clear SIDE / SIDE relationship; extra detail is not the goal.",
+      "answer": "side by side",
+      "image": "/premium-036-v2.webp"
+    },
+    {
+      "id": 69,
+      "category": "visual",
+      "title": "Too much empty space for tiny lettering",
+      "confidence": "Stronger concern",
+      "reason": "Almost the whole square is empty, while RELATION and SHIP sit in small plaques at opposite edges. At card size the actual clue becomes much smaller than the surrounding decoration.",
+      "suggestion": "Keep the wide separation, but enlarge the labels and strengthen the connecting visual. This may only need a composition adjustment, not a new concept.",
+      "answer": "long distance relationship",
+      "image": "/premium-069-v2.webp"
+    },
+    {
+      "id": 144,
+      "category": "visual",
+      "title": "Glossy text-effect look",
+      "confidence": "Style judgement",
+      "reason": "Faceted emerald letters and a strong glow give ENVY the look of a stock 3D title effect. The clue is clear, but the material treatment is less natural than the better illustrated scenes.",
+      "suggestion": "Try restrained green enamel, painted lettering or a more intentional physical setting. Keep ENVY and the green colour immediately recognisable.",
+      "answer": "green with envy",
+      "image": "/premium-144-v2.webp"
+    },
+    {
+      "id": 491,
+      "category": "visual",
+      "title": "Generic geometric composition",
+      "confidence": "Style judgement",
+      "reason": "Repeated circles, cones and semicircles feel closer to a decorative stock graphic than a specific scene. It is cleanly made; the concern is its generic character, not its simplicity.",
+      "suggestion": "Keep it if this graphic style suits your taste. Otherwise consider a tangible, equally balanced object split in two, preserving the break / even idea.",
+      "answer": "break even",
+      "image": "/premium-491-living-v1.webp"
+    },
+    {
+      "id": 454,
+      "category": "clarity",
+      "title": "Where are the three strikes?",
+      "confidence": "Clue review only",
+      "reason": "The stadium and departing player are well illustrated. However, the three light towers show different lighting levels rather than three unmistakable strikes. A player could read this as leaving a game or lights going out.",
+      "suggestion": "Preserve the stadium artwork and strengthen the three-strikes cue only if playtesting confirms confusion.",
+      "answer": "three strikes and you're out",
+      "image": "/premium-454-living-v1.webp"
+    },
+    {
+      "id": 455,
+      "category": "clarity",
+      "title": "Day and night, but not clearly seven days",
+      "confidence": "Clue review only",
+      "reason": "The shop and day-to-night composition look polished. They communicate around-the-clock opening, but seven days is not explicit; several related phrases could fit the scene.",
+      "suggestion": "Preserve the artwork. Consider a subtle seven-day cue if the current clues and answer pattern do not resolve the ambiguity.",
+      "answer": "twenty four seven",
+      "image": "/premium-455-living-v1.webp"
+    },
+    {
+      "id": 463,
+      "category": "clarity",
+      "title": "Gloves are present; the fit is less obvious",
+      "confidence": "Clue review only",
+      "reason": "The sculptor scene is attractive, but the eye is drawn to the unusual sculpture. Wearing gloves does not by itself demonstrate an exceptionally close fit.",
+      "suggestion": "Keep the visual quality. If needed, make the hand-and-glove fit the focal point instead of replacing the whole style.",
+      "answer": "fit like a glove",
+      "image": "/premium-463-living-v1.webp"
+    },
+    {
+      "id": 470,
+      "category": "clarity",
+      "title": "Navigation is clearer than gratitude",
+      "confidence": "Clue review only",
+      "reason": "The sailor, stars and glowing route make a strong illustration. They suggest following a star or finding a safe route more directly than thanking lucky stars.",
+      "suggestion": "Keep the artwork unless playtesting finds repeated confusion. A small, readable gesture of relief or gratitude could clarify the intended phrase.",
+      "answer": "thank your lucky stars",
+      "image": "/premium-470-living-v1.webp"
+    },
+    {
+      "id": 497,
+      "category": "clarity",
+      "title": "The table reads as a mosaic game",
+      "confidence": "Clue review only",
+      "reason": "The group scene is well composed, but the colourful pieces resemble a geometric tile game. Playing cards and the idea of playing them right are not immediately distinct.",
+      "suggestion": "Preserve the scene and consider clearer card shapes or a more deliberate successful move if the clue proves unfair.",
+      "answer": "play your cards right",
+      "image": "/premium-497-living-v1.webp"
+    }
+  ]
+}
