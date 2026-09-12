@@ -194,7 +194,7 @@ export function PuzzleScreen({
       </header>
 
       <section className="puzzle-card">
-        {puzzle.prompt && <p>{puzzle.prompt}</p>}
+        {puzzle.id !== 6 && puzzle.prompt && <p>{puzzle.prompt}</p>}
         <div className="puzzle-art-frame">
           <PuzzleVisual puzzle={puzzle} soundEnabled={soundEnabled} onSolved={onInteractionSolved} />
         </div>
