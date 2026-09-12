@@ -753,20 +753,23 @@ function GeneratedPuzzleArt({ puzzle, src, soundEnabled = false }: { puzzle: Puz
   )
 }
 
-function PremiumBrokenHeart({ puzzle, activated, onActivate }: { puzzle: Puzzle; activated: boolean; onActivate: () => void }) {
+function PremiumBrokenHeart() {
+  const [replay, setReplay] = useState(0)
+  const maskId = React.useId().replace(/:/g, '')
   return (
-    <button
-      type="button"
-      className={`puzzle-visual generated-puzzle-visual opening-premium-art premium-broken-heart${activated ? ' is-activated' : ''}`}
-      aria-label={activated ? 'A sculptural red heart broken into two separated halves' : puzzle.interaction?.instruction}
-      onClick={onActivate}
-    >
-      <span className="premium-heart-image" aria-hidden="true">
-        <img className="premium-heart-left" src="/premium-006-living-v1.webp" alt="" width="320" height="260" loading="eager" decoding="async" />
-        <img className="premium-heart-right" src="/premium-006-living-v1.webp" alt="" width="320" height="260" loading="eager" decoding="async" />
-      </span>
-      <span className="living-light" aria-hidden="true" />
-      <small>{activated ? 'Now, name what you see.' : puzzle.interaction?.instruction}</small>
+    <button type="button" className="puzzle-visual opening-premium-art premium-broken-heart"
+      aria-label="A red heart splits into two halves. Replay the animation." onClick={() => setReplay(value => value + 1)}>
+      <svg key={replay} viewBox="0 0 900 900" aria-hidden="true" className="heart-break-scene">
+        <defs>
+          <radialGradient id={`${maskId}-background`}><stop stopColor="#24484a"/><stop offset="1" stopColor="#06141b"/></radialGradient>
+          <clipPath id={`${maskId}-left`}><path d="M450 274 C413 172 266 159 193 239 C111 332 170 457 224 516 L454 729 L469 587 L433 545 L432 503 L469 451 L431 398 L391 361 L443 324 L430 302 Z"/></clipPath>
+          <clipPath id={`${maskId}-right`}><path d="M483 273 C541 169 683 184 728 272 C786 405 689 524 454 729 L486 595 L459 547 L461 503 L506 441 L477 404 L444 355 L474 319 Z"/></clipPath>
+        </defs>
+        <rect width="900" height="900" fill={`url(#${maskId}-background)`}/>
+        <ellipse cx="450" cy="757" rx="215" ry="20" fill="#020b10" opacity=".45"/>
+        <g className="heart-break-left"><image href="/premium-006-living-v1.webp" width="900" height="900" clipPath={`url(#${maskId}-left)`}/></g>
+        <g className="heart-break-right"><image href="/premium-006-living-v1.webp" width="900" height="900" clipPath={`url(#${maskId}-right)`}/></g>
+      </svg>
     </button>
   )
 }
@@ -1213,7 +1216,7 @@ export function PuzzleVisual({ puzzle, soundEnabled = false, onSolved }: { puzzl
   }
 
   if (puzzle.id === 6) {
-    return <PremiumBrokenHeart puzzle={puzzle} activated={activated} onActivate={() => setActivated(true)} />
+    return <PremiumBrokenHeart />
   }
 
   if (puzzle.id === 3) return <PremiumSplitDecision />
