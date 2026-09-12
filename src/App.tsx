@@ -10,6 +10,8 @@ import { HomeScreen } from './screens/HomeScreen'
 import { OnboardingScreen } from './screens/OnboardingScreen'
 import { PuzzleScreen } from './screens/PuzzleScreen'
 import { SettingsScreen } from './screens/SettingsScreen'
+import { RewardsScreen } from './screens/RewardsScreen'
+import { newlyEarnedChapter } from './services/rewards'
 import { SolvedScreen } from './screens/SolvedScreen'
 import { startSolveCelebration } from './services/celebration'
 import { playClueSound, playHaptic, playIncorrectSound, startBackgroundMusic, stopBackgroundMusic } from './services/audio'
@@ -19,7 +21,7 @@ import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncP
 import { useGameStore } from './state/GameStore'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
 
-type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved'
+type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved' | 'rewards'
 type PlayMode = 'journey' | 'replay' | 'daily'
 interface SolveOutcome { revealed: boolean; stars: number; cluesUsed: number; seconds: number; daily: boolean }
 
@@ -46,6 +48,7 @@ export default function App() {
   const [activePuzzleIndex, setActivePuzzleIndex] = useState(progress.currentIndex)
   const [playMode, setPlayMode] = useState<PlayMode>('journey')
   const [solveOutcome, setSolveOutcome] = useState<SolveOutcome | null>(null)
+  const [rewardCelebration, setRewardCelebration] = useState<string | null>(null)
   const [guess, setGuess] = useState('')
   const [clueCount, setClueCount] = useState(0)
   const [message, setMessage] = useState('')
@@ -167,6 +170,9 @@ export default function App() {
     const dateKey = localDateKey()
     const outcome = { revealed, stars, cluesUsed: clueCount, seconds: Math.max(1, Math.round((Date.now() - startedAt.current) / 1000)), daily: playMode === 'daily' }
     setSolveOutcome(outcome)
+    const earnedChapter = !revealed && playMode !== 'daily'
+      ? newlyEarnedChapter(progress.completedIds, [...progress.completedIds, puzzle.id]) : null
+    setRewardCelebration(earnedChapter)
     setProgress((current) => {
       const next = { ...current }
       if (playMode === 'daily') {
@@ -208,7 +214,7 @@ export default function App() {
       hapticsEnabled: settings.hapticsEnabled,
       reducedCelebrations: settings.reducedCelebrations,
       daily: playMode === 'daily',
-      onComplete: () => setScreen('solved'),
+      onComplete: () => setScreen(earnedChapter ? 'rewards' : 'solved'),
     })
   }
 
@@ -319,6 +325,12 @@ export default function App() {
     )
   }
 
+  if (screen === 'rewards') {
+    return <RewardsScreen completedIds={progress.completedIds} celebration={rewardCelebration} reducedMotion={settings.reducedCelebrations}
+      onHome={() => setScreen('home')} onContinue={() => { setRewardCelebration(null); nextPuzzle() }}
+      onCollection={() => setRewardCelebration(null)} onChapters={() => setScreen('chapters')} />
+  }
+
   if (screen === 'home') {
     return (
       <HomeScreen
@@ -327,6 +339,7 @@ export default function App() {
         totalStars={totalStars}
         dailyStreak={displayedStreak}
         onPlay={startJourney}
+        onRewards={() => { setRewardCelebration(null); setScreen('rewards') }}
         onChapters={() => setScreen('chapters')}
         onDaily={() => setScreen('daily')}
         onSettings={() => setScreen('settings')}

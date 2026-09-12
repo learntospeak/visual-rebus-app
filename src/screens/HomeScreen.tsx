@@ -7,6 +7,7 @@ interface HomeScreenProps {
   totalStars: number
   dailyStreak: number
   onPlay: () => void
+  onRewards: () => void
   onChapters: () => void
   onDaily: () => void
   onSettings: () => void
@@ -14,7 +15,7 @@ interface HomeScreenProps {
   accountState: 'guest' | 'synced' | 'error'
 }
 
-export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onChapters, onDaily, onSettings, onAccount, accountState }: HomeScreenProps) {
+export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onRewards, onChapters, onDaily, onSettings, onAccount, accountState }: HomeScreenProps) {
   const percent = Math.round((completedCount / puzzleCount) * 100)
   const actionLabel = completedCount ? 'Continue solving' : 'Start playing'
 
@@ -52,6 +53,7 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
         <span><strong>{dailyStreak}</strong> day streak</span>
       </div>
       <Button variant="secondary" className="chapter-map-button" onClick={onChapters}>View packs and puzzles</Button>
+      <Button variant="secondary" className="chapter-map-button" onClick={onRewards}>My chapter medallion</Button>
       <Button variant="secondary" className="daily-button" onClick={onDaily}>Today’s puzzle <span aria-hidden="true">☀</span></Button>
       <p className="trust-note"><span aria-hidden="true">✓</span> Optional account. No adverts. Just puzzles.</p>
     </main>
