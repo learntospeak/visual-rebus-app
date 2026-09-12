@@ -2,6 +2,10 @@
 
 This is the canonical user-approved tracking list for puzzles whose artwork has the greatest potential for a premium visual upgrade. Preserve the listed order and do not substitute sequential puzzle IDs.
 
+## Current visual review
+
+The 2026-09-12 review page is `/art-review.html`, generated with `node scripts/build-art-review.mjs` from `docs/artwork-review.json`. It contains four subjective visual-style candidates and five separately labelled clue-clarity checks. These are not approved replacements. The review inspected current raster previews for 126 of this list's 130 puzzles; code-rendered puzzles 3, 338, 350 and 450 still need live visual inspection. Keep the original queue order below. Do not interpret the last recorded batch as proof that subsequent artwork is unfinished.
+
 ## Earlier priority group
 
 - 1 — Head over heels
