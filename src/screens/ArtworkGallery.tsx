@@ -1,9 +1,12 @@
+import { ownerArtworkReview } from '../data/ownerArtworkReview'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { PuzzleVisual } from '../components/PuzzleVisual'
 import { puzzles } from '../data/puzzles'
 import { puzzlePacks } from '../data/catalog'
 import type { Puzzle } from '../types'
 import './ArtworkGallery.css'
+
+const puzzleReviewed = (id: number) => id in ownerArtworkReview
 
 type Selection = { selected: boolean; note: string }
 type Selections = Record<number, Selection>
@@ -61,6 +64,7 @@ function Artwork({ puzzle, eager = false }: { puzzle: Puzzle; eager?: boolean })
 }
 
 export default function ArtworkGallery() {
+  const [onlyReviewed, setOnlyReviewed] = useState(() => new URLSearchParams(window.location.search).get('review') === 'owner')
   const [search, setSearch] = useState('')
   const [chapter, setChapter] = useState('all')
   const [onlySelected, setOnlySelected] = useState(false)
@@ -93,9 +97,10 @@ export default function ArtworkGallery() {
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase()
     return puzzles.filter(p => (chapter === 'all' || p.chapterId === chapter)
+      && (!onlyReviewed || puzzleReviewed(p.id))
       && (!onlySelected || selections[p.id]?.selected)
       && (!query || (/^\d+$/.test(query) ? p.id === Number(query) : p.answer.toLowerCase().includes(query))))
-  }, [search, chapter, onlySelected, selections])
+  }, [search, chapter, onlySelected, selections, onlyReviewed])
   const download = () => {
     const chosen = reviewedPuzzles.map(p => ({ puzzle: p.id, answer: p.answer, flagged: selections[p.id].selected, note: selections[p.id].note }))
     const url = URL.createObjectURL(new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), selections: chosen }, null, 2)], { type: 'application/json' }))
@@ -115,6 +120,7 @@ export default function ArtworkGallery() {
       <section className="ag-toolbar" aria-label="Gallery controls">
         <label className="ag-search">Find a puzzle<input type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder="Number or answer phrase" /></label>
         <label>Chapter<select value={chapter} onChange={e => setChapter(e.target.value)}><option value="all">All chapters</option>{puzzlePacks.map(p => <option key={p.id} value={p.id}>{p.order}. {p.title}</option>)}</select></label>
+        <label className="ag-check"><input type="checkbox" checked={onlyReviewed} onChange={e => setOnlyReviewed(e.target.checked)} />Reviewed fixes (30)</label>
         <label className="ag-check"><input type="checkbox" checked={onlySelected} onChange={e => setOnlySelected(e.target.checked)} />Selected only</label>
         <label className="ag-check"><input type="checkbox" checked={showAnswers} onChange={e => setShowAnswers(e.target.checked)} />Show answers</label>
         <button className="ag-download" disabled={!reviewedPuzzles.length} onClick={download}>Download comments & flags ({reviewedPuzzles.length})</button>
@@ -127,7 +133,7 @@ export default function ArtworkGallery() {
           return <article className={`ag-card${selection.selected ? ' ag-selected' : ''}`} key={puzzle.id} id={`artwork-${puzzle.id}`}>
             <div className="ag-card-header"><h2>Puzzle {puzzle.id}</h2><button onClick={e => { opener.current = e.currentTarget; setPreviewVersion(0); setExpanded(puzzle) }} aria-label={`Inspect puzzle ${puzzle.id}`}>Inspect ↗</button></div>
             <Artwork puzzle={puzzle} />
-            <div className="ag-card-footer">{showAnswers && <p className="ag-answer">{puzzle.answer}</p>}
+            <div className="ag-card-footer">{ownerArtworkReview[puzzle.id] && <details className="ag-review-note"><summary>What changed</summary><p>{ownerArtworkReview[puzzle.id]}</p></details>}{showAnswers && <p className="ag-answer">{puzzle.answer}</p>}
               <label className="ag-check"><input type="checkbox" checked={selection.selected} onChange={e => updateSelection(puzzle.id, { selected: e.target.checked })} />Flag this artwork</label>
               <label className="ag-note" htmlFor={`art-note-${puzzle.id}`}>Your note<textarea id={`art-note-${puzzle.id}`} rows={2} maxLength={2000} value={selection.note} onChange={e => updateSelection(puzzle.id, { note: e.target.value })} placeholder="What should change?" /></label>
               <a href={`/?puzzle=${puzzle.id}`} target="_blank" rel="noopener">Open in the game ↗</a>

@@ -102,7 +102,7 @@ export function YearDotCalendarPuzzle({ soundEnabled = false }: { soundEnabled?:
           })}
         </span>
       </button>
-      <p className="year-dot-calendar-status" aria-live="polite"><i aria-hidden="true" />{status}</p>
+      <p className="year-dot-sr-status" aria-live="polite"><i aria-hidden="true" />{status}</p>
     </div>
   )
 }

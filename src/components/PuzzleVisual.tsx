@@ -1,3 +1,4 @@
+import { OwnerReviewedArt, hasOwnerReviewedArt } from './OwnerReviewedArt'
 import React, { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import { GiFootprint } from 'react-icons/gi'
 import type { Puzzle } from '../types'
@@ -1188,6 +1189,8 @@ function PremiumOddsEnds() {
 export function PuzzleVisual({ puzzle, soundEnabled = false, onSolved }: { puzzle: Puzzle; soundEnabled?: boolean; onSolved?: () => void }) {
   const [activated, setActivated] = useState(false)
   useEffect(() => setActivated(false), [puzzle.id])
+
+  if (hasOwnerReviewedArt(puzzle.id)) return <OwnerReviewedArt key={puzzle.id} id={puzzle.id} />
 
   if (puzzle.id === 252) return <YearDotCalendarPuzzle soundEnabled={soundEnabled} />
   if (puzzle.id === 253) return <OnceUponTimePuzzle soundEnabled={soundEnabled} />
