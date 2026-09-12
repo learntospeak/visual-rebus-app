@@ -1455,7 +1455,7 @@ const chapterEightSpecs: ChapterFiveSpec[] = [
   { answer: "two's company three's a crowd", pattern: '4 7 6 1 5', visual: '2     COMPANY\n3  3  3  CROWD', description: 'Two is paired calmly with COMPANY while three is packed into a CROWD', difficulty: 'Hard' },
   { answer: 'six of one half a dozen of the other', pattern: '3 2 3 4 1 5 2 3 5', visual: '6       ⚖       ½ DOZEN', description: 'Six balances as exactly equal to half a dozen', difficulty: 'Hard' },
   { answer: 'third time lucky', pattern: '5 4 5', visual: '1     2     ★ 3 ★', description: 'The third position alone receives the lucky stars', difficulty: 'Hard' },
-  { answer: "three strikes and you're out", pattern: '5 7 3 5 3', visual: '╱     ╱     ╱       OUT →', description: 'Three clear strikes send OUT beyond the boundary', difficulty: 'Hard' },
+  { answer: "three strikes and you're out", pattern: '5 7 3 5 3', visual: '╱     ╱     ╱       OUT →', description: 'A stadium scoreboard labelled STRIKES shows three illuminated X marks as a baseball player leaves through an open gate', difficulty: 'Hard' },
   { answer: 'twenty four seven', pattern: '6 4 5', visual: '24\n──\n 7', description: 'Twenty-four is placed continuously over seven', difficulty: 'Hard' },
   { answer: 'break the mould', pattern: '5 3 5', visual: '', description: 'A vivid unconventional ceramic bird bursts free from a cracked rigid casting form while identical pieces remain behind', format: 'illustration', difficulty: 'Hard' },
   { answer: 'set in stone', pattern: '3 2 5', visual: 'ST  SET  ONE', description: 'SET is embedded inside the word STONE', difficulty: 'Hard' },
