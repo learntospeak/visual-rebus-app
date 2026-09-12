@@ -72,6 +72,7 @@ export default function ArtworkGallery() {
   const dialog = useRef<HTMLDialogElement>(null)
   const opener = useRef<HTMLButtonElement | null>(null)
   const selectedCount = puzzles.filter(p => selections[p.id]?.selected).length
+  const reviewedPuzzles = puzzles.filter(p => selections[p.id]?.selected || selections[p.id]?.note.trim())
   useEffect(() => {
     document.title = 'Clue Canvas · All artwork'
     const robots = document.createElement('meta')
@@ -96,7 +97,7 @@ export default function ArtworkGallery() {
       && (!query || (/^\d+$/.test(query) ? p.id === Number(query) : p.answer.toLowerCase().includes(query))))
   }, [search, chapter, onlySelected, selections])
   const download = () => {
-    const chosen = puzzles.filter(p => selections[p.id]?.selected).map(p => ({ puzzle: p.id, answer: p.answer, note: selections[p.id].note }))
+    const chosen = reviewedPuzzles.map(p => ({ puzzle: p.id, answer: p.answer, flagged: selections[p.id].selected, note: selections[p.id].note }))
     const url = URL.createObjectURL(new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), selections: chosen }, null, 2)], { type: 'application/json' }))
     const link = document.createElement('a')
     link.href = url; link.download = 'ClueCanvas-Selected-Artworks.json'; link.click()
@@ -116,7 +117,7 @@ export default function ArtworkGallery() {
         <label>Chapter<select value={chapter} onChange={e => setChapter(e.target.value)}><option value="all">All chapters</option>{puzzlePacks.map(p => <option key={p.id} value={p.id}>{p.order}. {p.title}</option>)}</select></label>
         <label className="ag-check"><input type="checkbox" checked={onlySelected} onChange={e => setOnlySelected(e.target.checked)} />Selected only</label>
         <label className="ag-check"><input type="checkbox" checked={showAnswers} onChange={e => setShowAnswers(e.target.checked)} />Show answers</label>
-        <button className="ag-download" disabled={!selectedCount} onClick={download}>Download selections ({selectedCount})</button>
+        <button className="ag-download" disabled={!reviewedPuzzles.length} onClick={download}>Download comments & flags ({reviewedPuzzles.length})</button>
       </section>
       <div className="ag-status" role="status">{filtered.length} of {puzzles.length} shown · {selectedCount} selected</div>
       <p className="ag-storage">{storageAvailable ? 'Selections and notes stay in this browser. Download them and send me the file when you’re ready.' : 'Browser storage is unavailable. Download your selections before leaving this page.'}</p>
