@@ -10,7 +10,7 @@ const imageSources: Record<number, string> = {
   443: '/premium-443-level-head-v1.webp',
   444: '/premium-444-head-to-toe-v1.webp',
   445: '/premium-445-thinking-foot-v2.webp',
-  446: '/premium-446-bestov-worlds-v2.webp',
+  446: '/premium-446-bestov-chain-v3.webp',
   447: '/premium-447-worlds-apart-v1.webp',
   449: '/premium-449-world-equation-v2.webp',
   451: '/premium-451-company-crowd-v1.webp',
@@ -32,7 +32,7 @@ const labels: Record<number, string> = {
   443: 'A calm tightrope walker keeps a carpenter’s level perfectly balanced across their head.',
   444: 'A gold route travels the full length of a person from their head to their toe.',
   445: 'A bronze foot has a thought bubble containing an animated loading symbol.',
-  446: 'A person named BESTOV holds one world above each raised hand.',
+  446: 'A person wearing a gold chain with a BESTOV nameplate holds one world above each raised hand.',
   447: 'Two magnificent worlds sit an enormous distance apart.',
   449: 'A teacher points to the chalkboard equation x minus y equals world.',
   450: 'A cancelled END marker fails to stop the path before it reaches the world.',
@@ -61,7 +61,6 @@ function overlayFor(id: number): ReactNode {
   if (id === 437) return <span className="falling-note-layer">{['♪', '♫', '♪', '♩', '♫'].map((note, index) => <i key={index} style={{ '--note-x': `${13 + index * 16}%`, '--note-delay': `${index * -.72}s` } as CSSProperties}>{note}</i>)}</span>
   if (id === 443) return <span className="level-head-glint" aria-hidden="true" />
   if (id === 445) return <span className="thinking-foot-loader" aria-hidden="true" />
-  if (id === 446) return <b className="bestov-badge-text">BESTOV</b>
   if (id === 447) return <span className="worlds-apart-depth" aria-hidden="true" />
   if (id === 449) return <b className="chalk-equation">x − y = world</b>
   if (id === 453) return <span className="third-lucky-light" aria-hidden="true" />
