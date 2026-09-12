@@ -4,7 +4,9 @@ This is the canonical user-approved tracking list for puzzles whose artwork has 
 
 ## Current visual review
 
-The 2026-09-12 review page is `/art-review.html`, generated with `node scripts/build-art-review.mjs` from `docs/artwork-review.json`. It contains four subjective visual-style candidates and five separately labelled clue-clarity checks. These are not approved replacements. The review inspected current raster previews for 126 of this list's 130 puzzles; code-rendered puzzles 3, 338, 350 and 450 still need live visual inspection. Keep the original queue order below. Do not interpret the last recorded batch as proof that subsequent artwork is unfinished.
+The owner rejected the assistant's shortlist as not identifying the intended artworks. That shortlist in `docs/artwork-review.json` is historical and must not drive replacements. The current page is `/?artworks=all`; `/art-review.html` redirects there. It renders every puzzle directly through the game's current `PuzzleVisual` component, including native scenes, text layers and interactions. The owner can inspect, flag and annotate any artwork, then export selected puzzle IDs. Selections stay in browser storage and do not change game progress. Keep the original queue order below. Do not interpret the last recorded batch as proof that subsequent artwork is unfinished.
+
+Puzzle 454 was specifically approved for refinement: its replacement stadium artwork adds a clearly labelled STRIKES scoreboard with exactly three illuminated X indicators, while retaining the departing player. Asset: `public/premium-454-scoreboard-v2.webp`, created with the built-in image editor. Prompt direction: preserve the stadium and departing player, add one integrated scoreboard labelled STRIKES with three red X lights, and do not spell out the answer. Backup before gallery and scoreboard work: `backup/before-full-gallery-2026-09-12`.
 
 ## Earlier priority group
 

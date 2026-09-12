@@ -483,7 +483,7 @@ const premiumPuzzleArt: Partial<Record<number, string>> = {
   451: '/premium-451-living-v1.webp',
   452: '/premium-452-living-v1.webp',
   453: '/premium-453-living-v1.webp',
-  454: '/premium-454-living-v1.webp',
+  454: '/premium-454-scoreboard-v2.webp',
   455: '/premium-455-living-v1.webp',
   456: '/premium-456-living-v1.webp',
   457: '/premium-457-living-v1.webp',
