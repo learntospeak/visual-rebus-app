@@ -103,6 +103,21 @@ export function playSolveChime() {
   })
 }
 
+// A short rising flourish and warm resolving chord reserved for the Master badge.
+export function playMasterChime() {
+  const context = getAudioContext()
+  if (!context) return
+  const start = context.currentTime
+  ;[523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((frequency, index) => {
+    tone(context, frequency, start + index * .13, .75, .09, 'triangle')
+  })
+  ;[261.63, 523.25, 659.25, 783.99, 1046.5].forEach((frequency, index) => {
+    tone(context, frequency, start + .72, 1.65, index === 0 ? .075 : .05, 'sine')
+  })
+  tone(context, 1567.98, start + .84, 1.25, .035)
+  tone(context, 2093, start + 1.02, 1.1, .022)
+}
+
 export function playIncorrectSound() {
   const context = getAudioContext()
   if (!context) return

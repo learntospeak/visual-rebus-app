@@ -4,7 +4,7 @@ import { ChapterMedallion } from '../components/ChapterMedallion'
 import { chapterRewards } from '../services/rewards'
 import './RewardsScreen.css'
 import { puzzles } from '../data/puzzles'
-import { playSolveChime } from '../services/audio'
+import { playMasterChime } from '../services/audio'
 
 function RewardsContent({ completedIds, celebration, reducedMotion, onHome, onContinue, onCollection, onChapters }: {
   completedIds: number[]; celebration?: string | null; reducedMotion: boolean;
@@ -38,7 +38,7 @@ export function RewardsScreen(props: ComponentProps<typeof RewardsContent>) {
   const [preview, setPreview] = useState(0)
   const stop = () => setPreview(0)
   function play() {
-    playSolveChime()
+    playMasterChime()
     setPreview(value => value + 1)
   }
   return <>
