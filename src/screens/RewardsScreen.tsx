@@ -1,10 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState, type ComponentProps } from 'react'
 import { Button } from '../components/Button'
 import { ChapterMedallion } from '../components/ChapterMedallion'
 import { chapterRewards } from '../services/rewards'
 import './RewardsScreen.css'
+import { puzzles } from '../data/puzzles'
+import { playSolveChime } from '../services/audio'
 
-export function RewardsScreen({ completedIds, celebration, reducedMotion, onHome, onContinue, onCollection, onChapters }: {
+function RewardsContent({ completedIds, celebration, reducedMotion, onHome, onContinue, onCollection, onChapters }: {
   completedIds: number[]; celebration?: string | null; reducedMotion: boolean;
   onHome: () => void; onContinue: () => void; onCollection: () => void; onChapters: () => void;
 }) {
@@ -29,4 +31,25 @@ export function RewardsScreen({ completedIds, celebration, reducedMotion, onHome
     </section>
     {!celebration && <><p className="reward-note">Clues are welcome. Solve every puzzle in a chapter to earn its piece; revealed answers can be revisited and solved. Stars are a separate achievement.</p><ol className="reward-chapters">{chapters.map(item => <li key={item.id} className={item.earned ? 'earned' : ''}><span className="reward-chapter-number">{item.order}</span><div><strong>{item.title}</strong><span>{item.earned ? 'Piece earned' : `${item.solved} / ${item.total} solved`}</span></div><span aria-label={item.earned ? 'Complete' : 'In progress'}>{item.earned ? '✓' : '○'}</span></li>)}</ol></>}
   </main>
+}
+
+
+export function RewardsScreen(props: ComponentProps<typeof RewardsContent>) {
+  const [preview, setPreview] = useState(0)
+  const stop = () => setPreview(0)
+  function play() {
+    playSolveChime()
+    setPreview(value => value + 1)
+  }
+  return <>
+    <aside style={{ maxWidth: 480, margin: '16px auto', padding: '0 20px', textAlign: 'center' }} aria-label="Celebration preview controls">
+      <p>{preview ? 'Preview only — your progress is unchanged.' : 'Try the final badge animation and success sound.'}</p>
+      <Button onClick={play}>{preview ? 'Replay with sound' : 'Preview finale with sound'}</Button>
+      {preview > 0 && <Button variant="secondary" onClick={stop}>Close preview</Button>}
+    </aside>
+    {preview > 0 ? <RewardsContent key={preview} {...props}
+      completedIds={puzzles.map(puzzle => puzzle.id)} celebration="chapter-10"
+      onHome={stop} onContinue={stop} onCollection={stop} onChapters={stop}/>
+      : <RewardsContent {...props}/>}
+  </>
 }
