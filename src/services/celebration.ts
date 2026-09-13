@@ -1,16 +1,18 @@
-import { playDailyStreakAccent, playHaptic, playSolveChime } from './audio'
+import { playDailyStreakAccent, playHaptic, playMasterChime, playSolveChime } from './audio'
 
 interface SolveCelebrationOptions {
   soundEnabled: boolean
   hapticsEnabled: boolean
   reducedCelebrations: boolean
   daily: boolean
+  master?: boolean
   onComplete: () => void
 }
 
-export function startSolveCelebration({ soundEnabled, hapticsEnabled, reducedCelebrations, daily, onComplete }: SolveCelebrationOptions) {
+export function startSolveCelebration({ soundEnabled, hapticsEnabled, reducedCelebrations, daily, master = false, onComplete }: SolveCelebrationOptions) {
   if (soundEnabled) {
     if (daily) playDailyStreakAccent()
+    else if (master) playMasterChime()
     else playSolveChime()
   }
   if (hapticsEnabled) playHaptic(daily ? 'streak' : 'success')

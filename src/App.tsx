@@ -11,7 +11,7 @@ import { OnboardingScreen } from './screens/OnboardingScreen'
 import { PuzzleScreen } from './screens/PuzzleScreen'
 import { SettingsScreen } from './screens/SettingsScreen'
 import { RewardsScreen } from './screens/RewardsScreen'
-import { newlyEarnedChapter } from './services/rewards'
+import { chapterRewards, newlyEarnedChapter } from './services/rewards'
 import { SolvedScreen } from './screens/SolvedScreen'
 import { startSolveCelebration } from './services/celebration'
 import { playClueSound, playHaptic, playIncorrectSound, startBackgroundMusic, stopBackgroundMusic } from './services/audio'
@@ -214,6 +214,7 @@ export default function App() {
       hapticsEnabled: settings.hapticsEnabled,
       reducedCelebrations: settings.reducedCelebrations,
       daily: playMode === 'daily',
+      master: Boolean(earnedChapter) && chapterRewards([...progress.completedIds, puzzle.id]).every(chapter => chapter.earned),
       onComplete: () => setScreen(earnedChapter ? 'rewards' : 'solved'),
     })
   }
