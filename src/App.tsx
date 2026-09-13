@@ -43,7 +43,7 @@ export default function App() {
     signOut,
     deleteAccount,
   } = useGameStore()
-  const [screen, setScreen] = useState<Screen>(() => hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
+  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
   const [accountReturn, setAccountReturn] = useState<Screen>('settings')
   const [activePuzzleIndex, setActivePuzzleIndex] = useState(progress.currentIndex)
   const [playMode, setPlayMode] = useState<PlayMode>('journey')
