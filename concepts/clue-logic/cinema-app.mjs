@@ -29,7 +29,7 @@ $('#pause').onclick=()=>{if(time>=22){time=0;view='auto';}playing=!playing;$('#p
 $('#replay').onclick=()=>{time=0;view='auto';playing=!reduced.matches;$('#pause').textContent=playing?'Pause':'Play';$('#look').textContent='Look towards the door ↗';};
 $('#step').onclick=()=>{playing=false;view='auto';time=Math.min(22,time+3);$('#pause').textContent='Play';kitchen?.draw({time,delta:1,instant:true});};
 $('#look').onclick=()=>{playing=false;time=22;view=(view==='away'||view==='inspect')?'watch':'away';$('#look').textContent=view==='away'?'Look back at the stove ↙':'Look towards the door ↗';$('#pause').textContent='Replay';$('#subtitle').textContent=view==='away'?'Your attention moves elsewhere.':'You return to the stove.';};
-$('#hint').onclick=()=>{if(!round.hints.length)dispatch({type:'hint',id:'eyes'});if(!round.hints.length)return;playing=false;time=22;view='inspect';#shot.textContent='A DIFFERENT ANGLE';$('#hint-detail').hidden=false;$('#hint-detail').textContent='From this overhead angle, you can see what happens while your attention is elsewhere. Look back at the stove to compare. A correct letter is placed in the phrase.';$('#subtitle').textContent='An overhead view of what you missed.';$('#look').textContent='Look back at the stove ↙';$('#pause').textContent='Replay';};
+$('#hint').onclick=()=>{if(!round.hints.length)dispatch({type:'hint',id:'eyes'});if(!round.hints.length)return;playing=false;time=22;view='inspect';$('#shot').textContent='A DIFFERENT ANGLE';$('#hint-detail').hidden=false;$('#hint-detail').textContent='From this overhead angle, you can see what happens while your attention is elsewhere. Look back at the stove to compare. A correct letter is placed in the phrase.';$('#subtitle').textContent='An overhead view of what you missed.';$('#look').textContent='Look back at the stove ↙';$('#pause').textContent='Replay';};
 $('#phrase-toggle').onclick=()=>{$('#phrase-form').hidden=!$('#phrase-form').hidden;$('#phrase-toggle').textContent=$('#phrase-form').hidden?'I know the phrase':'Close phrase guess';if(!$('#phrase-form').hidden)$('#phrase-input').focus();};
 $('#phrase-form').onsubmit=e=>{e.preventDefault();dispatch({type:'phrase',answer:$('#phrase-input').value});};
 $('#reset').onclick=()=>{if(actions.length){if(!confirm('Clear this scene’s test progress and start fresh?'))return;}reset();};
@@ -44,6 +44,6 @@ function frame(now){const dt=Math.min((now-last)/1000,.06);last=now;const active
  requestAnimationFrame(frame);
 }
 drawUI();
-try{kitchen=makeKitchen($('#canvas'));$('#loading').hidden=true;if(saved){start();time=22;playing=false;view='watch';#pause.textContent='Replay';#shot.textContent='YOUR TURN TO INVESTIGATE';}requestAnimationFrame(frame);}catch(error){console.error(error);$('#loading').textContent='This scene needs WebGL 2. Try an up-to-date Chrome, Safari or Edge browser with graphics acceleration enabled.';$('#start').disabled=true;}
+try{kitchen=makeKitchen($('#canvas'));$('#loading').hidden=true;if(saved){start();time=22;playing=false;view='watch';$('#pause').textContent='Replay';$('#shot').textContent='YOUR TURN TO INVESTIGATE';}requestAnimationFrame(frame);}catch(error){console.error(error);$('#loading').textContent='This scene needs WebGL 2. Try an up-to-date Chrome, Safari or Edge browser with graphics acceleration enabled.';$('#start').disabled=true;}
 
 
