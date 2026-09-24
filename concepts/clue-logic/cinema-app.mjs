@@ -38,12 +38,13 @@ document.addEventListener('keydown',e=>{if(!started||$('#help-dialog').open||rou
 reduced.addEventListener('change',()=>{if(reduced.matches){playing=false;$('#pause').textContent='Play';}});
 function frame(now){const dt=Math.min((now-last)/1000,.06);last=now;const active=!document.hidden&&!$('#help-dialog').open;
  if(active&&playing&&started){time=Math.min(22,time+dt);if(time>=22){playing=false;$('#pause').textContent='Replay';}}
- if(active&&kitchen)kitchen.draw({time,delta:started&&(playing||view!=='auto')&&!reduced.matches?dt:0,view,running:started,won:round.status==='won',instant:reduced.matches});
+ if(active&&kitchen)kitchen.draw({time,delta:started&&(playing||view!=='auto')&&!reduced.matches?dt:0,view,running:started,won:round.status==='won'&&view!=='auto',instant:reduced.matches});
  $('#progress').style.width=`${time/22*100}%`;$('#duration').textContent=`00:${String(Math.floor(time)).padStart(2,'0')} / 00:22`;
  if(started&&view==='auto'&&round.status!=='won'){$('#shot').textContent=time>=22?'YOUR TURN TO INVESTIGATE':'ONE CONTINUOUS SCENE';$('#subtitle').textContent=time<4?'The first guests are almost here.':time<7.7?'Still not ready.':time<11?'A sound by the door.':time<16?'Just a moment…':time<20?'Back to the stove.':'What changed when you looked away?';}
  requestAnimationFrame(frame);
 }
 drawUI();
-try{kitchen=makeKitchen($('#canvas'));$('#loading').hidden=true;if(saved){start();time=22;playing=false;view='watch';$('#pause').textContent='Replay';$('#shot').textContent='YOUR TURN TO INVESTIGATE';}requestAnimationFrame(frame);}catch(error){console.error(error);$('#loading').textContent='This scene needs WebGL 2. Try an up-to-date Chrome, Safari or Edge browser with graphics acceleration enabled.';$('#start').disabled=true;}
+// Saved answers never bypass explicit play or select a different opening shot.
+try{kitchen=makeKitchen($('#canvas'));$('#loading').hidden=true;requestAnimationFrame(frame);}catch(error){console.error(error);$('#loading').textContent='This scene needs WebGL 2. Try an up-to-date Chrome, Safari or Edge browser with graphics acceleration enabled.';$('#start').disabled=true;}
 
 
