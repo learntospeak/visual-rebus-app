@@ -1,3 +1,5 @@
+> Update: the default entry is now a single rebuilt 3D scene, Before Service. See CINEMA-NOTES.md. The original SVG chapter described below remains at legacy.html for comparison.
+
 # Clue Logic: The Grand Opening
 
 A standalone, draft chapter for owner playtesting: nine animated phrase puzzles followed by one bigger-picture finale. Original SVG scenes run locally, with no AI, video service, account, tracking or paid assets required. This is a concept test, not approved production content.
@@ -27,3 +29,4 @@ This folder is intentionally excluded from the main Vite production entrypoint. 
 Can you infer the action without a hint? Does the sequence feel connected? Which puzzles feel too obvious or unfair? Is losing a lifeline for a hint a worthwhile choice? Does the finale reward noticing the story? Difficulty labels are provisional until blind playtesting. The later scenes currently test sequencing and consequence rather than introducing unfamiliar sayings.
 
 Before production: blind-test answer ambiguity and difficulty, test real iOS/Android devices and assistive technology, and decide whether the meta puzzle needs less explicit clues. These animations are a prototype of the continuing-story mechanic, not finished video cinematics.
+
