@@ -10,5 +10,5 @@
 .slot{color:var(--ink);border-color:#819ca4}.key{background:#f4f6f2;border-color:#d7e0df;color:var(--ink);border-radius:8px;font-weight:700}.key.correct{background:#dff4f2;border-color:#82c9c2;color:#147f79}.key.wrong{background:#f8e8e4;border-color:#ecd0ca;color:#986f68}.phrase-toggle{color:#147f79;font-weight:700}
 #phrase-form input{background:white;color:var(--ink);border-color:#b8c8d1;border-radius:12px}#message,#result p{color:#526c78}#result h3{color:#147f79}.solve.solved{border-color:var(--teal)}
 footer{color:var(--muted)}dialog{background:#f7f3ea;color:var(--ink);border-color:var(--line);border-radius:22px}dialog::backdrop{background:#183b56aa}dialog p{color:#526c78}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #147f79;outline-offset:3px}
-.start-panel .eyebrow{color:#c7be8a}
+.start-panel{color:#e9e5d9}.start-panel .eyebrow{color:#c7be8a}
 @media(prefers-contrast:more){:root{--muted:#405c70;--line:#839aa5}.key,.slot{border-color:#183b56}.intro-copy,#message,.hint-row small,footer{color:#405c70}}
