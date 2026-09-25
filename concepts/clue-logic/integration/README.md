@@ -49,3 +49,5 @@ This prototype uses the browser/device's English speech voice (Australian Englis
 Run the audio lifecycle and cue tests with `npx tsx --test concepts/clue-logic/integration/narration.test.ts concepts/clue-logic/integration/state.test.ts`.
 
 Narration refinement: the main 22-second sequence now contains only three short in-scene lines (Come on…, One second., Still waiting?), separated by silence. Subtitles match those lines and disappear between them. Manual looking is silent; the opened hint says Let me see…. The device voice and animation are unchanged.
+
+Timing correction: Come on starts at 5.6s after the pot close-up settles; a local synthesised double knock starts at 7.7s, and One second starts at 8.5s. The knock follows the voice-over switch and is captioned for silent viewing. Camera choreography is unchanged.

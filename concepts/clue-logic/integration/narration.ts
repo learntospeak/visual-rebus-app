@@ -4,8 +4,8 @@ export type SceneView='auto'|'watch'|'away'|'inspect'
 export function sceneCaption(time:number,view:SceneView){
  if(view==='inspect')return 'Let me see…'
  if(view!=='auto')return ''
- if(time<3)return 'Come on…'
- if(time>=7.7&&time<10.5)return 'One second.'
+ if(time>=5.6&&time<7.5)return 'Come on…'
+ if(time>=8.5&&time<10.5)return 'One second.'
  if(time>=17&&time<20)return 'Still waiting?'
  return ''
 }

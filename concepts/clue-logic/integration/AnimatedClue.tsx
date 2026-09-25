@@ -1,5 +1,6 @@
 import {useEffect,useRef,useState} from 'react'
 import {createNarrator,MEDIA_KEY,readMediaPreferences,sceneCaption} from './narration'
+import {createKnock} from './knock'
 import {Button} from '../../../src/components/Button'
 
 export interface AnimatedClueProps {hintRevision:number;hintOpened:boolean;onStarted:()=>void;onError?:(message:string)=>void}
@@ -13,12 +14,14 @@ export function AnimatedClue({hintRevision,hintOpened,onStarted,onError}:Animate
  const [voiceError,setVoiceError]=useState('')
  const voiceEnabled=useRef(media.voice);voiceEnabled.current=media.voice
  const speechAvailable=typeof window.speechSynthesis!=='undefined'&&typeof window.SpeechSynthesisUtterance!=='undefined'
+ const knock=useRef<ReturnType<typeof createKnock>|null>(null),knocked=useRef(false)
+ useEffect(()=>{knock.current=createKnock();return()=>{knock.current?.dispose();knock.current=null}},[])
  const narrator=useRef<ReturnType<typeof createNarrator>|null>(null)
  const speechFailure=useRef(()=>{setVoiceError('Voice-over is unavailable right now. Subtitles have been turned on.');setMedia(p=>({...p,voice:false,subtitles:true}))})
  useEffect(()=>{if(speechAvailable)narrator.current=createNarrator(window.speechSynthesis,window.SpeechSynthesisUtterance,()=>speechFailure.current());return()=>{narrator.current?.stop();narrator.current=null}},[speechAvailable])
  useEffect(()=>{try{localStorage.setItem(MEDIA_KEY,JSON.stringify(media))}catch{}},[media])
- function narrate(){const c=controls.current;if(voiceEnabled.current&&c.started&&!document.hidden)narrator.current?.say(sceneCaption(c.time,c.view))}
- function toggleVoice(){const enabled=!media.voice;voiceEnabled.current=enabled;setMedia(p=>({...p,voice:enabled}));setVoiceError('');if(enabled)narrate();else narrator.current?.stop()}
+ function narrate(){const c=controls.current;if(c.view==='auto'&&c.time>=7.7&&!knocked.current){knocked.current=true;if(c.time<8.5&&voiceEnabled.current&&!document.hidden)knock.current?.play()}if(voiceEnabled.current&&c.started&&!document.hidden)narrator.current?.say(sceneCaption(c.time,c.view))}
+ function toggleVoice(){const enabled=!media.voice;voiceEnabled.current=enabled;setMedia(p=>({...p,voice:enabled}));setVoiceError('');if(enabled){knock.current?.unlock();narrate()}else{narrator.current?.stop();knock.current?.stop()}}
  const onErrorRef=useRef(onError);onErrorRef.current=onError
  const reduced=useRef(matchMedia('(prefers-reduced-motion: reduce)').matches)
  const previousFocus=useRef<HTMLElement|null>(null)
@@ -28,7 +31,7 @@ export function AnimatedClue({hintRevision,hintOpened,onStarted,onError}:Animate
   const mq=matchMedia('(prefers-reduced-motion: reduce)')
   const motion=()=>{reduced.current=mq.matches;if(mq.matches){controls.current.playing=false;controls.current.instant=true;setPlaying(false);narrator.current?.stop()}}
   mq.addEventListener('change',motion)
-  const visibility=()=>{last=performance.now();if(document.hidden)narrator.current?.stop();else if(controls.current.playing)narrate()}
+  const visibility=()=>{last=performance.now();if(document.hidden){narrator.current?.stop();knock.current?.stop()}else if(controls.current.playing)narrate()}
   document.addEventListener('visibilitychange',visibility)
   function fit(){if(!canvas.current||!stage.current)return;const {width:w,height:h}=stage.current.getBoundingClientRect();const ratio=matchMedia('(max-width:700px)').matches?1/1.06:16/11;const width=Math.min(w,h*ratio);canvas.current.style.width=`${width}px`;canvas.current.style.height=`${width/ratio}px`}
   const observer=new ResizeObserver(fit);if(stage.current)observer.observe(stage.current)
@@ -44,14 +47,14 @@ export function AnimatedClue({hintRevision,hintOpened,onStarted,onError}:Animate
   }).catch(()=>{if(cancelled)return;const message='The animation could not load. Try reloading or use the scene description below.';setError(message);onErrorRef.current?.(message)})
   return()=>{cancelled=true;cancelAnimationFrame(frame);observer.disconnect();window.removeEventListener('resize',fit);document.removeEventListener('visibilitychange',visibility);mq.removeEventListener('change',motion);kitchen?.dispose()}
  },[])
- function begin(){const c=controls.current;c.started=true;c.time=0;c.view='auto';c.playing=!reduced.current;c.instant=reduced.current;setStarted(true);setPlaying(c.playing);setAway(false);setTime(0);onStarted();narrator.current?.stop();narrate()}
+ function begin(){knocked.current=false;knock.current?.stop();if(voiceEnabled.current)knock.current?.unlock();const c=controls.current;c.started=true;c.time=0;c.view='auto';c.playing=!reduced.current;c.instant=reduced.current;setStarted(true);setPlaying(c.playing);setAway(false);setTime(0);onStarted();narrator.current?.stop();narrate()}
  function inspect(){const c=controls.current;c.started=true;c.time=22;c.view='inspect';c.playing=false;c.instant=reduced.current;setStarted(true);setPlaying(false);setAway(true);setTime(22);narrate()}
  useEffect(()=>{if(hintRevision>0)inspect()},[hintRevision])
  useEffect(()=>{if(!expanded)return;previousFocus.current=document.activeElement as HTMLElement;const old=document.body.style.overflow;document.body.style.overflow='hidden';const close=stage.current?.parentElement?.querySelector<HTMLButtonElement>('.logic-close');close?.focus()
   const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){setExpanded(false);return}if(e.key==='Tab'){const nodes=[...(stage.current?.parentElement?.querySelectorAll<HTMLElement>('button:not(:disabled), summary')||[])];const first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus()}}};document.addEventListener('keydown',key)
   return()=>{document.body.style.overflow=old;document.removeEventListener('keydown',key);previousFocus.current?.focus()}
  },[expanded])
- const caption=sceneCaption(time,controls.current.view)
+ const caption=controls.current.view==='auto'&&time>=7.7&&time<8.5?'[Knock at the door]':sceneCaption(time,controls.current.view)
  return <div className={`logic-animation${expanded?' is-expanded':''}`} role={expanded?'dialog':undefined} aria-modal={expanded||undefined} aria-label="Before Service animated clue">
   {expanded&&<Button variant="secondary" className="logic-close" onClick={()=>setExpanded(false)}>Close enlarged view</Button>}
   <div ref={stage} className="logic-stage"><canvas ref={canvas} role="img" aria-label="The original kitchen scene. Watch how the pot changes as your gaze moves."/>
@@ -60,7 +63,7 @@ export function AnimatedClue({hintRevision,hintOpened,onStarted,onError}:Animate
    {started&&media.subtitles&&caption&&<span className="logic-caption" aria-live="off">{caption}</span>}
   </div>
   <div className="logic-film-progress" aria-label={`${Math.floor(time)} of 22 seconds`}><span style={{width:`${time/22*100}%`}}/></div>
-  <div className="logic-film-controls"><button disabled={!ready} onClick={()=>{if(!started||controls.current.time===22){begin();return}controls.current.playing=!controls.current.playing;setPlaying(controls.current.playing);if(controls.current.playing)narrate();else narrator.current?.stop()}}>{playing?'Pause':time===22?'Replay':'Play'}</button>
+  <div className="logic-film-controls"><button disabled={!ready} onClick={()=>{if(!started||controls.current.time===22){begin();return}controls.current.playing=!controls.current.playing;setPlaying(controls.current.playing);if(controls.current.playing)narrate();else{narrator.current?.stop();knock.current?.stop()}}}>{playing?'Pause':time===22?'Replay':'Play'}</button>
    <button disabled={!ready||!started} onClick={()=>{const c=controls.current;c.playing=false;c.view='auto';c.time=Math.min(22,c.time+3);c.instant=true;setTime(c.time);setPlaying(false);setAway(false);narrate()}}>Next moment</button>
    <button disabled={!ready||!started} onClick={()=>{const c=controls.current;c.playing=false;c.time=22;c.view=c.view==='away'||c.view==='inspect'?'watch':'away';c.instant=reduced.current;setTime(22);setPlaying(false);setAway(c.view==='away');narrate()}}>{away?'Look back':'Look away'}</button>
    {!expanded&&<button onClick={()=>setExpanded(true)} aria-label="Enlarge animation">⛶</button>}
