@@ -39,3 +39,11 @@ The prototype imports the real Button, AnswerPattern, CluePanel, ProgressBar, So
 Automated checks cover corrupt-save recovery, hints and repeated guesses, failure lockout, saved wins, the existing ten-scene rules, TypeScript and the main 565-puzzle production build. Browser testing covers desktop and 390px/320px layouts, correct letters, paid hints, failure/retry, save restoration, play-button restoration and enlarged viewing.
 
 This remains a one-puzzle integration sample, not a complete paid chapter. Real Android/iPhone performance, reduced-motion device behavior, chapter continuation, final narrative reveal, pricing and purchases still need acceptance testing or implementation. Keep the PR in draft and the playtest separate until the owner approves the experience.
+
+## Optional narration and subtitles
+
+The owner approved the visual prototype on 25 September 2026. Voice-over and subtitles now have independent, remembered controls. Voice defaults off and subtitles default on; narration starts only with user interaction. Preferences use `cluecanvas.clueLogic.media.v1`, separate from puzzle progress.
+
+This prototype uses the browser/device's English speech voice (Australian English preferred when installed), not a recorded actor or generated audio asset. Voice quality and availability depend on the device. Narration uses the exact approved caption script and changes with the scene. It cancels stale speech on scene changes, pause, mute, backgrounding and unmount. A speech error turns subtitles on. Listening does not cost a lifeline or reveal extra answers. Real-phone voice playback and perceived voice quality still require owner testing.
+
+Run the audio lifecycle and cue tests with `npx tsx --test concepts/clue-logic/integration/narration.test.ts concepts/clue-logic/integration/state.test.ts`.

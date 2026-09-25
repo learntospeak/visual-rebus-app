@@ -1,0 +1,10 @@
+import {test} from 'node:test'
+import assert from 'node:assert/strict'
+import {createNarrator,readMediaPreferences,sceneCaption} from './narration'
+class Utterance {text:string;onerror:any=null;onend:any=null;constructor(text:string){this.text=text}}
+function harness(){const spoken:Utterance[]=[];let cancels=0,errors=0;const synth={speak:(u:SpeechSynthesisUtterance)=>spoken.push(u),cancel:()=>{cancels++},resume:()=>{},getVoices:()=>[]};const narrator=createNarrator(synth,Utterance as unknown as typeof SpeechSynthesisUtterance,()=>errors++);return {narrator,spoken,get cancels(){return cancels},get errors(){return errors}}}
+test('cue boundaries preserve approved subtitle script',()=>{assert.equal(sceneCaption(3.9,'auto'),'The first guests are almost here.');assert.equal(sceneCaption(4,'auto'),'Still not ready.');assert.equal(sceneCaption(22,'auto'),'What changed when you looked away?');assert.equal(sceneCaption(0,'inspect'),'A different angle: see what you missed.')})
+test('voice and subtitle preferences are independent and corrupt saves are safe',()=>{assert.deepEqual(readMediaPreferences('{bad'),{voice:false,subtitles:true});assert.deepEqual(readMediaPreferences('{"voice":true,"subtitles":false}'),{voice:true,subtitles:false})})
+test('frame updates do not repeat narration; changed clues cancel old speech',()=>{const h=harness();h.narrator.say('First');h.narrator.say('First');assert.equal(h.spoken.length,1);h.narrator.say('Second');assert.equal(h.cancels,1);assert.deepEqual(h.spoken.map(u=>u.text),['First','Second'])})
+test('stopping audio detaches callbacks and lets replay start the same cue',()=>{const h=harness();h.narrator.say('First');const old=h.spoken[0];h.narrator.stop();assert.equal(old.onerror,null);h.narrator.say('First');assert.equal(h.spoken.length,2)})
+test('speech failure triggers the subtitle fallback, expected cancellation does not',()=>{const h=harness();h.narrator.say('First');h.spoken[0].onerror({error:'interrupted'});assert.equal(h.errors,0);h.narrator.say('Second');h.spoken[1].onerror({error:'not-allowed'});assert.equal(h.errors,1)})
