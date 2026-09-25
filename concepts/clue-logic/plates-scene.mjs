@@ -109,17 +109,29 @@ export function makeKitchen(canvas){
  }
  // A first-person gloved hand steadies and turns each stem; no character cut-outs.
  const hand=new THREE.Group();scene.add(hand);const glove=mat('#d4cfbd',.72),sleeve=mat('#283f42',.86);
- const palm=mesh(new THREE.SphereGeometry(.15,24,16),glove,0,0,0,hand);palm.scale.set(.78,.48,1.3);
- for(let i=0;i<4;i++){const finger=mesh(new THREE.CapsuleGeometry(.027,.13,6,12),glove,-.082+i*.054,.012,-.145,hand);finger.rotation.x=.95;}
- const thumb=mesh(new THREE.CapsuleGeometry(.037,.1,6,12),glove,.12,-.02,-.025,hand);thumb.rotation.z=-.7;thumb.rotation.x=.6;
- const cuff=cyl(.10,.105,.12,porcelain,0,-.015,.23,hand);cuff.rotation.x=Math.PI/2;
- const armStart=new THREE.Vector3(0,-.02,.29),armEnd=new THREE.Vector3(.1,-2.6,2.8);const armMid=armStart.clone().add(armEnd).multiplyScalar(.5);const arm=cyl(.105,.23,armStart.distanceTo(armEnd),sleeve,armMid.x,armMid.y,armMid.z,hand);arm.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),armStart.clone().sub(armEnd).normalize());
+ // A side-on precision grip: four distinct curled fingers oppose the thumb.
+ // The stem sits at local (-.105, 0, -.07), inside the finger pads.
+ const palm=mesh(new THREE.SphereGeometry(1,32,24),glove,.005,-.015,.035,hand);palm.scale.set(.075,.115,.055);
+ const fingers=[];
+ for(let i=0;i<4;i++){
+  const digit=new THREE.Group();digit.position.set(-.025,.075-i*.052,.025);hand.add(digit);
+  const length=[1,1.07,1,.82][i];
+  const points=[[.012,0,0],[-.045*length,.005,-.012],[-.095*length,.003,-.055],[-.09*length,-.005,-.105],[-.054*length,-.011,-.119]];
+  tube(points,.021-i*.001,glove,digit);
+  const end=points[points.length-1];mesh(new THREE.SphereGeometry(.021-i*.001,16,12),glove,...end,digit);
+  fingers.push(digit);
+ }
+ tube([[.055,-.055,.025],[.075,.008,-.008],[.04,.07,-.06],[-.015,.075,-.095]],.028,glove,hand);
+ const thumbPad=mesh(new THREE.SphereGeometry(.029,20,16),glove,-.015,.075,-.095,hand);thumbPad.scale.set(1,1,.78);
+ const wrist=mesh(new THREE.SphereGeometry(1,24,16),glove,.018,-.145,.07,hand);wrist.scale.set(.057,.095,.06);
+ const armStart=new THREE.Vector3(.018,-.205,.09),armEnd=new THREE.Vector3(.32,-2.6,6);const armMid=armStart.clone().add(armEnd).multiplyScalar(.5);const arm=cyl(.073,.21,armStart.distanceTo(armEnd),sleeve,armMid.x,armMid.y,armMid.z,hand);arm.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),armStart.clone().sub(armEnd).normalize());
+ const cuff=cyl(.078,.082,.105,sleeve,.022,-.202,.092,hand);cuff.quaternion.copy(arm.quaternion);
  // A brass service bell and folded linen tie the set to the previous room.
  const linen=box(.7,.025,.5,mat('#bcb5a0'),1.73,1.56,2.35);linen.rotation.y=.12;
  function updatePlates(t,view){
   plates.forEach(({tilt,spin},i)=>{const m=plateMotion(t,i);spin.rotation.y=m.spin;tilt.rotation.x=Math.sin(t*(5.2+i)+i)*m.wobble;tilt.rotation.z=Math.cos(t*(5.2+i)+i)*m.wobble;});
   const event=activeRescue(t);hand.visible=!!event;
-  if(event){const phase=(t-event.time)/.8;const reach=Math.sin((phase+1)*Math.PI/2);hand.position.set(plateX[event.index]+.1+Math.sin(phase*Math.PI)*.07,1.08+reach*1.01,3.1-reach*.83);hand.rotation.y=-.28+Math.sin(phase*Math.PI)*.34;hand.rotation.z=phase*.06;}
+  if(event){const phase=(t-event.time)/.8;const contact=1-Math.pow(Math.abs(phase),3);const reach=contact*contact*(3-2*contact);hand.position.set(plateX[event.index]+.105+(1-reach)*.24,1.06+reach*1.02,3.5-Math.pow(reach,3)*1.38);hand.rotation.y=Math.sin(phase*Math.PI)*.09;hand.rotation.z=(1-reach)*-.18;fingers.forEach((digit,i)=>{digit.rotation.y=(1-reach)*-.55;digit.rotation.z=(1-reach)*(i-1.5)*.035;});}
  }
 
  let physical=0,activity=0,started=false,solved=false,cameraReady=false,lastMode='auto';
