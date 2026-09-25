@@ -1,6 +1,6 @@
 // Prototype copy of src/screens/PuzzleScreen.tsx. Only the visual slot and lifeline rules differ.
 import { useEffect, useRef, useState, type FormEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type RefObject } from 'react'
-import { AnswerPattern } from '../../../src/components/AnswerPattern'
+import { AnswerPattern } from './AnswerPattern'
 import { Button } from '../../../src/components/Button'
 import { CluePanel } from '../../../src/components/CluePanel'
 import { ProgressBar } from '../../../src/components/ProgressBar'
@@ -221,7 +221,7 @@ export function PuzzleScreen({
       ) : !blocked && <form className="answer-form" onSubmit={handleSubmit}>
         <label htmlFor="answer">Your answer</label>
         {misses.length > 0 && <p className="logic-misses">Not in the phrase: {misses.join(' · ').toUpperCase()}</p>}
-        <AnswerPattern pattern={puzzle.wordPattern} answer={puzzle.answer} locked={lockedLetters} celebrating={celebrating} />
+        <AnswerPattern pattern={puzzle.wordPattern} answer={puzzle.answer} locked={lockedLetters} celebrating={celebrating} guess={guess} />
         <input
           ref={answerInput}
           id="answer"
