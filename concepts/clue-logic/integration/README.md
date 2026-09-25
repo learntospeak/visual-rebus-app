@@ -51,3 +51,5 @@ Run the audio lifecycle and cue tests with `npx tsx --test concepts/clue-logic/i
 Narration refinement: the main 22-second sequence now contains only three short in-scene lines (Come on…, One second., Still waiting?), separated by silence. Subtitles match those lines and disappear between them. Manual looking is silent; the opened hint says Let me see…. The device voice and animation are unchanged.
 
 Timing correction: Come on starts at 5.6s after the pot close-up settles; a local synthesised double knock starts at 7.7s, and One second starts at 8.5s. The knock follows the voice-over switch and is captioned for silent viewing. Camera choreography is unchanged.
+
+Detective delivery: retain the same device voice, with rate 0.88, pitch 0.86 and volume 0.82. Short lines now end with ellipses for a quieter thinking-aloud feel. Cue start times and camera motion stay fixed. Expressive delivery varies by device speech engine; recorded narration would provide finer acting control.

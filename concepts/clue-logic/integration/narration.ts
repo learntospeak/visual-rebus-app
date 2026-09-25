@@ -5,8 +5,8 @@ export function sceneCaption(time:number,view:SceneView){
  if(view==='inspect')return 'Let me see…'
  if(view!=='auto')return ''
  if(time>=5.6&&time<7.5)return 'Come on…'
- if(time>=8.5&&time<10.5)return 'One second.'
- if(time>=17&&time<20)return 'Still waiting?'
+ if(time>=8.5&&time<10.5)return 'One second…'
+ if(time>=17&&time<20)return 'Still waiting…'
  return ''
 }
 export function readMediaPreferences(raw:string|null){
@@ -25,7 +25,7 @@ export function createNarrator(synth:Pick<SpeechSynthesis,'cancel'|'speak'|'getV
    const voices=synth.getVoices().filter(v=>/^en(?:-|_)/i.test(v.lang))
    const voice=voices.find(v=>v.lang.toLowerCase()==='en-au')||voices.find(v=>v.default)||voices.find(v=>v.lang.toLowerCase()==='en-gb')||voices[0]
    if(voice)utterance.voice=voice
-   utterance.lang=voice?.lang||'en-AU';utterance.rate=1;utterance.pitch=1
+   utterance.lang=voice?.lang||'en-AU';utterance.rate=.88;utterance.pitch=.86;utterance.volume=.82
    utterance.onend=()=>{if(current===utterance)current=null}
    utterance.onerror=e=>{if(current!==utterance)return;current=null;if(e.error!=='canceled'&&e.error!=='interrupted'){last='';onError()}}
    synth.resume();synth.speak(utterance)
