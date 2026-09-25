@@ -1,0 +1,5 @@
+import type {Puzzle} from '../../../src/types'
+export const puzzle: Puzzle={id:10001,contentVersion:'clue-logic-test-1',chapterId:'clue-logic-test',chapterOrder:1,answer:'a watched pot never boils',acceptedAnswers:['watched pot never boils','the watched pot never boils'],wordPattern:'1 7 3 5 5',difficulty:'Medium',difficultyScore:4,estimatedSolveSeconds:90,format:'motion',visualTemplate:'freeform',mechanics:['sequence'],prompt:'Watch the scene. Can you picture the phrase?',elements:[],clues:['Compare the water while you watch the pot with what happens when you turn away. A correct letter is now in place.','',''],region:'Global',unlock:{requiresPuzzleIds:[]},artwork:{version:2,creator:'Clue Canvas',source:'Original Before Service scene',licence:'Original scene; Three.js MIT',kind:'project-asset'},qa:{status:'Draft',testerResults:[]}}
+export type Action={type:'letter';letter:string}|{type:'phrase';answer:string}|{type:'hint';id:string}
+export type Round={lives:number;letters:string[];misses:string[];hints:string[];wrongPhrases:string[];status:'playing'|'won'|'lost'}
+export const SAVE_KEY='cluecanvas.clueLogic.integration.v1'

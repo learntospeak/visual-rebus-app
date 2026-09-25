@@ -113,7 +113,14 @@ export function makeKitchen(canvas){
   renderer.render(scene,camera);lastMode=view;
  }
  draw({instant:true});
- return {draw,dispose(){ro.disconnect();renderer.dispose();env.dispose();}};
+ return {draw,dispose(){
+  ro.disconnect();
+  const geometries=new Set(),materials=new Set(),textures=new Set();
+  for(const root of [scene,environment])root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m);});
+  for(const m of materials){for(const value of Object.values(m))if(value?.isTexture)textures.add(value);m.dispose();}
+  for(const texture of textures)texture.dispose();for(const geometry of geometries)geometry.dispose();
+  renderer.dispose();renderer.forceContextLoss();env.dispose();
+ }};
 }
 
 
