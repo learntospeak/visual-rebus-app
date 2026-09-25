@@ -57,7 +57,7 @@ export function AnimatedClue({hintRevision,hintOpened,onStarted,onError}:Animate
   <div ref={stage} className="logic-stage"><canvas ref={canvas} role="img" aria-label="The original kitchen scene. Watch how the pot changes as your gaze moves."/>
    {!started&&!error&&<div className="logic-play-overlay"><Button onClick={begin} disabled={!ready}>{ready?'Play animation':'Loading scene…'}</Button></div>}
    {error&&<div className="logic-play-overlay"><p role="alert">{error}</p></div>}
-   {started&&media.subtitles&&<span className="logic-caption" aria-live="off">{caption}</span>}
+   {started&&media.subtitles&&caption&&<span className="logic-caption" aria-live="off">{caption}</span>}
   </div>
   <div className="logic-film-progress" aria-label={`${Math.floor(time)} of 22 seconds`}><span style={{width:`${time/22*100}%`}}/></div>
   <div className="logic-film-controls"><button disabled={!ready} onClick={()=>{if(!started||controls.current.time===22){begin();return}controls.current.playing=!controls.current.playing;setPlaying(controls.current.playing);if(controls.current.playing)narrate();else narrator.current?.stop()}}>{playing?'Pause':time===22?'Replay':'Play'}</button>

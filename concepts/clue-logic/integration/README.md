@@ -47,3 +47,5 @@ The owner approved the visual prototype on 25 September 2026. Voice-over and sub
 This prototype uses the browser/device's English speech voice (Australian English preferred when installed), not a recorded actor or generated audio asset. Voice quality and availability depend on the device. Narration uses the exact approved caption script and changes with the scene. It cancels stale speech on scene changes, pause, mute, backgrounding and unmount. A speech error turns subtitles on. Listening does not cost a lifeline or reveal extra answers. Real-phone voice playback and perceived voice quality still require owner testing.
 
 Run the audio lifecycle and cue tests with `npx tsx --test concepts/clue-logic/integration/narration.test.ts concepts/clue-logic/integration/state.test.ts`.
+
+Narration refinement: the main 22-second sequence now contains only three short in-scene lines (Come on…, One second., Still waiting?), separated by silence. Subtitles match those lines and disappear between them. Manual looking is silent; the opened hint says Let me see…. The device voice and animation are unchanged.

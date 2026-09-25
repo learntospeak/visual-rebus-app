@@ -1,10 +1,13 @@
 export const MEDIA_KEY='cluecanvas.clueLogic.media.v1'
 export type SceneView='auto'|'watch'|'away'|'inspect'
+// Sparse in-scene dialogue; empty intervals intentionally leave room for the action.
 export function sceneCaption(time:number,view:SceneView){
- if(view==='inspect')return 'A different angle: see what you missed.'
- if(view==='away')return 'Your attention moves elsewhere.'
- if(view==='watch')return 'You return to the stove.'
- return time<4?'The first guests are almost here.':time<7.7?'Still not ready.':time<11?'A sound by the door.':time<16?'Just a moment…':time<20?'Back to the stove.':'What changed when you looked away?'
+ if(view==='inspect')return 'Let me see…'
+ if(view!=='auto')return ''
+ if(time<3)return 'Come on…'
+ if(time>=7.7&&time<10.5)return 'One second.'
+ if(time>=17&&time<20)return 'Still waiting?'
+ return ''
 }
 export function readMediaPreferences(raw:string|null){
  try{const p=JSON.parse(raw||'null');return {voice:p?.voice===true,subtitles:p?.subtitles!==false}}catch{return {voice:false,subtitles:true}}
@@ -16,6 +19,7 @@ export function createNarrator(synth:Pick<SpeechSynthesis,'cancel'|'speak'|'getV
  return {stop,say(text:string){
   if(text===last)return
   stop();last=text
+  if(!text.trim())return
   try{
    const utterance=new Utterance(text);current=utterance
    const voices=synth.getVoices().filter(v=>/^en(?:-|_)/i.test(v.lang))
