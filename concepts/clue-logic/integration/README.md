@@ -40,16 +40,10 @@ Automated checks cover corrupt-save recovery, hints and repeated guesses, failur
 
 This remains a one-puzzle integration sample, not a complete paid chapter. Real Android/iPhone performance, reduced-motion device behavior, chapter continuation, final narrative reveal, pricing and purchases still need acceptance testing or implementation. Keep the PR in draft and the playtest separate until the owner approves the experience.
 
-## Optional narration and subtitles
+## Sound-only scene
 
-The owner approved the visual prototype on 25 September 2026. Voice-over and subtitles now have independent, remembered controls. Voice defaults off and subtitles default on; narration starts only with user interaction. Preferences use `cluecanvas.clueLogic.media.v1`, separate from puzzle progress.
+Voice, subtitles, their controls, preferences and speech-synthesis code have been removed at the owner's request. Play starts a low flame bed. A real recorded wooden-door knock plays at 7.7 seconds. Rapid bubbling builds during the visual look-away interval (9–18.2 seconds), then settles as the camera returns. Manual look and paid clue views follow the same sound mix. Pause, backgrounding, completion and exit silence playback; replay resets the knock. The existing accessible scene-description disclosure remains available.
 
-This prototype uses the browser/device's English speech voice (Australian English preferred when installed), not a recorded actor or generated audio asset. Voice quality and availability depend on the device. Narration uses the exact approved caption script and changes with the scene. It cancels stale speech on scene changes, pause, mute, backgrounding and unmount. A speech error turns subtitles on. Listening does not cost a lifeline or reveal extra answers. Real-phone voice playback and perceived voice quality still require owner testing.
+See audio/CREDITS.md for the public-domain knock recording and original generated flame/boiling loops. All playback uses local WAV assets, without external audio services. Old voice/subtitle preferences are no longer read. Actual speaker/headphone balance still benefits from owner listening tests.
 
-Run the audio lifecycle and cue tests with `npx tsx --test concepts/clue-logic/integration/narration.test.ts concepts/clue-logic/integration/state.test.ts`.
-
-Narration refinement: the main 22-second sequence now contains only three short in-scene lines (Come on…, One second., Still waiting?), separated by silence. Subtitles match those lines and disappear between them. Manual looking is silent; the opened hint says Let me see…. The device voice and animation are unchanged.
-
-Timing correction: Come on starts at 5.6s after the pot close-up settles; a local synthesised double knock starts at 7.7s, and One second starts at 8.5s. The knock follows the voice-over switch and is captioned for silent viewing. Camera choreography is unchanged.
-
-Detective delivery: retain the same device voice, with rate 0.88, pitch 0.86 and volume 0.82. Short lines now end with ellipses for a quieter thinking-aloud feel. Cue start times and camera motion stay fixed. Expressive delivery varies by device speech engine; recorded narration would provide finer acting control.
+Validation: TypeScript, independent build, sound-mix and knock-boundary tests, saved-state tests, and browser checks for removed controls and playback interactions.
