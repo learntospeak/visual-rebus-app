@@ -3,3 +3,7 @@ export const puzzle: Puzzle={id:10001,contentVersion:'clue-logic-test-1',chapter
 export type Action={type:'letter';letter:string}|{type:'phrase';answer:string}|{type:'hint';id:string}
 export type Round={lives:number;letters:string[];misses:string[];hints:string[];wrongPhrases:string[];status:'playing'|'won'|'lost'}
 export const SAVE_KEY='cluecanvas.clueLogic.integration.v1'
+
+export const sceneTitles=['Before Service','A Balancing Problem'] as const
+export const puzzles: Puzzle[]=[puzzle,{...puzzle,id:10002,chapterOrder:2,answer:'keep the plates spinning',acceptedAnswers:['keep plates spinning','keeping the plates spinning','keeping plates spinning','spinning plates','keep all the plates spinning'],wordPattern:'4 3 6 8',difficultyScore:5,estimatedSolveSeconds:110,clues:['Watch what happens just before a plate is steadied. Every plate needs attention to stay moving. A correct letter is now in place.','',''],artwork:{...puzzle.artwork,source:'Original A Balancing Problem scene'}}]
+export const sceneSaveKey=(index:number,base=SAVE_KEY)=>index===0?base:base+'.plates'

@@ -7,3 +7,6 @@
 - `rapid-boiling.wav`: that real pot-boiling recording, converted to mono 22,050 Hz PCM, level-adjusted and crossfaded into a loop. It replaces the earlier generated bubble effect.
 
 All three shipped WAVs are local assets. No third-party service is contacted during playback. Voice and subtitles were removed at the owner's request.
+
+- plate-source.mp3: **Large plate set on table**, Joseph SARDIN, BigSoundBank sound 1189, CC0. Source and licence: https://bigsoundbank.com/large-plate-set-on-table-s1189.html . Download: https://bigsoundbank.com/UPLOAD/mp3/1189.mp3 .
+- plate-clink.wav: 0.65-second ceramic contact trimmed from 3.9538 seconds, downmixed and level-adjusted to mono 22,050 Hz PCM; played at the second scene's plate recovery moments.

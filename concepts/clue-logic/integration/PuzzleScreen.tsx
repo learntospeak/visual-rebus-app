@@ -79,6 +79,7 @@ function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
 }
 
 interface PuzzleScreenProps {
+  sceneTitle: string
   visual: ReactNode
   lives: number
   completed: boolean
@@ -104,7 +105,7 @@ interface PuzzleScreenProps {
 }
 
 export function PuzzleScreen({
-  visual, lives, blocked, completed, misses, clueDisabled, onRetry,
+  sceneTitle, visual, lives, blocked, completed, misses, clueDisabled, onRetry,
   puzzle,
   puzzleNumber,
   puzzleCount,
@@ -202,7 +203,7 @@ export function PuzzleScreen({
         <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty} · {puzzle.difficultyScore}/10</span>
       </header>
 
-      <div className="logic-status"><span>Clue Logic · Before Service</span><strong aria-live="polite">{lives} of 3 lifelines</strong></div>
+      <div className="logic-status"><span>Clue Logic · {sceneTitle}</span><strong aria-live="polite">{lives} of 3 lifelines</strong></div>
       <section className="puzzle-card">
         {puzzle.id !== 6 && puzzle.prompt && <p>{puzzle.prompt}</p>}
         <div className="puzzle-art-frame">

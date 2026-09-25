@@ -5,3 +5,4 @@
 
 .logic-sound-notice{font-size:.72rem;color:var(--muted)}
 
+.logic-scene-list{display:grid;gap:16px}.logic-scene-list article{background:#fffefa;border:1px solid #dce5df;border-radius:20px;padding:20px}.logic-scene-list h2{font:800 1.3rem Manrope,sans-serif;color:var(--ink);margin:9px 0}.logic-scene-list p{font-size:.85rem;line-height:1.6;color:var(--muted)}.logic-scene-list button{width:100%;margin-top:8px}
