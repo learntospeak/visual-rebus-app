@@ -44,6 +44,8 @@ This remains a one-puzzle integration sample, not a complete paid chapter. Real 
 
 Voice, subtitles, their controls, preferences and speech-synthesis code have been removed at the owner's request. Play starts a low flame bed. A real recorded wooden-door knock plays at 7.7 seconds. Rapid bubbling builds during the visual look-away interval (9–18.2 seconds), then settles as the camera returns. Manual look and paid clue views follow the same sound mix. Pause, backgrounding, completion and exit silence playback; replay resets the knock. The existing accessible scene-description disclosure remains available.
 
-See audio/CREDITS.md for the public-domain knock recording and original generated flame/boiling loops. All playback uses local WAV assets, without external audio services. Old voice/subtitle preferences are no longer read. Actual speaker/headphone balance still benefits from owner listening tests.
+See audio/CREDITS.md for the public-domain knock recording and original generated flame loop and CC0 real pot-boiling recording. All playback uses local WAV assets, without external audio services. Old voice/subtitle preferences are no longer read. Actual speaker/headphone balance still benefits from owner listening tests.
 
 Validation: TypeScript, independent build, sound-mix and knock-boundary tests, saved-state tests, and browser checks for removed controls and playback interactions.
+
+The boiling layer now uses a real pot recording instead of pitched synthetic bubbles, at a lower level with softer gain transitions. Camera and knock timing are unchanged.

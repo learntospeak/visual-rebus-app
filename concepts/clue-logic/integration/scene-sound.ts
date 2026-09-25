@@ -1,5 +1,5 @@
 export type SoundState={time:number;view:'auto'|'watch'|'away'|'inspect';active:boolean;playing:boolean}
-export function soundMix(s:SoundState){return {flame:s.active?.32:0,boil:s.active&&(s.view==='away'||s.view==='inspect'||s.view==='auto'&&s.time>9&&s.time<18.2)?.72:0}}
+export function soundMix(s:SoundState){return {flame:s.active?.32:0,boil:s.active&&(s.view==='away'||s.view==='inspect'||s.view==='auto'&&s.time>9&&s.time<18.2)?.64:0}}
 export function shouldKnock(previous:number,s:SoundState,already:boolean){return !already&&s.active&&s.playing&&s.view==='auto'&&previous<7.7&&s.time>=7.7&&s.time<8.5}
 const urls=[new URL('./audio/stove-flame.wav',import.meta.url).href,new URL('./audio/rapid-boiling.wav',import.meta.url).href,new URL('./audio/door-knock.wav',import.meta.url).href]
 export function createSceneSound(onError:()=>void){
@@ -12,7 +12,7 @@ export function createSceneSound(onError:()=>void){
   if(!context||!master||!flame||!boil)return
   const now=context.currentTime,mix=soundMix(next)
   master.gain.setTargetAtTime(next.active?1:0,now,.025)
-  flame.gain.setTargetAtTime(mix.flame,now,.15);boil.gain.setTargetAtTime(mix.boil,now,mix.boil?.4:.2)
+  flame.gain.setTargetAtTime(mix.flame,now,.15);boil.gain.setTargetAtTime(mix.boil,now,mix.boil?.55:.28)
   if(!next.active)stopKnocks()
   if(hit&&knockBuffer&&context.state==='running')knocks.add(source(knockBuffer,master))
  }
