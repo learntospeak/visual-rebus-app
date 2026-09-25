@@ -124,14 +124,34 @@ export function makeKitchen(canvas){
  tube([[.055,-.055,.025],[.075,.008,-.008],[.04,.07,-.06],[-.015,.075,-.095]],.028,glove,hand);
  const thumbPad=mesh(new THREE.SphereGeometry(.029,20,16),glove,-.015,.075,-.095,hand);thumbPad.scale.set(1,1,.78);
  const wrist=mesh(new THREE.SphereGeometry(1,24,16),glove,.018,-.145,.07,hand);wrist.scale.set(.057,.095,.06);
- const armStart=new THREE.Vector3(.018,-.205,.09),armEnd=new THREE.Vector3(.32,-2.6,6);const armMid=armStart.clone().add(armEnd).multiplyScalar(.5);const arm=cyl(.073,.21,armStart.distanceTo(armEnd),sleeve,armMid.x,armMid.y,armMid.z,hand);arm.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),armStart.clone().sub(armEnd).normalize());
- const cuff=cyl(.078,.082,.105,sleeve,.022,-.202,.092,hand);cuff.quaternion.copy(arm.quaternion);
+ for(const part of hand.children){part.position.multiplyScalar(1.4);part.scale.multiplyScalar(1.4);}
+ // A compact bent sleeve, rather than a cylinder stretched back to the camera.
+ // The elbow turns down outside the counter, keeping the upper arm below frame.
+ const sleevePath=new THREE.CatmullRomCurve3([
+  new THREE.Vector3(.025,-.287,.126),new THREE.Vector3(.08,-.32,.46),
+  new THREE.Vector3(.22,-.49,.95),new THREE.Vector3(.4,-.69,1.38),
+  new THREE.Vector3(.48,-1.12,1.48),new THREE.Vector3(.5,-2.05,1.52)
+ ]);
+ const sleeveGeometry=new THREE.TubeGeometry(sleevePath,56,1,20,false);
+ const sleevePositions=sleeveGeometry.attributes.position;
+ for(let ring=0;ring<=56;ring++){
+  const t=ring/56,center=sleevePath.getPointAt(t);
+  const radius=.102+.057*Math.sin(Math.min(1,t*1.6)*Math.PI/2);
+  // Subtle cloth folds near the cuff and elbow break up the rigid silhouette.
+  const fold=1+.035*Math.sin(t*92)*Math.exp(-t*5)+.025*Math.sin(t*65)*Math.exp(-Math.pow((t-.52)*12,2));
+  for(let side=0;side<=20;side++){
+   const n=ring*21+side;
+   sleevePositions.setXYZ(n,center.x+(sleevePositions.getX(n)-center.x)*radius*fold,center.y+(sleevePositions.getY(n)-center.y)*radius*fold,center.z+(sleevePositions.getZ(n)-center.z)*radius*fold);
+  }
+ }
+ sleeveGeometry.computeVertexNormals();mesh(sleeveGeometry,sleeve,0,0,0,hand);
+ const cuff=cyl(.108,.111,.10,sleeve,.025,-.287,.126,hand);cuff.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),sleevePath.getTangentAt(0).negate());
  // A brass service bell and folded linen tie the set to the previous room.
  const linen=box(.7,.025,.5,mat('#bcb5a0'),1.73,1.56,2.35);linen.rotation.y=.12;
  function updatePlates(t,view){
   plates.forEach(({tilt,spin},i)=>{const m=plateMotion(t,i);spin.rotation.y=m.spin;tilt.rotation.x=Math.sin(t*(5.2+i)+i)*m.wobble;tilt.rotation.z=Math.cos(t*(5.2+i)+i)*m.wobble;});
   const event=activeRescue(t);hand.visible=!!event;
-  if(event){const phase=(t-event.time)/.8;const contact=1-Math.pow(Math.abs(phase),3);const reach=contact*contact*(3-2*contact);hand.position.set(plateX[event.index]+.105+(1-reach)*.24,1.06+reach*1.02,3.5-Math.pow(reach,3)*1.38);hand.rotation.y=Math.sin(phase*Math.PI)*.09;hand.rotation.z=(1-reach)*-.18;fingers.forEach((digit,i)=>{digit.rotation.y=(1-reach)*-.55;digit.rotation.z=(1-reach)*(i-1.5)*.035;});}
+  if(event){const phase=(t-event.time)/.8;const contact=1-Math.pow(Math.abs(phase),3);const reach=contact*contact*(3-2*contact);hand.position.set(plateX[event.index]+.147+(1-reach)*.24,1.06+reach*1.02,3.5-Math.pow(reach,3)*1.352);hand.rotation.y=Math.sin(phase*Math.PI)*.09;hand.rotation.z=(1-reach)*-.18;fingers.forEach((digit,i)=>{digit.rotation.y=(1-reach)*-.55;digit.rotation.z=(1-reach)*(i-1.5)*.035;});}
  }
 
  let physical=0,activity=0,started=false,solved=false,cameraReady=false,lastMode='auto';
