@@ -24,6 +24,12 @@ test('all five animated scenes build and remain finite through playback, alterna
   const cyl=(a:number,b:number,h:number,m:any,x:number,y:number,z:number,p:any)=>mesh(new THREE.CylinderGeometry(a,b,h,16),m,x,y,z,p)
   const tube=(points:number[][],r:number,m:any,p:any)=>mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points.map(v=>new THREE.Vector3(...v))),20,r,8,false),m,0,0,0,p)
   const story=populateStory({scene,mesh,box,cyl,tube,mat},kind)
+  if(kind==='mountain'){
+   story.update(2,'auto');assert.equal(scene.getObjectByName('mole').visible,true);assert.equal(scene.getObjectByName('armoured-knight').visible,false)
+   story.update(22,'auto');assert.equal(scene.getObjectByName('molehill').visible,false);assert.equal(scene.getObjectByName('armoured-knight').visible,true);assert.equal(scene.getObjectByName('paid-nameplate').visible,false)
+   story.update(26,'inspect');assert.equal(scene.getObjectByName('paid-nameplate').visible,true)
+   story.update(0,'auto');assert.equal(scene.getObjectByName('molehill').visible,true);assert.equal(scene.getObjectByName('paid-nameplate').visible,false)
+  }
   for(const view of ['auto','away','inspect'])for(let t=0;t<=26;t+=.5){story.update(t,view);scene.traverse((o:any)=>{assert.ok([...o.position.toArray(),...o.scale.toArray(),o.rotation.x,o.rotation.y,o.rotation.z].every(Number.isFinite),kind)})}
   scene.traverse((o:any)=>{o.geometry?.dispose();o.material?.dispose()})
  }

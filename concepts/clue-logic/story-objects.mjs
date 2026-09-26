@@ -1,3 +1,4 @@
+import {makeMoleMagic} from './mole-magic.mjs';
 import * as THREE from './vendor/three.module.js';
 const ease=(a,b,t)=>{const v=Math.max(0,Math.min(1,(t-a)/(b-a)));return v*v*(3-2*v)};
 export function populateStory({scene,mesh,box,cyl,tube,mat},kind){
@@ -20,21 +21,7 @@ export function populateStory({scene,mesh,box,cyl,tube,mat},kind){
   const arms=[];for(const side of [-1,1]){const arm=new THREE.Group();g.add(arm);arm.position.set(side*.3,1.2,0);tube([[0,0,0],[side*.12,-.23,.06],[side*.07,-.43,.24]],.095,teal,arm);ball(.10,skin,side*.07,-.45,.24,arm);arms.push(arm)}
   return {g,head,arms};
  }
- if(kind==='mountain'){
-  garden();const mound=group(0,0,1.3);const hill=mesh(new THREE.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2),soil,0,0,0,mound);
-  const peak=mesh(new THREE.ConeGeometry(.74,1.4,9),mat('#a09b88'),0,1,0,mound);const snow=mesh(new THREE.ConeGeometry(.29,.57,9),cream,0,1.43,0,mound);
-  const mole=group(0,.22,1.57);const nose=ball(.12,mat('#9a7c70'),0,.05,.11,mole);nose.scale.set(1,.6,1.3);const fur=ball(.19,mat('#655d52'),0,0,0,mole);for(const s of [-1,1])ball(.022,dark,s*.07,.09,.15,mole);
-  // Establish the tiny molehill first, then exaggerate that same mound. No digging.
-  return {garden:true,aim:[0,1.2,1.2],camera:[4.8,3.6,8],inspect:[1.5,1.1,3.6],inspectAim:[0,.25,1.4],update(t,view){
-   const h=view==='inspect'?0:ease(7,21,t);
-   hill.scale.set(.42+h*1.85,.17+h*2.1,.42+h*1.85);
-   const rock=ease(.25,.85,h),cap=ease(.65,1,h);
-   peak.visible=rock>0;snow.visible=cap>0;
-   peak.scale.setScalar(Math.max(.001,rock*1.6));snow.scale.setScalar(Math.max(.001,cap*1.6));
-   peak.position.y=h*2.2;snow.position.y=h*3.25;
-   mole.visible=h<.12;mole.position.y=.15+Math.sin(t*2)*.025;
-  }};
- }
+ if(kind==='mountain'){garden();return makeMoleMagic({root,mesh,box,cyl,tube,mat,ball,group});}
  if(kind==='rug'){
   box(5,.10,3.7,wood,0,.05,1.5,root);for(let i=0;i<12;i++)box(.015,.005,3.7,dark,-2.5+i*.44,.104,1.5,root);
   const rugGeo=new THREE.PlaneGeometry(2.6,2.2,40,40);rugGeo.rotateX(-Math.PI/2);const rug=mesh(rugGeo,mat('#53716a',.95),.65,.13,1.6,root);const original=Float32Array.from(rugGeo.attributes.position.array);

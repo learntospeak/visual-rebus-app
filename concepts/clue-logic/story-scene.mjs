@@ -101,6 +101,7 @@ export function makeKitchen(canvas,kind='mountain'){
   let p=story.camera.slice(),a=story.aim.slice();
   if(view==='inspect'){p=story.inspect;a=story.inspectAim}
   else if(view==='away'){p=[-p[0],p[1],p[2]]}
+  else if(view==='auto'&&story.shot){const shot=story.shot(time);p=shot.p;a=shot.a;}
   else if(view==='auto'){const zoom=Math.min(1,time/8);p=p.map((v,i)=>i===1?v:v*(1-.08*zoom));}
   const k=!initialized||instant?1:1-Math.exp(-delta*2.5);targetPos.fromArray(p);target.fromArray(a);camera.position.lerp(targetPos,k);aim.lerp(target,k);camera.lookAt(aim);initialized=true;renderer.render(scene,camera);
  },dispose(){ro.disconnect();const geometries=new Set(),materials=new Set(),textures=new Set();for(const tree of [scene,environment])tree.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m)});for(const m of materials){for(const v of Object.values(m))if(v?.isTexture)textures.add(v);m.dispose()}for(const t of textures)t.dispose();for(const g of geometries)g.dispose();env.dispose();renderer.dispose();renderer.forceContextLoss()}};
