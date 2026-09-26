@@ -31,8 +31,8 @@ export function AnimatedClue({sceneIndex=0,hintRevision,hintOpened,onStarted,onE
   function fit(){if(!canvas.current||!stage.current)return;const {width:w,height:h}=stage.current.getBoundingClientRect();const ratio=matchMedia('(max-width:700px)').matches?1/1.06:16/11;const width=Math.min(w,h*ratio);canvas.current.style.width=`${width}px`;canvas.current.style.height=`${width/ratio}px`}
   const observer=new ResizeObserver(fit);if(stage.current)observer.observe(stage.current)
   window.addEventListener('resize',fit);fit()
-  ;(sceneIndex>1?import('../story-scene.mjs'):isPlates?import('../plates-scene.mjs'):import('../cinema-scene.mjs')).then(({makeKitchen})=>{
-   if(cancelled||!canvas.current)return;kitchen=makeKitchen(canvas.current,playableScenes[sceneIndex].id);setReady(true)
+  ;(sceneIndex===2?import('../storybook-scene.mjs'):sceneIndex>1?import('../story-scene.mjs'):isPlates?import('../plates-scene.mjs'):import('../cinema-scene.mjs')).then(async({makeKitchen})=>{
+   if(cancelled||!canvas.current)return;const renderer=await makeKitchen(canvas.current,playableScenes[sceneIndex].id);if(cancelled){renderer.dispose();return}kitchen=renderer;setReady(true)
    const tick=(now:number)=>{if(cancelled)return;const dt=Math.min((now-last)/1000,.06);last=now;const c=controls.current
     if(!document.hidden){if(c.playing){c.time=Math.min(duration,c.time+dt);if(c.time===duration){c.playing=false;c.audioActive=false;setPlaying(false)}}
      syncSound();kitchen?.draw({time:c.time,delta:c.started&&(c.playing||c.audioActive)&&!reduced.current?dt:0,view:c.view,running:c.started,won:false,instant:c.instant||reduced.current});c.instant=false
