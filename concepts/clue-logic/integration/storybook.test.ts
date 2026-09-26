@@ -10,9 +10,9 @@ test('painted scene has two mole excursions before the spell and knight reveal',
  assert.equal(storybookMotion(22).reveal,1)
  assert.equal(storybookMotion(22).moundOpacity,0)
 })
-test('nameplate is paid-view only and replay restores initial composition',()=>{
+test('hint does not name the answer and replay restores initial composition',()=>{
  assert.equal(storybookMotion(26).nameplate,false)
- assert.equal(storybookMotion(26,true).nameplate,true)
+ assert.equal(storybookMotion(26,true).nameplate,false)
  assert.equal(storybookMotion(0).moleVisible,true)
  assert.equal(storybookMotion(0).reveal,0)
  for(let t=0;t<=26;t+=.1)assert.ok(Object.values(storybookMotion(t)).every(v=>typeof v!=='number'||Number.isFinite(v)))

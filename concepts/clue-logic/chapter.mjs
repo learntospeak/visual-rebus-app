@@ -20,7 +20,7 @@ export const chapter = {
       answer:'make a mountain out of a molehill', aliases:['making a mountain out of a molehill','a mountain out of a molehill'],
       lead:'The garden inspection seems to be getting out of hand.',
       description:'A mole runs out of its mound and returns. A wizard casts a spell, transforming the molehill into an enormous original armoured knight.',
-      hints:[{id:'mole',label:'Read the nameplate',x:48,y:77,text:'The creature is a mole. The knight is called The Mountain. The wizard has made one out of the other.',letter:'M',focus:'mole'}, {id:'summit',label:'Look at the summit',x:57,y:29,text:'A very small problem has become a huge mountain.',letter:'O',focus:'summit'}],
+      hints:[{id:'mole',label:'Study the change',x:48,y:77,text:'The beginning matters as much as the ending. Think about what the spell changes, and how much bigger it becomes.',letter:'M',focus:'mole'}, {id:'summit',label:'Look at the summit',x:57,y:29,text:'A very small problem has become a huge mountain.',letter:'O',focus:'summit'}],
       explain:'A wizard makes The Mountain, an enormous knight, out of a little molehill. The transformation illustrates an exaggerated reaction to a small problem.',
       evidence:'Cook 03 · A small problem grows', bridge:'Back inside, the next cook has a quicker way to tidy up.' },
     { id:'rug', title:'Nothing to see here', place:'The dining room', level:2,
