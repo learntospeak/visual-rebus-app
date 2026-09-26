@@ -14,7 +14,7 @@ export const sceneDescriptions=[
  'Three plates rotate on thin stems. One slows and begins to wobble. A gloved hand gives it another turn, then moves to the next wobbling plate.',
  'A small mole with a pointed snout and broad digging paws scurries out of its mound twice and returns. A wizard arrives and waves a wand. A puff of smoke transforms the mound into a huge armoured knight with a three-peak crest.',
  'A broom pushes crumbs beneath the lifted edge of a woven carpet. The floor becomes tidy, but a conspicuous lump grows under the carpet.',
- 'A purse tips over a sink. Gold coins tumble into the basin, circle the drain and disappear. The purse is left empty.',
+ 'A purse tips over a sink. Gold coins fall into the basin and slide into the open drain. The purse is left empty.',
  'A gardener uses a shovel at their own feet. The earth piles up around them as they sink deeper into the hole, until their hat is all that remains visible.',
  'A bottle tips over on the prep table, spilling a white puddle. The cook bows their head, raises their hands to their face and sheds tears over it. A spare full bottle stands nearby.'
 ]
