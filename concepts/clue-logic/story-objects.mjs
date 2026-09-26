@@ -24,8 +24,16 @@ export function populateStory({scene,mesh,box,cyl,tube,mat},kind){
   garden();const mound=group(0,0,1.3);const hill=mesh(new THREE.SphereGeometry(1,48,24,0,Math.PI*2,0,Math.PI/2),soil,0,0,0,mound);
   const peak=mesh(new THREE.ConeGeometry(.74,1.4,9),mat('#a09b88'),0,1,0,mound);const snow=mesh(new THREE.ConeGeometry(.29,.57,9),cream,0,1.43,0,mound);
   const mole=group(0,.22,1.57);const nose=ball(.12,mat('#9a7c70'),0,.05,.11,mole);nose.scale.set(1,.6,1.3);const fur=ball(.19,mat('#655d52'),0,0,0,mole);for(const s of [-1,1])ball(.022,dark,s*.07,.09,.15,mole);
-  const spade=shovel(root);const dirt=Array.from({length:25},(_,i)=>ball(.025+(i%4)*.008,soil,0,0,0));
-  return {garden:true,aim:[0,1.2,1.2],camera:[4.8,3.6,8],inspect:[1.5,1.1,3.6],inspectAim:[0,.25,1.4],update(t,view){const h=view==='inspect'?0:ease(4,21,t);hill.scale.set( .42+h*1.85,.17+h*2.1,.42+h*1.85);peak.visible=h>.4;snow.visible=h>.7;peak.scale.setScalar(h*1.6);snow.scale.setScalar(h*1.6);peak.position.y=h*2.2;snow.position.y=h*3.25;mole.visible=h<.18;mole.position.y=.15+Math.sin(t*2)*.025;spade.visible=t>3&&t<22;spade.position.set(.65+h*1.8,.1+h*.45,1.9);spade.rotation.z=-.45+Math.sin(t*3)*.3;spade.rotation.x=Math.sin(t*3)*.3;dirt.forEach((d,i)=>{const p=(t*.65+i/25)%1;d.visible=t>4&&t<21;d.position.set(.65+Math.sin(i*2)*p*(.5+h),.15+Math.sin(p*Math.PI)*(.8+h),1.3+Math.cos(i*2)*p);});}};
+  // Establish the tiny molehill first, then exaggerate that same mound. No digging.
+  return {garden:true,aim:[0,1.2,1.2],camera:[4.8,3.6,8],inspect:[1.5,1.1,3.6],inspectAim:[0,.25,1.4],update(t,view){
+   const h=view==='inspect'?0:ease(7,21,t);
+   hill.scale.set(.42+h*1.85,.17+h*2.1,.42+h*1.85);
+   const rock=ease(.25,.85,h),cap=ease(.65,1,h);
+   peak.visible=rock>0;snow.visible=cap>0;
+   peak.scale.setScalar(Math.max(.001,rock*1.6));snow.scale.setScalar(Math.max(.001,cap*1.6));
+   peak.position.y=h*2.2;snow.position.y=h*3.25;
+   mole.visible=h<.12;mole.position.y=.15+Math.sin(t*2)*.025;
+  }};
  }
  if(kind==='rug'){
   box(5,.10,3.7,wood,0,.05,1.5,root);for(let i=0;i<12;i++)box(.015,.005,3.7,dark,-2.5+i*.44,.104,1.5,root);

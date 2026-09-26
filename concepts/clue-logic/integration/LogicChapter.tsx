@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState,type FormEvent} from 'react'
+import {useEffect,useLayoutEffect,useRef,useState,type FormEvent} from 'react'
 import {PuzzleScreen} from './PuzzleScreen'
 import {SolvedScreen} from '../../../src/screens/SolvedScreen'
 import {AnimatedClue} from './AnimatedClue'
@@ -12,6 +12,7 @@ export interface LogicChapterProps {onExit:()=>void;initialScene?:number;onCompl
 export function LogicChapter({initialScene=0,...props}:LogicChapterProps){const [index,setIndex]=useState(Math.max(0,Math.min(puzzles.length-1,Math.floor(initialScene)||0)));return <LogicRound key={index} {...props} index={index} onNext={()=>index<puzzles.length-1?setIndex(index+1):props.onExit()}/>}
 function LogicRound({onExit,onComplete,storageKey=SAVE_KEY,index,onNext}:LogicChapterProps&{index:number;onNext:()=>void}){
  const scene=chapter.scenes[index],puzzle=puzzles[index],saveKey=sceneSaveKey(index,storageKey)
+ useLayoutEffect(()=>{const top=()=>window.scrollTo({top:0,left:0,behavior:'instant'});top();const frame=requestAnimationFrame(top);return()=>cancelAnimationFrame(frame)},[index])
  const [state,setState]=useState(()=>{try{return restoreActions(localStorage.getItem(saveKey),scene)}catch{return restoreActions(null,scene)}})
  const [guess,setGuess]=useState(''),[message,setMessage]=useState('Play the scene, then submit a letter or a phrase.'),[started,setStarted]=useState(false),[hintRevision,setHintRevision]=useState(0),[attempt,setAttempt]=useState(0),[solved,setSolved]=useState(false),[celebrating,setCelebrating]=useState(false),[storageFailed,setStorageFailed]=useState(false)
  const transition=useRef<ReturnType<typeof setTimeout>|null>(null),began=useRef(Date.now()),busy=useRef(false)

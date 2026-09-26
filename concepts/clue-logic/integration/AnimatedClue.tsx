@@ -1,5 +1,5 @@
 import {sceneTitles,sceneDescriptions,playableScenes} from './model'
-import {createStorySound} from './story-sound'
+
 import {useEffect,useRef,useState} from 'react'
 import {createSceneSound} from './scene-sound'
 import {createPlateSound} from './plate-sound'
@@ -15,7 +15,7 @@ export function AnimatedClue({sceneIndex=0,hintRevision,hintOpened,onStarted,onE
  const [ready,setReady]=useState(false),[error,setError]=useState(''),[started,setStarted]=useState(false),[playing,setPlaying]=useState(false),[away,setAway]=useState(false),[time,setTime]=useState(0),[expanded,setExpanded]=useState(false),[description,setDescription]=useState(false)
  const [soundError,setSoundError]=useState(false)
  const sound=useRef<ReturnType<typeof createSceneSound>|null>(null)
- useEffect(()=>{sound.current=sceneIndex>1?createStorySound(playableScenes[sceneIndex].id,()=>setSoundError(true)):(isPlates?createPlateSound:createSceneSound)(()=>setSoundError(true));return()=>{sound.current?.dispose();sound.current=null}},[])
+ useEffect(()=>{sound.current=sceneIndex>1?null:(isPlates?createPlateSound:createSceneSound)(()=>setSoundError(true));return()=>{sound.current?.dispose();sound.current=null}},[])
  function syncSound(){const c=controls.current;sound.current?.update({time:c.time,view:c.view,active:c.started&&c.audioActive&&!document.hidden,playing:c.playing})}
  const onErrorRef=useRef(onError);onErrorRef.current=onError
  const reduced=useRef(matchMedia('(prefers-reduced-motion: reduce)').matches)

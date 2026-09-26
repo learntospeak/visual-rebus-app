@@ -12,7 +12,7 @@ export const sceneSaveKey=(index:number,base=SAVE_KEY)=>index===0?base:base+'.'+
 export const sceneDescriptions=[
  'The burner is lit. Water stays still while you watch the pot. When you turn away, it bubbles; when you return, it settles.',
  'Three plates rotate on thin stems. One slows and begins to wobble. A gloved hand gives it another turn, then moves to the next wobbling plate.',
- 'A tiny mole peeks out of a small mound among herb pots. A shovel works at the mound. Each attempt makes it bigger, until a rocky, snow-topped mountain dwarfs the garden.',
+ 'A tiny mole peeks out of a small mound among herb pots. The little mound swells larger and larger, until a rocky, snow-topped mountain dwarfs the garden.',
  'A broom pushes crumbs beneath the lifted edge of a woven carpet. The floor becomes tidy, but a conspicuous lump grows under the carpet.',
  'A purse tips over a sink. Gold coins tumble into the basin, circle the drain and disappear. The purse is left empty.',
  'A gardener uses a shovel at their own feet. The earth piles up around them as they sink deeper into the hole, until their hat is all that remains visible.',
