@@ -1,0 +1,108 @@
+import * as THREE from './vendor/three.module.js';
+import {populateStory} from './story-objects.mjs';
+
+// Original set, lighting, materials and choreography. No stock character models.
+export function makeKitchen(canvas,kind='mountain'){
+ const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
+ renderer.setPixelRatio(Math.max(1,Math.min(devicePixelRatio,1.7)));renderer.shadowMap.enabled=true;
+ renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.shadowMap.needsUpdate=true;renderer.toneMapping=THREE.ACESFilmicToneMapping;
+ renderer.toneMappingExposure=1.22;renderer.outputColorSpace=THREE.SRGBColorSpace;
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#293229');scene.fog=new THREE.FogExp2('#283127',.025);
+ const camera=new THREE.PerspectiveCamera(40,1,.1,70);
+ const aim=new THREE.Vector3(0,2,0),target=new THREE.Vector3(),targetPos=new THREE.Vector3();
+ const mat=(color,roughness=.65,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
+ const wall=mat('#69725a'),stone=mat('#a79c82',.88),oak=mat('#554b36'),dark=mat('#151c19',.32),brass=mat('#c09d61',.25,.8),steel=mat('#a6afaa',.24,.94),enamel=mat('#253d34',.3,.3);
+ function mesh(g,m,x,y,z,parent=scene){const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;}
+ const box=(w,h,d,m,x,y,z,parent)=>mesh(new THREE.BoxGeometry(w,h,d),m,x,y,z,parent);
+ const cyl=(r1,r2,h,m,x,y,z,parent)=>mesh(new THREE.CylinderGeometry(r1,r2,h,64),m,x,y,z,parent);
+ function torus(r,t,m,x,y,z,parent){const o=mesh(new THREE.TorusGeometry(r,t,12,64),m,x,y,z,parent);o.rotation.x=Math.PI/2;return o;}
+ function tube(points,r,m,parent=scene){const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));return mesh(new THREE.TubeGeometry(curve,28,r,8,false),m,0,0,0,parent);}
+ // Fine, directional scratches break up the broad stainless-steel reflections.
+ const texCanvas=document.createElement('canvas');texCanvas.width=512;texCanvas.height=128;const ctx=texCanvas.getContext('2d');ctx.fillStyle='#a3a6a1';ctx.fillRect(0,0,512,128);
+ let seed=1827;function random(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646;}
+ for(let i=0;i<850;i++){ctx.strokeStyle=`rgba(${random()>.5?'255,255,255':'0,0,0'},${random()*.06})`;const y=random()*128;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(512,y);ctx.stroke();}
+ const metalMap=new THREE.CanvasTexture(texCanvas);steel.map=metalMap;
+ // Enclosed environment provides actual reflections rather than painted highlights.
+ const environment=new THREE.Scene();environment.background=new THREE.Color('#797a67');
+ const eb=(w,h,d,c,x,y,z)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({color:c}));o.position.set(x,y,z);environment.add(o);};
+ eb(10,8,.1,'#565e4d',0,2,-5);eb(.1,6,9,'#303a32',5,2,0);eb(.1,4,4,'#fff0d1',-4,3,0);eb(3,1,.1,'#d7b575',1,5,3);
+ const pmrem=new THREE.PMREMGenerator(renderer);const env=pmrem.fromScene(environment,.04);scene.environment=env.texture;scene.environmentIntensity=.62;pmrem.dispose();
+ scene.add(new THREE.HemisphereLight('#e7d6ae','#23302a',1.15));
+ const sun=new THREE.DirectionalLight('#ffe2ad',3.5);sun.position.set(-4,6,3);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-7;sun.shadow.camera.right=7;sun.shadow.camera.top=6;sun.shadow.camera.bottom=-5;sun.shadow.bias=-.0005;sun.shadow.normalBias=.03;scene.add(sun);
+ const fill=new THREE.PointLight('#b8d0c1',9,12,2);fill.position.set(3,4,3);scene.add(fill);
+ const practical=new THREE.PointLight('#ffcf86',8,7,2);practical.position.set(.4,4.2,-.3);scene.add(practical);
+ box(15,.16,13,mat('#393c31'),0,-.2,1);
+ box(15,7,.2,wall,0,3,-1.8);box(.2,7,10,wall,-5,3,2);
+ // Individually modelled backsplash tiles; irregular glaze catches the light.
+ for(let row=0;row<5;row++)for(let col=0;col<18;col++)box(.455,.25,.024,mat(new THREE.Color('#808774').multiplyScalar(.9+random()*.14),.35),-4.45+col*.48,1.86+row*.276,-1.677);
+ box(9.5,1.55,1.55,oak,-.1,.775,-.35);box(9.7,.16,1.85,stone,-.1,1.61,-.27);
+ for(let n=0;n<9;n++){box(.96,1.25,.055,mat(n%2?'#384c3c':'#3e503d'),-4.2+n*1.03,.8,.455);box(.72,.02,.04,brass,-4.2+n*1.03,1.3,.495);}
+ box(9.6,.08,.04,dark,-.1,.13,.51);
+ // Sink and curved faucet sit to the left of the stove.
+ box(1.7,.025,1.05,steel,-2.75,1.71,-.22);box(1.45,.027,.82,dark,-2.75,1.728,-.22);
+ tube([[-2.75,1.72,-.76],[-2.75,2.45,-.76],[-2.75,2.52,-.35],[-2.75,2.23,-.28]],.032,steel);
+ cyl(.05,.05,.23,steel,-3.27,1.84,-.73);box(.23,.025,.04,steel,-3.18,1.95,-.73);
+ // Glowing tall window, with architectural mullions and a sill.
+ const windowMat=new THREE.MeshBasicMaterial({color:'#e6d5ac'});
+ box(2.6,2.55,.065,dark,-2.45,3.55,-1.58);box(2.43,2.38,.075,windowMat,-2.45,3.55,-1.53);
+ for(const x of [-3.6,-2.45,-1.3])box(.055,2.5,.1,oak,x,3.55,-1.46);
+ box(2.5,.05,.1,oak,-2.45,3.7,-1.46);box(2.75,.08,.31,stone,-2.45,2.24,-1.36);
+ // Soft tree silhouettes beyond the window.
+ // Frosted glazing keeps the backdrop restrained.
+ // Doorway: camera distraction is a real part of the same set.
+ box(1.65,3.9,.18,mat('#2b382d'),3.6,2.17,-1.56);box(1.45,3.66,.055,mat('#776b4a'),3.6,2.17,-1.435);
+ for(const x of [3.22,3.96])for(const y of [1.15,2.15,3.15])box(.58,.8,.022,mat('#695f42'),x,y,-1.398);
+ cyl(.057,.057,.14,brass,4.1,2,-1.3).rotation.x=Math.PI/2;box(.18,.04,.07,brass,4.02,2,-1.21);
+ // A kitchen clock with independently moving hands.
+ const clock=new THREE.Group();clock.position.set(.15,3.75,-1.47);scene.add(clock);
+ const face=cyl(.39,.39,.055,mat('#dbd4ba'),0,0,0,clock);face.rotation.x=Math.PI/2;
+ const rim=mesh(new THREE.TorusGeometry(.39,.026,12,64),brass,0,0,.04,clock);
+ for(let i=0;i<12;i++){const a=i*Math.PI/6;const mark=box(.013,.045,.006,dark,Math.sin(a)*.31,Math.cos(a)*.31,.038,clock);mark.rotation.z=-a;}
+ const hour=box(.025,.16,.008,dark,.06,.05,.047,clock);hour.rotation.z=-.95;
+ const minute=box(.018,.25,.008,dark,-.035,.105,.05,clock);minute.rotation.z=.3;
+ const secondPivot=new THREE.Group();clock.add(secondPivot);const second=box(.007,.28,.01,brass,0,.10,.058,secondPivot);
+ // Pendant shade with a warm pool of light.
+ cyl(.013,.013,1.05,dark,.5,5.18,-.3);cyl(.14,.42,.25,enamel,.5,4.55,-.3);cyl(.37,.37,.018,new THREE.MeshBasicMaterial({color:'#ffe0a1'}),.5,4.42,-.3);
+ // Set dressing is subordinate to the pot: one board, cloth, glass and herbs.
+ const board=box(.9,.04,.62,mat('#977443'),1.9,1.73,-.2);board.rotation.y=.15;
+ const towel=box(.42,.015,.5,mat('#aaa48d'),1.55,1.775,-.05);towel.rotation.y=.2;
+ cyl(.12,.105,.30,new THREE.MeshPhysicalMaterial({color:'#c9d1b9',roughness:.08,metalness:0,transparent:true,opacity:.28,side:THREE.DoubleSide}),2.42,1.89,-.75);
+ cyl(.20,.14,.32,mat('#9b8160'),-3.7,1.9,-.83);
+ for(let i=0;i<14;i++){const x=-3.7+(random()-.5)*.3,z=-.83+(random()-.5)*.23,h=.3+random()*.45;tube([[x,2.04,z],[x+.03,2.04+h,z]],.009,mat('#586546'));for(let j=0;j<3;j++){const leaf=mesh(new THREE.SphereGeometry(.07,10,6),mat('#65744b'),x+(j%2?-.07:.07),2.1+h*j/3,z);leaf.scale.set(1.7,.22,.7);leaf.rotation.z=j%2?.6:-.6;}}
+ // Gas hob and cookware are separate, physically shaded geometry.
+ box(1.75,.07,1.3,mat('#101815',.22,.3),0,1.735,-.12);
+ for(const x of [-.62,.62])for(const z of [-.58,.36]){torus(.19,.025,steel,x,1.79,z);box(.48,.04,.05,dark,x,1.81,z);box(.05,.04,.48,dark,x,1.81,z);}
+ const burner=torus(.40,.032,steel,0,1.82,-.08);
+ const fire=new THREE.Group();scene.add(fire);const flameMat=new THREE.MeshBasicMaterial({color:'#81b8ca',transparent:true,opacity:.8});
+ for(let i=0;i<28;i++){const a=i*Math.PI*2/28;const f=mesh(new THREE.ConeGeometry(.018,.115,6),flameMat,Math.cos(a)*.36,1.86,-.08+Math.sin(a)*.36,fire);f.userData.phase=i;}
+ const potGroup=new THREE.Group();potGroup.position.set(0,1.94,-.08);scene.add(potGroup);
+ const body=mesh(new THREE.CylinderGeometry(.56,.49,.58,96,1,true),steel,0,.29,0,potGroup);body.material.side=THREE.DoubleSide;
+ cyl(.49,.49,.035,steel,0,.01,0,potGroup);torus(.557,.022,steel,0,.58,0,potGroup);
+ for(const side of [-1,1])tube([[side*.53,.42,-.19],[side*.80,.42,-.18],[side*.85,.42,.14],[side*.53,.42,.18]],.038,steel,potGroup);
+ const waterUniforms={time:{value:0},activity:{value:0}};
+ const waterMat=new THREE.MeshStandardMaterial({color:'#8e9b88',roughness:.15,metalness:.65,transparent:true,opacity:.91});
+ waterMat.onBeforeCompile=shader=>{shader.uniforms.clockTime=waterUniforms.time;shader.uniforms.activity=waterUniforms.activity;shader.vertexShader='uniform float clockTime;uniform float activity;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\ntransformed.z += activity * 0.009 * (sin(position.x*38.0+clockTime*6.0)+cos(position.y*31.0-clockTime*5.0));');};
+ const water=mesh(new THREE.CircleGeometry(.535,96),waterMat,0,.49,0,potGroup);water.rotation.x=-Math.PI/2;
+ const bubbles=[];for(let i=0;i<30;i++){const a=random()*Math.PI*2,r=Math.sqrt(random())*.47;const b=mesh(new THREE.SphereGeometry(.02+random()*.022,10,7),new THREE.MeshStandardMaterial({color:'#c2cbbc',roughness:.13,metalness:.5,transparent:true,opacity:.6}),Math.cos(a)*r,.48,Math.sin(a)*r,potGroup);b.userData.phase=random();b.userData.speed=.65+random();bubbles.push(b);}
+ const sc=document.createElement('canvas');sc.width=sc.height=128;const sx=sc.getContext('2d'),g=sx.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,'rgba(222,225,209,.7)');g.addColorStop(.4,'rgba(211,218,204,.28)');g.addColorStop(1,'rgba(200,212,194,0)');sx.fillStyle=g;sx.fillRect(0,0,128,128);const smokeMap=new THREE.CanvasTexture(sc);
+ const steam=[];for(let i=0;i<42;i++){const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:smokeMap,color:'#e4e3d2',transparent:true,depthWrite:false,opacity:0}));sprite.userData={phase:i/42,drift:random()-.5};scene.add(sprite);steam.push(sprite);}
+ // Small kitchen bell by the door: its vibration motivates the camera move.
+ const bell=cyl(.09,.19,.14,brass,3.35,1.82,.1);cyl(.21,.21,.025,dark,3.35,1.74,.1);cyl(.025,.025,.045,brass,3.35,1.91,.1);
+
+ potGroup.visible=false;fire.visible=false;for(const s of steam)s.visible=false;
+ const garden=kind==='mountain'||kind==='hole';
+ if(garden){for(const child of scene.children)if(!child.isLight)child.visible=false;scene.background=new THREE.Color('#c2c8b0');scene.fog=new THREE.FogExp2('#c2c8b0',.025);}
+ const story=populateStory({scene,mesh,box,cyl,tube,mat},kind);
+ renderer.shadowMap.autoUpdate=true;
+ function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w/h<1.1?49:41;camera.updateProjectionMatrix()}
+ const ro=new ResizeObserver(resize);ro.observe(canvas);resize();let initialized=false;
+ return {draw({time=0,delta=0,view='auto',running=false,won=false,instant=false}={}){
+  const t=view==='inspect'?26:time;story.update(t,view);
+  let p=story.camera.slice(),a=story.aim.slice();
+  if(view==='inspect'){p=story.inspect;a=story.inspectAim}
+  else if(view==='away'){p=[-p[0],p[1],p[2]]}
+  else if(view==='auto'&&story.shot){const shot=story.shot(time);p=shot.p;a=shot.a;}
+  else if(view==='auto'){const zoom=Math.min(1,time/8);p=p.map((v,i)=>i===1?v:v*(1-.08*zoom));}
+  const k=!initialized||instant?1:1-Math.exp(-delta*2.5);targetPos.fromArray(p);target.fromArray(a);camera.position.lerp(targetPos,k);aim.lerp(target,k);camera.lookAt(aim);initialized=true;renderer.render(scene,camera);
+ },dispose(){ro.disconnect();const geometries=new Set(),materials=new Set(),textures=new Set();for(const tree of [scene,environment])tree.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m)});for(const m of materials){for(const v of Object.values(m))if(v?.isTexture)textures.add(v);m.dispose()}for(const t of textures)t.dispose();for(const g of geometries)g.dispose();env.dispose();renderer.dispose();renderer.forceContextLoss()}};
+}

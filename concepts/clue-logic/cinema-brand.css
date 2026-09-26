@@ -1,0 +1,14 @@
+/* Colour and typography only: original stage size, camera framing and overlays. */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+:root{font-family:Inter,system-ui,sans-serif;color:#183b56;background:#f7f3ea;color-scheme:light;--ink:#183b56;--teal:#2cb1a6;--coral:#ff6b5f;--muted:#6e7989;--accent:#147f79;--line:#dfe3e7}
+.wordmark,h1,.solve h2,dialog h2,#result h3{font-family:Manrope,system-ui,sans-serif;font-weight:800;color:var(--ink)}
+.wordmark span{color:#147f79;border-color:#dfe3e7}.heading .eyebrow{color:#c94c43;font-weight:700}.edition{color:var(--ink)}.edition span{color:var(--muted)}
+.primary{background:var(--coral);color:var(--ink);border-radius:16px;font-weight:800;box-shadow:0 8px 18px #ff6b5f2e}.outline{background:#dff4f2;border-color:#b9ded9;color:#147f79;border-radius:12px;font-weight:700}
+.transport button{color:var(--ink)}.film-progress{background:#e4e9e9}.film-progress span{background:var(--teal)}
+.hint-row{border-color:var(--line)}.hint-row b{font-weight:700;color:var(--ink)}.hint-row small{color:#526c78}.hint-icon{border-color:#86c9c1;color:#147f79}.cost{color:#147f79;font-weight:700}.hint-detail{color:#526c78;border-color:var(--teal)}
+.solve{background:#fffefa;border-color:var(--line);border-radius:22px;box-shadow:0 14px 35px #183b560c}.solve-top>span:last-child{color:#147f79;font-weight:700}
+.slot{color:var(--ink);border-color:#819ca4}.key{background:#f4f6f2;border-color:#d7e0df;color:var(--ink);border-radius:8px;font-weight:700}.key.correct{background:#dff4f2;border-color:#82c9c2;color:#147f79}.key.wrong{background:#f8e8e4;border-color:#ecd0ca;color:#986f68}.phrase-toggle{color:#147f79;font-weight:700}
+#phrase-form input{background:white;color:var(--ink);border-color:#b8c8d1;border-radius:12px}#message,#result p{color:#526c78}#result h3{color:#147f79}.solve.solved{border-color:var(--teal)}
+footer{color:var(--muted)}dialog{background:#f7f3ea;color:var(--ink);border-color:var(--line);border-radius:22px}dialog::backdrop{background:#183b56aa}dialog p{color:#526c78}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #147f79;outline-offset:3px}
+.start-panel{color:#e9e5d9}.start-panel .eyebrow{color:#c7be8a}
+@media(prefers-contrast:more){:root{--muted:#405c70;--line:#839aa5}.key,.slot{border-color:#183b56}.intro-copy,#message,.hint-row small,footer{color:#405c70}}
