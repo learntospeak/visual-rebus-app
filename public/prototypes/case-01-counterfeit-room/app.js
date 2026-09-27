@@ -68,7 +68,7 @@ else if(a==='check-room'){
     save();
     return render();
   }else{
-    s.feedback='Those three do not form a complete chain. You need one item about the paper itself, one about how to inspect it, and one that preserves the event sequence.';
+    s.feedback='Wrong evidence selected. Those three items do not form the complete authentication chain. Reconsider which evidence establishes the material, the inspection method, and the event sequence.';
     say(s.feedback);
   }
 }
