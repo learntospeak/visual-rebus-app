@@ -187,16 +187,22 @@ function renderBoard(){
     artDiv.style.backgroundPosition=(l.cols===1?0:(x/(l.cols-1)*100))+'% '+(l.rows===1?0:(y/(l.rows-1)*100))+'%';
     artDiv.style.transform='rotate('+piece.rot+'deg)';
     tile.appendChild(artDiv);
-    if(l.rotate){
-      const rot=document.createElement('button');rot.type='button';rot.className='ac-rotate';rot.textContent='↻';rot.setAttribute('aria-label','Rotate piece');
-      rot.addEventListener('click',e=>{e.stopPropagation();if(solved)return;piece.rot=(piece.rot+90)%360;moves++;renderBoard();checkSolved()});
-      tile.appendChild(rot);
-    }
     tile.addEventListener('click',()=>{
       if(solved)return;
-      if(selected===null){selected=pos;}
-      else if(selected===pos){selected=null;}
-      else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;}
+      if(selected===null){
+        selected=pos;
+      }else if(selected===pos){
+        if(l.rotate){
+          piece.rot=(piece.rot+90)%360;
+          moves++;
+        }else{
+          selected=null;
+        }
+      }else{
+        [pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];
+        selected=null;
+        moves++;
+      }
       renderBoard();checkSolved();
     });
     board.appendChild(tile);
