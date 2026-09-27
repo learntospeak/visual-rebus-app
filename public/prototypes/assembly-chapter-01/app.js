@@ -169,6 +169,7 @@ function startLevel(){
   guide.style.backgroundImage='url("'+l.art+'")';
   guide.classList.toggle('is-hidden',!guideVisible);
   document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Show guide';
+  document.getElementById('rotateHint').hidden=!l.rotate;
   renderBoard();renderLevelStrip();renderMaster();
 }
 function renderBoard(){
