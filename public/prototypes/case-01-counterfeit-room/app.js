@@ -45,7 +45,28 @@ app.innerHTML='<section class="screen '+(s.lampSolved?'lamp-on':'')+'">'+top('St
 function done(){let mins=Math.max(1,Math.round((Date.now()-s.started)/60000));app.innerHTML='<section class="screen dark">'+top('Case solved')+progress(5)+'<p class="eyebrow">Authentic: Print A</p><h1>You proved it.</h1><p class="lede">Print A is the only candidate that matches the recorded CROWN / M watermark, avoids the blue fluorescence of modern optical brighteners, and shows the expected soft-green ink response under the correctly reconstructed 365 nm inspection setting.</p><div class="debrief"><div class="card"><h3>Why the chain matters</h3><p class="lede">The ledger alone leaves A and C. The UV behaviour alone leaves A and D. Only the combined evidence isolates A.</p></div><div class="card"><div class="stat"><span>Stages completed</span><strong>4 linked deductions</strong></div><div class="stat"><span>Elapsed this run</span><strong>'+mins+' min</strong></div><div class="stat"><span>Hints used</span><strong>'+s.hintsUsed+'</strong></div></div></div><div class="actions">'+button('Replay case','reset','secondary')+'</div></section>'}
 function inspect(id){if(!s.seen.includes(id))s.seen.push(id);s.modal=id;render()}
 function handle(a){if(a==='start'){s.screen='room';s.started=Date.now()}else if(a==='close'){s.modal=null}else if(a==='toggle-mark'){let id=s.modal;if(s.marked.includes(id)){s.marked=s.marked.filter(x=>x!==id);s.feedback=''}else if(s.marked.length<3){s.marked.push(id);s.feedback=''}else{s.feedback='You can only mark three items. Unmark one before choosing another.';say(s.feedback)}}
-else if(a==='check-room'){if(s.seen.length<6){s.feedback='Inspect all six room objects before committing.';say(s.feedback)}else if(['ledger','lamp','log'].every(x=>s.marked.includes(x))&&s.marked.length===3){s.screen='timeline';s.hint=0;s.feedback=''}else{s.feedback='That evidence set leaves you without a complete authentication chain. Reconsider what establishes material, method and sequence.';say(s.feedback)}}
+else if(a==='check-room'){
+  const seenIds=Array.from(new Set(Array.isArray(s.seen)?s.seen:[]));
+  const markedIds=Array.from(new Set(Array.isArray(s.marked)?s.marked:[]));
+  const required=['ledger','lamp','log'];
+  if(seenIds.length<6){
+    s.feedback='Inspect all six room objects before committing.';
+    say(s.feedback);
+  }else if(markedIds.length!==3){
+    s.feedback='Mark exactly three pieces of evidence before continuing.';
+    say(s.feedback);
+  }else if(required.every(id=>markedIds.includes(id))){
+    s.screen='timeline';
+    s.hint=0;
+    s.feedback='';
+    s.modal=null;
+    save();
+    return render();
+  }else{
+    s.feedback='Those three do not form a complete chain. You need one item about the paper itself, one about how to inspect it, and one that preserves the event sequence.';
+    say(s.feedback);
+  }
+}
 else if(a==='hint'){s.hint=Math.min(2,(s.hint||0)+1);s.hintsUsed=(s.hintsUsed||0)+1}
 else if(a==='check-timeline'){if(s.order.join('')==='cabd'){s.timelineSolved=true;s.feedback='Sequence restored. The first three handwritten marks read 3–6–5.';setTimeout(()=>{s.screen='lamp';s.hint=0;s.feedback='';render()},700)}else{s.timelineSolved=false;s.feedback='The sequence is not chronological yet. Use the printed times, not the handwritten marks.'}}
 else if(a==='minus'){s.dial=Math.max(300,s.dial-5)}else if(a==='plus'){s.dial=Math.min(420,s.dial+5)}
