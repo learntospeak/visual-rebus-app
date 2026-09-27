@@ -76,9 +76,9 @@ function renderBoard(){
     const tile=document.createElement('button');tile.type='button';tile.className='ac-piece';tile.style.aspectRatio=String(pieceAspect);
     if(selected===pos)tile.classList.add('is-selected');if(piece.id===pos&&piece.rot%360===0)tile.classList.add('is-correct');
     tile.setAttribute('aria-label','Piece '+(pos+1));
-    const a=document.createElement('span');a.className='ac-piece-art';a.style.backgroundImage='url("'+l.art+'")';
-    a.style.backgroundSize=(l.cols*100)+'% '+(l.rows*100)+'%';
-    a.style.backgroundPosition=(l.cols===1?0:(x/(l.cols-1)*100))+'% '+(l.rows===1?0:(y/(l.rows-1)*100))+'%';
+    const a=document.createElement('img');a.className='ac-piece-art';a.src=l.art;a.alt='';a.draggable=false;
+    a.style.width=(l.cols*100)+'%';a.style.height=(l.rows*100)+'%';
+    a.style.left=(-x*100)+'%';a.style.top=(-y*100)+'%';
     a.style.transform='rotate('+piece.rot+'deg)';tile.appendChild(a);
     tile.addEventListener('click',()=>{
       if(solved)return;
