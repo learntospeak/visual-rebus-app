@@ -102,10 +102,10 @@ document.querySelectorAll('[data-target]').forEach(obj=>obj.addEventListener('cl
   const w=physics.selected,t=obj.dataset.target;
   let success=false;
   if(w==='GROW'&&t==='seed'&&!physics.vine){physics.vine=true;success=true;}
-  else if(w==='LIGHT'&&t==='lamp'&&!physics.lit){physics.lit=true;success=true;}
+  else if(w==='LIGHT'&&t==='lamp'&&physics.vine&&!physics.lit){physics.lit=true;success=true;}
   else if(w==='PULL'&&t==='gate'&&physics.lit&&!physics.key){physics.key=true;success=true;setTimeout(()=>{physics.open=true;renderPhysics();announce('Word Physics solved')},650);}
   if(success){physics.used.add(w);physics.selected=null;renderPhysics();}
-  else announce('That word does not affect that object yet');
+  else announce(w==='LIGHT'&&t==='lamp'&&!physics.vine?'The lantern is still out of reach. Change the scene first.':'That word does not affect that object yet');
 }));
 
 /* ---------- Visual Connections ---------- */
