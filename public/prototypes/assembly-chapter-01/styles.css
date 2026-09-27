@@ -149,3 +149,5 @@ button:focus-visible{outline:3px solid #f2c94c;outline-offset:3px}
 @keyframes shine{to{transform:translateX(120%)}}
 @keyframes shake{0%,100%{transform:none}30%{transform:translateX(-4px)}70%{transform:translateX(4px)}}
 @media(min-width:600px){.ac-app{margin:24px auto;border-radius:28px;box-shadow:0 20px 55px rgba(24,59,86,.13)}}
+
+.ac-answer-panel[hidden],.ac-complete-panel[hidden]{display:none!important}
