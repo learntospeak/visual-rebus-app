@@ -31,6 +31,7 @@ const levels=[
 let state=load();
 let current=Math.min(state.current,levels.length-1);
 let pieces=[],selected=null,moves=0,guideVisible=false,solved=false;
+let lastTapPos=null,lastTapAt=0,tapTimer=null;
 
 function defaultState(){return{current:0,completed:{}}}
 function load(){try{return Object.assign(defaultState(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return defaultState()}}
@@ -54,6 +55,8 @@ function renderLevelStrip(){
 }
 function startLevel(){
   const l=levels[current];
+  if(tapTimer){clearTimeout(tapTimer);tapTimer=null;}
+  lastTapPos=null;lastTapAt=0;
   pieces=newPieces(l);selected=null;moves=0;solved=false;guideVisible=l.guide==='strong';
   document.getElementById('levelMeta').textContent='Level '+(current+1)+' · '+pieces.length+' pieces';
   document.getElementById('levelTitle').textContent=l.name;
@@ -82,10 +85,39 @@ function renderBoard(){
     a.style.transform='rotate('+piece.rot+'deg)';tile.appendChild(a);
     tile.addEventListener('click',()=>{
       if(solved)return;
-      if(selected===null)selected=pos;
-      else if(selected===pos){if(l.rotate){piece.rot=(piece.rot+90)%360;moves++;}else selected=null;}
-      else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;}
-      renderBoard();checkSolved();
+      const now=Date.now();
+      const isDouble=l.rotate && lastTapPos===pos && (now-lastTapAt)<340;
+
+      if(isDouble){
+        if(tapTimer){clearTimeout(tapTimer);tapTimer=null;}
+        lastTapPos=null;lastTapAt=0;
+        piece.rot=(piece.rot+90)%360;
+        moves++;
+        renderBoard();checkSolved();
+        announce('Piece rotated');
+        return;
+      }
+
+      lastTapPos=pos;lastTapAt=now;
+
+      if(!l.rotate){
+        if(selected===null)selected=pos;
+        else if(selected===pos)selected=null;
+        else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;}
+        renderBoard();checkSolved();
+        return;
+      }
+
+      if(tapTimer)clearTimeout(tapTimer);
+      tapTimer=setTimeout(()=>{
+        tapTimer=null;
+        if(solved)return;
+        if(selected===null)selected=pos;
+        else if(selected===pos)selected=null;
+        else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;}
+        lastTapPos=null;lastTapAt=0;
+        renderBoard();checkSolved();
+      },280);
     });
     board.appendChild(tile);
   });
