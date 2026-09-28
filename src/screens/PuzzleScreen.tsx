@@ -114,7 +114,7 @@ export function PuzzleScreen({
   const answerDisplay = Array.from(puzzle.answer).map((character) => {
     if (!/[A-Za-z]/.test(character)) return character
     const index = answerLetterIndex++
-    return lockedLetters[index] ? character.toUpperCase() : '•'
+    return lockedLetters[index] ? character.toUpperCase() : ' '
   }).join('')
 
   return (
