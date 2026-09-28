@@ -221,32 +221,37 @@ export default function App() {
 
   function updateGuess(value: string) {
     if (celebrating) return
-    setGuess(value)
+    const letter = answerLetters(value).at(-1)
+    if (!letter) return
+
+    const used = new Set(answerLetters(guess))
+    if (used.has(letter)) return
+
+    setGuess((current) => `${current}${letter}`)
     setMessage('')
 
-    const typed = answerLetters(value)
     const answer = answerLetters(puzzle.answer)
+    const isMatch = answer.includes(letter)
     setLockedLetters((current) => {
-      const next = answer.map((letter, index) => current[index] || typed[index] === letter)
+      const next = answer.map((answerLetter, index) => current[index] || answerLetter === letter)
       if (next.length > 0 && next.every(Boolean)) window.setTimeout(completePuzzle, 0)
       return next
     })
+
+    if (!isMatch) {
+      setMessage('That letter is not in the phrase.')
+      if (settings.soundEnabled) playIncorrectSound()
+      if (settings.hapticsEnabled) playHaptic('wrong')
+    }
   }
 
   function submitAnswer(event: React.FormEvent) {
     event.preventDefault()
-    if (!guess.trim()) {
-      setMessage('Enter your answer first.')
-      return
-    }
-    if (isCorrectAnswer(puzzle, guess)) {
-      setLockedLetters(Array(answerLetters(puzzle.answer).length).fill(true))
+    if (lockedLetters.length > 0 && lockedLetters.every(Boolean)) {
       window.setTimeout(completePuzzle, 0)
       return
     }
-    setMessage(answerFeedback(puzzle, guess))
-    if (settings.soundEnabled) playIncorrectSound()
-    if (settings.hapticsEnabled) playHaptic('wrong')
+    setMessage('Keep choosing letters to complete the phrase.')
   }
 
   function showClue() {
