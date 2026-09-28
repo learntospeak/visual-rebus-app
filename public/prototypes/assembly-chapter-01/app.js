@@ -49,6 +49,16 @@ function normalise(value){return value.toLowerCase().replace(/[^a-z0-9 ]/g,' ').
 function updateScore(){score=Math.max(0,100-penalties)}
 function applyMovePenalty(level){if(moves>level.par){penalties+=1;updateScore()}}
 
+function setAnswerEnabled(enabled){
+  answerInput.disabled=!enabled;
+  submitAnswerBtn.disabled=!enabled;
+  clueBtn.disabled=!enabled || clueCount>=levels[current].clues.length;
+  revealAnswerBtn.disabled=!enabled;
+  answerKeyboard.classList.toggle('is-disabled',!enabled);
+  answerKeyboard.querySelectorAll('button').forEach(button=>button.disabled=!enabled);
+  answerPanel.classList.toggle('is-locked',!enabled);
+}
+
 function renderHeader(){
   const l=levels[current];
   const tints=['rgba(44,177,166,.045)','rgba(255,107,95,.035)','rgba(242,201,76,.04)','rgba(77,150,255,.035)','rgba(155,93,229,.03)'];
@@ -78,17 +88,19 @@ function startLevel(){
     board.style.maxWidth='100%';
   }
 
-  answerPanel.hidden=true;
+  answerPanel.hidden=false;
   completePanel.hidden=true;
   answerInput.value='';
   answerFeedback.innerHTML='&nbsp;';
   cluePanel.hidden=true;
   cluePanel.textContent='';
   revealPanel.hidden=true;
-  clueBtn.disabled=false;
   clueBtn.textContent='Clue 1';
 
   renderHeader();
+  renderPattern(l.answer);
+  renderKeyboard();
+  setAnswerEnabled(false);
   renderBoard();
 }
 
@@ -164,7 +176,11 @@ function checkSolved(){
   renderBoard();
   const glow=document.getElementById('solvedGlow');
   glow.classList.remove('run');void glow.offsetWidth;glow.classList.add('run');
-  setTimeout(showAnswer,420);
+  setTimeout(()=>{
+    setAnswerEnabled(true);
+    answerFeedback.textContent='Picture complete — solve the phrase.';
+    answerPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },420);
   announce('Assembly complete. Solve the phrase.');
 }
 
@@ -216,7 +232,7 @@ function showAnswer(){
   answerPanel.hidden=false;
   answerInput.value='';
   answerFeedback.innerHTML='&nbsp;';
-  answerPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  setAnswerEnabled(true);
 }
 
 function submitAnswer(){
