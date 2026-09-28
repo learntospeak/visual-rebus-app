@@ -7,8 +7,14 @@ const guide=document.getElementById('guide');
 const live=document.getElementById('live');
 const levelStrip=document.getElementById('levelStrip');
 const answerPanel=document.getElementById('answerPanel');
-const answerGrid=document.getElementById('answerGrid');
+const answerPattern=document.getElementById('answerPattern');
+const answerInput=document.getElementById('answerInput');
 const answerFeedback=document.getElementById('answerFeedback');
+const clueBtn=document.getElementById('clueBtn');
+const cluePanel=document.getElementById('cluePanel');
+const revealPanel=document.getElementById('revealPanel');
+const revealAnswerBtn=document.getElementById('revealAnswerBtn');
+const submitAnswerBtn=document.getElementById('submitAnswerBtn');
 const completePanel=document.getElementById('completePanel');
 
 function announce(t){live.textContent='';setTimeout(()=>live.textContent=t,20)}
@@ -21,16 +27,17 @@ const art={
 };
 
 const levels=[
- {id:'watched',name:'The Waiting Kitchen',answer:'A Watched Pot Never Boils',choices:['A Watched Pot Never Boils','Too Many Cooks','Out of the Frying Pan','Slow Burn'],cols:3,rows:2,aspect:1.5,rotate:0,guide:'strong',difficulty:'Beginner',copy:'The watched pot and prominent timepiece point to the familiar proverb.',art:art.watched},
- {id:'hoops',name:'The Trial',answer:'Jump Through Hoops',choices:['Jump Through Hoops','Leap of Faith','Run in Circles','Going Round in Circles'],cols:3,rows:3,aspect:1,rotate:0,guide:'faint',difficulty:'Beginner+',copy:'The subject is literally jumping through a sequence of hoops.',art:art.hoops},
- {id:'midnight',name:'After Hours',answer:'Burn the Midnight Oil',choices:['Burn the Midnight Oil','Night Owl','Burning Daylight','Lights Out'],cols:4,rows:3,aspect:4/3,rotate:.34,guide:'faint',difficulty:'Intermediate',copy:'The late-night study and glowing oil lamp create the phrase.',art:art.midnight},
- {id:'pours',name:'The Downpour',answer:'When It Rains It Pours',choices:['When It Rains It Pours','Come Rain or Shine','Save It for a Rainy Day','Weather the Storm'],cols:4,rows:4,aspect:1,rotate:.5,guide:'none',difficulty:'Challenging',copy:'The rain is not merely falling — it is visibly pouring into the scene.',art:art.pours},
- {id:'rome',name:'The Convergence',answer:'All Roads Lead to Rome',choices:['All Roads Lead to Rome','The Road Less Travelled','Crossroads','Long Way Home'],cols:5,rows:4,aspect:1.5,rotate:1,guide:'none',difficulty:'Advanced',copy:'Multiple continuous roads converge on the dominant Colosseum at the centre of Rome.',art:art.rome}
+ {id:'watched',name:'The Waiting Kitchen',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:0,guide:'strong',difficulty:'Beginner',copy:'The watched pot and prominent timepiece point to the familiar proverb.',art:art.watched},
+ {id:'hoops',name:'The Trial',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:0,guide:'faint',difficulty:'Beginner+',copy:'The subject is literally jumping through a sequence of hoops.',art:art.hoops},
+ {id:'midnight',name:'After Hours',answer:'Burn the Midnight Oil',accepted:['burn the midnight oil'],clues:['The scene is clearly taking place very late at night.','The main light source is an old-fashioned oil lamp.','The phrase means working late into the night.'],cols:4,rows:3,aspect:4/3,rotate:.34,guide:'faint',difficulty:'Intermediate',copy:'The late-night study and glowing oil lamp create the phrase.',art:art.midnight},
+ {id:'pours',name:'The Downpour',answer:'When It Rains It Pours',accepted:['when it rains it pours'],clues:['The weather is more extreme than ordinary rain.','Think about the difference between rain falling and liquid pouring.','The phrase means problems often arrive all at once.'],cols:4,rows:4,aspect:1,rotate:.5,guide:'none',difficulty:'Challenging',copy:'The rain is not merely falling — it is visibly pouring into the scene.',art:art.pours},
+ {id:'rome',name:'The Convergence',answer:'All Roads Lead to Rome',accepted:['all roads lead to rome'],clues:['Follow the roads and notice where they converge.','The central landmark is the Colosseum.','The phrase says different routes can reach the same result.'],cols:5,rows:4,aspect:1.5,rotate:1,guide:'none',difficulty:'Advanced',copy:'Multiple continuous roads converge on the dominant Colosseum at the centre of Rome.',art:art.rome}
 ];
 
 let state=load();
 let current=Math.min(state.current,levels.length-1);
 let pieces=[],selected=null,moves=0,guideVisible=false,solved=false;
+let clueCount=0;
 let lastTapPos=null,lastTapAt=0,tapTimer=null;
 
 function defaultState(){return{current:0,completed:{}}}
@@ -57,7 +64,9 @@ function startLevel(){
   const l=levels[current];
   if(tapTimer){clearTimeout(tapTimer);tapTimer=null;}
   lastTapPos=null;lastTapAt=0;
-  pieces=newPieces(l);selected=null;moves=0;solved=false;guideVisible=l.guide==='strong';
+  pieces=newPieces(l);selected=null;moves=0;solved=false;guideVisible=l.guide==='strong';clueCount=0;
+  answerInput.value='';answerFeedback.textContent='';cluePanel.hidden=true;cluePanel.textContent='';revealPanel.hidden=true;
+  clueBtn.disabled=false;clueBtn.textContent='Clue 1';
   document.getElementById('levelMeta').textContent='Level '+(current+1)+' · '+pieces.length+' pieces';
   document.getElementById('levelTitle').textContent=l.name;
   document.getElementById('difficultyBadge').textContent=l.difficulty;
@@ -130,15 +139,54 @@ function checkSolved(){
   const glow=document.getElementById('solvedGlow');glow.classList.remove('run');void glow.offsetWidth;glow.classList.add('run');
   setTimeout(showAnswers,520);announce('Picture complete. Find the hidden meaning.');
 }
-function showAnswers(){
-  const l=levels[current];answerGrid.innerHTML='';answerPanel.hidden=false;
-  l.choices.slice().sort(()=>Math.random()-.5).forEach(choice=>{
-    const b=document.createElement('button');b.type='button';b.className='ac-answer';b.textContent=choice;
-    b.addEventListener('click',()=>{
-      if(choice===l.answer){b.classList.add('is-right');answerFeedback.textContent='Meaning uncovered.';setTimeout(()=>completeLevel(l),380);}
-      else{b.classList.remove('is-wrong');void b.offsetWidth;b.classList.add('is-wrong');answerFeedback.textContent='Not quite. Look again at the completed scene.';}
-    });answerGrid.appendChild(b);
+function normaliseAnswer(value){return value.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
+function renderPattern(answer){
+  answerPattern.innerHTML='';
+  answer.split(/\s+/).forEach(word=>{
+    const span=document.createElement('span');
+    span.textContent=String(word.replace(/[^a-zA-Z0-9]/g,'').length);
+    answerPattern.appendChild(span);
   });
+}
+function showAnswers(){
+  const l=levels[current];
+  renderPattern(l.answer);
+  answerPanel.hidden=false;
+  answerInput.value='';
+  answerFeedback.textContent='';
+  clueCount=0;
+  cluePanel.hidden=true;
+  revealPanel.hidden=true;
+  clueBtn.disabled=false;
+  clueBtn.textContent='Clue 1';
+  setTimeout(()=>answerInput.focus({preventScroll:true}),120);
+}
+function submitTypedAnswer(){
+  const l=levels[current];
+  const guess=normaliseAnswer(answerInput.value);
+  if(!guess){answerFeedback.textContent='Enter a phrase first.';return;}
+  const valid=[normaliseAnswer(l.answer),...(l.accepted||[]).map(normaliseAnswer)];
+  if(valid.includes(guess)){
+    answerFeedback.textContent='Correct.';
+    setTimeout(()=>completeLevel(l),350);
+  }else{
+    answerFeedback.textContent='Not quite. Look again at the completed scene.';
+  }
+}
+function showNextClue(){
+  const l=levels[current];
+  if(clueCount>=l.clues.length)return;
+  clueCount++;
+  cluePanel.hidden=false;
+  cluePanel.textContent=l.clues[clueCount-1];
+  clueBtn.textContent=clueCount>=l.clues.length?'All clues shown':'Clue '+(clueCount+1);
+  clueBtn.disabled=clueCount>=l.clues.length;
+  revealPanel.hidden=clueCount<l.clues.length;
+}
+function revealCurrentAnswer(){
+  const l=levels[current];
+  answerInput.value=l.answer;
+  answerFeedback.textContent='Answer revealed. You can replay this puzzle later.';
 }
 function completeLevel(l){
   state.completed[l.id]=true;save();answerPanel.hidden=true;completePanel.hidden=false;
@@ -156,6 +204,10 @@ function renderMaster(){
   document.getElementById('masterCount').textContent=count+' / 5';
   document.getElementById('masterNote').textContent=count===5?'All five fragments recovered. The next prototype pass can turn these into a true master assembly.':'Solve each hidden meaning to recover all five chapter fragments.';
 }
+submitAnswerBtn.addEventListener('click',submitTypedAnswer);
+answerInput.addEventListener('keydown',(event)=>{if(event.key==='Enter'){event.preventDefault();submitTypedAnswer();}});
+clueBtn.addEventListener('click',showNextClue);
+revealAnswerBtn.addEventListener('click',revealCurrentAnswer);
 document.getElementById('hintBtn').addEventListener('click',()=>{guideVisible=!guideVisible;guide.classList.toggle('is-hidden',!guideVisible);document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Reveal guide'});
 document.getElementById('shuffleBtn').addEventListener('click',()=>{if(solved)return;pieces=newPieces(levels[current]);selected=null;moves++;renderBoard()});
 document.getElementById('nextBtn').addEventListener('click',()=>{if(current<levels.length-1){current++;state.current=current;save();startLevel()}else document.querySelector('.ac-master').scrollIntoView({behavior:'smooth',block:'start'})});
