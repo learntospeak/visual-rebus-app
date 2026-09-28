@@ -1,88 +1,139 @@
-Clue Canvas Assembly — Project Rules
-Branch: prototype/assembly-chapter-premium-v2
-Status: mandatory working rules for all future Assembly content and implementation
+CLUE CANVAS ASSEMBLY — MANDATORY PROJECT RULES
 
-1) Source of truth
-- Stay on branch prototype/assembly-chapter-premium-v2 unless explicitly told otherwise.
-- Treat the current reworked/approved Assembly direction as the source of truth.
-- Disregard older rejected artwork batches, mock-up sheets, infographic layouts, and UI drift.
-- When uncertain, preserve the current approved gameplay/UI and extend it rather than redesigning it.
+Repository: learntospeak/visual-rebus-app
+Working branch: prototype/assembly-chapter-premium-v2
 
-2) Core product rule
-- Assembly must feel like normal Clue Canvas, not a separate app.
-- The only major gameplay difference is that the main puzzle image is first solved as a jigsaw/assembly puzzle using swappable and rotatable pieces.
-- After the image is assembled, the player solves the phrase using the existing Clue Canvas answer flow.
+These rules are mandatory for every future Clue Canvas Assembly artwork, puzzle, UI change, and gameplay change. Before continuing Assembly work, read this file plus the latest Assembly work handoff. Ignore rejected artwork batches, old mockups, and abandoned UI experiments.
 
-3) UX / UI rules (mandatory)
-- Keep the existing Clue Canvas puzzle-screen layout as the base.
-- Preserve the current updated Assembly UI and puzzle-answer flow.
-- Do not introduce speculative redesigns, new dashboards, side systems, visual wrappers, or extra navigation unless explicitly requested.
-- Do not create separate Assembly-style pages when the existing Clue Canvas puzzle screen can be used.
-- No guide button and no reshuffle button in the player-facing UI.
-- Keep the answer area visible and consistent with the approved updated flow.
-- Use the compact keyboard / letter-selection flow already established for the current Assembly implementation.
-- Selecting one letter must reveal every matching occurrence in the phrase.
-- Spaces must be automatic.
-- Punctuation must be automatic.
+1. SOURCE OF TRUTH
+- Stay on prototype/assembly-chapter-premium-v2 unless explicitly told otherwise.
+- Use the current branch implementation, latest handoff, and currently approved artwork as the source of truth.
+- Do not revive rejected artwork, old UI mockups, or abandoned concepts.
+- Do not replace approved artwork unless explicitly asked.
+
+2. CORE ASSEMBLY EXPERIENCE
+- Assembly must feel like normal Clue Canvas, not a separate mini-app.
+- Keep the existing Clue Canvas puzzle-screen UX/UI.
+- The Assembly difference happens inside the normal artwork area: the image is split into pieces that can be swapped and rotated.
+- After the image is assembled, the player solves the phrase using the current Clue Canvas answer flow.
+- Do not redesign the surrounding app unless explicitly requested.
+
+3. CURRENT ANSWER UX
+- Selecting one letter reveals every matching occurrence in the phrase.
+- Spaces are automatic.
+- Punctuation is automatic.
 - No placeholder dots.
-- Used letters must be disabled after use.
-- Preserve the standard answer pattern / clue / submit / reveal flow unless explicitly changed.
-- The three-strike/lives system is not implemented yet; do not invent or add it unless explicitly requested.
+- Used letters are disabled.
+- Preserve the current compact answer-selection/keyboard behavior.
+- Preserve the current clue, submit, feedback, and reveal flow unless explicitly changed.
+- No guide button.
+- No reshuffle button.
+- The three-strike/lives system is not implemented yet; do not add it unless explicitly requested.
 
-4) Puzzle mechanic rules
-- Assembly puzzles use swappable and rotatable pieces.
-- Rotation and swapping are part of the standard Assembly mechanic.
-- Any code change to board logic must be shared/generic, not patched for only one puzzle.
-- All puzzle sizes supported in the branch must continue to work after changes.
-- Preserve the current behavior that has already been corrected, including piece rotation, contiguous piece layout, and the approved answer flow.
+4. JIGSAW / ASSEMBLY MECHANICS
+- Swapping and rotation are core mechanics.
+- Rotation must remain supported from the beginning.
+- Piece layout must remain contiguous with no unintended gaps.
+- Rotation must rotate the intended image fragment, not reveal a different crop.
+- Board logic must be shared/generic across all supported grid sizes.
+- Do not patch gameplay for only one puzzle if the behavior should apply to all puzzles.
 
-5) Artwork rules (mandatory)
-- Every artwork must clearly convey the intended phrase while not being so obvious that it removes the puzzle challenge.
-- Every artwork must also remain fair: a normal player should be able to infer the phrase from the image.
-- Attractive artwork is not enough; the meaning must be visually inferable.
-- Before treating an artwork as acceptable, verify that the image itself communicates the phrase without relying on answer text.
-- Break each phrase into its essential visual meaning components before generating the artwork.
-- The image must visibly contain those critical components: subject, action, object/context, and relationship.
-- Reject and redo any artwork that is vague, misleading, or visually points to the wrong phrase.
-- If a phrase is difficult to infer in one scene, a multi-frame or split-scene composition is allowed.
-- Multi-frame compositions must still fit neatly inside the normal Clue Canvas puzzle window and read as one premium artwork, not a cluttered comic page.
-- Use multi-frame composition only when it improves inference clarity.
+5. ARTWORK PURPOSE
+Every artwork must satisfy all three:
+- clearly convey the intended phrase;
+- not make the answer trivially obvious;
+- still be fair enough that a normal player can infer it.
 
-6) Artwork format rules
-- Standalone artwork only.
-- No UI, app screens, keyboards, badges, borders, captions, answer letters, embedded text, logos, watermarks, or puzzle grids baked into the source image.
-- Do not create infographic sheets, collages, mock-up pages, poster layouts, or puzzle-selection screens when the task is to create a puzzle artwork.
-- Use premium-quality, polished artwork only.
-- Maintain natural anatomy, perspective, object relationships, and believable scene logic.
-- Avoid AI-generated visual nonsense where objects or actions do not make physical sense.
-- Each image must have strong visual landmarks and varied regions so it works when cut into puzzle pieces.
-- Each image must remain readable inside the Clue Canvas puzzle frame on mobile.
+A beautiful image that does not communicate the phrase is a failed artwork.
 
-7) Content / phrase rules
-- New Assembly phrases must not overlap with the existing 565 Clue Canvas puzzle answers or previously approved Assembly answers.
-- Duplicate-screen any new phrase before it enters production.
-- Use the approved backlog and the current approved set as the working source for next puzzles.
-- When there is any doubt about duplication or overlap, check before generating.
+Before generating, break the phrase into its essential visual components:
+- subject;
+- action;
+- object/context;
+- relationship or consequence.
 
-8) Working process rules
-- Work one artwork carefully at a time when needed, but it is acceptable to complete a batch once the rules are understood.
-- For batch work, every item must still pass the same meaning/inference standard individually.
-- Do not blindly push forward with weak images just to finish a batch.
-- If a generation drifts into UI/mock-up output, reject it immediately and regenerate correctly.
-- Do not keep correcting a fundamentally wrong generation if the concept is off; restart cleanly.
-- Preserve approved work and build forward from it.
-- When asked to continue, first catch up on the approved state before creating anything new.
+Those components must be visible in the artwork itself.
 
-9) Acceptance checklist for every new artwork
-- Is the intended phrase clearly inferable?
-- Are the essential visual meaning components present?
-- Is the scene fair but not too obvious?
-- Does the image avoid misleading alternative interpretations?
-- Is the image standalone, with no UI/text/logos/borders?
-- Is the quality premium?
-- Will it work when cut into puzzle pieces?
-- Does it fit the current Clue Canvas Assembly style and window?
-- Does it avoid overlap with existing approved phrases?
+6. SINGLE-SCENE VS MULTI-FRAME
+- Use one coherent scene by default.
+- If one scene cannot fairly communicate the phrase, use a multi-frame or split-scene composition inside the same artwork.
+- Multi-frame compositions are allowed specifically to improve inference.
+- They must fit cleanly inside the normal Clue Canvas artwork window.
+- They must still feel like one premium composition, not a cluttered comic.
+- Do not use captions to explain the frames.
 
-10) Non-negotiable summary rule
-- Every future Assembly puzzle must follow the current Clue Canvas UI/UX structure, use the jigsaw mechanic inside that structure, and only ship artwork that genuinely communicates the intended phrase.
+7. ARTWORK FORMAT — NON-NEGOTIABLE
+Source artwork must contain artwork only.
+
+Do NOT include:
+- app UI;
+- keyboards;
+- buttons;
+- cards;
+- progress bars;
+- badges;
+- answer letters;
+- captions;
+- titles;
+- explanatory text;
+- logos;
+- watermarks;
+- decorative borders;
+- puzzle-grid overlays;
+- mock-up screens;
+- infographic sheets;
+- poster layouts.
+
+If image generation drifts into UI, infographic, collage, or poster output, reject it immediately and restart from a clean prompt.
+
+8. ART QUALITY STANDARD
+- Premium, polished cinematic/storybook/editorial illustration quality.
+- Natural anatomy, perspective, lighting, scale, and object relationships.
+- Reject obvious AI errors or physically nonsensical interactions.
+- Include strong visual landmarks, distinct shapes, edges, and varied regions so the image still works when sliced into pieces.
+- Avoid huge uniform regions that create meaningless puzzle pieces.
+- Artwork must remain readable on mobile.
+- No embedded text unless explicitly approved as a rebus-specific symbolic exception.
+
+9. INFERENCE QUALITY CHECK
+Before accepting an artwork, verify:
+- Can the intended phrase be inferred from the image alone?
+- Are all essential meaning components present?
+- Is the action or relationship clear?
+- Does the image accidentally suggest a different phrase more strongly?
+- Is it challenging without being arbitrary?
+- Is it still readable at mobile size?
+- Will it still work when cut into puzzle pieces?
+
+If any answer is no, the artwork is not finished.
+
+10. CONTENT / DUPLICATE RULES
+- Check every new phrase against the existing Clue Canvas catalogue and approved Assembly answers before production.
+- Reject exact duplicates.
+- Reject obvious semantic or visual near-duplicates.
+- The approved backlog is a working list only; each phrase still gets a final duplicate/semantic check before artwork generation.
+- Movie-title puzzles must use original visual clues, not copied posters, logos, actor likenesses, or recognisable promotional compositions.
+
+11. BATCH WORKFLOW
+Batch creation is allowed, including batches of five, but every artwork must pass individually.
+
+For each phrase:
+1. confirm it is the correct next phrase from the current handoff/backlog;
+2. check for duplicates/near-duplicates;
+3. identify the essential visual meaning components;
+4. choose single-scene or multi-frame based on inference clarity;
+5. generate one standalone source artwork;
+6. inspect it against these rules;
+7. reject/regenerate if it fails;
+8. only then move to the next phrase.
+
+Do not push weak artwork forward just to finish a batch.
+Do not keep trying to repair a fundamentally wrong concept; restart cleanly.
+
+12. APPROVED ARTWORK HANDLING
+- Save every approved artwork into /Rebus/Assembly Approved as soon as it is approved.
+- Use the latest saved approved artwork set as the visual source of truth.
+- Older rejected generations must be ignored.
+
+13. NON-NEGOTIABLE SUMMARY
+Every future Assembly puzzle must preserve the current Clue Canvas UX/UI, use the swappable + rotatable jigsaw mechanic inside that structure, and only ship artwork that genuinely communicates the intended phrase.
