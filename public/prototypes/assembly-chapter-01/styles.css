@@ -161,3 +161,13 @@ button:focus-visible{outline:3px solid #f2c94c;outline-offset:3px}
 .ac-progress-row{align-items:center}
 .ac-score{padding:4px 9px;border-radius:999px;background:#e7f3f1;color:var(--teal-dark);font-weight:800}
 .ac-score strong{font-family:Manrope;font-size:.82rem}
+
+.ac-keyboard{display:grid;gap:6px;margin-top:10px}
+.ac-key-row{display:flex;justify-content:center;gap:4px}
+.ac-key{flex:1;min-width:0;height:38px;padding:0 2px;border:0;border-radius:8px;background:#e7ecee;color:var(--ink);font:800 .72rem Manrope;box-shadow:inset 0 -1px 0 rgba(24,59,86,.08)}
+.ac-key:active{transform:translateY(1px);background:#dce5e8}
+.ac-key-row-2{padding:0 12px}
+.ac-key-row-3{padding:0 20px}
+.ac-key-space{flex:0 0 58%;color:var(--teal-dark);background:#dff4f2}
+.ac-key-backspace{flex:1.35;color:var(--coral)}
+.ac-answer-input[readonly]{cursor:default}
