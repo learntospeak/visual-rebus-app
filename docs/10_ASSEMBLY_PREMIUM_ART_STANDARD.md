@@ -19,7 +19,9 @@ This is the required visual standard for all new Assembly Mode artwork.
    - Strong lighting, depth, atmosphere, texture, and composition.
    - Refined colour grading.
    - Clear focal subject and readable silhouettes.
-   - No embedded text, labels, UI, watermarks, or logos.
+   - Never print, spell, label, caption, or otherwise state the answer phrase in the artwork.
+   - Text is not a shortcut for clue design. A deliberately visual rebus element may use a symbol, number, or isolated word only when it functions as part of the puzzle rather than directly giving away the answer (for example, a visual “2” positioned above something to imply “two up”).
+   - No UI, watermarks, logos, answer letters, captions, or explanatory labels.
 
 4. **Puzzle readability**
    - The artwork must remain legible after being divided into puzzle pieces.
@@ -31,6 +33,8 @@ This is the required visual standard for all new Assembly Mode artwork.
    - The completed image must communicate a phrase, idiom, or visual idea.
    - Assembly is the mechanic; interpretation is the Clue Canvas payoff.
    - The image must not merely be a pretty generic photograph.
+   - Before artwork is accepted, identify the exact visual evidence a player can notice and the logical inference it supports. The path must work as “see this → infer this idea → reach the phrase”; if that chain is weak, misleading, or only obvious after being told the answer, reject and redesign the artwork.
+   - Literal imagery is allowed when it creates a fair inference path, but it must still look natural, coherent, and intentionally composed rather than like a collection of AI-generated objects.
 
 6. **Quality gate**
    - If an image would look cheap beside the strongest premium raster artwork already in Clue Canvas, it does not ship.
