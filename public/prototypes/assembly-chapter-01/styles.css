@@ -65,25 +65,19 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
 .puzzle-card[hidden]{display:none!important}
 .puzzle-art-frame{height:270px;display:grid;place-items:center}
 .assembly-art-frame{width:100%}
-.assembly-board-shell{
+.assembly-art-frame{
   position:relative;
-  width:100%;
-  height:100%;
-  display:grid;
-  place-items:center;
   overflow:hidden;
-  border-radius:16px;
-  background:#102e3b;
+  background:transparent;
 }
 .ac-board{
   position:relative;
   display:grid;
   gap:2px;
-  width:100%;
-  max-width:100%;
-  max-height:100%;
   z-index:2;
   overflow:hidden;
+  margin:auto;
+  background:transparent;
 }
 .ac-piece{
   position:relative;
@@ -108,7 +102,7 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
 }
 .ac-solved-glow{
   position:absolute;
-  inset:0;
+  inset:6px 10px;
   pointer-events:none;
   opacity:0;
   background:linear-gradient(110deg,transparent 28%,rgba(255,255,255,.42),transparent 68%);
@@ -232,7 +226,6 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
     border-radius:18px;
   }
   .puzzle-screen.has-compact-keyboard .puzzle-art-frame{width:100%;height:100%;min-height:165px;overflow:hidden}
-  .assembly-board-shell{border-radius:12px}
   .assembly-answer-form{margin-top:4px}
   .assembly-answer-form>label{display:none}
   .assembly-answer-form .answer-pattern{display:flex;gap:4px 8px;margin:4px 2px 6px}
