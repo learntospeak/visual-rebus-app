@@ -68,12 +68,14 @@ function startLevel(){
 
   board.style.gridTemplateColumns='repeat('+l.cols+',1fr)';
   board.style.aspectRatio=String(l.aspect);
-  if(l.aspect<1.45){
-    board.style.height='100%';
-    board.style.width='auto';
-  }else{
+  if(l.aspect>=1.35){
     board.style.width='100%';
     board.style.height='auto';
+    board.style.maxHeight='100%';
+  }else{
+    board.style.height='100%';
+    board.style.width='auto';
+    board.style.maxWidth='100%';
   }
 
   answerPanel.hidden=true;
