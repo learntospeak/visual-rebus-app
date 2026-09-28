@@ -170,15 +170,19 @@ function handleAnswerKey(key){
 }
 function renderAnswerKeyboard(){
   answerKeyboard.innerHTML='';
+  answerKeyboard.className='compact-answer-keyboard';
   keyRows.forEach((row,rowIndex)=>{
     const r=document.createElement('div');
-    r.className='ac-key-row ac-key-row-'+(rowIndex+1);
+    r.className='compact-key-row compact-key-row-'+(rowIndex+1);
     row.forEach(key=>{
       const b=document.createElement('button');
       b.type='button';
-      b.className='ac-key'+(key==='SPACE'?' ac-key-space':'')+(key==='BACKSPACE'?' ac-key-backspace':'');
+      b.className='compact-key compact-key-'+key.toLowerCase();
       b.textContent=key==='BACKSPACE'?'⌫':key==='SPACE'?'space':key;
       b.setAttribute('aria-label',key==='BACKSPACE'?'Delete previous character':key==='SPACE'?'Space':key);
+      b.addEventListener('pointerdown',(event)=>{
+        if(key!=='BACKSPACE') event.preventDefault();
+      });
       b.addEventListener('click',()=>handleAnswerKey(key));
       r.appendChild(b);
     });
@@ -188,10 +192,17 @@ function renderAnswerKeyboard(){
 function normaliseAnswer(value){return value.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
 function renderPattern(answer){
   answerPattern.innerHTML='';
+  answerPattern.className='answer-pattern';
   answer.split(/\s+/).forEach(word=>{
-    const span=document.createElement('span');
-    span.textContent=String(word.replace(/[^a-zA-Z0-9]/g,'').length);
-    answerPattern.appendChild(span);
+    const clean=word.replace(/[^a-zA-Z0-9]/g,'');
+    const wordEl=document.createElement('span');
+    wordEl.className='answer-word';
+    for(let i=0;i<clean.length;i++){
+      const slot=document.createElement('span');
+      slot.className='letter-slot';
+      wordEl.appendChild(slot);
+    }
+    answerPattern.appendChild(wordEl);
   });
 }
 function showAnswers(){
