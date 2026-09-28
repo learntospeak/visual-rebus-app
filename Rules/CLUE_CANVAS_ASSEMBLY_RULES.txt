@@ -1,0 +1,88 @@
+Clue Canvas Assembly — Project Rules
+Branch: prototype/assembly-chapter-premium-v2
+Status: mandatory working rules for all future Assembly content and implementation
+
+1) Source of truth
+- Stay on branch prototype/assembly-chapter-premium-v2 unless explicitly told otherwise.
+- Treat the current reworked/approved Assembly direction as the source of truth.
+- Disregard older rejected artwork batches, mock-up sheets, infographic layouts, and UI drift.
+- When uncertain, preserve the current approved gameplay/UI and extend it rather than redesigning it.
+
+2) Core product rule
+- Assembly must feel like normal Clue Canvas, not a separate app.
+- The only major gameplay difference is that the main puzzle image is first solved as a jigsaw/assembly puzzle using swappable and rotatable pieces.
+- After the image is assembled, the player solves the phrase using the existing Clue Canvas answer flow.
+
+3) UX / UI rules (mandatory)
+- Keep the existing Clue Canvas puzzle-screen layout as the base.
+- Preserve the current updated Assembly UI and puzzle-answer flow.
+- Do not introduce speculative redesigns, new dashboards, side systems, visual wrappers, or extra navigation unless explicitly requested.
+- Do not create separate Assembly-style pages when the existing Clue Canvas puzzle screen can be used.
+- No guide button and no reshuffle button in the player-facing UI.
+- Keep the answer area visible and consistent with the approved updated flow.
+- Use the compact keyboard / letter-selection flow already established for the current Assembly implementation.
+- Selecting one letter must reveal every matching occurrence in the phrase.
+- Spaces must be automatic.
+- Punctuation must be automatic.
+- No placeholder dots.
+- Used letters must be disabled after use.
+- Preserve the standard answer pattern / clue / submit / reveal flow unless explicitly changed.
+- The three-strike/lives system is not implemented yet; do not invent or add it unless explicitly requested.
+
+4) Puzzle mechanic rules
+- Assembly puzzles use swappable and rotatable pieces.
+- Rotation and swapping are part of the standard Assembly mechanic.
+- Any code change to board logic must be shared/generic, not patched for only one puzzle.
+- All puzzle sizes supported in the branch must continue to work after changes.
+- Preserve the current behavior that has already been corrected, including piece rotation, contiguous piece layout, and the approved answer flow.
+
+5) Artwork rules (mandatory)
+- Every artwork must clearly convey the intended phrase while not being so obvious that it removes the puzzle challenge.
+- Every artwork must also remain fair: a normal player should be able to infer the phrase from the image.
+- Attractive artwork is not enough; the meaning must be visually inferable.
+- Before treating an artwork as acceptable, verify that the image itself communicates the phrase without relying on answer text.
+- Break each phrase into its essential visual meaning components before generating the artwork.
+- The image must visibly contain those critical components: subject, action, object/context, and relationship.
+- Reject and redo any artwork that is vague, misleading, or visually points to the wrong phrase.
+- If a phrase is difficult to infer in one scene, a multi-frame or split-scene composition is allowed.
+- Multi-frame compositions must still fit neatly inside the normal Clue Canvas puzzle window and read as one premium artwork, not a cluttered comic page.
+- Use multi-frame composition only when it improves inference clarity.
+
+6) Artwork format rules
+- Standalone artwork only.
+- No UI, app screens, keyboards, badges, borders, captions, answer letters, embedded text, logos, watermarks, or puzzle grids baked into the source image.
+- Do not create infographic sheets, collages, mock-up pages, poster layouts, or puzzle-selection screens when the task is to create a puzzle artwork.
+- Use premium-quality, polished artwork only.
+- Maintain natural anatomy, perspective, object relationships, and believable scene logic.
+- Avoid AI-generated visual nonsense where objects or actions do not make physical sense.
+- Each image must have strong visual landmarks and varied regions so it works when cut into puzzle pieces.
+- Each image must remain readable inside the Clue Canvas puzzle frame on mobile.
+
+7) Content / phrase rules
+- New Assembly phrases must not overlap with the existing 565 Clue Canvas puzzle answers or previously approved Assembly answers.
+- Duplicate-screen any new phrase before it enters production.
+- Use the approved backlog and the current approved set as the working source for next puzzles.
+- When there is any doubt about duplication or overlap, check before generating.
+
+8) Working process rules
+- Work one artwork carefully at a time when needed, but it is acceptable to complete a batch once the rules are understood.
+- For batch work, every item must still pass the same meaning/inference standard individually.
+- Do not blindly push forward with weak images just to finish a batch.
+- If a generation drifts into UI/mock-up output, reject it immediately and regenerate correctly.
+- Do not keep correcting a fundamentally wrong generation if the concept is off; restart cleanly.
+- Preserve approved work and build forward from it.
+- When asked to continue, first catch up on the approved state before creating anything new.
+
+9) Acceptance checklist for every new artwork
+- Is the intended phrase clearly inferable?
+- Are the essential visual meaning components present?
+- Is the scene fair but not too obvious?
+- Does the image avoid misleading alternative interpretations?
+- Is the image standalone, with no UI/text/logos/borders?
+- Is the quality premium?
+- Will it work when cut into puzzle pieces?
+- Does it fit the current Clue Canvas Assembly style and window?
+- Does it avoid overlap with existing approved phrases?
+
+10) Non-negotiable summary rule
+- Every future Assembly puzzle must follow the current Clue Canvas UI/UX structure, use the jigsaw mechanic inside that structure, and only ship artwork that genuinely communicates the intended phrase.
