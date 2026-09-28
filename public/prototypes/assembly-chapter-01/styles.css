@@ -124,11 +124,17 @@ button:focus-visible{outline:3px solid #f2c94c;outline-offset:3px}
 
 .ac-answer-panel,.ac-complete-panel{margin-top:18px;padding:19px;border-radius:19px;background:var(--white);border:1px solid var(--line);box-shadow:0 10px 30px rgba(24,59,86,.06)}
 .ac-answer-panel h3,.ac-complete-panel h3{font:800 1.25rem/1.12 Manrope;letter-spacing:-.035em}
-.ac-answer-grid{display:grid;gap:8px;margin-top:15px}
-.ac-answer{min-height:49px;padding:10px 13px;text-align:left;border:1px solid var(--line);border-radius:13px;background:#f2f1ec;font-weight:750}
-.ac-answer.is-wrong{animation:shake .3s ease;border-color:#efaaa3;background:#fff0ee}
-.ac-answer.is-right{border-color:var(--teal);background:#e3f6f3}
-.ac-feedback{min-height:17px;margin:9px 0 0;color:var(--coral);font-size:.76rem;font-weight:800}
+.ac-answer-label{display:block;margin-top:16px;color:var(--ink);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.ac-pattern{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0 10px}
+.ac-pattern span{min-width:28px;height:28px;padding:0 7px;display:grid;place-items:center;border-radius:8px;background:#ebe9e2;color:var(--muted);font:800 .72rem Manrope}
+.ac-answer-input{width:100%;height:52px;padding:0 14px;border:2px solid #d5dbe0;border-radius:13px;background:#fff;color:var(--ink);font-size:1rem}
+.ac-answer-input:focus{border-color:var(--teal);outline:none}
+.ac-feedback{min-height:18px;margin:9px 0 0;color:var(--coral);font-size:.76rem;font-weight:800}
+.ac-answer-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.ac-clue{margin-top:12px;padding:13px 14px;border-left:4px solid var(--teal);border-radius:0 12px 12px 0;background:#e8f5f3;color:var(--muted);font-size:.79rem;line-height:1.45}
+.ac-reveal{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);text-align:center}
+.ac-reveal p{margin:0 0 6px;color:var(--muted);font-size:.75rem;line-height:1.45}
+.ac-text-btn{min-height:40px;padding:4px 10px;border:0;background:transparent;color:var(--teal-dark);font-weight:800}
 .ac-complete-panel{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:start}
 .ac-complete-panel .ac-btn{grid-column:1/-1}
 .ac-complete-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;color:#fff;background:var(--teal);font-size:1rem}
