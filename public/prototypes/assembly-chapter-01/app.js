@@ -9,6 +9,7 @@ const levelStrip=document.getElementById('levelStrip');
 const answerPanel=document.getElementById('answerPanel');
 const answerPattern=document.getElementById('answerPattern');
 const answerInput=document.getElementById('answerInput');
+const answerKeyboard=document.getElementById('answerKeyboard');
 const answerFeedback=document.getElementById('answerFeedback');
 const clueBtn=document.getElementById('clueBtn');
 const cluePanel=document.getElementById('cluePanel');
@@ -38,6 +39,12 @@ let state=load();
 let current=Math.min(state.current,levels.length-1);
 let pieces=[],selected=null,moves=0,guideVisible=false,solved=false;
 let clueCount=0,score=100,penalties=0;
+const keyRows=[
+  ['Q','W','E','R','T','Y','U','I','O','P'],
+  ['A','S','D','F','G','H','J','K','L'],
+  ['Z','X','C','V','B','N','M','BACKSPACE'],
+  ['SPACE']
+];
 let lastTapPos=null,lastTapAt=0,tapTimer=null;
 
 function defaultState(){return{current:0,completed:{}}}
@@ -151,6 +158,33 @@ function checkSolved(){
   const glow=document.getElementById('solvedGlow');glow.classList.remove('run');void glow.offsetWidth;glow.classList.add('run');
   setTimeout(showAnswers,520);announce('Picture complete. Find the hidden meaning.');
 }
+function handleAnswerKey(key){
+  if(key==='BACKSPACE'){
+    answerInput.value=answerInput.value.slice(0,-1);
+  }else if(key==='SPACE'){
+    if(answerInput.value && !answerInput.value.endsWith(' ')) answerInput.value+=' ';
+  }else{
+    answerInput.value+=key.toLowerCase();
+  }
+  answerFeedback.textContent='';
+}
+function renderAnswerKeyboard(){
+  answerKeyboard.innerHTML='';
+  keyRows.forEach((row,rowIndex)=>{
+    const r=document.createElement('div');
+    r.className='ac-key-row ac-key-row-'+(rowIndex+1);
+    row.forEach(key=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='ac-key'+(key==='SPACE'?' ac-key-space':'')+(key==='BACKSPACE'?' ac-key-backspace':'');
+      b.textContent=key==='BACKSPACE'?'⌫':key==='SPACE'?'space':key;
+      b.setAttribute('aria-label',key==='BACKSPACE'?'Delete previous character':key==='SPACE'?'Space':key);
+      b.addEventListener('click',()=>handleAnswerKey(key));
+      r.appendChild(b);
+    });
+    answerKeyboard.appendChild(r);
+  });
+}
 function normaliseAnswer(value){return value.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
 function renderPattern(answer){
   answerPattern.innerHTML='';
@@ -171,7 +205,7 @@ function showAnswers(){
   revealPanel.hidden=true;
   clueBtn.disabled=false;
   clueBtn.textContent='Clue 1';
-  setTimeout(()=>answerInput.focus({preventScroll:true}),120);
+  renderAnswerKeyboard();
 }
 function submitTypedAnswer(){
   const l=levels[current];
@@ -221,7 +255,7 @@ function renderMaster(){
   document.getElementById('masterNote').textContent=count===5?'All five fragments recovered. The next prototype pass can turn these into a true master assembly.':'Solve each hidden meaning to recover all five chapter fragments.';
 }
 submitAnswerBtn.addEventListener('click',submitTypedAnswer);
-answerInput.addEventListener('keydown',(event)=>{if(event.key==='Enter'){event.preventDefault();submitTypedAnswer();}});
+
 clueBtn.addEventListener('click',showNextClue);
 revealAnswerBtn.addEventListener('click',revealCurrentAnswer);
 document.getElementById('hintBtn').addEventListener('click',()=>{guideVisible=!guideVisible;guide.classList.toggle('is-hidden',!guideVisible);document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Reveal guide'});
