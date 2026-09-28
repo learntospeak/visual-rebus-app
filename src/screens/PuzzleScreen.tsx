@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type RefObject } from 'react'
+import { useEffect, useRef, useState, type FormEvent, type RefObject } from 'react'
 import { AnswerPattern } from '../components/AnswerPattern'
 import { Button } from '../components/Button'
 import { CluePanel } from '../components/CluePanel'
@@ -9,48 +9,10 @@ import type { Puzzle } from '../types'
 const compactKeyRows = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-  ['Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACKSPACE'],
-  ['SPACE'],
+  ['Z', 'X', 'C', 'V', 'B', 'N', 'M'],
 ]
 
-function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
-  const onKeyRef = useRef(onKey)
-  const repeatDelay = useRef<number | null>(null)
-  const repeatInterval = useRef<number | null>(null)
-  const lastPointerBackspaceAt = useRef(Number.NEGATIVE_INFINITY)
-
-  useEffect(() => {
-    onKeyRef.current = onKey
-  }, [onKey])
-
-  function stopBackspaceRepeat() {
-    if (repeatDelay.current !== null) window.clearTimeout(repeatDelay.current)
-    if (repeatInterval.current !== null) window.clearInterval(repeatInterval.current)
-    repeatDelay.current = null
-    repeatInterval.current = null
-    lastPointerBackspaceAt.current = performance.now()
-  }
-
-  useEffect(() => stopBackspaceRepeat, [])
-
-  function startBackspaceRepeat(event: ReactPointerEvent<HTMLButtonElement>) {
-    if (event.pointerType === 'mouse' && event.button !== 0) return
-    event.preventDefault()
-    event.currentTarget.setPointerCapture(event.pointerId)
-    lastPointerBackspaceAt.current = performance.now()
-    onKeyRef.current('BACKSPACE')
-    repeatDelay.current = window.setTimeout(() => {
-      onKeyRef.current('BACKSPACE')
-      repeatInterval.current = window.setInterval(() => onKeyRef.current('BACKSPACE'), 70)
-    }, 360)
-  }
-
-  function handleBackspaceClick(event: ReactMouseEvent<HTMLButtonElement>) {
-    event.preventDefault()
-    if (event.detail !== 0 && performance.now() - lastPointerBackspaceAt.current < 750) return
-    onKeyRef.current('BACKSPACE')
-  }
-
+function CompactAnswerKeyboard({ onKey, usedLetters }: { onKey: (key: string) => void; usedLetters: Set<string> }) {
   return (
     <div className="compact-answer-keyboard" aria-label="On-screen answer keyboard">
       {compactKeyRows.map((row, rowIndex) => (
@@ -59,16 +21,13 @@ function CompactAnswerKeyboard({ onKey }: { onKey: (key: string) => void }) {
             <button
               className={`compact-key compact-key-${key.toLowerCase()}`}
               type="button"
-              aria-label={key === 'BACKSPACE' ? 'Delete previous character' : key === 'SPACE' ? 'Space' : key}
-              onPointerDown={key === 'BACKSPACE' ? startBackspaceRepeat : (event) => event.preventDefault()}
-              onPointerUp={key === 'BACKSPACE' ? stopBackspaceRepeat : undefined}
-              onPointerCancel={key === 'BACKSPACE' ? stopBackspaceRepeat : undefined}
-              onLostPointerCapture={key === 'BACKSPACE' ? stopBackspaceRepeat : undefined}
-              onContextMenu={key === 'BACKSPACE' ? (event) => event.preventDefault() : undefined}
-              onClick={key === 'BACKSPACE' ? handleBackspaceClick : () => onKey(key)}
+              aria-label={key}
+              onPointerDown={(event) => event.preventDefault()}
+              onClick={() => onKey(key)}
+              disabled={usedLetters.has(key.toLowerCase())}
               key={key}
             >
-              {key === 'BACKSPACE' ? '⌫' : key === 'SPACE' ? 'space' : key}
+              {key}
             </button>
           ))}
         </div>
@@ -145,31 +104,18 @@ export function PuzzleScreen({
   }
 
   function handleCompactKey(key: string) {
-    if (celebrating) return
-    const input = answerInput.current
-    const selectionStart = input?.selectionStart ?? guess.length
-    const selectionEnd = input?.selectionEnd ?? selectionStart
-    let nextGuess = guess
-    let nextCursor = selectionStart
-
-    if (key === 'BACKSPACE') {
-      if (selectionStart !== selectionEnd) {
-        nextGuess = `${guess.slice(0, selectionStart)}${guess.slice(selectionEnd)}`
-      } else if (selectionStart > 0) {
-        nextGuess = `${guess.slice(0, selectionStart - 1)}${guess.slice(selectionEnd)}`
-        nextCursor -= 1
-      }
-    } else {
-      const character = key === 'SPACE' ? ' ' : key.toLowerCase()
-      nextGuess = `${guess.slice(0, selectionStart)}${character}${guess.slice(selectionEnd)}`
-      nextCursor += character.length
-    }
-
-    if (nextGuess !== guess) onGuessChange(nextGuess)
-    window.requestAnimationFrame(() => {
-      input?.setSelectionRange(nextCursor, nextCursor)
-    })
+    if (celebrating || !/^[A-Z]$/i.test(key)) return
+    onGuessChange(key.toLowerCase())
+    window.requestAnimationFrame(() => answerInput.current?.focus())
   }
+
+  const usedLetters = new Set(guess.toLowerCase().replace(/[^a-z]/g, ''))
+  let answerLetterIndex = 0
+  const answerDisplay = Array.from(puzzle.answer).map((character) => {
+    if (!/[A-Za-z]/.test(character)) return character
+    const index = answerLetterIndex++
+    return lockedLetters[index] ? character.toUpperCase() : '•'
+  }).join('')
 
   return (
     <main className={`app-shell puzzle-screen${useCompactKeyboard ? ' has-compact-keyboard' : ''}`}>
@@ -213,16 +159,15 @@ export function PuzzleScreen({
         <input
           ref={answerInput}
           id="answer"
-          value={guess}
-          onChange={(event) => onGuessChange(event.target.value)}
+          value={answerDisplay}
           disabled={celebrating}
           inputMode={useCompactKeyboard ? 'none' : 'text'}
-          readOnly={useCompactKeyboard}
+          readOnly
           onKeyDown={(event) => {
-            if (!useCompactKeyboard || event.ctrlKey || event.metaKey || event.altKey || event.nativeEvent.isComposing) return
-            if (event.key === 'Backspace' || /^[a-zA-Z ]$/.test(event.key)) {
+            if (event.ctrlKey || event.metaKey || event.altKey || event.nativeEvent.isComposing) return
+            if (/^[a-zA-Z]$/.test(event.key)) {
               event.preventDefault()
-              handleCompactKey(event.key === 'Backspace' ? 'BACKSPACE' : event.key === ' ' ? 'SPACE' : event.key)
+              handleCompactKey(event.key)
             }
           }}
           autoComplete="off"
@@ -231,7 +176,7 @@ export function PuzzleScreen({
           placeholder="Type the phrase…"
         />
         {useCompactKeyboard && (
-          <CompactAnswerKeyboard onKey={handleCompactKey} />
+          <CompactAnswerKeyboard onKey={handleCompactKey} usedLetters={usedLetters} />
         )}
         <p ref={feedbackTarget} className="feedback" role="status">{message || '\u00a0'}</p>
         <div className="action-row">
