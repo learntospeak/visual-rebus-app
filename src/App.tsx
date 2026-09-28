@@ -19,7 +19,7 @@ import { disableDailyReminder, enableDailyReminder, listenForDailyReminder, refr
 import { nextVariedPuzzleIndex } from './services/journey'
 import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncPuzzleUrl } from './services/progress'
 import { useGameStore } from './state/GameStore'
-import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
+import { answerLetters } from './utils/answers'
 
 type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved' | 'rewards'
 type PlayMode = 'journey' | 'replay' | 'daily'
