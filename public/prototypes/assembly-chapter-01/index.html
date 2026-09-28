@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07151f">
 <title>Clue Canvas — Assembly Chapters</title>
-<link rel="stylesheet" href="./styles.css?v=5">
+<link rel="stylesheet" href="./styles.css?v=6">
 </head>
 <body>
 <main class="ac-app">
@@ -54,9 +54,20 @@
 
     <section class="ac-answer-panel" id="answerPanel" hidden>
       <p class="ac-eyebrow">The picture is complete</p>
-      <h3>What meaning does the scene reveal?</h3>
-      <div class="ac-answer-grid" id="answerGrid"></div>
+      <h3>What phrase does the scene reveal?</h3>
+      <label class="ac-answer-label" for="answerInput">Your answer</label>
+      <div class="ac-pattern" id="answerPattern" aria-label="Answer word pattern"></div>
+      <input class="ac-answer-input" id="answerInput" autocomplete="off" autocapitalize="none" enterkeyhint="done" placeholder="Type the phrase…">
       <p class="ac-feedback" id="answerFeedback" aria-live="polite"></p>
+      <div class="ac-answer-actions">
+        <button type="button" class="ac-btn secondary" id="clueBtn">Clue 1</button>
+        <button type="button" class="ac-btn primary" id="submitAnswerBtn">Submit</button>
+      </div>
+      <div class="ac-clue" id="cluePanel" hidden></div>
+      <div class="ac-reveal" id="revealPanel" hidden>
+        <p>Still stuck? You can reveal the answer and replay later.</p>
+        <button type="button" class="ac-text-btn" id="revealAnswerBtn">Reveal answer</button>
+      </div>
     </section>
 
     <section class="ac-complete-panel" id="completePanel" hidden>
@@ -83,6 +94,6 @@
   </section>
 </main>
 <div class="ac-sr" id="live" aria-live="polite"></div>
-<script src="./app.js?v=6" defer></script>
+<script src="./app.js?v=7" defer></script>
 </body>
 </html>
