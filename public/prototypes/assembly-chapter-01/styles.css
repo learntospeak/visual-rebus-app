@@ -106,13 +106,13 @@ button:focus-visible{outline:3px solid #f2c94c;outline-offset:3px}
 .ac-piece.is-correct{box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
 .ac-piece-art{
   position:absolute;
-  max-width:none;
+  inset:0;
   display:block;
-  transform-origin:center;
+  background-repeat:no-repeat;
+  transform-origin:center center;
   user-select:none;
   pointer-events:none;
   backface-visibility:hidden;
-  image-rendering:auto;
 }
 .ac-solved-glow{position:absolute;inset:6px;pointer-events:none;opacity:0;background:linear-gradient(110deg,transparent 28%,rgba(255,255,255,.38),transparent 68%);transform:translateX(-120%);z-index:9;border-radius:16px}
 .ac-solved-glow.run{opacity:1;animation:shine .85s ease}
