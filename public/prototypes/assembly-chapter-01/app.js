@@ -77,7 +77,11 @@ function startLevel(){
   guide.style.aspectRatio=String(l.aspect);
   guide.classList.toggle('is-hidden',!guideVisible);
   document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Reveal guide';
-  document.getElementById('rotateHint').hidden=!l.rotate;
+  const rotationHint=document.getElementById('rotateHint');
+  rotationHint.hidden=false;
+  rotationHint.textContent=l.rotate
+    ? 'Rotation on · single tap selects/swaps · double-tap rotates 90°'
+    : 'Rotation off for this level · single tap selects/swaps';
   renderBoard();renderLevelStrip();renderMaster();
 }
 function renderBoard(){
@@ -88,34 +92,35 @@ function renderBoard(){
     const tile=document.createElement('button');tile.type='button';tile.className='ac-piece';tile.style.aspectRatio=String(pieceAspect);
     if(selected===pos)tile.classList.add('is-selected');if(piece.id===pos&&piece.rot%360===0)tile.classList.add('is-correct');
     tile.setAttribute('aria-label','Piece '+(pos+1));
-    const a=document.createElement('img');a.className='ac-piece-art';a.src=l.art;a.alt='';a.draggable=false;
-    a.style.width=(l.cols*100)+'%';a.style.height=(l.rows*100)+'%';
-    a.style.left=(-x*100)+'%';a.style.top=(-y*100)+'%';
+    const a=document.createElement('span');a.className='ac-piece-art';
+    a.style.backgroundImage='url("'+l.art+'")';
+    a.style.backgroundSize=(l.cols*100)+'% '+(l.rows*100)+'%';
+    a.style.backgroundPosition=(l.cols===1?0:(x/(l.cols-1)*100))+'% '+(l.rows===1?0:(y/(l.rows-1)*100))+'%';
     a.style.transform='rotate('+piece.rot+'deg)';tile.appendChild(a);
     tile.addEventListener('click',()=>{
       if(solved)return;
       const now=Date.now();
-      const isDouble=l.rotate && lastTapPos===pos && (now-lastTapAt)<340;
+      const isDouble=lastTapPos===pos && (now-lastTapAt)<340;
 
       if(isDouble){
         if(tapTimer){clearTimeout(tapTimer);tapTimer=null;}
         lastTapPos=null;lastTapAt=0;
-        piece.rot=(piece.rot+90)%360;
-        moves++;
-        renderBoard();checkSolved();
-        announce('Piece rotated');
+
+        if(l.rotate){
+          piece.rot=(piece.rot+90)%360;
+          selected=null;
+          moves++;
+          renderBoard();checkSolved();
+          announce('Piece rotated 90 degrees');
+        }else{
+          selected=null;
+          renderBoard();
+          announce('Rotation is not used on this level');
+        }
         return;
       }
 
       lastTapPos=pos;lastTapAt=now;
-
-      if(!l.rotate){
-        if(selected===null)selected=pos;
-        else if(selected===pos)selected=null;
-        else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;}
-        renderBoard();checkSolved();
-        return;
-      }
 
       if(tapTimer)clearTimeout(tapTimer);
       tapTimer=setTimeout(()=>{
