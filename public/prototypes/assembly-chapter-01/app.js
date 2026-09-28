@@ -77,6 +77,7 @@ function startLevel(){
   pieces=newPieces(l);selected=null;moves=0;solved=false;clueCount=0;score=100;penalties=0;
 
   board.style.gridTemplateColumns='repeat('+l.cols+',1fr)';
+  board.style.gridTemplateRows='repeat('+l.rows+',1fr)';
   board.style.aspectRatio=String(l.aspect);
   if(l.aspect>=1.35){
     board.style.width='100%';
@@ -116,7 +117,6 @@ function renderBoard(){
     const tile=document.createElement('button');
     tile.type='button';
     tile.className='ac-piece';
-    tile.style.aspectRatio=String(pieceAspect);
     if(selected===pos)tile.classList.add('is-selected');
     if(piece.id===pos&&piece.rot%360===0)tile.classList.add('is-correct');
     tile.setAttribute('aria-label','Puzzle piece '+(pos+1));
