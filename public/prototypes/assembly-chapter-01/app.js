@@ -1,11 +1,17 @@
 (function(){
 'use strict';
 
-const KEY='cluecanvas.assemblyChapter01.premium.v2';
+const KEY='cluecanvas.assemblyChapter01.prototype.v3';
+const levels=[
+  {id:'watched',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:.35,difficulty:'Medium',difficultyScore:4,par:8,art:'./assets/watched-pot.jpg'},
+  {id:'hoops',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:.45,difficulty:'Medium',difficultyScore:5,par:13,art:'./assets/jump-hoops.jpg'},
+  {id:'midnight',answer:'Burn the Midnight Oil',accepted:['burn the midnight oil'],clues:['The scene is clearly taking place very late at night.','The main light source is an old-fashioned oil lamp.','The phrase means working late into the night.'],cols:4,rows:3,aspect:4/3,rotate:.6,difficulty:'Medium',difficultyScore:6,par:18,art:'./assets/midnight-oil.jpg'},
+  {id:'pours',answer:'When It Rains It Pours',accepted:['when it rains it pours'],clues:['The weather is more extreme than ordinary rain.','Think about the difference between rain falling and liquid pouring.','The phrase means problems often arrive all at once.'],cols:4,rows:4,aspect:1,rotate:.75,difficulty:'Hard',difficultyScore:7,par:25,art:'./assets/rains-pours.jpg'},
+  {id:'rome',answer:'All Roads Lead to Rome',accepted:['all roads lead to rome'],clues:['Follow the roads and notice where they converge.','The central landmark is the Colosseum.','The phrase says different routes can reach the same result.'],cols:5,rows:4,aspect:1.5,rotate:1,difficulty:'Hard',difficultyScore:8,par:32,art:'./assets/roads-rome.jpg'}
+];
+
 const board=document.getElementById('board');
-const guide=document.getElementById('guide');
 const live=document.getElementById('live');
-const levelStrip=document.getElementById('levelStrip');
 const answerPanel=document.getElementById('answerPanel');
 const answerPattern=document.getElementById('answerPattern');
 const answerInput=document.getElementById('answerInput');
@@ -18,181 +24,141 @@ const revealAnswerBtn=document.getElementById('revealAnswerBtn');
 const submitAnswerBtn=document.getElementById('submitAnswerBtn');
 const completePanel=document.getElementById('completePanel');
 
-function announce(t){live.textContent='';setTimeout(()=>live.textContent=t,20)}
-const art={
-  watched:'./assets/watched-pot.jpg',
-  hoops:'./assets/jump-hoops.jpg',
-  midnight:'./assets/midnight-oil.jpg',
-  pours:'./assets/rains-pours.jpg',
-  rome:'./assets/roads-rome.jpg'
-};
-
-const levels=[
- {id:'watched',name:'The Waiting Kitchen',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:.35,guide:'faint',difficulty:'Beginner',par:8,copy:'The watched pot and prominent timepiece point to the familiar proverb.',art:art.watched},
- {id:'hoops',name:'The Trial',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:.45,guide:'faint',difficulty:'Beginner+',par:13,copy:'The subject is literally jumping through a sequence of hoops.',art:art.hoops},
- {id:'midnight',name:'After Hours',answer:'Burn the Midnight Oil',accepted:['burn the midnight oil'],clues:['The scene is clearly taking place very late at night.','The main light source is an old-fashioned oil lamp.','The phrase means working late into the night.'],cols:4,rows:3,aspect:4/3,rotate:.6,guide:'faint',difficulty:'Intermediate',par:18,copy:'The late-night study and glowing oil lamp create the phrase.',art:art.midnight},
- {id:'pours',name:'The Downpour',answer:'When It Rains It Pours',accepted:['when it rains it pours'],clues:['The weather is more extreme than ordinary rain.','Think about the difference between rain falling and liquid pouring.','The phrase means problems often arrive all at once.'],cols:4,rows:4,aspect:1,rotate:.75,guide:'none',difficulty:'Challenging',par:25,copy:'The rain is not merely falling — it is visibly pouring into the scene.',art:art.pours},
- {id:'rome',name:'The Convergence',answer:'All Roads Lead to Rome',accepted:['all roads lead to rome'],clues:['Follow the roads and notice where they converge.','The central landmark is the Colosseum.','The phrase says different routes can reach the same result.'],cols:5,rows:4,aspect:1.5,rotate:1,guide:'none',difficulty:'Advanced',par:32,copy:'Multiple continuous roads converge on the dominant Colosseum at the centre of Rome.',art:art.rome}
-];
-
-let state=load();
-let current=Math.min(state.current,levels.length-1);
-let pieces=[],selected=null,moves=0,guideVisible=false,solved=false;
-let clueCount=0,score=100,penalties=0;
 const keyRows=[
   ['Q','W','E','R','T','Y','U','I','O','P'],
   ['A','S','D','F','G','H','J','K','L'],
   ['Z','X','C','V','B','N','M','BACKSPACE'],
   ['SPACE']
 ];
+
+let state=load();
+let current=Math.max(0,Math.min(state.current||0,levels.length-1));
+let pieces=[],selected=null,moves=0,solved=false,clueCount=0,score=100,penalties=0;
 let lastTapPos=null,lastTapAt=0,tapTimer=null;
 
 function defaultState(){return{current:0,completed:{}}}
-function load(){try{return Object.assign(defaultState(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return defaultState()}}
+function load(){try{return Object.assign(defaultState(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{return defaultState()}}
 function save(){localStorage.setItem(KEY,JSON.stringify(state))}
-function randShuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
-function rotationFor(level){if(!level.rotate)return 0;if(level.rotate<1&&Math.random()>level.rotate)return 0;return [90,180,270][Math.floor(Math.random()*3)]}
-function newPieces(level){const arr=Array.from({length:level.cols*level.rows},(_,id)=>({id,rot:rotationFor(level)}));do{randShuffle(arr)}while(arr.every((p,i)=>p.id===i&&p.rot===0));return arr}
+function announce(text){live.textContent='';setTimeout(()=>live.textContent=text,20)}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function rotationFor(level){if(Math.random()>level.rotate)return 0;return [90,180,270][Math.floor(Math.random()*3)]}
+function newPieces(level){const arr=Array.from({length:level.cols*level.rows},(_,id)=>({id,rot:rotationFor(level)}));do{shuffle(arr)}while(arr.every((p,i)=>p.id===i&&p.rot===0));return arr}
 function placedCount(){return pieces.filter((p,i)=>p.id===i&&p.rot%360===0).length}
 function isSolved(){return placedCount()===pieces.length}
+function normalise(value){return value.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
+function updateScore(){score=Math.max(0,100-penalties)}
+function applyMovePenalty(level){if(moves>level.par){penalties+=1;updateScore()}}
 
-function renderLevelStrip(){
-  levelStrip.innerHTML='';
-  levels.forEach((lvl,i)=>{
-    const b=document.createElement('button');b.type='button';b.className='ac-level-dot';
-    const done=!!state.completed[lvl.id],unlocked=i===0||!!state.completed[levels[i-1].id]||done;
-    if(i===current)b.classList.add('is-current');if(done)b.classList.add('is-done');if(!unlocked)b.classList.add('is-locked');
-    b.disabled=!unlocked;b.innerHTML='<b>'+(done?'✓':i+1)+'</b><small>'+lvl.cols+'×'+lvl.rows+'</small>';
-    b.addEventListener('click',()=>{if(unlocked){current=i;state.current=i;save();startLevel()}});
-    levelStrip.appendChild(b);
-  });
-}
-function startLevel(){
+function renderHeader(){
   const l=levels[current];
-  if(tapTimer){clearTimeout(tapTimer);tapTimer=null;}
+  document.getElementById('levelHeader').textContent='ASSEMBLY '+(current+1)+' OF '+levels.length;
+  document.getElementById('headerProgress').style.width=((current+1)/levels.length*100)+'%';
+  const badge=document.getElementById('difficultyBadge');
+  badge.textContent=l.difficulty+' · '+l.difficultyScore+'/10';
+  badge.className='difficulty difficulty-'+l.difficulty.toLowerCase();
+}
+
+function startLevel(){
+  if(tapTimer){clearTimeout(tapTimer);tapTimer=null}
   lastTapPos=null;lastTapAt=0;
-  pieces=newPieces(l);selected=null;moves=0;solved=false;guideVisible=l.guide==='strong';clueCount=0;score=100;penalties=0;
-  answerInput.value='';answerFeedback.textContent='';cluePanel.hidden=true;cluePanel.textContent='';revealPanel.hidden=true;
-  clueBtn.disabled=false;clueBtn.textContent='Clue 1';
-  document.getElementById('levelMeta').textContent='Level '+(current+1)+' · '+pieces.length+' pieces';
-  document.getElementById('levelTitle').textContent=l.name;
-  document.getElementById('difficultyBadge').textContent=l.difficulty;
-  document.getElementById('scoreValue').textContent=score;
-  answerPanel.hidden=true;completePanel.hidden=true;answerFeedback.textContent='';
+  const l=levels[current];
+  pieces=newPieces(l);selected=null;moves=0;solved=false;clueCount=0;score=100;penalties=0;
+
   board.style.gridTemplateColumns='repeat('+l.cols+',1fr)';
   board.style.aspectRatio=String(l.aspect);
-  guide.style.backgroundImage='url("'+l.art+'")';
-  guide.style.aspectRatio=String(l.aspect);
-  guide.classList.toggle('is-hidden',!guideVisible);
-  document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Reveal guide';
-  const rotationHint=document.getElementById('rotateHint');
-  rotationHint.hidden=false;
-  rotationHint.textContent='Single tap selects/swaps · double-tap rotates 90°';
-  renderBoard();renderLevelStrip();renderMaster();
+
+  answerPanel.hidden=true;
+  completePanel.hidden=true;
+  answerInput.value='';
+  answerFeedback.innerHTML='&nbsp;';
+  cluePanel.hidden=true;
+  cluePanel.textContent='';
+  revealPanel.hidden=true;
+  clueBtn.disabled=false;
+  clueBtn.textContent='Clue 1';
+
+  renderHeader();
+  renderBoard();
 }
+
 function renderBoard(){
-  const l=levels[current];board.innerHTML='';
+  const l=levels[current];
+  board.innerHTML='';
   const pieceAspect=l.aspect*l.rows/l.cols;
+
   pieces.forEach((piece,pos)=>{
-    const x=piece.id%l.cols,y=Math.floor(piece.id/l.cols);
-    const tile=document.createElement('button');tile.type='button';tile.className='ac-piece';tile.style.aspectRatio=String(pieceAspect);
-    if(selected===pos)tile.classList.add('is-selected');if(piece.id===pos&&piece.rot%360===0)tile.classList.add('is-correct');
-    tile.setAttribute('aria-label','Piece '+(pos+1));
-    const a=document.createElement('span');a.className='ac-piece-art';
-    a.style.backgroundImage='url("'+l.art+'")';
-    a.style.backgroundSize=(l.cols*100)+'% '+(l.rows*100)+'%';
-    a.style.backgroundPosition=(l.cols===1?0:(x/(l.cols-1)*100))+'% '+(l.rows===1?0:(y/(l.rows-1)*100))+'%';
-    a.style.transform='rotate('+piece.rot+'deg)';tile.appendChild(a);
+    const x=piece.id%l.cols;
+    const y=Math.floor(piece.id/l.cols);
+    const tile=document.createElement('button');
+    tile.type='button';
+    tile.className='ac-piece';
+    tile.style.aspectRatio=String(pieceAspect);
+    if(selected===pos)tile.classList.add('is-selected');
+    if(piece.id===pos&&piece.rot%360===0)tile.classList.add('is-correct');
+    tile.setAttribute('aria-label','Puzzle piece '+(pos+1));
+
+    const art=document.createElement('span');
+    art.className='ac-piece-art';
+    art.style.backgroundImage='url("'+l.art+'")';
+    art.style.backgroundSize=(l.cols*100)+'% '+(l.rows*100)+'%';
+    art.style.backgroundPosition=(l.cols===1?0:(x/(l.cols-1)*100))+'% '+(l.rows===1?0:(y/(l.rows-1)*100))+'%';
+    art.style.transform='rotate('+piece.rot+'deg)';
+    tile.appendChild(art);
+
     tile.addEventListener('click',()=>{
       if(solved)return;
       const now=Date.now();
-      const isDouble=lastTapPos===pos && (now-lastTapAt)<340;
+      const isDouble=lastTapPos===pos&&(now-lastTapAt)<340;
 
       if(isDouble){
-        if(tapTimer){clearTimeout(tapTimer);tapTimer=null;}
+        if(tapTimer){clearTimeout(tapTimer);tapTimer=null}
         lastTapPos=null;lastTapAt=0;
-
-        if(l.rotate){
-          piece.rot=(piece.rot+90)%360;
-          selected=null;
-          moves++;
-          applyMovePenalty(l);
-          renderBoard();checkSolved();
-          announce('Piece rotated 90 degrees');
-        }else{
-          selected=null;
-          renderBoard();
-          announce('Rotation is not used on this level');
-        }
+        piece.rot=(piece.rot+90)%360;
+        selected=null;
+        moves++;
+        applyMovePenalty(l);
+        renderBoard();
+        checkSolved();
+        announce('Piece rotated 90 degrees');
         return;
       }
 
       lastTapPos=pos;lastTapAt=now;
-
       if(tapTimer)clearTimeout(tapTimer);
       tapTimer=setTimeout(()=>{
         tapTimer=null;
         if(solved)return;
         if(selected===null)selected=pos;
         else if(selected===pos)selected=null;
-        else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;applyMovePenalty(l);}
+        else{
+          [pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];
+          selected=null;
+          moves++;
+          applyMovePenalty(l);
+        }
         lastTapPos=null;lastTapAt=0;
-        renderBoard();checkSolved();
+        renderBoard();
+        checkSolved();
       },280);
     });
+
     board.appendChild(tile);
   });
-  document.getElementById('moveCount').textContent=moves+' move'+(moves===1?'':'s');
-  document.getElementById('pieceStatus').textContent=placedCount()+' / '+pieces.length+' placed';
 }
-function updateScore(){
-  score=Math.max(0,100-penalties);
-  document.getElementById('scoreValue').textContent=score;
-}
-function applyMovePenalty(level){
-  if(moves>level.par){penalties+=1;updateScore();}
-}
+
 function checkSolved(){
   if(!isSolved()||solved)return;
-  solved=true;selected=null;renderBoard();
-  const glow=document.getElementById('solvedGlow');glow.classList.remove('run');void glow.offsetWidth;glow.classList.add('run');
-  setTimeout(showAnswers,520);announce('Picture complete. Find the hidden meaning.');
+  solved=true;
+  selected=null;
+  renderBoard();
+  const glow=document.getElementById('solvedGlow');
+  glow.classList.remove('run');void glow.offsetWidth;glow.classList.add('run');
+  setTimeout(showAnswer,420);
+  announce('Assembly complete. Solve the phrase.');
 }
-function handleAnswerKey(key){
-  if(key==='BACKSPACE'){
-    answerInput.value=answerInput.value.slice(0,-1);
-  }else if(key==='SPACE'){
-    if(answerInput.value && !answerInput.value.endsWith(' ')) answerInput.value+=' ';
-  }else{
-    answerInput.value+=key.toLowerCase();
-  }
-  answerFeedback.textContent='';
-}
-function renderAnswerKeyboard(){
-  answerKeyboard.innerHTML='';
-  answerKeyboard.className='compact-answer-keyboard';
-  keyRows.forEach((row,rowIndex)=>{
-    const r=document.createElement('div');
-    r.className='compact-key-row compact-key-row-'+(rowIndex+1);
-    row.forEach(key=>{
-      const b=document.createElement('button');
-      b.type='button';
-      b.className='compact-key compact-key-'+key.toLowerCase();
-      b.textContent=key==='BACKSPACE'?'⌫':key==='SPACE'?'space':key;
-      b.setAttribute('aria-label',key==='BACKSPACE'?'Delete previous character':key==='SPACE'?'Space':key);
-      b.addEventListener('pointerdown',(event)=>{
-        if(key!=='BACKSPACE') event.preventDefault();
-      });
-      b.addEventListener('click',()=>handleAnswerKey(key));
-      r.appendChild(b);
-    });
-    answerKeyboard.appendChild(r);
-  });
-}
-function normaliseAnswer(value){return value.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim()}
+
 function renderPattern(answer){
   answerPattern.innerHTML='';
-  answerPattern.className='answer-pattern';
   answer.split(/\s+/).forEach(word=>{
     const clean=word.replace(/[^a-zA-Z0-9]/g,'');
     const wordEl=document.createElement('span');
@@ -205,33 +171,60 @@ function renderPattern(answer){
     answerPattern.appendChild(wordEl);
   });
 }
-function showAnswers(){
+
+function handleAnswerKey(key){
+  if(key==='BACKSPACE')answerInput.value=answerInput.value.slice(0,-1);
+  else if(key==='SPACE'){if(answerInput.value&&!answerInput.value.endsWith(' '))answerInput.value+=' '}
+  else answerInput.value+=key.toLowerCase();
+  answerFeedback.innerHTML='&nbsp;';
+}
+
+function renderKeyboard(){
+  answerKeyboard.innerHTML='';
+  keyRows.forEach((row,rowIndex)=>{
+    const rowEl=document.createElement('div');
+    rowEl.className='compact-key-row compact-key-row-'+(rowIndex+1);
+    row.forEach(key=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='compact-key compact-key-'+key.toLowerCase();
+      b.textContent=key==='BACKSPACE'?'⌫':key==='SPACE'?'space':key;
+      b.setAttribute('aria-label',key==='BACKSPACE'?'Delete previous character':key==='SPACE'?'Space':key);
+      b.addEventListener('pointerdown',e=>{if(key!=='BACKSPACE')e.preventDefault()});
+      b.addEventListener('click',()=>handleAnswerKey(key));
+      rowEl.appendChild(b);
+    });
+    answerKeyboard.appendChild(rowEl);
+  });
+}
+
+function showAnswer(){
   const l=levels[current];
   renderPattern(l.answer);
+  renderKeyboard();
   answerPanel.hidden=false;
   answerInput.value='';
-  answerFeedback.textContent='';
-  clueCount=0;
-  cluePanel.hidden=true;
-  revealPanel.hidden=true;
-  clueBtn.disabled=false;
-  clueBtn.textContent='Clue 1';
-  renderAnswerKeyboard();
+  answerFeedback.innerHTML='&nbsp;';
+  answerPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-function submitTypedAnswer(){
+
+function submitAnswer(){
   const l=levels[current];
-  const guess=normaliseAnswer(answerInput.value);
-  if(!guess){answerFeedback.textContent='Enter a phrase first.';return;}
-  const valid=[normaliseAnswer(l.answer),...(l.accepted||[]).map(normaliseAnswer)];
-  if(valid.includes(guess)){
-    answerFeedback.textContent='Correct.';
-    setTimeout(()=>completeLevel(l),350);
+  const guess=normalise(answerInput.value);
+  if(!guess){answerFeedback.textContent='Enter a phrase first.';return}
+  const accepted=[normalise(l.answer),...(l.accepted||[]).map(normalise)];
+  if(accepted.includes(guess)){
+    answerFeedback.textContent='Correct!';
+    state.completed[l.id]={score,moves};
+    save();
+    setTimeout(()=>showSolved(l),500);
   }else{
     penalties+=8;updateScore();
-    answerFeedback.textContent='Not quite. 8 points lost.';
+    answerFeedback.textContent='Not quite. Try again.';
   }
 }
-function showNextClue(){
+
+function showClue(){
   const l=levels[current];
   if(clueCount>=l.clues.length)return;
   clueCount++;
@@ -242,36 +235,36 @@ function showNextClue(){
   clueBtn.disabled=clueCount>=l.clues.length;
   revealPanel.hidden=clueCount<l.clues.length;
 }
-function revealCurrentAnswer(){
+
+function revealAnswer(){
   const l=levels[current];
   penalties+=20;updateScore();
   answerInput.value=l.answer;
-  answerFeedback.textContent='Answer revealed. 20 points lost.';
+  answerFeedback.textContent='Answer revealed.';
 }
-function completeLevel(l){
-  state.completed[l.id]=true;save();answerPanel.hidden=true;completePanel.hidden=false;
-  document.getElementById('completePhrase').textContent=l.answer;
-  document.getElementById('completeCopy').textContent=l.copy+' Final score: '+score+'/100.';
-  document.getElementById('nextBtn').textContent=current===levels.length-1?'View recovered fragments':'Continue deeper';
-  renderLevelStrip();renderMaster();
-}
-function renderMaster(){
-  const grid=document.getElementById('masterGrid');grid.innerHTML='';let count=0;
-  levels.forEach((l,i)=>{
-    const slot=document.createElement('div');slot.className='ac-master-slot';slot.dataset.n=i+1;
-    if(state.completed[l.id]){count++;slot.classList.add('is-earned');const img=document.createElement('img');img.src=l.art;img.alt='Recovered fragment '+(i+1);slot.appendChild(img)}
-    grid.appendChild(slot);
-  });
-  document.getElementById('masterCount').textContent=count+' / 5';
-  document.getElementById('masterNote').textContent=count===5?'All five fragments recovered. The next prototype pass can turn these into a true master assembly.':'Solve each hidden meaning to recover all five chapter fragments.';
-}
-submitAnswerBtn.addEventListener('click',submitTypedAnswer);
 
-clueBtn.addEventListener('click',showNextClue);
-revealAnswerBtn.addEventListener('click',revealCurrentAnswer);
-document.getElementById('hintBtn').addEventListener('click',()=>{guideVisible=!guideVisible;guide.classList.toggle('is-hidden',!guideVisible);document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Reveal guide'});
-document.getElementById('shuffleBtn').addEventListener('click',()=>{if(solved)return;pieces=newPieces(levels[current]);selected=null;moves++;penalties+=10;updateScore();renderBoard();announce('Reshuffle cost 10 points')});
-document.getElementById('nextBtn').addEventListener('click',()=>{if(current<levels.length-1){current++;state.current=current;save();startLevel()}else document.querySelector('.ac-master').scrollIntoView({behavior:'smooth',block:'start'})});
-document.getElementById('resetAll').addEventListener('click',()=>{if(confirm('Reset Assembly Chapter progress?')){localStorage.removeItem(KEY);state=defaultState();current=0;startLevel()}});
+function showSolved(l){
+  answerPanel.hidden=true;
+  document.querySelector('.assembly-puzzle-card').hidden=true;
+  completePanel.hidden=false;
+  document.getElementById('completePhrase').textContent=l.answer;
+  document.getElementById('completeCopy').textContent='Completed in '+moves+' moves.';
+  document.getElementById('finalScore').textContent=score+'/100';
+  document.getElementById('nextBtn').innerHTML=current===levels.length-1?'Replay chapter <span>↻</span>':'Next assembly <span>→</span>';
+  completePanel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+submitAnswerBtn.addEventListener('click',submitAnswer);
+clueBtn.addEventListener('click',showClue);
+revealAnswerBtn.addEventListener('click',revealAnswer);
+document.getElementById('nextBtn').addEventListener('click',()=>{
+  document.querySelector('.assembly-puzzle-card').hidden=false;
+  if(current<levels.length-1)current++;else current=0;
+  state.current=current;save();startLevel();window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('backBtn').addEventListener('click',()=>{
+  if(current>0){current--;state.current=current;save();startLevel();window.scrollTo({top:0,behavior:'smooth'})}
+});
+
 startLevel();
 })();
