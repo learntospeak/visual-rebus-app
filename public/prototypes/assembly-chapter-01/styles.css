@@ -69,6 +69,9 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
   position:relative;
   overflow:hidden;
   background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .ac-board{
   position:relative;
@@ -76,8 +79,11 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
   gap:2px;
   z-index:2;
   overflow:hidden;
+  flex:none;
   margin:auto;
   background:transparent;
+  align-content:stretch;
+  justify-content:stretch;
 }
 .ac-piece{
   position:relative;
