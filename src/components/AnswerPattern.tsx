@@ -13,18 +13,32 @@ export function AnswerPattern({ pattern, answer, locked, celebrating }: AnswerPa
 
   return (
     <div className={`answer-pattern${celebrating ? ' is-celebrating' : ''}`} aria-label={`Answer pattern: ${pattern}`}>
-      {pattern.split(/[-\s]+/).map((length, wordIndex) => (
-        <span className="answer-word" key={`${length}-${wordIndex}`}>
-          {Array.from({ length: Number(length) }, (_, letterIndex) => {
-            const index = answerIndex++
-            return (
-              <span className={`letter-slot${locked[index] ? ' is-locked' : ''}`} key={letterIndex} aria-hidden="true">
-                <span className="locked-letter">{locked[index] ? letters[index] : ''}</span>
-              </span>
-            )
-          })}
-        </span>
-      ))}
+      {answer.split(/(\s+)/).map((part, partIndex) => {
+        if (/^\s+$/.test(part)) {
+          return <span className="answer-space" aria-hidden="true" key={`space-${partIndex}`} />
+        }
+
+        return (
+          <span className="answer-word" key={`word-${partIndex}`}>
+            {Array.from(part).map((character, characterIndex) => {
+              if (!/[A-Za-z]/.test(character)) {
+                return (
+                  <span className="answer-punctuation" aria-hidden="true" key={`punct-${characterIndex}`}>
+                    {character}
+                  </span>
+                )
+              }
+
+              const index = answerIndex++
+              return (
+                <span className={`letter-slot${locked[index] ? ' is-locked' : ''}`} key={`letter-${characterIndex}`} aria-hidden="true">
+                  <span className="locked-letter">{locked[index] ? letters[index] : ''}</span>
+                </span>
+              )
+            })}
+          </span>
+        )
+      })}
     </div>
   )
 }
