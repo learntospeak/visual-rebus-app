@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07151f">
 <title>Clue Canvas — Assembly Chapters</title>
-<link rel="stylesheet" href="./styles.css?v=8">
+<link rel="stylesheet" href="./styles.css?v=9">
 </head>
 <body>
 <main class="ac-app">
@@ -57,9 +57,9 @@
       <p class="ac-eyebrow">The picture is complete</p>
       <h3>What phrase does the scene reveal?</h3>
       <label class="ac-answer-label" for="answerInput">Your answer</label>
-      <div class="ac-pattern" id="answerPattern" aria-label="Answer word pattern"></div>
+      <div class="answer-pattern" id="answerPattern" aria-label="Answer word pattern"></div>
       <input class="ac-answer-input" id="answerInput" autocomplete="off" autocapitalize="none" inputmode="none" readonly placeholder="Type the phrase…">
-      <div class="ac-keyboard" id="answerKeyboard" aria-label="On-screen answer keyboard"></div>
+      <div class="compact-answer-keyboard" id="answerKeyboard" aria-label="On-screen answer keyboard"></div>
       <p class="ac-feedback" id="answerFeedback" aria-live="polite"></p>
       <div class="ac-answer-actions">
         <button type="button" class="ac-btn secondary" id="clueBtn">Clue 1</button>
@@ -96,6 +96,6 @@
   </section>
 </main>
 <div class="ac-sr" id="live" aria-live="polite"></div>
-<script src="./app.js?v=10" defer></script>
+<script src="./app.js?v=11" defer></script>
 </body>
 </html>
