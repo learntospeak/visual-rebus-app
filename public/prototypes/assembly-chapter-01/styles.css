@@ -157,3 +157,7 @@ button:focus-visible{outline:3px solid #f2c94c;outline-offset:3px}
 @media(min-width:600px){.ac-app{margin:24px auto;border-radius:28px;box-shadow:0 20px 55px rgba(24,59,86,.13)}}
 
 .ac-answer-panel[hidden],.ac-complete-panel[hidden]{display:none!important}
+
+.ac-progress-row{align-items:center}
+.ac-score{padding:4px 9px;border-radius:999px;background:#e7f3f1;color:var(--teal-dark);font-weight:800}
+.ac-score strong{font-family:Manrope;font-size:.82rem}
