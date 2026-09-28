@@ -238,3 +238,8 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
   .assembly-answer-form .clue-panel,.assembly-answer-form .reveal-panel{margin-top:8px}
   .assembly-solved{padding-top:18px}
 }
+
+.assembly-answer-form.is-locked{opacity:.62}
+.assembly-answer-form.is-locked .answer-pattern{opacity:.72}
+.compact-answer-keyboard.is-disabled{opacity:.58}
+.compact-answer-keyboard button:disabled{cursor:default}
