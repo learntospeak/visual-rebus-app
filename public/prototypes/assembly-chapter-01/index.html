@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07151f">
 <title>Clue Canvas — Assembly Chapters</title>
-<link rel="stylesheet" href="./styles.css?v=9">
+<link rel="stylesheet" href="./styles.css?v=10">
 </head>
 <body>
 <main class="ac-app">
@@ -53,22 +53,20 @@
       <button type="button" class="ac-btn secondary" id="shuffleBtn">Reshuffle</button>
     </div>
 
-    <section class="ac-answer-panel" id="answerPanel" hidden>
-      <p class="ac-eyebrow">The picture is complete</p>
-      <h3>What phrase does the scene reveal?</h3>
-      <label class="ac-answer-label" for="answerInput">Your answer</label>
+    <section class="answer-form assembly-answer-form" id="answerPanel" hidden>
+      <label for="answerInput">Your answer</label>
       <div class="answer-pattern" id="answerPattern" aria-label="Answer word pattern"></div>
-      <input class="ac-answer-input" id="answerInput" autocomplete="off" autocapitalize="none" inputmode="none" readonly placeholder="Type the phrase…">
+      <input id="answerInput" autocomplete="off" autocapitalize="none" inputmode="none" readonly tabindex="-1" placeholder="Type the phrase…">
       <div class="compact-answer-keyboard" id="answerKeyboard" aria-label="On-screen answer keyboard"></div>
-      <p class="ac-feedback" id="answerFeedback" aria-live="polite"></p>
-      <div class="ac-answer-actions">
-        <button type="button" class="ac-btn secondary" id="clueBtn">Clue 1</button>
-        <button type="button" class="ac-btn primary" id="submitAnswerBtn">Submit</button>
+      <p class="feedback" id="answerFeedback" aria-live="polite">&nbsp;</p>
+      <div class="action-row">
+        <button type="button" class="secondary-button" id="clueBtn">Clue 1</button>
+        <button type="button" class="primary-button" id="submitAnswerBtn">Submit</button>
       </div>
-      <div class="ac-clue" id="cluePanel" hidden></div>
-      <div class="ac-reveal" id="revealPanel" hidden>
-        <p>Still stuck? You can reveal the answer and replay later.</p>
-        <button type="button" class="ac-text-btn" id="revealAnswerBtn">Reveal answer</button>
+      <div class="clue-panel" id="cluePanel" hidden></div>
+      <div class="reveal-panel" id="revealPanel" hidden>
+        <p>Still stuck? You can reveal the answer and replay later to earn a better score.</p>
+        <button type="button" class="text-button" id="revealAnswerBtn">Reveal answer</button>
       </div>
     </section>
 
@@ -96,6 +94,6 @@
   </section>
 </main>
 <div class="ac-sr" id="live" aria-live="polite"></div>
-<script src="./app.js?v=11" defer></script>
+<script src="./app.js?v=12" defer></script>
 </body>
 </html>
