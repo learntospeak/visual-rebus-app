@@ -51,6 +51,8 @@ function applyMovePenalty(level){if(moves>level.par){penalties+=1;updateScore()}
 
 function renderHeader(){
   const l=levels[current];
+  const tints=['rgba(44,177,166,.045)','rgba(255,107,95,.035)','rgba(242,201,76,.04)','rgba(77,150,255,.035)','rgba(155,93,229,.03)'];
+  document.documentElement.style.setProperty('--assembly-tint',tints[current]);
   document.getElementById('levelHeader').textContent='ASSEMBLY '+(current+1)+' OF '+levels.length;
   document.getElementById('headerProgress').style.width=((current+1)/levels.length*100)+'%';
   const badge=document.getElementById('difficultyBadge');
@@ -66,6 +68,13 @@ function startLevel(){
 
   board.style.gridTemplateColumns='repeat('+l.cols+',1fr)';
   board.style.aspectRatio=String(l.aspect);
+  if(l.aspect<1.45){
+    board.style.height='100%';
+    board.style.width='auto';
+  }else{
+    board.style.width='100%';
+    board.style.height='auto';
+  }
 
   answerPanel.hidden=true;
   completePanel.hidden=true;
