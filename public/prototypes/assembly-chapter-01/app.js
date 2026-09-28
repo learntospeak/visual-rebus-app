@@ -100,6 +100,7 @@ function startLevel(){
   renderHeader();
   renderPattern(l.answer);
   renderKeyboard();
+  updatePatternLetters();
   setAnswerEnabled(false);
   renderBoard();
 }
@@ -186,6 +187,7 @@ function checkSolved(){
 
 function renderPattern(answer){
   answerPattern.innerHTML='';
+  let letterIndex=0;
   answer.split(/\s+/).forEach(word=>{
     const clean=word.replace(/[^a-zA-Z0-9]/g,'');
     const wordEl=document.createElement('span');
@@ -193,9 +195,23 @@ function renderPattern(answer){
     for(let i=0;i<clean.length;i++){
       const slot=document.createElement('span');
       slot.className='letter-slot';
+      slot.dataset.index=String(letterIndex++);
+      const letter=document.createElement('span');
+      letter.className='locked-letter';
+      slot.appendChild(letter);
       wordEl.appendChild(slot);
     }
     answerPattern.appendChild(wordEl);
+  });
+  updatePatternLetters();
+}
+
+function updatePatternLetters(){
+  const letters=answerInput.value.replace(/[^a-zA-Z0-9]/g,'').toUpperCase().split('');
+  answerPattern.querySelectorAll('.letter-slot').forEach((slot,index)=>{
+    const letter=slot.querySelector('.locked-letter');
+    if(letter) letter.textContent=letters[index]||'';
+    slot.classList.toggle('is-locked',Boolean(letters[index]));
   });
 }
 
@@ -204,6 +220,7 @@ function handleAnswerKey(key){
   else if(key==='SPACE'){if(answerInput.value&&!answerInput.value.endsWith(' '))answerInput.value+=' '}
   else answerInput.value+=key.toLowerCase();
   answerFeedback.innerHTML='&nbsp;';
+  updatePatternLetters();
 }
 
 function renderKeyboard(){
@@ -267,6 +284,7 @@ function revealAnswer(){
   const l=levels[current];
   penalties+=20;updateScore();
   answerInput.value=l.answer;
+  updatePatternLetters();
   answerFeedback.textContent='Answer revealed.';
 }
 
