@@ -27,17 +27,17 @@ const art={
 };
 
 const levels=[
- {id:'watched',name:'The Waiting Kitchen',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:0,guide:'strong',difficulty:'Beginner',copy:'The watched pot and prominent timepiece point to the familiar proverb.',art:art.watched},
- {id:'hoops',name:'The Trial',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:0,guide:'faint',difficulty:'Beginner+',copy:'The subject is literally jumping through a sequence of hoops.',art:art.hoops},
- {id:'midnight',name:'After Hours',answer:'Burn the Midnight Oil',accepted:['burn the midnight oil'],clues:['The scene is clearly taking place very late at night.','The main light source is an old-fashioned oil lamp.','The phrase means working late into the night.'],cols:4,rows:3,aspect:4/3,rotate:.34,guide:'faint',difficulty:'Intermediate',copy:'The late-night study and glowing oil lamp create the phrase.',art:art.midnight},
- {id:'pours',name:'The Downpour',answer:'When It Rains It Pours',accepted:['when it rains it pours'],clues:['The weather is more extreme than ordinary rain.','Think about the difference between rain falling and liquid pouring.','The phrase means problems often arrive all at once.'],cols:4,rows:4,aspect:1,rotate:.5,guide:'none',difficulty:'Challenging',copy:'The rain is not merely falling — it is visibly pouring into the scene.',art:art.pours},
- {id:'rome',name:'The Convergence',answer:'All Roads Lead to Rome',accepted:['all roads lead to rome'],clues:['Follow the roads and notice where they converge.','The central landmark is the Colosseum.','The phrase says different routes can reach the same result.'],cols:5,rows:4,aspect:1.5,rotate:1,guide:'none',difficulty:'Advanced',copy:'Multiple continuous roads converge on the dominant Colosseum at the centre of Rome.',art:art.rome}
+ {id:'watched',name:'The Waiting Kitchen',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:.35,guide:'faint',difficulty:'Beginner',par:8,copy:'The watched pot and prominent timepiece point to the familiar proverb.',art:art.watched},
+ {id:'hoops',name:'The Trial',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:.45,guide:'faint',difficulty:'Beginner+',par:13,copy:'The subject is literally jumping through a sequence of hoops.',art:art.hoops},
+ {id:'midnight',name:'After Hours',answer:'Burn the Midnight Oil',accepted:['burn the midnight oil'],clues:['The scene is clearly taking place very late at night.','The main light source is an old-fashioned oil lamp.','The phrase means working late into the night.'],cols:4,rows:3,aspect:4/3,rotate:.6,guide:'faint',difficulty:'Intermediate',par:18,copy:'The late-night study and glowing oil lamp create the phrase.',art:art.midnight},
+ {id:'pours',name:'The Downpour',answer:'When It Rains It Pours',accepted:['when it rains it pours'],clues:['The weather is more extreme than ordinary rain.','Think about the difference between rain falling and liquid pouring.','The phrase means problems often arrive all at once.'],cols:4,rows:4,aspect:1,rotate:.75,guide:'none',difficulty:'Challenging',par:25,copy:'The rain is not merely falling — it is visibly pouring into the scene.',art:art.pours},
+ {id:'rome',name:'The Convergence',answer:'All Roads Lead to Rome',accepted:['all roads lead to rome'],clues:['Follow the roads and notice where they converge.','The central landmark is the Colosseum.','The phrase says different routes can reach the same result.'],cols:5,rows:4,aspect:1.5,rotate:1,guide:'none',difficulty:'Advanced',par:32,copy:'Multiple continuous roads converge on the dominant Colosseum at the centre of Rome.',art:art.rome}
 ];
 
 let state=load();
 let current=Math.min(state.current,levels.length-1);
 let pieces=[],selected=null,moves=0,guideVisible=false,solved=false;
-let clueCount=0;
+let clueCount=0,score=100,penalties=0;
 let lastTapPos=null,lastTapAt=0,tapTimer=null;
 
 function defaultState(){return{current:0,completed:{}}}
@@ -64,12 +64,13 @@ function startLevel(){
   const l=levels[current];
   if(tapTimer){clearTimeout(tapTimer);tapTimer=null;}
   lastTapPos=null;lastTapAt=0;
-  pieces=newPieces(l);selected=null;moves=0;solved=false;guideVisible=l.guide==='strong';clueCount=0;
+  pieces=newPieces(l);selected=null;moves=0;solved=false;guideVisible=l.guide==='strong';clueCount=0;score=100;penalties=0;
   answerInput.value='';answerFeedback.textContent='';cluePanel.hidden=true;cluePanel.textContent='';revealPanel.hidden=true;
   clueBtn.disabled=false;clueBtn.textContent='Clue 1';
   document.getElementById('levelMeta').textContent='Level '+(current+1)+' · '+pieces.length+' pieces';
   document.getElementById('levelTitle').textContent=l.name;
   document.getElementById('difficultyBadge').textContent=l.difficulty;
+  document.getElementById('scoreValue').textContent=score;
   answerPanel.hidden=true;completePanel.hidden=true;answerFeedback.textContent='';
   board.style.gridTemplateColumns='repeat('+l.cols+',1fr)';
   board.style.aspectRatio=String(l.aspect);
@@ -79,9 +80,7 @@ function startLevel(){
   document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Reveal guide';
   const rotationHint=document.getElementById('rotateHint');
   rotationHint.hidden=false;
-  rotationHint.textContent=l.rotate
-    ? 'Rotation on · single tap selects/swaps · double-tap rotates 90°'
-    : 'Rotation off for this level · single tap selects/swaps';
+  rotationHint.textContent='Single tap selects/swaps · double-tap rotates 90°';
   renderBoard();renderLevelStrip();renderMaster();
 }
 function renderBoard(){
@@ -110,6 +109,7 @@ function renderBoard(){
           piece.rot=(piece.rot+90)%360;
           selected=null;
           moves++;
+          applyMovePenalty(l);
           renderBoard();checkSolved();
           announce('Piece rotated 90 degrees');
         }else{
@@ -128,7 +128,7 @@ function renderBoard(){
         if(solved)return;
         if(selected===null)selected=pos;
         else if(selected===pos)selected=null;
-        else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;}
+        else{[pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];selected=null;moves++;applyMovePenalty(l);}
         lastTapPos=null;lastTapAt=0;
         renderBoard();checkSolved();
       },280);
@@ -137,6 +137,13 @@ function renderBoard(){
   });
   document.getElementById('moveCount').textContent=moves+' move'+(moves===1?'':'s');
   document.getElementById('pieceStatus').textContent=placedCount()+' / '+pieces.length+' placed';
+}
+function updateScore(){
+  score=Math.max(0,100-penalties);
+  document.getElementById('scoreValue').textContent=score;
+}
+function applyMovePenalty(level){
+  if(moves>level.par){penalties+=1;updateScore();}
 }
 function checkSolved(){
   if(!isSolved()||solved)return;
@@ -175,13 +182,15 @@ function submitTypedAnswer(){
     answerFeedback.textContent='Correct.';
     setTimeout(()=>completeLevel(l),350);
   }else{
-    answerFeedback.textContent='Not quite. Look again at the completed scene.';
+    penalties+=8;updateScore();
+    answerFeedback.textContent='Not quite. 8 points lost.';
   }
 }
 function showNextClue(){
   const l=levels[current];
   if(clueCount>=l.clues.length)return;
   clueCount++;
+  penalties+=5;updateScore();
   cluePanel.hidden=false;
   cluePanel.textContent=l.clues[clueCount-1];
   clueBtn.textContent=clueCount>=l.clues.length?'All clues shown':'Clue '+(clueCount+1);
@@ -190,12 +199,14 @@ function showNextClue(){
 }
 function revealCurrentAnswer(){
   const l=levels[current];
+  penalties+=20;updateScore();
   answerInput.value=l.answer;
-  answerFeedback.textContent='Answer revealed. You can replay this puzzle later.';
+  answerFeedback.textContent='Answer revealed. 20 points lost.';
 }
 function completeLevel(l){
   state.completed[l.id]=true;save();answerPanel.hidden=true;completePanel.hidden=false;
-  document.getElementById('completePhrase').textContent=l.answer;document.getElementById('completeCopy').textContent=l.copy;
+  document.getElementById('completePhrase').textContent=l.answer;
+  document.getElementById('completeCopy').textContent=l.copy+' Final score: '+score+'/100.';
   document.getElementById('nextBtn').textContent=current===levels.length-1?'View recovered fragments':'Continue deeper';
   renderLevelStrip();renderMaster();
 }
@@ -214,7 +225,7 @@ answerInput.addEventListener('keydown',(event)=>{if(event.key==='Enter'){event.p
 clueBtn.addEventListener('click',showNextClue);
 revealAnswerBtn.addEventListener('click',revealCurrentAnswer);
 document.getElementById('hintBtn').addEventListener('click',()=>{guideVisible=!guideVisible;guide.classList.toggle('is-hidden',!guideVisible);document.getElementById('hintBtn').textContent=guideVisible?'Hide guide':'Reveal guide'});
-document.getElementById('shuffleBtn').addEventListener('click',()=>{if(solved)return;pieces=newPieces(levels[current]);selected=null;moves++;renderBoard()});
+document.getElementById('shuffleBtn').addEventListener('click',()=>{if(solved)return;pieces=newPieces(levels[current]);selected=null;moves++;penalties+=10;updateScore();renderBoard();announce('Reshuffle cost 10 points')});
 document.getElementById('nextBtn').addEventListener('click',()=>{if(current<levels.length-1){current++;state.current=current;save();startLevel()}else document.querySelector('.ac-master').scrollIntoView({behavior:'smooth',block:'start'})});
 document.getElementById('resetAll').addEventListener('click',()=>{if(confirm('Reset Assembly Chapter progress?')){localStorage.removeItem(KEY);state=defaultState();current=0;startLevel()}});
 startLevel();
