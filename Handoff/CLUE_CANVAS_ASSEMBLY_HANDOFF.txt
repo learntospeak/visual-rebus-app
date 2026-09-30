@@ -1,0 +1,69 @@
+CLUE CANVAS ASSEMBLY — CURRENT WORK HANDOFF
+Updated: 2026-10-01
+
+Repository: learntospeak/visual-rebus-app
+Working branch: prototype/assembly-chapter-premium-v2
+PR: #80
+
+MANDATORY FIRST STEP
+- Read Rules/CLUE_CANVAS_ASSEMBLY_RULES.txt before doing any work.
+- Stay on prototype/assembly-chapter-premium-v2 unless explicitly told otherwise.
+- Ignore older rejected artwork batches, UI mockups, infographic sheets, and abandoned concepts.
+
+CURRENT GAMEPLAY / UI STATE
+- Assembly uses the current Clue Canvas puzzle-screen UX/UI, not a separate mini-app.
+- Puzzle image is solved first using swappable + rotatable pieces.
+- After assembly, the player solves the phrase using the current answer flow.
+- Selecting one letter reveals every matching occurrence.
+- Spaces are automatic.
+- Punctuation is automatic.
+- No placeholder dots.
+- Used letters are disabled.
+- No guide button.
+- No reshuffle button.
+- Three-strike/lives system is NOT implemented yet.
+
+ARTWORK RULES
+- Artwork must genuinely communicate the phrase while staying challenging but fair.
+- Single-scene by default.
+- Multi-frame/split-scene compositions are allowed when one image cannot infer the phrase clearly enough.
+- No UI, captions, answer text, logos, borders, watermarks, puzzle-grid overlays, infographic sheets, or mockup screens in source artwork.
+- Premium quality, natural anatomy/perspective/object relationships, strong landmarks for puzzle slicing.
+- Reject and redo artwork that is visually attractive but semantically weak or misleading.
+
+APPROVED / REWORKED ARTWORK SOURCE OF TRUTH
+Saved in Library folder: /Rebus/Assembly Approved
+
+Approved files currently:
+- mountain-out-of-molehill.jpg
+- get-your-ducks-in-a-row.png
+- burn-a-hole-in-your-pocket.png
+- back-to-the-future.png
+
+IMPORTANT
+- Disregard the earlier 10-artwork batches and poster/contact-sheet style generations. They were superseded by reworked artwork.
+- Too Many Cooks Spoil the Broth had a revised concept approved previously, but the clean approved file still needed confirmation/saving if not already present in /Rebus/Assembly Approved.
+
+NEXT BATCH / REVIEW QUEUE
+1. Too Many Cooks Spoil the Broth
+2. Absence Makes the Heart Grow Fonder
+3. Better Late Than Never
+4. Birds of a Feather Flock Together
+5. Don't Cry Over Spilled Milk
+
+WORKFLOW
+- Before generating each artwork, identify the essential visual meaning components.
+- Choose single-scene or multi-frame based on inference clarity.
+- Generate standalone artwork only.
+- Inspect it against the rules before moving on.
+- For a batch, every artwork must pass individually.
+- Save every user-approved artwork into /Rebus/Assembly Approved immediately.
+- Preserve the current UI/gameplay unless explicitly asked to change it.
+
+DO NOT
+- redesign the UI,
+- create a separate Assembly app shell,
+- revive rejected artwork,
+- use captions to explain artwork,
+- generate a batch sheet instead of individual source artwork,
+- claim an artwork is approved unless the user approved it.
