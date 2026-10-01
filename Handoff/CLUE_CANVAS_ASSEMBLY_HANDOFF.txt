@@ -39,17 +39,26 @@ Approved files currently:
 - get-your-ducks-in-a-row.png
 - burn-a-hole-in-your-pocket.png
 - back-to-the-future.png
+- Too Many Cooks Spoil the Broth.png
 
 IMPORTANT
 - Disregard the earlier 10-artwork batches and poster/contact-sheet style generations. They were superseded by reworked artwork.
-- Too Many Cooks Spoil the Broth had a revised concept approved previously, but the clean approved file still needed confirmation/saving if not already present in /Rebus/Assembly Approved.
+- Too Many Cooks Spoil the Broth: confirmed present in /Rebus/Assembly Approved on 2026-10-01 and visually inspected. No replacement needed.
+- Exact approved file: libfile_1fac8a078f288191b91108616387c056.
+
+CURRENT REVIEW CHECKPOINT — 2026-10-01
+- Recovered existing candidate: Love Blooms Across the Distance.png (libfile_a7bd6a9011cc8191bda32da49620b742), intended for Absence Makes the Heart Grow Fonder.
+- Inspected actual image: departing traveller, empty chair, woman cherishing his portrait, and flowering heart motif. Standalone source artwork, without UI or captions.
+- This candidate is NOT user-approved and is NOT in Assembly Approved. Present for review; do not silently promote it or regenerate approved artwork.
+- No exact match for the intended answer in src/data/puzzles.ts. Related catalogue concepts include long distance relationship and growing apart; the affection/growing-heart cue must distinguish this candidate.
+- Candidate is portrait format; crop/readability in the real artwork window still needs checking before integration.
+- No gameplay/UI changes made at this checkpoint.
 
 NEXT BATCH / REVIEW QUEUE
-1. Too Many Cooks Spoil the Broth
-2. Absence Makes the Heart Grow Fonder
-3. Better Late Than Never
-4. Birds of a Feather Flock Together
-5. Don't Cry Over Spilled Milk
+1. Absence Makes the Heart Grow Fonder — recovered candidate pending user review
+2. Better Late Than Never
+3. Birds of a Feather Flock Together
+4. Don't Cry Over Spilled Milk
 
 WORKFLOW
 - Before generating each artwork, identify the essential visual meaning components.
