@@ -55,21 +55,21 @@ CURRENT IMPLEMENTATION CHECKPOINT — 2026-10-01
 - Direct preview route: prototypes/assembly-chapter-01/?puzzle=absence.
 - Brought this prototype's answer handling into line with the current main-app flow: one selected letter reveals all occurrences, used letters disabled, automatic spaces/punctuation, no dots, automatic completion when all letters are revealed.
 - Preserved the existing prototype layout and swap/double-tap-to-rotate controls. No guide, reshuffle, or lives system added.
-- Existing five legacy prototype entries remain unchanged after the new entry; they are NOT the newer approved six-artwork set. The other five approved source artworks still need integration.
-- Validation: JavaScript syntax and targeted answer-logic checks passed. Full browser/mobile visual QA is still pending because local Chromium was unavailable.
+- The playable prototype now contains exactly the six approved artworks. Legacy prototype entries are no longer in its level list. Order: Absence, Mountain/Molehill, Ducks, Pocket, Back to the Future, Cooks. All six numbered Chapter 2 buttons are enabled.
+- Validation: TypeScript/Vite build, JavaScript syntax, and DOM interaction tests passed for all six: direct selection, frame-fit geometry at 320/390/1280 widths, swaps, rotations, answer locking, repeated letters, completion persistence, next/replay. Source images visually inspected; browser-rendered mobile visual QA remains pending. Fixed fast-tap swaps, completion timer duplication, and standalone Back card visibility.
 - DEPLOYMENT BLOCKER: GitHub Pages environment protection rejects prototype/assembly-chapter-premium-v2. Confirmed in run 36796927881. No protection settings changed. The live Pages URL must not be described as updated until an authorized deployment succeeds.
 - PR #80 remains a review-only draft. Do not merge without owner approval.
 
 NEXT STEPS
 1. Use the separate private draft for reviews; do not publish to the existing live page until all work is complete and the user authorizes release. Full browser validation remains pending.
-2. Integrate the other five currently approved artwork files into the same existing prototype.
+2. Review all six playable puzzles in the private draft. Keep the existing live app and main branch unchanged until final user approval.
 3. Next artwork queue: Better Late Than Never; Birds of a Feather Flock Together; Don't Cry Over Spilled Milk.
 
 PRIVATE DRAFT
 - Full app/menu: https://clue-canvas-assembly-draft.danijelmeljkuti.chatgpt.site
 - Assembly: /prototypes/assembly-chapter-01/?puzzle=absence
 - Private preview project: appgprj_6abdcb68ee40819188b761be2a106c90
-- This is a separate review snapshot, not the existing live app. Home now opens Chapters & puzzles: Chapter 1 contains all existing packs/puzzles, Chapter 2 contains the Assembly pack. One Assembly puzzle is playable; five approved artworks await integration. Original progress storage is preserved. Main/live publication requires final user approval.
+- This is a separate review snapshot, not the existing live app. Home now opens Chapters & puzzles: Chapter 1 contains all existing packs/puzzles, Chapter 2 contains the Assembly pack. All six approved Assembly puzzles are playable from Chapter 2. Original progress storage is preserved. Main/live publication requires final user approval.
 
 BATCH QA SYSTEM — 2026-10-01
 - User requested independent reviewer and finished-batch approval.

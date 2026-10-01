@@ -19,7 +19,8 @@ const availableChapters = puzzlePacks.filter((pack) => pack.status === 'availabl
 
 export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, starsByPuzzle, currentIndex, onHome, onOpenPuzzle }: ChapterMapScreenProps) {
   const [chapter, setChapter] = useState<'original' | 'assembly' | null>(() => new URLSearchParams(window.location.search).get('chapters') === '2' ? 'assembly' : null)
-  const openAssembly = () => { window.location.href = new URL('prototypes/assembly-chapter-01/?puzzle=absence&chapter=2', window.location.href).href }
+  const assemblyIds = ['absence', 'molehill', 'ducks', 'pocket', 'future', 'cooks']
+  const openAssembly = (id = 'absence') => { window.location.href = new URL(`prototypes/assembly-chapter-01/?puzzle=${id}&chapter=2`, window.location.href).href }
 
   function puzzleTile(index: number, alwaysAvailable = false) {
     const puzzleId = index + 1
@@ -56,7 +57,7 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
           <div className="chapter-number">02</div>
           <div className="chapter-card-copy">
             <span className="chapter-state">CHAPTER TWO</span><h2>Assembly</h2>
-            <p>Piece the picture together, then solve the phrase.</p><strong>1 puzzle ready to play · more coming soon</strong>
+            <p>Piece the picture together, then solve the phrase.</p><strong>6 puzzles ready to play</strong>
           </div>
           <Button className="chapter-play" onClick={() => setChapter('assembly')}>View Assembly puzzles <span aria-hidden="true">→</span></Button>
         </article>
@@ -75,10 +76,9 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
           <div className="chapter-number">01</div>
           <div className="chapter-card-copy"><span className="chapter-state">ASSEMBLY PACK</span><h2>Hidden Meanings</h2><p>Swap and rotate the pieces. Once the picture is complete, uncover its hidden phrase.</p></div>
           <div className="puzzle-grid" aria-label="Assembly puzzles">
-            <button type="button" className="puzzle-tile is-current" aria-label="Assembly puzzle 1, play" onClick={openAssembly}>1</button>
-            {[2,3,4,5,6].map(number => <button type="button" className="puzzle-tile" disabled aria-label={`Assembly puzzle ${number}, coming soon`} key={number}>{number}</button>)}
+            {assemblyIds.map((id, index) => <button type="button" className="puzzle-tile" aria-label={`Assembly puzzle ${index + 1}, play`} onClick={() => openAssembly(id)} key={id}>{index + 1}</button>)}
           </div>
-          <Button className="chapter-play" onClick={openAssembly}>Play Assembly <span aria-hidden="true">→</span></Button>
+          <Button className="chapter-play" onClick={() => openAssembly()}>Play Assembly <span aria-hidden="true">→</span></Button>
         </article>
       </section>
     </main>

@@ -5,13 +5,13 @@ const KEY='cluecanvas.assemblyChapter01.prototype.v4';
 const chapterTwo = new URLSearchParams(location.search).get('chapter') === '2';
 const chapterLevels=[
   {id:'absence',answer:'Absence Makes the Heart Grow Fonder',accepted:['absence makes the heart grow fonder'],clues:['Notice the departing traveller and the empty chair.','She holds his portrait while a flowering heart grows towards him.','Think of a saying about affection becoming stronger while apart.'],cols:2,rows:3,aspect:2/3,rotate:.45,difficulty:'Medium',difficultyScore:5,par:12,art:'./assets/absence-makes-the-heart-grow-fonder.webp'},
-  {id:'watched',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:.35,difficulty:'Medium',difficultyScore:4,par:8,art:'./assets/watched-pot.jpg'},
-  {id:'hoops',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:.45,difficulty:'Medium',difficultyScore:5,par:13,art:'./assets/jump-hoops.jpg'},
-  {id:'midnight',answer:'Burn the Midnight Oil',accepted:['burn the midnight oil'],clues:['The scene is clearly taking place very late at night.','The main light source is an old-fashioned oil lamp.','The phrase means working late into the night.'],cols:4,rows:3,aspect:4/3,rotate:.6,difficulty:'Medium',difficultyScore:6,par:18,art:'./assets/midnight-oil.jpg'},
-  {id:'pours',answer:'When It Rains It Pours',accepted:['when it rains it pours'],clues:['The weather is more extreme than ordinary rain.','Think about the difference between rain falling and liquid pouring.','The phrase means problems often arrive all at once.'],cols:4,rows:4,aspect:1,rotate:.75,difficulty:'Hard',difficultyScore:7,par:25,art:'./assets/rains-pours.jpg'},
-  {id:'rome',answer:'All Roads Lead to Rome',accepted:['all roads lead to rome'],clues:['Follow the roads and notice where they converge.','The central landmark is the Colosseum.','The phrase says different routes can reach the same result.'],cols:5,rows:4,aspect:1.5,rotate:1,difficulty:'Hard',difficultyScore:8,par:32,art:'./assets/roads-rome.jpg'}
+  {"id": "molehill", "answer": "Make a Mountain Out of a Molehill", "accepted": ["make a mountain out of a molehill"], "clues": ["Compare the small mound beside the mole with the enormous peak.", "The person imagines something small becoming much larger.", "The saying describes exaggerating a minor problem."], "cols": 3, "rows": 2, "aspect": 1.5, "rotate": 0.5, "difficulty": "Medium", "difficultyScore": 5, "par": 12, "art": "./assets/molehill.webp"},
+  {"id": "ducks", "answer": "Get Your Ducks in a Row", "accepted": ["get your ducks in a row"], "clues": ["Notice how the birds are arranged along the path.", "They are following one another in an orderly line.", "The saying means getting organised before you begin."], "cols": 4, "rows": 3, "aspect": 1.3333333333333333, "rotate": 0.5, "difficulty": "Medium", "difficultyScore": 5, "par": 24, "art": "./assets/ducks.webp"},
+  {"id": "pocket", "answer": "Burn a Hole in Your Pocket", "accepted": ["burn a hole in your pocket"], "clues": ["Follow the money from receiving it to spending it.", "Notice what happens to the pocket in the middle.", "The saying describes money you feel eager to spend."], "cols": 3, "rows": 2, "aspect": 1.5, "rotate": 0.5, "difficulty": "Medium", "difficultyScore": 5, "par": 12, "art": "./assets/pocket.webp"},
+  {"id": "future", "answer": "Back to the Future", "accepted": ["back to the future"], "clues": ["Compare the old town with the futuristic city.", "The vehicle is travelling through a glowing passage across time.", "Think of a film title about returning to a later time."], "cols": 4, "rows": 3, "aspect": 1.3333333333333333, "rotate": 0.5, "difficulty": "Medium", "difficultyScore": 5, "par": 24, "art": "./assets/future.webp"},
+  {"id": "cooks", "answer": "Too Many Cooks Spoil the Broth", "accepted": ["too many cooks spoil the broth"], "clues": ["Compare the calm cooking at the left with the crowded pot.", "Several people add ingredients, and the result becomes a mess.", "The saying warns that too many people interfering can ruin a result."], "cols": 4, "rows": 3, "aspect": 1.3333333333333333, "rotate": 0.5, "difficulty": "Medium", "difficultyScore": 5, "par": 24, "art": "./assets/cooks.webp"}
 ];
-const levels=chapterTwo?chapterLevels.filter(level=>level.id==='absence'):chapterLevels;
+const levels=chapterLevels;
 
 const board=document.getElementById('board');
 const live=document.getElementById('live');
@@ -38,6 +38,7 @@ const requestedLevel=levels.findIndex(level=>level.id===new URLSearchParams(loca
 let current=requestedLevel>=0?requestedLevel:Math.max(0,Math.min(state.current||0,levels.length-1));
 let pieces=[],selected=null,moves=0,solved=false,clueCount=0,score=100,penalties=0;
 let usedLetters=new Set();
+let completing=false,completionTimer=null,unlockTimer=null;
 let lastTapPos=null,lastTapAt=0,tapTimer=null;
 
 function defaultState(){return{current:0,completed:{}}}
@@ -74,7 +75,19 @@ function renderHeader(){
   badge.className='difficulty difficulty-'+l.difficulty.toLowerCase();
 }
 
+function fitBoard(){
+  const frame=board.parentElement;
+  const width=Math.min(frame.clientWidth,frame.clientHeight*levels[current].aspect);
+  if(width>0){board.style.width=width+'px';board.style.height=(width/levels[current].aspect)+'px'}
+}
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(fitBoard).observe(board.parentElement);
+window.addEventListener('resize',fitBoard);
+
 function startLevel(){
+  if(completionTimer)clearTimeout(completionTimer);
+  if(unlockTimer)clearTimeout(unlockTimer);
+  completionTimer=null;unlockTimer=null;completing=false;
+  document.querySelector('.assembly-puzzle-card').hidden=false;
   if(tapTimer){clearTimeout(tapTimer);tapTimer=null}
   lastTapPos=null;lastTapAt=0;
   const l=levels[current];
@@ -83,15 +96,7 @@ function startLevel(){
   board.style.gridTemplateColumns='repeat('+l.cols+',1fr)';
   board.style.gridTemplateRows='repeat('+l.rows+',1fr)';
   board.style.aspectRatio=String(l.aspect);
-  if(l.aspect>=1.35){
-    board.style.width='100%';
-    board.style.height='auto';
-    board.style.maxHeight='100%';
-  }else{
-    board.style.height='100%';
-    board.style.width='auto';
-    board.style.maxWidth='100%';
-  }
+  fitBoard();
 
   answerPanel.hidden=false;
   completePanel.hidden=true;
@@ -138,37 +143,20 @@ function renderBoard(){
       if(solved)return;
       const now=Date.now();
       const isDouble=lastTapPos===pos&&(now-lastTapAt)<340;
-
       if(isDouble){
-        if(tapTimer){clearTimeout(tapTimer);tapTimer=null}
-        lastTapPos=null;lastTapAt=0;
         piece.rot=(piece.rot+90)%360;
-        selected=null;
-        moves++;
-        applyMovePenalty(l);
-        renderBoard();
-        checkSolved();
+        selected=null;lastTapPos=null;lastTapAt=0;
+        moves++;applyMovePenalty(l);
         announce('Piece rotated 90 degrees');
-        return;
+      }else if(selected!==null&&selected!==pos){
+        [pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];
+        selected=null;lastTapPos=null;lastTapAt=0;
+        moves++;applyMovePenalty(l);
+      }else{
+        selected=selected===pos?null:pos;
+        lastTapPos=pos;lastTapAt=now;
       }
-
-      lastTapPos=pos;lastTapAt=now;
-      if(tapTimer)clearTimeout(tapTimer);
-      tapTimer=setTimeout(()=>{
-        tapTimer=null;
-        if(solved)return;
-        if(selected===null)selected=pos;
-        else if(selected===pos)selected=null;
-        else{
-          [pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];
-          selected=null;
-          moves++;
-          applyMovePenalty(l);
-        }
-        lastTapPos=null;lastTapAt=0;
-        renderBoard();
-        checkSolved();
-      },280);
+      renderBoard();checkSolved();
     });
 
     board.appendChild(tile);
@@ -182,7 +170,7 @@ function checkSolved(){
   renderBoard();
   const glow=document.getElementById('solvedGlow');
   glow.classList.remove('run');void glow.offsetWidth;glow.classList.add('run');
-  setTimeout(()=>{
+  unlockTimer=setTimeout(()=>{
     setAnswerEnabled(true);
     answerFeedback.textContent='Picture complete — solve the phrase.';
     answerPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -222,7 +210,7 @@ function updatePatternLetters(){
 }
 
 function handleAnswerKey(key){
-  if(!solved||completePanel.hidden===false||!/^[a-z]$/i.test(key))return;
+  if(!solved||completing||completePanel.hidden===false||!/^[a-z]$/i.test(key))return;
   const letter=key.toLowerCase();
   if(usedLetters.has(letter))return;
   usedLetters.add(letter);
@@ -262,16 +250,19 @@ function showAnswer(){
 }
 
 function submitAnswer(){
+  if(completing)return;
   const l=levels[current];
   const guess=normalise(answerInput.value);
   if(!solved)return;
   if(!Array.from(l.answer.toLowerCase()).every(c=>!/[a-z]/.test(c)||usedLetters.has(c))){answerFeedback.textContent='Keep choosing letters to complete the phrase.';return}
   const accepted=[normalise(l.answer),...(l.accepted||[]).map(normalise)];
   if(accepted.includes(guess)){
+    completing=true;
+    submitAnswerBtn.disabled=true;
     answerFeedback.textContent='Correct!';
     state.completed[l.id]={score,moves};
     save();
-    setTimeout(()=>showSolved(l),500);
+    completionTimer=setTimeout(()=>showSolved(l),500);
   }else{
     penalties+=8;updateScore();
     answerFeedback.textContent='Not quite. Try again.';
