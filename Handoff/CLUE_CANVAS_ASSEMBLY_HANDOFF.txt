@@ -61,9 +61,24 @@ CURRENT IMPLEMENTATION CHECKPOINT — 2026-10-01
 - PR #80 remains a review-only draft. Do not merge without owner approval.
 
 NEXT STEPS
-1. Resolve authorized draft-preview deployment and visually verify portrait readability and complete swap/rotate/answer flow.
+1. Use the separate private draft for reviews; do not publish to the existing live page until all work is complete and the user authorizes release. Full browser validation remains pending.
 2. Integrate the other five currently approved artwork files into the same existing prototype.
 3. Next artwork queue: Better Late Than Never; Birds of a Feather Flock Together; Don't Cry Over Spilled Milk.
+
+PRIVATE DRAFT
+- Full app/menu: https://clue-canvas-assembly-draft.danijelmeljkuti.chatgpt.site
+- Assembly: /prototypes/assembly-chapter-01/?puzzle=absence
+- Private preview project: appgprj_6abdcb68ee40819188b761be2a106c90
+- This is a separate review snapshot, not the existing live app. Menu changes remain to be specified.
+
+BATCH QA SYSTEM — 2026-10-01
+- User requested independent reviewer and finished-batch approval.
+- Read Rules/CLUE_CANVAS_ASSEMBLY_QA.md and qa/assembly/batch.json.
+- Default batches of three, each image independently reviewed before moving to the next.
+- Blind reviewer gets no target answer or inherited history; informed review follows locked guesses.
+- Run npm run assembly:preflight before generation and npm run assembly:ready before presenting finished batches.
+- No candidates generated or certified by system setup. Next three phrases passed exact-duplicate preflight; semantic/visual review is still required.
+- Runs within active work sessions; no unattended agent or recurring automation configured.
 
 WORKFLOW
 - Before generating each artwork, identify the essential visual meaning components.

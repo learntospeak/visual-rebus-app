@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "batchSize": 3,
+  "approvedAnswers": [
+    "Make a Mountain Out of a Molehill",
+    "Get Your Ducks in a Row",
+    "Burn a Hole in Your Pocket",
+    "Back to the Future",
+    "Too Many Cooks Spoil the Broth",
+    "Absence Makes the Heart Grow Fonder"
+  ],
+  "queue": [
+    "Better Late Than Never",
+    "Birds of a Feather Flock Together",
+    "Don't Cry Over Spilled Milk"
+  ],
+  "candidates": [],
+  "approvedArtworkInventory": [
+    {
+      "answer": "Make a Mountain Out of a Molehill",
+      "libraryFileId": "libfile_4fd018e88d988191be991ecc4ec61622",
+      "sha256": null
+    },
+    {
+      "answer": "Get Your Ducks in a Row",
+      "libraryFileId": "libfile_f59f274f5d4881919ff961dac8e4e91f",
+      "sha256": null
+    },
+    {
+      "answer": "Burn a Hole in Your Pocket",
+      "libraryFileId": "libfile_47ef9534b32081918a6e537db66c12c4",
+      "sha256": null
+    },
+    {
+      "answer": "Back to the Future",
+      "libraryFileId": "libfile_ee8feafde1148191bad93d338d9af039",
+      "sha256": null
+    },
+    {
+      "answer": "Too Many Cooks Spoil the Broth",
+      "libraryFileId": "libfile_1fac8a078f288191b91108616387c056",
+      "sha256": null
+    },
+    {
+      "answer": "Absence Makes the Heart Grow Fonder",
+      "libraryFileId": "libfile_a7bd6a9011cc8191bda32da49620b742",
+      "sha256": null
+    }
+  ]
+}
