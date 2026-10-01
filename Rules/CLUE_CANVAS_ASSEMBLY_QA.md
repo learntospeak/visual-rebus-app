@@ -37,3 +37,19 @@ Use `node --import tsx scripts/validate-assembly-qa.ts preflight` or `ready` dir
 Before the first finished batch, materialize and hash every current approved source into approvedArtworkInventory; null hashes are deliberate pending values and block readiness. Reconcile the inventory against the current approved folder before every batch. Catalogue fingerprint includes that inventory and all batch candidate image hashes; any candidate revision requires refreshing pending duplicate reviews. Approved records preserve their historical catalogue audit; remove newly approved phrases from the queue.
 
 renderConfig must contain grids (array of {cols,rows} for every grid used by that puzzle), aspect (positive number), cropPolicy (contain or cover), and viewportWidths (including 320, 390, and a desktop width of at least 1024). Every candidate and its reviewer record must have identical configurations.
+
+## Automated AI artwork gate — 2026-10-02
+
+Run this before any generated candidate is presented to the user:
+
+`npm run assembly:review -- --image <image-path> --phrase "<intended phrase>" --text-mode no_text`
+
+For deliberate text/wordplay rebuses, use `--text-mode subtle_text`.
+
+The gate uses two API reviews. Stage 1 is blind and is not told the target phrase. Stage 2 receives the locked blind review plus the intended phrase and checks semantic match, fairness, answer leakage, stale/recycled concepts, format, mobile readability and jigsaw landmarks.
+
+It also checks the local Chapter 1 catalogue plus the current Assembly prototype for exact duplicate answers before calling the API. A candidate fails closed if it is a contact sheet/triptych, UI/mockup, unrelated multi-scene image, wrong/recycled concept, direct answer giveaway, weak semantic match, unfairly ambiguous, poor on mobile, or weak for jigsaw slicing.
+
+Use `--out qa/assembly/reviews/<name>.json` to persist the machine-readable review.
+
+This automated gate supplements the existing technical/browser checks and explicit user approval; it does not replace them. It requires `OPENAI_API_KEY`. The default reviewer models are `gpt-6-luna` for the blind pass and `gpt-6-sol` for the informed pass, overrideable with `ASSEMBLY_BLIND_MODEL` and `ASSEMBLY_JUDGE_MODEL`.
