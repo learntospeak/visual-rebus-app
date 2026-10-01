@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 
-const KEY='cluecanvas.assemblyChapter01.prototype.v3';
+const KEY='cluecanvas.assemblyChapter01.prototype.v4';
 const levels=[
+  {id:'absence',answer:'Absence Makes the Heart Grow Fonder',accepted:['absence makes the heart grow fonder'],clues:['Notice the departing traveller and the empty chair.','She holds his portrait while a flowering heart grows towards him.','Think of a saying about affection becoming stronger while apart.'],cols:2,rows:3,aspect:2/3,rotate:.45,difficulty:'Medium',difficultyScore:5,par:12,art:'./assets/absence-makes-the-heart-grow-fonder.webp'},
   {id:'watched',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:.35,difficulty:'Medium',difficultyScore:4,par:8,art:'./assets/watched-pot.jpg'},
   {id:'hoops',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:.45,difficulty:'Medium',difficultyScore:5,par:13,art:'./assets/jump-hoops.jpg'},
   {id:'midnight',answer:'Burn the Midnight Oil',accepted:['burn the midnight oil'],clues:['The scene is clearly taking place very late at night.','The main light source is an old-fashioned oil lamp.','The phrase means working late into the night.'],cols:4,rows:3,aspect:4/3,rotate:.6,difficulty:'Medium',difficultyScore:6,par:18,art:'./assets/midnight-oil.jpg'},
@@ -27,13 +28,14 @@ const completePanel=document.getElementById('completePanel');
 const keyRows=[
   ['Q','W','E','R','T','Y','U','I','O','P'],
   ['A','S','D','F','G','H','J','K','L'],
-  ['Z','X','C','V','B','N','M','BACKSPACE'],
-  ['SPACE']
+  ['Z','X','C','V','B','N','M']
 ];
 
 let state=load();
-let current=Math.max(0,Math.min(state.current||0,levels.length-1));
+const requestedLevel=levels.findIndex(level=>level.id===new URLSearchParams(location.search).get('puzzle'));
+let current=requestedLevel>=0?requestedLevel:Math.max(0,Math.min(state.current||0,levels.length-1));
 let pieces=[],selected=null,moves=0,solved=false,clueCount=0,score=100,penalties=0;
+let usedLetters=new Set();
 let lastTapPos=null,lastTapAt=0,tapTimer=null;
 
 function defaultState(){return{current:0,completed:{}}}
@@ -55,14 +57,14 @@ function setAnswerEnabled(enabled){
   clueBtn.disabled=!enabled || clueCount>=levels[current].clues.length;
   revealAnswerBtn.disabled=!enabled;
   answerKeyboard.classList.toggle('is-disabled',!enabled);
-  answerKeyboard.querySelectorAll('button').forEach(button=>button.disabled=!enabled);
+  answerKeyboard.querySelectorAll('button').forEach(button=>button.disabled=!enabled||usedLetters.has(button.textContent.toLowerCase()));
   answerPanel.classList.toggle('is-locked',!enabled);
 }
 
 function renderHeader(){
   const l=levels[current];
   const tints=['rgba(44,177,166,.045)','rgba(255,107,95,.035)','rgba(242,201,76,.04)','rgba(77,150,255,.035)','rgba(155,93,229,.03)'];
-  document.documentElement.style.setProperty('--assembly-tint',tints[current]);
+  document.documentElement.style.setProperty('--assembly-tint',tints[current%tints.length]);
   document.getElementById('levelHeader').textContent='ASSEMBLY '+(current+1)+' OF '+levels.length;
   document.getElementById('headerProgress').style.width=((current+1)/levels.length*100)+'%';
   const badge=document.getElementById('difficultyBadge');
@@ -91,6 +93,7 @@ function startLevel(){
 
   answerPanel.hidden=false;
   completePanel.hidden=true;
+  usedLetters=new Set();
   answerInput.value='';
   answerFeedback.innerHTML='&nbsp;';
   cluePanel.hidden=true;
@@ -187,18 +190,18 @@ function checkSolved(){
 
 function renderPattern(answer){
   answerPattern.innerHTML='';
-  let letterIndex=0;
   answer.split(/\s+/).forEach(word=>{
-    const clean=word.replace(/[^a-zA-Z0-9]/g,'');
     const wordEl=document.createElement('span');
     wordEl.className='answer-word';
-    for(let i=0;i<clean.length;i++){
+    for(const character of word){
       const slot=document.createElement('span');
-      slot.className='letter-slot';
-      slot.dataset.index=String(letterIndex++);
-      const letter=document.createElement('span');
-      letter.className='locked-letter';
-      slot.appendChild(letter);
+      if(/[a-z]/i.test(character)){
+        slot.className='letter-slot';
+        slot.dataset.letter=character.toLowerCase();
+        const letter=document.createElement('span');
+        letter.className='locked-letter';
+        slot.appendChild(letter);
+      }else{slot.className='answer-punctuation';slot.textContent=character}
       wordEl.appendChild(slot);
     }
     answerPattern.appendChild(wordEl);
@@ -207,20 +210,23 @@ function renderPattern(answer){
 }
 
 function updatePatternLetters(){
-  const letters=answerInput.value.replace(/[^a-zA-Z0-9]/g,'').toUpperCase().split('');
-  answerPattern.querySelectorAll('.letter-slot').forEach((slot,index)=>{
-    const letter=slot.querySelector('.locked-letter');
-    if(letter) letter.textContent=letters[index]||'';
-    slot.classList.toggle('is-locked',Boolean(letters[index]));
+  answerPattern.querySelectorAll('.letter-slot').forEach(slot=>{
+    const matched=usedLetters.has(slot.dataset.letter);
+    slot.querySelector('.locked-letter').textContent=matched?slot.dataset.letter.toUpperCase():'';
+    slot.classList.toggle('is-locked',matched);
   });
+  answerInput.value=Array.from(levels[current].answer).map(c=>!/[a-z]/i.test(c)?c:usedLetters.has(c.toLowerCase())?c.toUpperCase():' ').join('');
+  answerKeyboard.querySelectorAll('button').forEach(b=>b.disabled=!solved||usedLetters.has(b.textContent.toLowerCase()));
 }
 
 function handleAnswerKey(key){
-  if(key==='BACKSPACE')answerInput.value=answerInput.value.slice(0,-1);
-  else if(key==='SPACE'){if(answerInput.value&&!answerInput.value.endsWith(' '))answerInput.value+=' '}
-  else answerInput.value+=key.toLowerCase();
-  answerFeedback.innerHTML='&nbsp;';
+  if(!solved||completePanel.hidden===false||!/^[a-z]$/i.test(key))return;
+  const letter=key.toLowerCase();
+  if(usedLetters.has(letter))return;
+  usedLetters.add(letter);
+  answerFeedback.textContent=levels[current].answer.toLowerCase().includes(letter)?'':'That letter is not in the phrase.';
   updatePatternLetters();
+  if(Array.from(levels[current].answer.toLowerCase()).every(c=>!/[a-z]/.test(c)||usedLetters.has(c)))submitAnswer();
 }
 
 function renderKeyboard(){
@@ -247,6 +253,7 @@ function showAnswer(){
   renderPattern(l.answer);
   renderKeyboard();
   answerPanel.hidden=false;
+  usedLetters=new Set();
   answerInput.value='';
   answerFeedback.innerHTML='&nbsp;';
   setAnswerEnabled(true);
@@ -255,7 +262,8 @@ function showAnswer(){
 function submitAnswer(){
   const l=levels[current];
   const guess=normalise(answerInput.value);
-  if(!guess){answerFeedback.textContent='Enter a phrase first.';return}
+  if(!solved)return;
+  if(!Array.from(l.answer.toLowerCase()).every(c=>!/[a-z]/.test(c)||usedLetters.has(c))){answerFeedback.textContent='Keep choosing letters to complete the phrase.';return}
   const accepted=[normalise(l.answer),...(l.accepted||[]).map(normalise)];
   if(accepted.includes(guess)){
     answerFeedback.textContent='Correct!';
@@ -283,7 +291,7 @@ function showClue(){
 function revealAnswer(){
   const l=levels[current];
   penalties+=20;updateScore();
-  answerInput.value=l.answer;
+  usedLetters=new Set(l.answer.toLowerCase().replace(/[^a-z]/g,''));
   updatePatternLetters();
   answerFeedback.textContent='Answer revealed.';
 }
@@ -298,6 +306,8 @@ function showSolved(l){
   document.getElementById('nextBtn').innerHTML=current===levels.length-1?'Replay chapter <span>↻</span>':'Next assembly <span>→</span>';
   completePanel.scrollIntoView({behavior:'smooth',block:'start'});
 }
+
+document.addEventListener('keydown',event=>{if(!event.ctrlKey&&!event.metaKey&&!event.altKey&&/^[a-z]$/i.test(event.key)){event.preventDefault();handleAnswerKey(event.key)}});
 
 submitAnswerBtn.addEventListener('click',submitAnswer);
 clueBtn.addEventListener('click',showClue);

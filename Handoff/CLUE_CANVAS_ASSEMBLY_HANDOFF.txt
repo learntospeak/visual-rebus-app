@@ -40,25 +40,30 @@ Approved files currently:
 - burn-a-hole-in-your-pocket.png
 - back-to-the-future.png
 - Too Many Cooks Spoil the Broth.png
+- Love Blooms Across the Distance.png — Absence Makes the Heart Grow Fonder
 
 IMPORTANT
 - Disregard the earlier 10-artwork batches and poster/contact-sheet style generations. They were superseded by reworked artwork.
 - Too Many Cooks Spoil the Broth: confirmed present in /Rebus/Assembly Approved on 2026-10-01 and visually inspected. No replacement needed.
 - Exact approved file: libfile_1fac8a078f288191b91108616387c056.
 
-CURRENT REVIEW CHECKPOINT — 2026-10-01
-- Recovered existing candidate: Love Blooms Across the Distance.png (libfile_a7bd6a9011cc8191bda32da49620b742), intended for Absence Makes the Heart Grow Fonder.
-- Inspected actual image: departing traveller, empty chair, woman cherishing his portrait, and flowering heart motif. Standalone source artwork, without UI or captions.
-- This candidate is NOT user-approved and is NOT in Assembly Approved. Present for review; do not silently promote it or regenerate approved artwork.
-- No exact match for the intended answer in src/data/puzzles.ts. Related catalogue concepts include long distance relationship and growing apart; the affection/growing-heart cue must distinguish this candidate.
-- Candidate is portrait format; crop/readability in the real artwork window still needs checking before integration.
-- No gameplay/UI changes made at this checkpoint.
+CURRENT IMPLEMENTATION CHECKPOINT — 2026-10-01
+- User approved Love Blooms Across the Distance.png for Absence Makes the Heart Grow Fonder and requested integration into the GitHub draft.
+- Approved source: /Rebus/Assembly Approved/Love Blooms Across the Distance.png (libfile_a7bd6a9011cc8191bda32da49620b742).
+- Added a full-resolution WebP derivative to public/prototypes/assembly-chapter-01/assets/absence-makes-the-heart-grow-fonder.webp.
+- Added this puzzle first in the existing Assembly prototype, with a 2-column by 3-row board at the original 2:3 portrait aspect ratio. No artwork crop.
+- Direct preview route: prototypes/assembly-chapter-01/?puzzle=absence.
+- Brought this prototype's answer handling into line with the current main-app flow: one selected letter reveals all occurrences, used letters disabled, automatic spaces/punctuation, no dots, automatic completion when all letters are revealed.
+- Preserved the existing prototype layout and swap/double-tap-to-rotate controls. No guide, reshuffle, or lives system added.
+- Existing five legacy prototype entries remain unchanged after the new entry; they are NOT the newer approved six-artwork set. The other five approved source artworks still need integration.
+- Validation: JavaScript syntax and targeted answer-logic checks passed. Full browser/mobile visual QA is still pending because local Chromium was unavailable.
+- DEPLOYMENT BLOCKER: GitHub Pages environment protection rejects prototype/assembly-chapter-premium-v2. Confirmed in run 36796927881. No protection settings changed. The live Pages URL must not be described as updated until an authorized deployment succeeds.
+- PR #80 remains a review-only draft. Do not merge without owner approval.
 
-NEXT BATCH / REVIEW QUEUE
-1. Absence Makes the Heart Grow Fonder — recovered candidate pending user review
-2. Better Late Than Never
-3. Birds of a Feather Flock Together
-4. Don't Cry Over Spilled Milk
+NEXT STEPS
+1. Resolve authorized draft-preview deployment and visually verify portrait readability and complete swap/rotate/answer flow.
+2. Integrate the other five currently approved artwork files into the same existing prototype.
+3. Next artwork queue: Better Late Than Never; Birds of a Feather Flock Together; Don't Cry Over Spilled Milk.
 
 WORKFLOW
 - Before generating each artwork, identify the essential visual meaning components.

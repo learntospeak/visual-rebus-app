@@ -76,7 +76,7 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
 .ac-board{
   position:relative;
   display:grid;
-  gap:2px;
+  gap:0;
   z-index:2;
   overflow:hidden;
   flex:none;
@@ -90,7 +90,7 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
   overflow:hidden;
   padding:0;
   border:0;
-  border-radius:1px;
+  border-radius:0;
   background:#173846;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
   transition:transform .12s ease,box-shadow .12s ease,filter .12s ease;
@@ -152,8 +152,8 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
   -webkit-user-select:none;
 }
 .compact-key-row{display:flex;justify-content:center;gap:var(--compact-key-gap)}
-.compact-key-row-3{display:grid;grid-template-columns:repeat(10,minmax(0,1fr))}
-.compact-key-row-3::before{content:''}
+.compact-key-row-3{display:flex;justify-content:center}
+
 .compact-key-row-3 .compact-key-backspace{grid-column:span 2;width:100%}
 .compact-key{
   flex:0 0 var(--compact-key-width);
@@ -249,3 +249,4 @@ h1{margin:0;font-family:Manrope,sans-serif;letter-spacing:-.055em;line-height:1.
 .assembly-answer-form.is-locked .answer-pattern{opacity:.72}
 .compact-answer-keyboard.is-disabled{opacity:.58}
 .compact-answer-keyboard button:disabled{cursor:default}
+
