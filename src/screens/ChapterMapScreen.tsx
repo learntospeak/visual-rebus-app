@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Button } from '../components/Button'
 import { ProgressBar } from '../components/ProgressBar'
 import { puzzlePacks } from '../data/catalog'
@@ -17,6 +18,9 @@ const plannedChapters = puzzlePacks.filter((pack) => pack.status === 'planned')
 const availableChapters = puzzlePacks.filter((pack) => pack.status === 'available')
 
 export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, starsByPuzzle, currentIndex, onHome, onOpenPuzzle }: ChapterMapScreenProps) {
+  const [chapter, setChapter] = useState<'original' | 'assembly' | null>(() => new URLSearchParams(window.location.search).get('chapters') === '2' ? 'assembly' : null)
+  const openAssembly = () => { window.location.href = new URL('prototypes/assembly-chapter-01/?puzzle=absence&chapter=2', window.location.href).href }
+
   function puzzleTile(index: number, alwaysAvailable = false) {
     const puzzleId = index + 1
     const completed = completedIds.includes(puzzleId)
@@ -31,13 +35,62 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
     )
   }
 
-  return (
+  if (chapter === null) return (
     <main className="app-shell chapter-map-screen">
       <header className="chapter-map-header">
         <Button variant="icon" aria-label="Return home" onClick={onHome}>←</Button>
+        <div><span className="eyebrow">YOUR JOURNEY</span><h1>Chapters</h1></div>
+      </header>
+      <section className="chapter-list" aria-label="Choose a chapter">
+        <article className="chapter-card chapter-current">
+          <div className="chapter-number">01</div>
+          <div className="chapter-card-copy">
+            <span className="chapter-state">CHAPTER ONE</span><h2>Original Puzzles</h2>
+            <p>All your existing packs and visual riddles, together in one chapter.</p>
+            <ProgressBar value={completedIds.length} max={puzzleCount} label={`${completedIds.length} of ${puzzleCount} puzzles solved`} />
+            <strong>{completedIds.length} / {puzzleCount} solved</strong>
+          </div>
+          <Button className="chapter-play" onClick={() => setChapter('original')}>View packs & puzzles <span aria-hidden="true">→</span></Button>
+        </article>
+        <article className="chapter-card chapter-draft">
+          <div className="chapter-number">02</div>
+          <div className="chapter-card-copy">
+            <span className="chapter-state">CHAPTER TWO</span><h2>Assembly</h2>
+            <p>Piece the picture together, then solve the phrase.</p><strong>1 puzzle ready to play · more coming soon</strong>
+          </div>
+          <Button className="chapter-play" onClick={() => setChapter('assembly')}>View Assembly puzzles <span aria-hidden="true">→</span></Button>
+        </article>
+      </section>
+    </main>
+  )
+
+  if (chapter === 'assembly') return (
+    <main className="app-shell chapter-map-screen">
+      <header className="chapter-map-header">
+        <Button variant="icon" aria-label="Return to chapters" onClick={() => setChapter(null)}>←</Button>
+        <div><span className="eyebrow">CHAPTER TWO</span><h1>Assembly</h1></div>
+      </header>
+      <section className="chapter-list" aria-label="Assembly puzzle packs">
+        <article className="chapter-card chapter-current">
+          <div className="chapter-number">01</div>
+          <div className="chapter-card-copy"><span className="chapter-state">ASSEMBLY PACK</span><h2>Hidden Meanings</h2><p>Swap and rotate the pieces. Once the picture is complete, uncover its hidden phrase.</p></div>
+          <div className="puzzle-grid" aria-label="Assembly puzzles">
+            <button type="button" className="puzzle-tile is-current" aria-label="Assembly puzzle 1, play" onClick={openAssembly}>1</button>
+            {[2,3,4,5,6].map(number => <button type="button" className="puzzle-tile" disabled aria-label={`Assembly puzzle ${number}, coming soon`} key={number}>{number}</button>)}
+          </div>
+          <Button className="chapter-play" onClick={openAssembly}>Play Assembly <span aria-hidden="true">→</span></Button>
+        </article>
+      </section>
+    </main>
+  )
+
+  return (
+    <main className="app-shell chapter-map-screen">
+      <header className="chapter-map-header">
+        <Button variant="icon" aria-label="Return to chapters" onClick={() => setChapter(null)}>←</Button>
         <div>
-          <span className="eyebrow">YOUR JOURNEY</span>
-          <h1>Packs</h1>
+          <span className="eyebrow">CHAPTER ONE · ORIGINAL PUZZLES</span>
+          <h1>Packs & puzzles</h1>
         </div>
       </header>
 
@@ -53,7 +106,7 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
             <article className={`chapter-card ${isStarter ? 'chapter-current' : 'chapter-draft'}`} key={pack.id}>
               <div className="chapter-number">{String(pack.order).padStart(2, '0')}</div>
               <div className="chapter-card-copy">
-                <span className="chapter-state">{isStarter ? 'CURRENT CHAPTER' : 'PLAYTEST DRAFTS'}</span>
+                <span className="chapter-state">{isStarter ? 'STARTER PACK' : 'PLAYTEST DRAFTS'}</span>
                 <h2>{pack.title}</h2>
                 <p>{pack.description} · puzzles {pack.firstPuzzle}–{lastPuzzle}</p>
                 <ProgressBar value={solved} max={count} label={`${solved} of ${count} puzzles solved`} />

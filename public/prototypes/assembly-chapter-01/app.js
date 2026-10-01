@@ -2,7 +2,8 @@
 'use strict';
 
 const KEY='cluecanvas.assemblyChapter01.prototype.v4';
-const levels=[
+const chapterTwo = new URLSearchParams(location.search).get('chapter') === '2';
+const chapterLevels=[
   {id:'absence',answer:'Absence Makes the Heart Grow Fonder',accepted:['absence makes the heart grow fonder'],clues:['Notice the departing traveller and the empty chair.','She holds his portrait while a flowering heart grows towards him.','Think of a saying about affection becoming stronger while apart.'],cols:2,rows:3,aspect:2/3,rotate:.45,difficulty:'Medium',difficultyScore:5,par:12,art:'./assets/absence-makes-the-heart-grow-fonder.webp'},
   {id:'watched',answer:'A Watched Pot Never Boils',accepted:['a watched pot never boils'],clues:['Focus on the pot and the prominent timepiece.','The phrase is a proverb about waiting for something to happen.','The final word describes what the pot is not doing.'],cols:3,rows:2,aspect:1.5,rotate:.35,difficulty:'Medium',difficultyScore:4,par:8,art:'./assets/watched-pot.jpg'},
   {id:'hoops',answer:'Jump Through Hoops',accepted:['jump through hoops'],clues:['Look at what the subject is physically passing through.','There is more than one circular obstacle.','The phrase means enduring unnecessary requirements.'],cols:3,rows:3,aspect:1,rotate:.45,difficulty:'Medium',difficultyScore:5,par:13,art:'./assets/jump-hoops.jpg'},
@@ -10,6 +11,7 @@ const levels=[
   {id:'pours',answer:'When It Rains It Pours',accepted:['when it rains it pours'],clues:['The weather is more extreme than ordinary rain.','Think about the difference between rain falling and liquid pouring.','The phrase means problems often arrive all at once.'],cols:4,rows:4,aspect:1,rotate:.75,difficulty:'Hard',difficultyScore:7,par:25,art:'./assets/rains-pours.jpg'},
   {id:'rome',answer:'All Roads Lead to Rome',accepted:['all roads lead to rome'],clues:['Follow the roads and notice where they converge.','The central landmark is the Colosseum.','The phrase says different routes can reach the same result.'],cols:5,rows:4,aspect:1.5,rotate:1,difficulty:'Hard',difficultyScore:8,par:32,art:'./assets/roads-rome.jpg'}
 ];
+const levels=chapterTwo?chapterLevels.filter(level=>level.id==='absence'):chapterLevels;
 
 const board=document.getElementById('board');
 const live=document.getElementById('live');
@@ -318,8 +320,10 @@ document.getElementById('nextBtn').addEventListener('click',()=>{
   state.current=current;save();startLevel();window.scrollTo({top:0,behavior:'smooth'});
 });
 document.getElementById('backBtn').addEventListener('click',()=>{
+  if(chapterTwo){location.href=new URL('../../?chapters=2',location.href).href;return}
   if(current>0){current--;state.current=current;save();startLevel();window.scrollTo({top:0,behavior:'smooth'})}
 });
 
+if(chapterTwo)document.getElementById('backBtn').setAttribute('aria-label','Return to Chapter 2');
 startLevel();
 })();

@@ -69,7 +69,7 @@ PRIVATE DRAFT
 - Full app/menu: https://clue-canvas-assembly-draft.danijelmeljkuti.chatgpt.site
 - Assembly: /prototypes/assembly-chapter-01/?puzzle=absence
 - Private preview project: appgprj_6abdcb68ee40819188b761be2a106c90
-- This is a separate review snapshot, not the existing live app. Menu changes remain to be specified.
+- This is a separate review snapshot, not the existing live app. Home now opens Chapters & puzzles: Chapter 1 contains all existing packs/puzzles, Chapter 2 contains the Assembly pack. One Assembly puzzle is playable; five approved artworks await integration. Original progress storage is preserved. Main/live publication requires final user approval.
 
 BATCH QA SYSTEM — 2026-10-01
 - User requested independent reviewer and finished-batch approval.
