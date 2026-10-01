@@ -19,7 +19,7 @@ const availableChapters = puzzlePacks.filter((pack) => pack.status === 'availabl
 
 export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, starsByPuzzle, currentIndex, onHome, onOpenPuzzle }: ChapterMapScreenProps) {
   const [chapter, setChapter] = useState<'original' | 'assembly' | null>(() => new URLSearchParams(window.location.search).get('chapters') === '2' ? 'assembly' : null)
-  const assemblyIds = ['absence', 'molehill', 'ducks', 'pocket', 'future', 'cooks', 'better-late', 'birds-feather', 'spilled-milk', 'look-before-leap', 'pen-sword', 'knowledge-power', 'practice-perfect', 'haste-waste', 'great-minds']
+  const assemblyIds = ['absence', 'molehill', 'ducks', 'pocket', 'future', 'cooks', 'better-late', 'birds-feather', 'spilled-milk', 'look-before-leap', 'pen-sword', 'knowledge-power', 'practice-perfect', 'haste-waste', 'great-minds', 'aint-broke', 'rolling-stone', 'laughter-medicine']
   const openAssembly = (id = 'absence') => { window.location.href = new URL(`prototypes/assembly-chapter-01/?puzzle=${id}&chapter=2`, window.location.href).href }
 
   function puzzleTile(index: number, alwaysAvailable = false) {
@@ -57,7 +57,7 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
           <div className="chapter-number">02</div>
           <div className="chapter-card-copy">
             <span className="chapter-state">CHAPTER TWO</span><h2>Assembly</h2>
-            <p>Piece the picture together, then solve the phrase.</p><strong>15 puzzles ready to play</strong>
+            <p>Piece the picture together, then solve the phrase.</p><strong>18 puzzles ready to play</strong>
           </div>
           <Button className="chapter-play" onClick={() => setChapter('assembly')}>View Assembly puzzles <span aria-hidden="true">→</span></Button>
         </article>

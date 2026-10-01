@@ -104,3 +104,6 @@ LATEST DRAFT UPDATE — 2026-10-02
 - Fixed missing comma between Cooks and Better Late entries left by prior draft update.
 - Main branch remains untouched.
 - Continue production in duplicate-checked batches of three; integrate every two successful batches (six images).
+
+- Puzzles 16–18 added to the draft on 2026-10-02: If It Ain't Broke, Don't Fix It; A Rolling Stone Gathers No Moss; Laughter Is the Best Medicine.
+- Draft Assembly count is now 18. Main branch remains untouched.
