@@ -1,5 +1,5 @@
 CLUE CANVAS ASSEMBLY — CURRENT WORK HANDOFF
-Updated: 2026-10-01
+Updated: 2026-10-02
 
 Repository: learntospeak/visual-rebus-app
 Working branch: prototype/assembly-chapter-premium-v2
@@ -96,3 +96,11 @@ DO NOT
 - use captions to explain artwork,
 - generate a batch sheet instead of individual source artwork,
 - claim an artwork is approved unless the user approved it.
+
+
+LATEST DRAFT UPDATE — 2026-10-02
+- Draft branch now targets 15 Assembly puzzles.
+- Puzzles 10–15 added: Look Before You Leap; The Pen Is Mightier Than the Sword; Knowledge Is Power; Practice Makes Perfect; Haste Makes Waste; Great Minds Think Alike.
+- Fixed missing comma between Cooks and Better Late entries left by prior draft update.
+- Main branch remains untouched.
+- Continue production in duplicate-checked batches of three; integrate every two successful batches (six images).
