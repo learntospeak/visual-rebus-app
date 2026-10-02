@@ -2092,3 +2092,66 @@ button.canonical-premium-batch:focus-visible { outline:3px solid #e4ba5e; outlin
 .premium-word-512{flex-direction:row;gap:22px}.premium-word-512>b{color:white;background:#2cb1a6;font-size:2.7rem}.number-column{display:grid;gap:4px}.number-column i{display:grid;place-items:center;width:44px;height:38px;border-radius:8px;color:#173f59;background:#f4f0e6;box-shadow:0 4px 0 #d8d2c5;font-size:1.2rem}
 .premium-word-513{gap:8px}.number-tickets{display:flex;align-items:flex-end;gap:9px;height:150px}.number-tickets i,.number-tickets b{display:grid;place-items:center;width:66px;height:77px;border-radius:10px;color:#173f59;background:#f4f0e6;box-shadow:0 6px 0 #d8d2c5}.number-tickets b{align-self:flex-start;color:white;background:#ef6a62;font-size:2.4rem}.premium-word-513>span{padding:0!important;color:#2cb1a6;background:none!important;box-shadow:none!important;font-size:2.5rem}
 .premium-word-515{padding:14px}.numbers-game{position:relative;display:grid;place-items:center;width:250px;height:185px;border:7px solid #173f59;border-radius:22px;background:linear-gradient(135deg,#f4f0e6,#fff);box-shadow:0 12px 24px rgba(23,63,89,.18)}.numbers-game b{z-index:2;padding:15px 19px;border-radius:12px;color:white;background:#2cb1a6;box-shadow:0 6px 0 #177b73;font-size:1.4rem}.numbers-game i{position:absolute;color:#ef6a62;font-size:2rem}.numbers-game i:nth-child(1){left:20px;top:14px}.numbers-game i:nth-child(2){right:22px;top:18px}.numbers-game i:nth-child(4){left:25px;bottom:14px}.numbers-game i:nth-child(5){right:24px;bottom:13px}
+
+
+.assembly-puzzle-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.assembly-puzzle-tile {
+  position: relative;
+  aspect-ratio: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #e9e7e1;
+  box-shadow: 0 4px 12px rgba(24,59,86,.08);
+}
+.assembly-puzzle-tile img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.assembly-puzzle-tile span {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  display: grid;
+  place-items: center;
+  min-width: 25px;
+  height: 25px;
+  padding: 0 6px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(24,59,86,.88);
+  font: 800 .72rem Manrope, sans-serif;
+  box-shadow: 0 2px 7px rgba(0,0,0,.18);
+}
+.assembly-puzzle-tile:hover img { transform: scale(1.03); }
+.assembly-puzzle-tile img { transition: transform 160ms ease; }
+@media (min-width: 700px) {
+  .assembly-puzzle-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+
+/* Assembly chapter keeps the standard Clue Canvas numbered gallery,
+   but uses its own colour treatment so Chapter 2 is visually distinct. */
+.assembly-number-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+.assembly-number-tile {
+  color: #17756f;
+  border-color: #b9dfda;
+  background: #e3f6f3;
+}
+.assembly-number-tile:hover {
+  color: #ffffff;
+  border-color: #2cb1a6;
+  background: #2cb1a6;
+}

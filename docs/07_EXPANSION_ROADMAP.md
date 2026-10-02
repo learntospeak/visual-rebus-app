@@ -275,3 +275,11 @@ Use this checklist for every batch of 25 puzzles:
 - [ ] Add clue-based star ratings.
 - [ ] Draft the Chapter 2 phrase shortlist.
 - [ ] Produce and review levels 26–50 as the first expansion batch.
+
+
+## Assembly-mode content backlog
+
+The working 100-puzzle expansion pool for Assembly Mode is maintained in:
+- `docs/16_ASSEMBLY_100_PUZZLE_BACKLOG.md`
+
+The backlog is duplicate-screened against the current 565-puzzle catalogue and should be treated as the source list for future five-puzzle Assembly batches.

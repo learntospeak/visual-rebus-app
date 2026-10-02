@@ -1,0 +1,112 @@
+CLUE CANVAS ASSEMBLY — CURRENT WORK HANDOFF
+Updated: 2026-10-02
+
+Repository: learntospeak/visual-rebus-app
+Working branch: prototype/assembly-chapter-premium-v2
+PR: #80
+
+MANDATORY FIRST STEP
+- Read Rules/CLUE_CANVAS_ASSEMBLY_RULES.txt before doing any work.
+- Stay on prototype/assembly-chapter-premium-v2 unless explicitly told otherwise.
+- Ignore older rejected artwork batches, UI mockups, infographic sheets, and abandoned concepts.
+
+CURRENT GAMEPLAY / UI STATE
+- Assembly uses the current Clue Canvas puzzle-screen UX/UI, not a separate mini-app.
+- Puzzle image is solved first using swappable + rotatable pieces.
+- After assembly, the player solves the phrase using the current answer flow.
+- Selecting one letter reveals every matching occurrence.
+- Spaces are automatic.
+- Punctuation is automatic.
+- No placeholder dots.
+- Used letters are disabled.
+- No guide button.
+- No reshuffle button.
+- Three-strike/lives system is NOT implemented yet.
+
+ARTWORK RULES
+- Artwork must genuinely communicate the phrase while staying challenging but fair.
+- Single-scene by default.
+- Multi-frame/split-scene compositions are allowed when one image cannot infer the phrase clearly enough.
+- No UI, captions, answer text, logos, borders, watermarks, puzzle-grid overlays, infographic sheets, or mockup screens in source artwork.
+- Premium quality, natural anatomy/perspective/object relationships, strong landmarks for puzzle slicing.
+- Reject and redo artwork that is visually attractive but semantically weak or misleading.
+
+APPROVED / REWORKED ARTWORK SOURCE OF TRUTH
+Saved in Library folder: /Rebus/Assembly Approved
+
+Approved files currently:
+- mountain-out-of-molehill.jpg
+- get-your-ducks-in-a-row.png
+- burn-a-hole-in-your-pocket.png
+- back-to-the-future.png
+- Too Many Cooks Spoil the Broth.png
+- Love Blooms Across the Distance.png — Absence Makes the Heart Grow Fonder
+
+IMPORTANT
+- Disregard the earlier 10-artwork batches and poster/contact-sheet style generations. They were superseded by reworked artwork.
+- Too Many Cooks Spoil the Broth: confirmed present in /Rebus/Assembly Approved on 2026-10-01 and visually inspected. No replacement needed.
+- Exact approved file: libfile_1fac8a078f288191b91108616387c056.
+
+CURRENT IMPLEMENTATION CHECKPOINT — 2026-10-01
+- User approved Love Blooms Across the Distance.png for Absence Makes the Heart Grow Fonder and requested integration into the GitHub draft.
+- Approved source: /Rebus/Assembly Approved/Love Blooms Across the Distance.png (libfile_a7bd6a9011cc8191bda32da49620b742).
+- Added a full-resolution WebP derivative to public/prototypes/assembly-chapter-01/assets/absence-makes-the-heart-grow-fonder.webp.
+- Added this puzzle first in the existing Assembly prototype, with a 2-column by 3-row board at the original 2:3 portrait aspect ratio. No artwork crop.
+- Direct preview route: prototypes/assembly-chapter-01/?puzzle=absence.
+- Brought this prototype's answer handling into line with the current main-app flow: one selected letter reveals all occurrences, used letters disabled, automatic spaces/punctuation, no dots, automatic completion when all letters are revealed.
+- Preserved the existing prototype layout and swap/double-tap-to-rotate controls. No guide, reshuffle, or lives system added.
+- The playable prototype now contains exactly the six approved artworks. Legacy prototype entries are no longer in its level list. Order: Absence, Mountain/Molehill, Ducks, Pocket, Back to the Future, Cooks. All six numbered Chapter 2 buttons are enabled.
+- Validation: TypeScript/Vite build, JavaScript syntax, and DOM interaction tests passed for all six: direct selection, frame-fit geometry at 320/390/1280 widths, swaps, rotations, answer locking, repeated letters, completion persistence, next/replay. Source images visually inspected; browser-rendered mobile visual QA remains pending. Fixed fast-tap swaps, completion timer duplication, and standalone Back card visibility.
+- DEPLOYMENT BLOCKER: GitHub Pages environment protection rejects prototype/assembly-chapter-premium-v2. Confirmed in run 36796927881. No protection settings changed. The live Pages URL must not be described as updated until an authorized deployment succeeds.
+- PR #80 remains a review-only draft. Do not merge without owner approval.
+
+NEXT STEPS
+1. Use the separate private draft for reviews; do not publish to the existing live page until all work is complete and the user authorizes release. Full browser validation remains pending.
+2. Review all six playable puzzles in the private draft. Keep the existing live app and main branch unchanged until final user approval.
+3. Next artwork queue: Better Late Than Never; Birds of a Feather Flock Together; Don't Cry Over Spilled Milk.
+
+PRIVATE DRAFT
+- Full app/menu: https://clue-canvas-assembly-draft.danijelmeljkuti.chatgpt.site
+- Assembly: /prototypes/assembly-chapter-01/?puzzle=absence
+- Private preview project: appgprj_6abdcb68ee40819188b761be2a106c90
+- This is a separate review snapshot, not the existing live app. Home now opens Chapters & puzzles: Chapter 1 contains all existing packs/puzzles, Chapter 2 contains the Assembly pack. All six approved Assembly puzzles are playable from Chapter 2. Original progress storage is preserved. Main/live publication requires final user approval.
+
+BATCH QA SYSTEM — 2026-10-01
+- User requested independent reviewer and finished-batch approval.
+- Read Rules/CLUE_CANVAS_ASSEMBLY_QA.md and qa/assembly/batch.json.
+- Default batches of three, each image independently reviewed before moving to the next.
+- Blind reviewer gets no target answer or inherited history; informed review follows locked guesses.
+- Run npm run assembly:preflight before generation and npm run assembly:ready before presenting finished batches.
+- No candidates generated or certified by system setup. Next three phrases passed exact-duplicate preflight; semantic/visual review is still required.
+- Runs within active work sessions; no unattended agent or recurring automation configured.
+
+WORKFLOW
+- Before generating each artwork, identify the essential visual meaning components.
+- Choose single-scene or multi-frame based on inference clarity.
+- Generate standalone artwork only.
+- Inspect it against the rules before moving on.
+- For a batch, every artwork must pass individually.
+- Save every user-approved artwork into /Rebus/Assembly Approved immediately.
+- Preserve the current UI/gameplay unless explicitly asked to change it.
+
+DO NOT
+- redesign the UI,
+- create a separate Assembly app shell,
+- revive rejected artwork,
+- use captions to explain artwork,
+- generate a batch sheet instead of individual source artwork,
+- claim an artwork is approved unless the user approved it.
+
+
+LATEST DRAFT UPDATE — 2026-10-02
+- Draft branch now targets 15 Assembly puzzles.
+- Puzzles 10–15 added: Look Before You Leap; The Pen Is Mightier Than the Sword; Knowledge Is Power; Practice Makes Perfect; Haste Makes Waste; Great Minds Think Alike.
+- Fixed missing comma between Cooks and Better Late entries left by prior draft update.
+- Main branch remains untouched.
+- Continue production in duplicate-checked batches of three; integrate every two successful batches (six images).
+
+- Puzzles 16–18 added to the draft on 2026-10-02: If It Ain't Broke, Don't Fix It; A Rolling Stone Gathers No Moss; Laughter Is the Best Medicine.
+- Draft Assembly count is now 18. Main branch remains untouched.
+
+- Puzzles 19–21 added to draft on 2026-10-02 from exact crops of the user-approved three-panel source, with no artwork edits beyond splitting: Curiosity Killed the Cat; Kill Two Birds with One Stone; You Can't Judge a Book by Its Cover.
+- Draft Assembly count is now 21. Main branch remains untouched.

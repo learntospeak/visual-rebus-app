@@ -42,7 +42,7 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
       </section>
       <section className="progress-card" aria-label={`${percent}% complete`}>
         <div>
-          <span className="eyebrow">STARTER PACK</span>
+          <span className="eyebrow">CHAPTER 1 · ORIGINAL PUZZLES</span>
           <strong>{completedCount} of {puzzleCount} solved</strong>
         </div>
         <ProgressBar value={completedCount} max={puzzleCount} label={`${completedCount} of ${puzzleCount} puzzles solved`} />
@@ -52,7 +52,7 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
         <span><strong>{totalStars}</strong> stars earned</span>
         <span><strong>{dailyStreak}</strong> day streak</span>
       </div>
-      <Button variant="secondary" className="chapter-map-button" onClick={onChapters}>View packs and puzzles</Button>
+      <Button variant="secondary" className="chapter-map-button" onClick={onChapters}>Chapters & puzzles</Button>
       <Button variant="secondary" className="chapter-map-button" onClick={onRewards}>My chapter medallion</Button>
       <Button variant="secondary" className="daily-button" onClick={onDaily}>Today’s puzzle <span aria-hidden="true">☀</span></Button>
       <p className="trust-note"><span aria-hidden="true">✓</span> Optional account. No adverts. Just puzzles.</p>

@@ -3,85 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#102a38">
-<title>Clue Canvas — Assembly Chapter 1</title>
-<link rel="stylesheet" href="./styles.css?v=2">
+<meta name="theme-color" content="#f7f3ea">
+<title>Clue Canvas — Assembly</title>
+<link rel="stylesheet" href="./styles.css?v=15">
 </head>
 <body>
-<main class="ac-app">
-  <header class="ac-header">
-    <div class="ac-brand">
-      <span class="ac-mark">C</span>
-      <span><strong>CLUE CANVAS</strong><small>Assembly · Chapter 1</small></span>
+<main class="app-shell puzzle-screen has-compact-keyboard assembly-screen">
+  <header class="puzzle-header">
+    <button class="icon-button" id="backBtn" type="button" aria-label="Previous assembly">←</button>
+    <div>
+      <span class="eyebrow" id="levelHeader">ASSEMBLY 1 OF 21</span>
+      <div class="mini-track" aria-hidden="true"><span id="headerProgress"></span></div>
     </div>
-    <button type="button" class="ac-quiet" id="resetAll">Reset</button>
+    <span class="difficulty difficulty-medium" id="difficultyBadge">Medium · 4/10</span>
   </header>
 
-  <section class="ac-hero">
-    <p class="ac-eyebrow">Chapter 1 · Hidden Meanings</p>
-    <h1>Build the picture.<br>Then solve what it means.</h1>
-    <p class="ac-sub">Five assemblies grow from 6 to 20 pieces. Each solved clue earns a fragment for the chapter board.</p>
-  </section>
-
-  <section class="ac-level-strip" id="levelStrip" aria-label="Chapter levels"></section>
-
-  <section class="ac-stage">
-    <div class="ac-stage-head">
-      <div>
-        <p class="ac-eyebrow" id="levelMeta">Level 1 · 6 pieces</p>
-        <h2 id="levelTitle">Fish Out of Water</h2>
-      </div>
-      <div class="ac-badge" id="difficultyBadge">Easy</div>
-    </div>
-
-    <div class="ac-progress-row">
-      <span id="moveCount">0 moves</span>
-      <span id="pieceStatus">0 / 6 placed</span>
-    </div>
-    <p class="ac-rotate-hint" id="rotateHint">Tap a piece to select it. Tap it again to rotate.</p>
-
-    <div class="ac-board-wrap">
-      <div class="ac-guide" id="guide"></div>
-      <div class="ac-board" id="board" aria-label="Assembly board"></div>
+  <section class="puzzle-card assembly-puzzle-card">
+    <div class="puzzle-art-frame assembly-art-frame">
+      <div class="ac-board" id="board" aria-label="Assembly puzzle"></div>
       <div class="ac-solved-glow" id="solvedGlow" aria-hidden="true"></div>
     </div>
-
-    <div class="ac-help-row">
-      <button type="button" class="ac-btn secondary" id="hintBtn">Show guide</button>
-      <button type="button" class="ac-btn secondary" id="shuffleBtn">Shuffle</button>
-    </div>
-
-    <section class="ac-answer-panel" id="answerPanel" hidden>
-      <p class="ac-eyebrow">Picture complete</p>
-      <h3>What phrase does this scene represent?</h3>
-      <div class="ac-answer-grid" id="answerGrid"></div>
-      <p class="ac-feedback" id="answerFeedback" aria-live="polite"></p>
-    </section>
-
-    <section class="ac-complete-panel" id="completePanel" hidden>
-      <div class="ac-complete-icon">◆</div>
-      <div>
-        <p class="ac-eyebrow">Fragment earned</p>
-        <h3 id="completePhrase"></h3>
-        <p id="completeCopy"></p>
-      </div>
-      <button type="button" class="ac-btn primary" id="nextBtn">Next puzzle</button>
-    </section>
   </section>
 
-  <section class="ac-master">
-    <div class="ac-master-head">
-      <div>
-        <p class="ac-eyebrow">Chapter board</p>
-        <h2>The bigger picture</h2>
-      </div>
-      <span id="masterCount">0 / 5</span>
+  <section class="answer-form assembly-answer-form" id="answerPanel" hidden>
+    <label for="answerInput">Your answer</label>
+    <div class="answer-pattern" id="answerPattern" aria-label="Answer word pattern"></div>
+    <input id="answerInput" autocomplete="off" autocapitalize="none" inputmode="none" readonly tabindex="-1" placeholder="Type the phrase…">
+    <div class="compact-answer-keyboard" id="answerKeyboard" aria-label="On-screen answer keyboard"></div>
+    <p class="feedback" id="answerFeedback" aria-live="polite">&nbsp;</p>
+    <div class="action-row">
+      <button type="button" class="secondary-button" id="clueBtn">Clue 1</button>
+      <button type="button" class="primary-button" id="submitAnswerBtn">Submit</button>
     </div>
-    <div class="ac-master-grid" id="masterGrid"></div>
-    <p class="ac-master-note" id="masterNote">Complete the five assemblies to reveal the full chapter board.</p>
+    <div class="clue-panel" id="cluePanel" hidden></div>
+    <div class="reveal-panel" id="revealPanel" hidden>
+      <p>Still stuck? You can reveal the answer and replay later to earn a better score.</p>
+      <button type="button" class="text-button" id="revealAnswerBtn">Reveal answer</button>
+    </div>
+  </section>
+
+  <section class="assembly-solved" id="completePanel" hidden>
+    <div class="success-mark">✓</div>
+    <p class="kicker">ASSEMBLY SOLVED</p>
+    <h1 id="completePhrase"></h1>
+    <p id="completeCopy"></p>
+    <div class="solve-rating"><strong id="finalScore"></strong><span>Assembly score</span></div>
+    <button type="button" class="primary-button full-button" id="nextBtn">Next assembly <span>→</span></button>
   </section>
 </main>
 <div class="ac-sr" id="live" aria-live="polite"></div>
-<script src="./app.js?v=2" defer></script>
+<script src="./app.js?v=25" defer></script>
 </body>
 </html>
