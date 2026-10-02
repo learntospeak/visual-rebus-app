@@ -2138,3 +2138,20 @@ button.canonical-premium-batch:focus-visible { outline:3px solid #e4ba5e; outlin
 @media (min-width: 700px) {
   .assembly-puzzle-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
+
+
+/* Assembly chapter keeps the standard Clue Canvas numbered gallery,
+   but uses its own colour treatment so Chapter 2 is visually distinct. */
+.assembly-number-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+.assembly-number-tile {
+  color: #17756f;
+  border-color: #b9dfda;
+  background: #e3f6f3;
+}
+.assembly-number-tile:hover {
+  color: #ffffff;
+  border-color: #2cb1a6;
+  background: #2cb1a6;
+}
