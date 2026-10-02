@@ -107,3 +107,6 @@ LATEST DRAFT UPDATE — 2026-10-02
 
 - Puzzles 16–18 added to the draft on 2026-10-02: If It Ain't Broke, Don't Fix It; A Rolling Stone Gathers No Moss; Laughter Is the Best Medicine.
 - Draft Assembly count is now 18. Main branch remains untouched.
+
+- Puzzles 19–21 added to draft on 2026-10-02 from exact crops of the user-approved three-panel source, with no artwork edits beyond splitting: Curiosity Killed the Cat; Kill Two Birds with One Stone; You Can't Judge a Book by Its Cover.
+- Draft Assembly count is now 21. Main branch remains untouched.
