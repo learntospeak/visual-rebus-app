@@ -97,11 +97,70 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
         <article className="chapter-card chapter-current">
           <div className="chapter-number">01</div>
           <div className="chapter-card-copy"><span className="chapter-state">ASSEMBLY PACK</span><h2>Hidden Meanings</h2><p>Swap and rotate the pieces. Once the picture is complete, uncover its hidden phrase.</p></div>
-          <div className="assembly-puzzle-grid" aria-label="Assembly puzzles">
+          <div
+            aria-label="Assembly puzzles"
+            style={{
+              gridColumn: '1 / -1',
+              width: '100%',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              gap: 10,
+              marginTop: 8,
+            }}
+          >
             {assemblyPuzzles.map(([id, art], index) => (
-              <button type="button" className="assembly-puzzle-tile" aria-label={`Assembly puzzle ${index + 1}, play`} onClick={() => openAssembly(id)} key={id}>
-                <img src={new URL(`prototypes/assembly-chapter-01/assets/${art}`, window.location.href).href} alt="" loading="lazy" />
-                <span>{index + 1}</span>
+              <button
+                type="button"
+                aria-label={`Assembly puzzle ${index + 1}, play`}
+                onClick={() => openAssembly(id)}
+                key={id}
+                style={{
+                  position: 'relative',
+                  display: 'block',
+                  width: '100%',
+                  minWidth: 0,
+                  aspectRatio: '1 / 1',
+                  overflow: 'hidden',
+                  padding: 0,
+                  border: '1px solid #d9d5ca',
+                  borderRadius: 12,
+                  background: '#ece9e1',
+                  boxShadow: '0 3px 10px rgba(24,59,86,.08)',
+                }}
+              >
+                <img
+                  src={new URL(`prototypes/assembly-chapter-01/assets/${art}`, window.location.href).href}
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    display: 'block',
+                    objectFit: 'cover',
+                  }}
+                />
+                <span
+                  style={{
+                    position: 'absolute',
+                    right: 5,
+                    bottom: 5,
+                    display: 'grid',
+                    placeItems: 'center',
+                    minWidth: 24,
+                    height: 24,
+                    padding: '0 6px',
+                    borderRadius: 999,
+                    color: '#fff',
+                    background: 'rgba(24,59,86,.9)',
+                    fontSize: 11,
+                    fontWeight: 800,
+                    lineHeight: 1,
+                    boxShadow: '0 2px 6px rgba(0,0,0,.2)',
+                  }}
+                >
+                  {index + 1}
+                </span>
               </button>
             ))}
           </div>
