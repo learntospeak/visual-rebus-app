@@ -19,7 +19,29 @@ const availableChapters = puzzlePacks.filter((pack) => pack.status === 'availabl
 
 export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, starsByPuzzle, currentIndex, onHome, onOpenPuzzle }: ChapterMapScreenProps) {
   const [chapter, setChapter] = useState<'original' | 'assembly' | null>(() => new URLSearchParams(window.location.search).get('chapters') === '2' ? 'assembly' : null)
-  const assemblyIds = ['absence', 'molehill', 'ducks', 'pocket', 'future', 'cooks', 'better-late', 'birds-feather', 'spilled-milk', 'look-before-leap', 'pen-sword', 'knowledge-power', 'practice-perfect', 'haste-waste', 'great-minds', 'aint-broke', 'rolling-stone', 'laughter-medicine', 'curiosity-cat', 'two-birds-stone', 'judge-book-cover']
+  const assemblyPuzzles = [
+    ['absence', 'absence-makes-the-heart-grow-fonder.webp'],
+    ['molehill', 'molehill.webp'],
+    ['ducks', 'ducks.webp'],
+    ['pocket', 'pocket.webp'],
+    ['future', 'future.webp'],
+    ['cooks', 'cooks.webp'],
+    ['better-late', 'better-late-than-never.webp'],
+    ['birds-feather', 'birds-of-a-feather-flock-together.webp'],
+    ['spilled-milk', 'dont-cry-over-spilled-milk.webp'],
+    ['look-before-leap', 'look-before-you-leap.png'],
+    ['pen-sword', 'the-pen-is-mightier-than-the-sword.png'],
+    ['knowledge-power', 'knowledge-is-power.png'],
+    ['practice-perfect', 'practice-makes-perfect.png'],
+    ['haste-waste', 'haste-makes-waste.png'],
+    ['great-minds', 'great-minds-think-alike.png'],
+    ['aint-broke', 'if-it-aint-broke-dont-fix-it.png'],
+    ['rolling-stone', 'a-rolling-stone-gathers-no-moss.png'],
+    ['laughter-medicine', 'laughter-is-the-best-medicine.png'],
+    ['curiosity-cat', 'curiosity-killed-the-cat.png'],
+    ['two-birds-stone', 'kill-two-birds-with-one-stone.png'],
+    ['judge-book-cover', 'you-cant-judge-a-book-by-its-cover.png'],
+  ] as const
   const openAssembly = (id = 'absence') => { window.location.href = new URL(`prototypes/assembly-chapter-01/?puzzle=${id}&chapter=2`, window.location.href).href }
 
   function puzzleTile(index: number, alwaysAvailable = false) {
@@ -75,8 +97,13 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
         <article className="chapter-card chapter-current">
           <div className="chapter-number">01</div>
           <div className="chapter-card-copy"><span className="chapter-state">ASSEMBLY PACK</span><h2>Hidden Meanings</h2><p>Swap and rotate the pieces. Once the picture is complete, uncover its hidden phrase.</p></div>
-          <div className="puzzle-grid" aria-label="Assembly puzzles">
-            {assemblyIds.map((id, index) => <button type="button" className="puzzle-tile" aria-label={`Assembly puzzle ${index + 1}, play`} onClick={() => openAssembly(id)} key={id}>{index + 1}</button>)}
+          <div className="assembly-puzzle-grid" aria-label="Assembly puzzles">
+            {assemblyPuzzles.map(([id, art], index) => (
+              <button type="button" className="assembly-puzzle-tile" aria-label={`Assembly puzzle ${index + 1}, play`} onClick={() => openAssembly(id)} key={id}>
+                <img src={new URL(`prototypes/assembly-chapter-01/assets/${art}`, window.location.href).href} alt="" loading="lazy" />
+                <span>{index + 1}</span>
+              </button>
+            ))}
           </div>
           <Button className="chapter-play" onClick={() => openAssembly()}>Play Assembly <span aria-hidden="true">→</span></Button>
         </article>
