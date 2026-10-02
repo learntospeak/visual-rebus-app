@@ -66,6 +66,37 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
       </header>
       <section className="chapter-list" aria-label="Choose a chapter">
         <article className="chapter-card chapter-current">
+          <div className="chapter-number">01</div>
+          <div className="chapter-card-copy">
+            <span className="chapter-state">CHAPTER ONE</span><h2>Original Puzzles</h2>
+            <p>All your existing packs and visual riddles, together in one chapter.</p>
+            <ProgressBar value={completedIds.length} max={puzzleCount} label={`${completedIds.length} of ${puzzleCount} puzzles solved`} />
+            <strong>{completedIds.length} / {puzzleCount} solved</strong>
+          </div>
+          <Button className="chapter-play" onClick={() => setChapter('original')}>View packs & puzzles <span aria-hidden="true">→</span></Button>
+        </article>
+        <article className="chapter-card chapter-draft">
+          <div className="chapter-number">02</div>
+          <div className="chapter-card-copy">
+            <span className="chapter-state">CHAPTER TWO</span><h2>Assembly</h2>
+            <p>Piece the picture together, then solve the phrase.</p><strong>21 puzzles ready to play</strong>
+          </div>
+          <Button className="chapter-play" onClick={() => setChapter('assembly')}>View Assembly puzzles <span aria-hidden="true">→</span></Button>
+        </article>
+      </section>
+    </main>
+  )
+
+  if (chapter === 'assembly') return (
+    <main className="app-shell chapter-map-screen">
+      <header className="chapter-map-header">
+        <Button variant="icon" aria-label="Return to chapters" onClick={() => setChapter(null)}>←</Button>
+        <div><span className="eyebrow">CHAPTER TWO</span><h1>Assembly</h1></div>
+      </header>
+      <section className="chapter-list" aria-label="Assembly puzzle packs">
+        <article className="chapter-card chapter-current">
+          <div className="chapter-number">01</div>
+          <div className="chapter-card-copy"><span className="chapter-state">ASSEMBLY PACK</span><h2>Hidden Meanings</h2><p>Swap and rotate the pieces. Once the picture is complete, uncover its hidden phrase.</p></div>
           <div className="puzzle-grid assembly-number-grid" aria-label="Assembly puzzles">
             {assemblyPuzzles.map(([id], index) => (
               <button
