@@ -66,101 +66,16 @@ export function ChapterMapScreen({ puzzleCount, completedIds, revealedIds, stars
       </header>
       <section className="chapter-list" aria-label="Choose a chapter">
         <article className="chapter-card chapter-current">
-          <div className="chapter-number">01</div>
-          <div className="chapter-card-copy">
-            <span className="chapter-state">CHAPTER ONE</span><h2>Original Puzzles</h2>
-            <p>All your existing packs and visual riddles, together in one chapter.</p>
-            <ProgressBar value={completedIds.length} max={puzzleCount} label={`${completedIds.length} of ${puzzleCount} puzzles solved`} />
-            <strong>{completedIds.length} / {puzzleCount} solved</strong>
-          </div>
-          <Button className="chapter-play" onClick={() => setChapter('original')}>View packs & puzzles <span aria-hidden="true">→</span></Button>
-        </article>
-        <article className="chapter-card chapter-draft">
-          <div className="chapter-number">02</div>
-          <div className="chapter-card-copy">
-            <span className="chapter-state">CHAPTER TWO</span><h2>Assembly</h2>
-            <p>Piece the picture together, then solve the phrase.</p><strong>21 puzzles ready to play</strong>
-          </div>
-          <Button className="chapter-play" onClick={() => setChapter('assembly')}>View Assembly puzzles <span aria-hidden="true">→</span></Button>
-        </article>
-      </section>
-    </main>
-  )
-
-  if (chapter === 'assembly') return (
-    <main className="app-shell chapter-map-screen">
-      <header className="chapter-map-header">
-        <Button variant="icon" aria-label="Return to chapters" onClick={() => setChapter(null)}>←</Button>
-        <div><span className="eyebrow">CHAPTER TWO</span><h1>Assembly</h1></div>
-      </header>
-      <section className="chapter-list" aria-label="Assembly puzzle packs">
-        <article className="chapter-card chapter-current">
-          <div className="chapter-number">01</div>
-          <div className="chapter-card-copy"><span className="chapter-state">ASSEMBLY PACK</span><h2>Hidden Meanings</h2><p>Swap and rotate the pieces. Once the picture is complete, uncover its hidden phrase.</p></div>
-          <div
-            aria-label="Assembly puzzles"
-            style={{
-              gridColumn: '1 / -1',
-              width: '100%',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-              gap: 10,
-              marginTop: 8,
-            }}
-          >
-            {assemblyPuzzles.map(([id, art], index) => (
+          <div className="puzzle-grid assembly-number-grid" aria-label="Assembly puzzles">
+            {assemblyPuzzles.map(([id], index) => (
               <button
                 type="button"
+                className="puzzle-tile assembly-number-tile"
                 aria-label={`Assembly puzzle ${index + 1}, play`}
                 onClick={() => openAssembly(id)}
                 key={id}
-                style={{
-                  position: 'relative',
-                  display: 'block',
-                  width: '100%',
-                  minWidth: 0,
-                  aspectRatio: '1 / 1',
-                  overflow: 'hidden',
-                  padding: 0,
-                  border: '1px solid #d9d5ca',
-                  borderRadius: 12,
-                  background: '#ece9e1',
-                  boxShadow: '0 3px 10px rgba(24,59,86,.08)',
-                }}
               >
-                <img
-                  src={new URL(`prototypes/assembly-chapter-01/assets/${art}`, window.location.href).href}
-                  alt=""
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    display: 'block',
-                    objectFit: 'cover',
-                  }}
-                />
-                <span
-                  style={{
-                    position: 'absolute',
-                    right: 5,
-                    bottom: 5,
-                    display: 'grid',
-                    placeItems: 'center',
-                    minWidth: 24,
-                    height: 24,
-                    padding: '0 6px',
-                    borderRadius: 999,
-                    color: '#fff',
-                    background: 'rgba(24,59,86,.9)',
-                    fontSize: 11,
-                    fontWeight: 800,
-                    lineHeight: 1,
-                    boxShadow: '0 2px 6px rgba(0,0,0,.2)',
-                  }}
-                >
-                  {index + 1}
-                </span>
+                {index + 1}
               </button>
             ))}
           </div>
