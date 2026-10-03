@@ -1,0 +1,14 @@
+[
+  {
+    "file": "qa/releases/1.1.0/clue-canvas-1.1.0-code4.aab",
+    "sha256": "079CA5947456CAC1E20800D8123361E99D153FCEC6B7C6313F6C0F57D54FA802",
+    "bytes": 91329122,
+    "gamesAssetsMatchSource": true
+  },
+  {
+    "file": "qa/releases/1.1.0/clue-canvas-1.1.0-code4.apk",
+    "sha256": "186199E1552D4B774A7A5CFBACA855C2FEB1A0C319628A9BF6F1A3A6C26A62C0",
+    "bytes": 91483763,
+    "gamesAssetsMatchSource": true
+  }
+]

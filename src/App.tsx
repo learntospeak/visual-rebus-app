@@ -6,6 +6,7 @@ import { AccountScreen } from './screens/AccountScreen'
 import { AccountPromptScreen } from './screens/AccountPromptScreen'
 import { ChapterMapScreen } from './screens/ChapterMapScreen'
 import { DailyScreen } from './screens/DailyScreen'
+import { GamesScreen } from './screens/GamesScreen'
 import { HomeScreen } from './screens/HomeScreen'
 import { OnboardingScreen } from './screens/OnboardingScreen'
 import { PuzzleScreen } from './screens/PuzzleScreen'
@@ -21,7 +22,7 @@ import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncP
 import { useGameStore } from './state/GameStore'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
 
-type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved' | 'rewards'
+type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved' | 'rewards' | 'games'
 type PlayMode = 'journey' | 'replay' | 'daily'
 interface SolveOutcome { revealed: boolean; stars: number; cluesUsed: number; seconds: number; daily: boolean }
 
@@ -43,7 +44,7 @@ export default function App() {
     signOut,
     deleteAccount,
   } = useGameStore()
-  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
+  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('games') === 'preview' ? 'games' : new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
   const [accountReturn, setAccountReturn] = useState<Screen>('settings')
   const [activePuzzleIndex, setActivePuzzleIndex] = useState(progress.currentIndex)
   const [playMode, setPlayMode] = useState<PlayMode>('journey')
@@ -340,6 +341,7 @@ export default function App() {
         totalStars={totalStars}
         dailyStreak={displayedStreak}
         onPlay={startJourney}
+        onGames={() => setScreen('games')}
         onRewards={() => { setRewardCelebration(null); setScreen('rewards') }}
         onChapters={() => setScreen('chapters')}
         onDaily={() => setScreen('daily')}
@@ -349,6 +351,8 @@ export default function App() {
       />
     )
   }
+
+  if (screen === 'games') return <GamesScreen onHome={() => setScreen('home')} />
 
   if (screen === 'daily') {
     return <DailyScreen progress={progress.daily} onHome={() => setScreen('home')} onPlay={startDailyPuzzle} />
@@ -365,8 +369,9 @@ export default function App() {
         accountEmail={account?.email ?? null}
         syncState={syncState}
         onResetProgress={() => {
-          if (window.confirm('Reset all solved puzzles and return to puzzle one?')) {
+          if (window.confirm('Reset all rebus and mini-game progress on this device?')) {
             setProgress({ ...emptyProgress, daily: { ...emptyProgress.daily } })
+            localStorage.removeItem('cluecanvas-games-progress-v1')
             setActivePuzzleIndex(0)
           }
         }}
@@ -454,3 +459,4 @@ export default function App() {
     />
   )
 }
+

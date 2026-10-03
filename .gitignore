@@ -9,3 +9,5 @@ dist/
 !.env.example
 supabase details.txt
 store/branding/generated/
+qa/releases/**/*.aab
+qa/releases/**/*.apk

@@ -7,6 +7,7 @@ interface HomeScreenProps {
   totalStars: number
   dailyStreak: number
   onPlay: () => void
+  onGames: () => void
   onRewards: () => void
   onChapters: () => void
   onDaily: () => void
@@ -15,7 +16,7 @@ interface HomeScreenProps {
   accountState: 'guest' | 'synced' | 'error'
 }
 
-export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onRewards, onChapters, onDaily, onSettings, onAccount, accountState }: HomeScreenProps) {
+export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onGames, onRewards, onChapters, onDaily, onSettings, onAccount, accountState }: HomeScreenProps) {
   const percent = Math.round((completedCount / puzzleCount) * 100)
   const actionLabel = completedCount ? 'Continue solving' : 'Start playing'
 
@@ -40,6 +41,7 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
         <p className="hero-copy">Fair visual riddles, clues that genuinely help, and fascinating stories behind familiar phrases.</p>
         <Button className="hero-button" onClick={onPlay}>{actionLabel}<span aria-hidden="true">→</span></Button>
       </section>
+      <button className="home-games-card" onClick={onGames}><span className="home-games-icon" aria-hidden="true">◈</span><span><strong>Your puzzle corner</strong><small>4 games · 400 puzzles · a fresh daily mix</small></span><span aria-hidden="true">→</span></button>
       <section className="progress-card" aria-label={`${percent}% complete`}>
         <div>
           <span className="eyebrow">STARTER PACK</span>
@@ -59,3 +61,4 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
     </main>
   )
 }
+
