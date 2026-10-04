@@ -123,6 +123,11 @@ export default function App() {
         return
       }
 
+      if (screen === 'games') {
+        window.dispatchEvent(new Event('cluecanvas-games-back'))
+        return
+      }
+
       cancelCelebration.current?.()
       setCelebrating(false)
       if (screen === 'account') setScreen(accountReturn)
@@ -148,6 +153,25 @@ export default function App() {
   useEffect(() => {
     syncPuzzleUrl(screen === 'puzzle' ? puzzle.id : null)
   }, [puzzle.id, screen])
+
+  // Only the new games integration owns these routes; original rebus URLs stay unchanged.
+  useEffect(() => {
+    const restoreGamesRoute = () => {
+      if (new URLSearchParams(window.location.search).get('games') === 'preview') setScreen('games')
+      else setScreen((current) => current === 'games' ? 'home' : current)
+    }
+    window.addEventListener('popstate', restoreGamesRoute)
+    return () => window.removeEventListener('popstate', restoreGamesRoute)
+  }, [])
+
+  function navigateGames(open: boolean) {
+    const url = new URL(window.location.href)
+    url.searchParams.delete('puzzle')
+    for (const key of ['games', 'gameMode', 'gameRound']) url.searchParams.delete(key)
+    if (open) url.searchParams.set('games', 'preview')
+    window.history.pushState({}, '', url)
+    setScreen(open ? 'games' : 'home')
+  }
 
   useEffect(() => {
     setGuess('')
@@ -341,7 +365,7 @@ export default function App() {
         totalStars={totalStars}
         dailyStreak={displayedStreak}
         onPlay={startJourney}
-        onGames={() => setScreen('games')}
+        onGames={() => navigateGames(true)}
         onRewards={() => { setRewardCelebration(null); setScreen('rewards') }}
         onChapters={() => setScreen('chapters')}
         onDaily={() => setScreen('daily')}
@@ -352,7 +376,7 @@ export default function App() {
     )
   }
 
-  if (screen === 'games') return <GamesScreen onHome={() => setScreen('home')} />
+  if (screen === 'games') return <GamesScreen onHome={() => navigateGames(false)} />
 
   if (screen === 'daily') {
     return <DailyScreen progress={progress.daily} onHome={() => setScreen('home')} onPlay={startDailyPuzzle} />

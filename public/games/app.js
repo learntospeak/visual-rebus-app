@@ -8,25 +8,41 @@ const difficulty=q=>bands[q.band];
 function scrollTop(){window.scrollTo(0,0)}
 function clearTimer(){clearInterval(timer);timer=null}
 function persist(){try{localStorage.setItem(key,JSON.stringify(saved));storageWarning=false}catch{storageWarning=true}}
+// Keep navigation separate from the existing progress schema and puzzle definitions.
+function route(mode='',number=0){
+ if(embedded)window.parent.postMessage({type:'cluecanvas-games-route',mode,round:number},location.origin==='null'?'*':location.origin);
+ else{const url=new URL(location.href);for(const key of ['gameMode','gameRound'])url.searchParams.delete(key);if(mode)url.searchParams.set('gameMode',mode);if(number)url.searchParams.set('gameRound',number);if(url.href!==location.href)history.pushState({},'',url)}
+}
+function restoreRoute(mode,number){
+ const valid=modes.some(m=>m.id===mode),limit=mode==='daily'?4:100;
+ if(!Number.isInteger(number)||number<0||number>limit||(!valid&&mode!=='daily')){home();return}
+ if(mode==='daily')startDaily(Math.max(0,number-1));
+ else if(number)start(mode,number-1);else map(mode);
+}
+window.addEventListener('message',event=>{if(event.source===window.parent&&event.origin===location.origin&&event.data?.type==='cluecanvas-games-navigate')restoreRoute(event.data.mode,event.data.round)});
+window.addEventListener('popstate',()=>{const params=new URLSearchParams(location.search);restoreRoute(params.get('gameMode')||'',Number(params.get('gameRound')||0))});
 function modeStats(mode){const q=catalog[mode];return{solved:q.filter(x=>saved.results[x.id]?.status==='solved').length,played:q.filter(x=>saved.results[x.id]).length}}
 function home(){
  clearTimer();run=null;activeMap=null;
+ route();
  app.innerHTML='<p class="kicker">A LITTLE SOMETHING FOR EVERY MIND</p><h1>Your puzzle<br>corner.</h1><p class="intro muted">Notice something. Remember something. Work something out. Pick your next little challenge.</p><section class="daily"><span class="eyebrow">TODAY’S FOUR</span><h2>A fresh little mix.</h2><p>One round of each game. No rush. A different mix tomorrow.</p><button class="primary wide" data-daily>Play today’s mix →</button>'+(saved.daily[dateKey()]?'<p>Today: '+saved.daily[dateKey()].score+' of 4 solved. Replay whenever you like.</p>':'')+'</section><p class="eyebrow muted">FOUR GAMES · 400 PUZZLES</p><div class="shelf">'+modes.map(m=>'<button class="game-card" data-mode="'+m.id+'"><span class="art-icon" aria-hidden="true">'+m.icon+'</span><span><h3>'+m.title+'</h3><p>'+m.desc+'</p><span class="tag">'+modeStats(m.id).solved+' / 100 solved · '+m.skill+'</span></span><span aria-hidden="true">›</span></button>').join('')+'</div><p class="footer">Game progress is saved on this device.<br>It is separate from your rebus progress and account sync.</p>'+(storageWarning?'<p role="alert" class="hint">This device couldn’t save your game progress. You can still play.</p>':'');
  app.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>map(b.dataset.mode));app.querySelector('[data-daily]').onclick=()=>startDaily();scrollTop();
 }
 function map(mode){
  clearTimer();activeMap=mode;run=null;const m=modes.find(x=>x.id===mode),stats=modeStats(mode),idx=nextUnplayed(catalog[mode],saved);
+ route(mode);
  app.innerHTML='<div class="topline"><button class="back" id="back">← Games</button><span class="small muted">'+stats.solved+' / 100 solved</span></div><p class="kicker">'+m.skill.toUpperCase()+'</p><h1>'+m.title+'</h1><p class="muted">100 puzzles. Five levels. Start gently and work your way up—or pick any number to try.</p><button class="primary wide" id="continue">'+(idx<0?'Replay puzzle 1':'Continue at puzzle '+(idx+1))+' →</button>'+(mode==='memory'?'<label class="relax"><input type="checkbox" id="relaxed" '+(saved.relaxed?'checked':'')+'> Relaxed memory: hide the board when you’re ready</label>':'')+'<div class="levels">'+bands.map((b,i)=>'<section><p class="level-title"><span>'+(i+1)+'. '+b+'</span><span class="small muted">'+(i*20+1)+'–'+((i+1)*20)+'</span></p><div class="numbers">'+catalog[mode].slice(i*20,i*20+20).map(q=>{const result=saved.results[q.id];return'<button data-number="'+q.number+'" class="number '+(result?.status||'')+'" aria-label="Puzzle '+q.number+', '+(result?.status||'not played')+'">'+q.number+(result?.status==='solved'?'<span aria-hidden="true">✓</span>':result?'<span aria-hidden="true">·</span>':'')+'</button>'}).join('')+'</div></section>').join('')+'</div><p class="footer">✓ Solved · Dot: tried or revealed<br>You can replay any puzzle.</p>';
  document.querySelector('#back').onclick=home;document.querySelector('#continue').onclick=()=>start(mode,idx<0?0:idx);
  app.querySelectorAll('[data-number]').forEach(b=>b.onclick=()=>start(mode,Number(b.dataset.number)-1));
  if(mode==='memory')document.querySelector('#relaxed').onchange=e=>{saved.relaxed=e.target.checked;persist()};scrollTop();
 }
 function start(mode,index){run={mode,rounds:catalog[mode],index,score:0,hints:0,results:[],daily:false};round()}
-function startDaily(){run={mode:'daily',rounds:dailyRounds(catalog),index:0,score:0,hints:0,results:[],daily:true};round()}
+function startDaily(index=0){run={mode:'daily',rounds:dailyRounds(catalog),index,score:0,hints:0,results:[],daily:true};round()}
 function choices(q){return'<div class="choices">'+shuffle(q.options,rng(q.number*91)).map(v=>'<button class="choice" data-answer="'+esc(v)+'" aria-label="'+esc(v)+'">'+symbol(v)+'</button>').join('')+'</div>'}
 function round(){
  clearTimer();hinted=false;answered=false;hidden=false;
  const q=run.rounds[run.index],m=modes.find(x=>x.id===q.mode);
+ route(run.daily?'daily':q.mode,run.daily?run.index+1:q.number);
  app.innerHTML='<div class="topline"><button class="back" id="back">← '+(run.daily?'Games':'Puzzles')+'</button><span class="small muted">'+(run.daily?'Daily '+(run.index+1)+' / 4':'Puzzle '+q.number+' / 100')+'</span></div><div class="progress"><span style="width:'+(run.daily?run.index/4*100:(q.number-1))+'%"></span></div><p class="kicker">'+difficulty(q)+'</p><h2>'+m.title+'</h2><p class="instruction" id="instruction">'+esc(q.mode==='memory'?'Study the board. A question follows when you hide it.':q.question)+'</p><div id="playarea"></div><div id="response" aria-live="polite"></div><div id="tools"></div><p class="save-warning small" role="status"></p>';
  document.querySelector('#back').onclick=()=>run.daily?home():map(q.mode);
  if(q.mode==='memory'){
@@ -63,6 +79,8 @@ function finish(){
 }
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&run&&run.rounds[run.index]?.mode==='memory'&&!hidden&&!saved.relaxed)tick()});
 window.addEventListener('pagehide',clearTimer);
-home();
+const initialParams=new URLSearchParams(location.search);
+restoreRoute(initialParams.get('gameMode')||'',Number(initialParams.get('gameRound')||0));
+if(embedded)window.parent.postMessage({type:'cluecanvas-games-ready'},location.origin==='null'?'*':location.origin);
 
 
