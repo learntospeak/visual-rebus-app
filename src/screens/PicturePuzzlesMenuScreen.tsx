@@ -1,22 +1,21 @@
 import { Button } from '../components/Button'
+import { ProgressBar } from '../components/ProgressBar'
 import './HomeScreen.css'
-
-interface Props { onHome: () => void; onResume: () => void; onBrowse: () => void; onDaily: () => void }
-
-export function PicturePuzzlesMenuScreen({ onHome, onResume, onBrowse, onDaily }: Props) {
-  return (
-    <main className="app-shell pp-screen">
-      <header>
-        <h1>Picture Puzzles</h1>
-        <Button variant="secondary" onClick={onHome}>Return home</Button>
-      </header>
-      <Button onClick={onResume}>Back to puzzle</Button>
-      <Button variant="secondary" onClick={onBrowse}>View packs and puzzles</Button>
-      <section className="pp-card" aria-labelledby="pp-daily-h">
-        <h2 id="pp-daily-h">Daily picture puzzle</h2>
-        <p>One original daily rebus. The four-game mix is separate, under More games on Home.</p>
-        <Button variant="secondary" onClick={onDaily}>Daily picture puzzle</Button>
-      </section>
-    </main>
-  )
+interface Props { completedCount: number; puzzleCount: number; totalStars: number; dailyStreak: number; onHome: () => void; onResume: () => void; onBrowse: () => void; onRewards: () => void; onDaily: () => void }
+export function PicturePuzzlesMenuScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onHome, onResume, onBrowse, onRewards, onDaily }: Props) {
+  return <main className="app-shell pp-screen rebus-menu">
+    <header><div><p className="eyebrow">YOUR REBUS JOURNEY</p><h1>Picture Puzzles</h1></div><Button variant="text" onClick={onHome}>Main menu</Button></header>
+    <p className="rebus-menu-intro">Pick up where you left off, explore a chapter, or see what you’ve earned.</p>
+    <section className="pp-card rebus-menu-stats" aria-label="Your puzzle stats">
+      <div className="rebus-menu-solved"><strong>{completedCount} of {puzzleCount} solved</strong><span>{Math.round(completedCount / puzzleCount * 100)}%</span></div>
+      <ProgressBar value={completedCount} max={puzzleCount} label={completedCount + ' of ' + puzzleCount + ' puzzles solved'} />
+      <div className="rebus-stat-row"><span><strong>{totalStars}</strong> stars earned</span><span><strong>{dailyStreak}</strong> day streak</span></div>
+    </section>
+    <nav className="rebus-menu-actions" aria-label="Picture puzzle options">
+      <Button onClick={onResume}>{completedCount ? 'Continue solving' : 'Start playing'} <span aria-hidden="true">→</span></Button>
+      <Button variant="secondary" onClick={onBrowse}><span>Chapters</span><span aria-hidden="true">→</span></Button>
+      <Button variant="secondary" onClick={onRewards}><span>My chapter medallion</span><span aria-hidden="true">→</span></Button>
+      <Button variant="secondary" onClick={onDaily}><span>Today’s picture puzzle</span><span aria-hidden="true">→</span></Button>
+    </nav>
+  </main>
 }

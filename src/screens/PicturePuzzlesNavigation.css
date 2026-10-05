@@ -16,3 +16,6 @@
   font-weight: 700;
 }
 .picture-menu-trigger:hover small { text-decoration: underline; }
+
+.puzzle-header .picture-menu-trigger { min-height:58px; padding:10px 12px; border:1px solid #cbded8; border-radius:12px; background:#e5f2eb; }
+.picture-menu-trigger small { font-size:.9rem; line-height:1.3; }

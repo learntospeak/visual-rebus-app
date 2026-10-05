@@ -216,13 +216,13 @@ export default function App() {
     if (url.href !== window.location.href) window.history.replaceState({}, '', url)
   }, [screen])
 
-  function navigateMenu(target: 'home' | MenuScreen) {
+  function navigateMenu(target: 'home' | MenuScreen, pictureIndex = activePuzzleIndex, pictureMode = playMode) {
     const url = new URL(window.location.href)
     for (const key of ['puzzle', 'play', 'games', 'gameMode', 'gameRound', 'menu', 'returnPuzzle', 'returnPlay']) url.searchParams.delete(key)
     if (target !== 'home') url.searchParams.set('menu', target)
     if (target === 'picture-menu') {
-      url.searchParams.set('returnPuzzle', String(puzzle.id))
-      if (playMode !== 'journey') url.searchParams.set('returnPlay', playMode)
+      url.searchParams.set('returnPuzzle', String(puzzles[pictureIndex].id))
+      if (pictureMode !== 'journey') url.searchParams.set('returnPlay', pictureMode)
     }
     window.history.pushState({}, '', url)
     setScreen(target)
@@ -439,7 +439,7 @@ export default function App() {
         puzzleCount={puzzles.length}
         totalStars={totalStars}
         dailyStreak={displayedStreak}
-        onPlay={startJourney}
+        onPlay={() => { setActivePuzzleIndex(progress.currentIndex); setPlayMode('journey'); navigateMenu('picture-menu', progress.currentIndex, 'journey') }}
         onGames={() => navigateGames(true)}
         onRewards={() => { setRewardCelebration(null); navigateMenu('rewards') }}
         onChapters={() => navigateMenu('chapters')}
@@ -452,10 +452,11 @@ export default function App() {
   }
 
   if (screen === 'picture-menu') {
-    return <PicturePuzzlesMenuScreen
+    return <PicturePuzzlesMenuScreen completedCount={progress.completedIds.length} puzzleCount={puzzles.length} totalStars={totalStars} dailyStreak={displayedStreak}
       onHome={() => navigateMenu('home')}
       onResume={() => navigatePicturePuzzle(activePuzzleIndex, playMode)}
       onBrowse={() => navigateMenu('chapters')}
+      onRewards={() => { setRewardCelebration(null); navigateMenu('rewards') }}
       onDaily={() => navigateMenu('daily')} />
   }
 

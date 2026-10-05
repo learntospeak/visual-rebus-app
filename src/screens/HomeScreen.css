@@ -53,3 +53,15 @@
 
 .hub-rebus { width:100%; min-height:54px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
 .hub-rebus-note { font-size:.78rem; line-height:1.5; color:#72859b; margin:10px 0 26px; }
+
+.rebus-menu { gap:20px; }
+.rebus-menu header .eyebrow { margin:0 0 8px; font-size:.65rem; }
+.rebus-menu header h1 { font-size:1.7rem; }
+.rebus-menu-intro { color:var(--muted); font-size:.95rem; line-height:1.6; margin:0; }
+.rebus-menu-stats { padding:20px; gap:16px; }
+.rebus-menu-solved { display:flex; justify-content:space-between; gap:8px; }
+.rebus-menu-solved span { color:var(--teal-dark); font-weight:800; }
+.rebus-stat-row { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:.8rem; }
+.rebus-stat-row strong { color:var(--ink); }
+.rebus-menu-actions { display:grid; gap:12px; }
+.rebus-menu-actions button { width:100%; min-height:58px; display:flex; align-items:center; justify-content:space-between; padding:16px 20px; font-size:1rem; }

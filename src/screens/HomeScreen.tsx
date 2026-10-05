@@ -16,8 +16,8 @@ interface HomeScreenProps {
   accountState: 'guest' | 'synced' | 'error'
 }
 
-export function HomeScreen({ completedCount, onPlay, onGames, onDaily, onSettings, onProfile, accountState }: HomeScreenProps) {
-  const actionLabel = completedCount ? 'Continue solving' : 'Start playing'
+export function HomeScreen({ onPlay, onGames, onDaily, onSettings, onProfile, accountState }: HomeScreenProps) {
+  const actionLabel = 'Picture Puzzles'
 
   return (
     <main className="app-shell home-screen">
