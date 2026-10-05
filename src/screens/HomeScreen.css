@@ -51,3 +51,5 @@
 .puzzle-hub .hv3-profile { display:flex; justify-content:center; gap:8px; width:100%; min-height:44px; margin-top:20px; }
 @media(max-width:350px) { .hub-card { padding:14px; grid-template-columns:52px minmax(0,1fr) 10px; gap:10px; } .hub-icon { width:52px; height:55px; } .hub-daily { padding:20px; } .puzzle-hub h2 { font-size:2.6rem; } }
 
+.hub-rebus { width:100%; min-height:54px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.hub-rebus-note { font-size:.78rem; line-height:1.5; color:#72859b; margin:10px 0 26px; }

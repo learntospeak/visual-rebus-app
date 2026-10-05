@@ -113,7 +113,7 @@ export function AccountScreen({
   return (
     <main className="app-shell account-screen">
       <header className="chapter-map-header">
-        <Button variant="icon" aria-label="Return to settings" onClick={onBack}>←</Button>
+        <Button variant="icon" aria-label="Back" onClick={onBack}>←</Button>
         <div><span className="eyebrow">CLUE CANVAS</span><h1>Your account</h1></div>
       </header>
 
@@ -209,3 +209,4 @@ export function AccountScreen({
     </main>
   )
 }
+

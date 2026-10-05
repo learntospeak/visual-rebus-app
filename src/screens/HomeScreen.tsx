@@ -5,7 +5,6 @@ import './HomeScreen.css'
 import { MdPersonOutline } from 'react-icons/md'
 
 interface HomeScreenProps {
-  journeyStarted: boolean
   onPlay: () => void
   onGames: (mode: MiniGameMode) => void
   onDailyMix: () => void
@@ -29,7 +28,7 @@ function Cue({ mode }: { mode: MiniGameMode }) {
   )
 }
 
-export function HomeScreen({ journeyStarted, onPlay, onGames, onDailyMix, onProfile, onSettings }: HomeScreenProps) {
+export function HomeScreen({ onPlay, onGames, onDailyMix, onProfile, onSettings }: HomeScreenProps) {
   const games = readMiniGameProgress()
   return (
     <main className="app-shell home-screen puzzle-hub">
@@ -49,13 +48,12 @@ export function HomeScreen({ journeyStarted, onPlay, onGames, onDailyMix, onProf
         <Button onClick={onDailyMix}>Play today’s mix →</Button>
         {games.dailyScore !== null && <p className="hub-score">Today: {games.dailyScore} of 4 solved. Replay whenever you like.</p>}
       </section>
+      <Button variant="secondary" className="hub-rebus" onClick={onPlay}>
+        <span>Rebus Puzzles</span><span aria-hidden="true">→</span>
+      </Button>
+      <p className="hub-rebus-note">565 picture puzzles · Sign in or play without an account</p>
       <p className="hub-label">PICK YOUR NEXT GAME</p>
       <ul className="hub-shelf">
-        <li><button type="button" className="hub-card" onClick={onPlay}>
-          <span className="hub-icon" aria-hidden="true">HEAD<br />HEELS</span>
-          <span><strong>Picture Puzzles</strong><span className="hub-description">Find the phrase hidden in the picture.</span><span className="hub-tag">565 puzzles · {journeyStarted ? 'Continue your journey' : 'Start your journey'}</span></span>
-          <span aria-hidden="true">›</span>
-        </button></li>
         {miniGames.map((g) => (
           <li key={g.id}>
             <button type="button" className="hub-card" onClick={() => onGames(g.id)}>
@@ -73,3 +71,4 @@ export function HomeScreen({ journeyStarted, onPlay, onGames, onDailyMix, onProf
     </main>
   )
 }
+

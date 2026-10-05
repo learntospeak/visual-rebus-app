@@ -29,11 +29,11 @@ type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 
 type PlayMode = 'journey' | 'replay' | 'daily'
 interface SolveOutcome { revealed: boolean; stars: number; cluesUsed: number; seconds: number; daily: boolean }
 
-type MenuScreen = 'chapters' | 'daily' | 'rewards' | 'picture-menu' | 'profile'
+type MenuScreen = 'account-prompt' | 'chapters' | 'daily' | 'rewards' | 'picture-menu' | 'profile'
 
 function requestedMenu(): MenuScreen | null {
   const menu = new URLSearchParams(window.location.search).get('menu')
-  return menu === 'chapters' || menu === 'daily' || menu === 'rewards' || menu === 'picture-menu' || menu === 'profile' ? menu : null
+  return menu === 'account-prompt' || menu === 'chapters' || menu === 'daily' || menu === 'rewards' || menu === 'picture-menu' || menu === 'profile' ? menu : null
 }
 
 function requestedPlayMode(): PlayMode {
@@ -143,7 +143,7 @@ export default function App() {
     if (!Capacitor.isNativePlatform()) return
 
     const listener = CapacitorApp.addListener('backButton', () => {
-      if (screen === 'home' || screen === 'onboarding' || screen === 'account-prompt') {
+      if (screen === 'home' || screen === 'onboarding') {
         void CapacitorApp.minimizeApp()
         return
       }
@@ -207,7 +207,7 @@ export default function App() {
 
   useEffect(() => {
     const url = new URL(window.location.href)
-    if (screen === 'chapters' || screen === 'daily' || screen === 'rewards' || screen === 'picture-menu' || screen === 'profile') url.searchParams.set('menu', screen)
+    if (screen === 'account-prompt' || screen === 'chapters' || screen === 'daily' || screen === 'rewards' || screen === 'picture-menu' || screen === 'profile') url.searchParams.set('menu', screen)
     else url.searchParams.delete('menu')
     if (screen !== 'picture-menu') {
       url.searchParams.delete('returnPuzzle')
@@ -421,6 +421,7 @@ export default function App() {
         signedIn={Boolean(account)}
         onSaveProgress={() => openAccount('account-prompt')}
         onContinue={startJourney}
+        onHome={() => navigateMenu('home')}
       />
     )
   }
@@ -434,8 +435,7 @@ export default function App() {
   if (screen === 'home') {
     return (
       <HomeScreen
-        journeyStarted={progress.currentIndex > 0 || progress.completedIds.length > 0 || progress.revealedIds.length > 0}
-        onPlay={startJourney}
+        onPlay={() => navigateMenu('account-prompt')}
         onGames={(mode) => navigateGames(true, mode)}
         onDailyMix={() => navigateGames(true, 'daily', 1)}
         onProfile={() => navigateMenu('profile')}
@@ -568,5 +568,7 @@ export default function App() {
     />
   )
 }
+
+
 
 
