@@ -1,123 +1,65 @@
-import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
-import { ProgressBar } from '../components/ProgressBar'
-import { miniGames, readMiniGameProgress } from '../services/miniGameProgress'
+import { miniGames } from '../services/miniGameProgress'
 import type { MiniGameMode } from '../services/miniGameProgress'
 import './HomeScreen.css'
 import { MdPersonOutline } from 'react-icons/md'
 
 interface HomeScreenProps {
-  completedCount: number
-  puzzleCount: number
-  totalStars: number
-  dailyStreak: number
   journeyStarted: boolean
   onPlay: () => void
   onGames: (mode: MiniGameMode) => void
   onDailyMix: () => void
-  onRewards: () => void
-  onChapters: () => void
-  onDaily: () => void
+  onProfile: () => void
   onSettings: () => void
-  onAccount: () => void
-  accountState: 'guest' | 'synced' | 'error'
-  dailyRebusStatus: 'solved' | 'revealed' | 'not-played'
 }
 
-const rebusText = {
-  solved: 'Solved today',
-  revealed: 'Answer revealed today',
-  'not-played': 'Not played today',
-}
-
-export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, journeyStarted, onPlay, onGames, onDailyMix, onRewards, onChapters, onDaily, onSettings, onAccount, accountState, dailyRebusStatus }: HomeScreenProps) {
-  const [progress, setProgress] = useState(() => readMiniGameProgress())
-  useEffect(() => {
-    const refresh = () => setProgress(readMiniGameProgress())
-    window.addEventListener('storage', refresh)
-    return () => window.removeEventListener('storage', refresh)
-  }, [])
-
-  const percent = puzzleCount > 0 ? Math.round((completedCount / puzzleCount) * 100) : 0
-  const started = journeyStarted || completedCount > 0
-  const unavailable = progress.unavailable
-
+function Cue({ mode }: { mode: MiniGameMode }) {
+  const p = { viewBox: '0 0 40 40', width: 40, height: 40, 'aria-hidden': true, focusable: false } as const
+  if (mode === 'odd') return (
+    <svg {...p}><circle cx="9" cy="11" r="5" fill="#2cb1a6" /><circle cx="20" cy="11" r="5" fill="#2cb1a6" /><circle cx="31" cy="11" r="5" fill="#2cb1a6" /><circle cx="9" cy="29" r="5" fill="#2cb1a6" /><rect x="15" y="24" width="10" height="10" rx="2" fill="#ff6b5f" /><circle cx="31" cy="29" r="5" fill="#2cb1a6" /></svg>
+  )
+  if (mode === 'memory') return (
+    <svg {...p}><rect x="4" y="4" width="14" height="14" rx="4" fill="#183b56" /><rect x="22" y="4" width="14" height="14" rx="4" fill="#2cb1a6" /><rect x="4" y="22" width="14" height="14" rx="4" fill="#2cb1a6" /><rect x="22" y="22" width="14" height="14" rx="4" fill="#ff6b5f" /></svg>
+  )
+  if (mode === 'next') return (
+    <svg {...p}><circle cx="7" cy="20" r="4" fill="#183b56" /><circle cx="19" cy="20" r="6" fill="#2cb1a6" /><circle cx="33" cy="20" r="7" fill="none" stroke="#ff6b5f" strokeWidth="3" strokeDasharray="4 3" /></svg>
+  )
   return (
-    <main className="app-shell home-screen home-v2">
+    <svg {...p}><path d="M5 31 15 9l10 22z" fill="#2cb1a6" /><rect x="22" y="6" width="13" height="13" rx="3" fill="#183b56" /><circle cx="29" cy="30" r="6" fill="#ff6b5f" /></svg>
+  )
+}
+
+export function HomeScreen({ journeyStarted, onPlay, onGames, onDailyMix, onProfile, onSettings }: HomeScreenProps) {
+  return (
+    <main className="app-shell home-screen home-v3">
       <header className="brand-row">
         <div className="brand-mark" aria-hidden="true">C</div>
-        <span className="eyebrow">CLUE CANVAS</span>
-        <Button
-          variant="icon"
-          className={`account-button account-${accountState}`}
-          aria-label={accountState === 'guest' ? 'Sign in or create an account' : accountState === 'error' ? 'Account sync needs attention' : 'Open your synced account'}
-          onClick={onAccount}
-        >
-          <MdPersonOutline aria-hidden="true" size={23} /><i aria-hidden="true" />
-        </Button>
-        <Button variant="icon" className="settings-button" aria-label="Open settings" onClick={onSettings}>⚙</Button>
+        <h1 className="eyebrow">CLUE CANVAS</h1>
+        <Button variant="icon" className="settings-button hv3-icon" aria-label="Open settings" onClick={onSettings}>⚙</Button>
       </header>
 
-      <section className="hv-card hv-journey" aria-labelledby="hv-pp-h">
-        <p className="kicker">SEE WORDS DIFFERENTLY</p>
-        <h1 id="hv-pp-h">Picture Puzzles</h1>
-        <p className="hv-copy">The original rebus journey: visual riddles with clues that genuinely help.</p>
-        <Button className="hv-main" onClick={onPlay}>{started ? 'Continue journey' : 'Start journey'}<span aria-hidden="true">→</span></Button>
-        <div className="hv-progress">
-          <strong>{completedCount} of {puzzleCount} picture puzzles solved</strong>
-          <ProgressBar value={completedCount} max={puzzleCount} label={`${completedCount} of ${puzzleCount} picture puzzles solved`} />
-          <span className="hv-meta">{percent}% · {totalStars} stars earned</span>
-        </div>
-        <Button variant="secondary" className="hv-sub" onClick={onChapters}>Browse puzzles</Button>
-      </section>
+      <Button className="hv3-main" onClick={onPlay}>
+        <span>{journeyStarted ? 'Continue Picture Puzzles' : 'Start Picture Puzzles'}</span>
+        <span aria-hidden="true">→</span>
+      </Button>
 
-      <section className="hv-card" aria-labelledby="hv-mg-h">
-        <h2 id="hv-mg-h">More Games</h2>
-        <p className="hv-copy">Four quick games, each with its own puzzles.</p>
-        <ul className="hv-games">
-          {miniGames.map((g) => (
-            <li key={g.id}>
-              <div>
-                <strong>{g.title}</strong>
-                <small>{g.description}</small>
-                <span className="hv-meta">
-                  {unavailable ? 'Progress unavailable' : `${progress.solved[g.id]} of 100 solved`}
-                </span>
-              </div>
-              <Button variant="secondary" onClick={() => onGames(g.id)} aria-label={`Play ${g.title}`}>Play</Button>
-            </li>
-          ))}
-        </ul>
-        <p className="hv-note">
-          {unavailable ? 'Saved progress could not be read on this device.' : 'Solved counts are saved on this device.'}
-        </p>
-      </section>
+      <ul className="hv3-grid">
+        {miniGames.map((g) => (
+          <li key={g.id}>
+            <button type="button" className="hv3-tile" onClick={() => onGames(g.id)}>
+              <Cue mode={g.id} />
+              <span>{g.title}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
 
-      <section className="hv-card" aria-labelledby="hv-d-h">
-        <h2 id="hv-d-h">Daily Challenge</h2>
-        <div className="hv-daily">
-          <div>
-            <strong>Single picture puzzle</strong>
-            <small>One original daily rebus. {rebusText[dailyRebusStatus]}.</small>
-            <span className="hv-meta">{dailyStreak} day picture-puzzle streak</span>
-          </div>
-          <Button variant="secondary" onClick={onDaily} aria-label="Play single picture puzzle">Play puzzle</Button>
-        </div>
-        <div className="hv-daily">
-          <div>
-            <strong>Four-game daily mix</strong>
-            <small>One round of each game. {unavailable ? 'Score unavailable.' : progress.dailyScore === null ? 'Not played today.' : `Today: ${progress.dailyScore} of 4 solved.`}</small>
-            <span className="hv-meta">Daily mix progress is saved on this device.</span>
-          </div>
-          <Button variant="secondary" onClick={onDailyMix} aria-label="Play four-game daily mix">Play mix</Button>
-        </div>
-      </section>
-
-      <section className="hv-achievements" aria-labelledby="hv-achievements-h">
-        <h2 id="hv-achievements-h">Achievements</h2>
-        <Button variant="secondary" className="hv-sub" onClick={onRewards}>View chapter medallions</Button>
-      </section>
-      <p className="trust-note"><span aria-hidden="true">✓</span> Optional account. No adverts. Just puzzles.</p>
+      <Button variant="secondary" className="hv3-today" onClick={onDailyMix}>
+        <span className="hv3-dot" aria-hidden="true" />Today’s Challenge
+      </Button>
+      <Button variant="text" className="hv3-profile" onClick={onProfile}>
+        <MdPersonOutline aria-hidden="true" size={20} />Profile &amp; progress
+      </Button>
     </main>
   )
 }

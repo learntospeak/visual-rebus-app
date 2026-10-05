@@ -31,7 +31,10 @@ function requestedPuzzleIndex(puzzles: Puzzle[]) {
 }
 
 export function loadProgress(puzzles: Puzzle[]): SavedProgress {
-  const requestedIndex = requestedPuzzleIndex(puzzles)
+  // Daily/replay URLs select the visible puzzle, not the saved journey position.
+  // App restores their active puzzle separately; the save schema stays unchanged.
+  const play = new URLSearchParams(window.location.search).get('play')
+  const requestedIndex = play === 'daily' || play === 'replay' ? -1 : requestedPuzzleIndex(puzzles)
 
   try {
     const raw = localStorage.getItem(STORAGE_KEY)

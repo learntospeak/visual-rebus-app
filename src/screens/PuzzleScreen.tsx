@@ -5,6 +5,7 @@ import { CluePanel } from '../components/CluePanel'
 import { ProgressBar } from '../components/ProgressBar'
 import { PuzzleVisual } from '../components/PuzzleVisual'
 import type { Puzzle } from '../types'
+import './PicturePuzzlesNavigation.css'
 
 const compactKeyRows = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -87,6 +88,7 @@ interface PuzzleScreenProps {
   lockedLetters: boolean[]
   celebrating: boolean
   onHome: () => void
+  onMenu: () => void
   onGuessChange: (value: string) => void
   onSubmit: (event: FormEvent) => void
   onClue: () => void
@@ -105,6 +107,7 @@ export function PuzzleScreen({
   lockedLetters,
   celebrating,
   onHome,
+  onMenu,
   onGuessChange,
   onSubmit,
   onClue,
@@ -186,10 +189,11 @@ export function PuzzleScreen({
       )}
       <header className="puzzle-header">
         <Button variant="icon" aria-label="Return home" onClick={onHome}>←</Button>
-        <div>
+        <Button type="button" variant="text" className="picture-menu-trigger" aria-label="Picture Puzzles menu" onClick={onMenu}>
           <span className="eyebrow">PUZZLE {puzzleNumber} OF {puzzleCount}</span>
           <ProgressBar value={puzzleNumber} max={puzzleCount} compact label={`Puzzle ${puzzleNumber} of ${puzzleCount}`} />
-        </div>
+          <small>Picture Puzzles menu <span aria-hidden="true">⋯</span></small>
+        </Button>
         <span className={`difficulty difficulty-${puzzle.difficulty.toLowerCase()}`}>{puzzle.difficulty} · {puzzle.difficultyScore}/10</span>
       </header>
 

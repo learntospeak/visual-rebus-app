@@ -8,6 +8,8 @@ import { ChapterMapScreen } from './screens/ChapterMapScreen'
 import { DailyScreen } from './screens/DailyScreen'
 import { GamesScreen } from './screens/GamesScreen'
 import { HomeScreen } from './screens/HomeScreen'
+import { PicturePuzzlesMenuScreen } from './screens/PicturePuzzlesMenuScreen'
+import { ProfileProgressScreen } from './screens/ProfileProgressScreen'
 import { OnboardingScreen } from './screens/OnboardingScreen'
 import { PuzzleScreen } from './screens/PuzzleScreen'
 import { SettingsScreen } from './screens/SettingsScreen'
@@ -23,13 +25,27 @@ import { useGameStore } from './state/GameStore'
 import type { MiniGameMode } from './services/miniGameProgress'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
 
-type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved' | 'rewards' | 'games'
+type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved' | 'rewards' | 'games' | 'picture-menu' | 'profile'
 type PlayMode = 'journey' | 'replay' | 'daily'
 interface SolveOutcome { revealed: boolean; stars: number; cluesUsed: number; seconds: number; daily: boolean }
 
-function requestedMenu(): 'chapters' | 'daily' | 'rewards' | null {
+type MenuScreen = 'chapters' | 'daily' | 'rewards' | 'picture-menu' | 'profile'
+
+function requestedMenu(): MenuScreen | null {
   const menu = new URLSearchParams(window.location.search).get('menu')
-  return menu === 'chapters' || menu === 'daily' || menu === 'rewards' ? menu : null
+  return menu === 'chapters' || menu === 'daily' || menu === 'rewards' || menu === 'picture-menu' || menu === 'profile' ? menu : null
+}
+
+function requestedPlayMode(): PlayMode {
+  const mode = new URLSearchParams(window.location.search).get('play')
+  return mode === 'daily' || mode === 'replay' ? mode : 'journey'
+}
+
+function requestedPictureContext() {
+  const params = new URLSearchParams(window.location.search)
+  const index = puzzles.findIndex((item) => item.id === Number(params.get('returnPuzzle')))
+  const mode = params.get('returnPlay')
+  return { index: index >= 0 ? index : null, mode: (mode === 'daily' || mode === 'replay' ? mode : 'journey') as PlayMode }
 }
 
 export default function App() {
@@ -52,8 +68,11 @@ export default function App() {
   } = useGameStore()
   const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('games') === 'preview' ? 'games' : new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : requestedMenu() ?? (settings.onboardingComplete ? 'home' : 'onboarding'))
   const [accountReturn, setAccountReturn] = useState<Screen>('settings')
-  const [activePuzzleIndex, setActivePuzzleIndex] = useState(progress.currentIndex)
-  const [playMode, setPlayMode] = useState<PlayMode>('journey')
+  const [activePuzzleIndex, setActivePuzzleIndex] = useState(() => {
+    const index = puzzles.findIndex((item) => item.id === Number(new URLSearchParams(window.location.search).get('puzzle')))
+    return index >= 0 ? index : requestedMenu() === 'picture-menu' ? requestedPictureContext().index ?? progress.currentIndex : progress.currentIndex
+  })
+  const [playMode, setPlayMode] = useState<PlayMode>(() => hasRequestedPuzzle() ? requestedPlayMode() : requestedMenu() === 'picture-menu' ? requestedPictureContext().mode : 'journey')
   const [solveOutcome, setSolveOutcome] = useState<SolveOutcome | null>(null)
   const [rewardCelebration, setRewardCelebration] = useState<string | null>(null)
   const [guess, setGuess] = useState('')
@@ -146,9 +165,7 @@ export default function App() {
   }, [accountReturn, screen])
 
   function startJourney() {
-    setActivePuzzleIndex(progress.currentIndex)
-    setPlayMode('journey')
-    setScreen('puzzle')
+    navigatePicturePuzzle(progress.currentIndex, 'journey')
   }
 
   function openAccount(returnTo: Screen) {
@@ -158,7 +175,11 @@ export default function App() {
 
   useEffect(() => {
     syncPuzzleUrl(screen === 'puzzle' ? puzzle.id : null)
-  }, [puzzle.id, screen])
+    const url = new URL(window.location.href)
+    if (screen === 'puzzle' && playMode !== 'journey') url.searchParams.set('play', playMode)
+    else url.searchParams.delete('play')
+    if (url.href !== window.location.href) window.history.replaceState({}, '', url)
+  }, [puzzle.id, screen, playMode])
 
   // Home destinations are refreshable; existing rebus IDs and game routes remain intact.
   useEffect(() => {
@@ -168,8 +189,17 @@ export default function App() {
         const id = Number(new URLSearchParams(window.location.search).get('puzzle'))
         const index = puzzles.findIndex((item) => item.id === id)
         if (index >= 0) setActivePuzzleIndex(index)
+        setPlayMode(requestedPlayMode())
         setScreen('puzzle')
-      } else setScreen(requestedMenu() ?? 'home')
+      } else {
+        const menu = requestedMenu()
+        if (menu === 'picture-menu') {
+          const context = requestedPictureContext()
+          if (context.index !== null) setActivePuzzleIndex(context.index)
+          setPlayMode(context.mode)
+        }
+        setScreen(menu ?? 'home')
+      }
     }
     window.addEventListener('popstate', restoreGamesRoute)
     return () => window.removeEventListener('popstate', restoreGamesRoute)
@@ -177,23 +207,42 @@ export default function App() {
 
   useEffect(() => {
     const url = new URL(window.location.href)
-    if (screen === 'chapters' || screen === 'daily' || screen === 'rewards') url.searchParams.set('menu', screen)
+    if (screen === 'chapters' || screen === 'daily' || screen === 'rewards' || screen === 'picture-menu' || screen === 'profile') url.searchParams.set('menu', screen)
     else url.searchParams.delete('menu')
+    if (screen !== 'picture-menu') {
+      url.searchParams.delete('returnPuzzle')
+      url.searchParams.delete('returnPlay')
+    }
     if (url.href !== window.location.href) window.history.replaceState({}, '', url)
   }, [screen])
 
-  function navigateMenu(target: 'home' | 'chapters' | 'daily' | 'rewards') {
+  function navigateMenu(target: 'home' | MenuScreen) {
     const url = new URL(window.location.href)
-    for (const key of ['puzzle', 'games', 'gameMode', 'gameRound', 'menu']) url.searchParams.delete(key)
+    for (const key of ['puzzle', 'play', 'games', 'gameMode', 'gameRound', 'menu', 'returnPuzzle', 'returnPlay']) url.searchParams.delete(key)
     if (target !== 'home') url.searchParams.set('menu', target)
+    if (target === 'picture-menu') {
+      url.searchParams.set('returnPuzzle', String(puzzle.id))
+      if (playMode !== 'journey') url.searchParams.set('returnPlay', playMode)
+    }
     window.history.pushState({}, '', url)
     setScreen(target)
+  }
+
+  function navigatePicturePuzzle(index: number, mode: PlayMode) {
+    const url = new URL(window.location.href)
+    for (const key of ['games', 'gameMode', 'gameRound', 'menu', 'play', 'returnPuzzle', 'returnPlay']) url.searchParams.delete(key)
+    url.searchParams.set('puzzle', String(puzzles[index].id))
+    if (mode !== 'journey') url.searchParams.set('play', mode)
+    window.history.pushState({}, '', url)
+    setActivePuzzleIndex(index)
+    setPlayMode(mode)
+    setScreen('puzzle')
   }
 
   function navigateGames(open: boolean, mode?: MiniGameMode | 'daily', round = 0) {
     const url = new URL(window.location.href)
     url.searchParams.delete('puzzle')
-    for (const key of ['games', 'gameMode', 'gameRound', 'menu']) url.searchParams.delete(key)
+    for (const key of ['games', 'gameMode', 'gameRound', 'menu', 'play', 'returnPuzzle', 'returnPlay']) url.searchParams.delete(key)
     if (open) url.searchParams.set('games', 'preview')
     if (open && mode) url.searchParams.set('gameMode', mode)
     if (open && round) url.searchParams.set('gameRound', String(round))
@@ -336,9 +385,7 @@ export default function App() {
     }
     const now = new Date()
     const dayNumber = Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime() / 86_400_000)
-    setActivePuzzleIndex(dayNumber % puzzles.length)
-    setPlayMode('daily')
-    setScreen('puzzle')
+    navigatePicturePuzzle(dayNumber % puzzles.length, 'daily')
   }
 
   async function changeDailyReminder(enabled: boolean) {
@@ -381,36 +428,45 @@ export default function App() {
 
   if (screen === 'rewards') {
     return <RewardsScreen completedIds={progress.completedIds} celebration={rewardCelebration} reducedMotion={settings.reducedCelebrations}
-      onHome={() => setScreen('home')} onContinue={() => { setRewardCelebration(null); nextPuzzle() }}
-      onCollection={() => setRewardCelebration(null)} onChapters={() => setScreen('chapters')} />
+      onHome={() => navigateMenu('home')} onContinue={() => { setRewardCelebration(null); nextPuzzle() }}
+      onCollection={() => setRewardCelebration(null)} onChapters={() => navigateMenu('chapters')} />
   }
 
   if (screen === 'home') {
     return (
       <HomeScreen
-        completedCount={progress.completedIds.length}
-        puzzleCount={puzzles.length}
-        totalStars={totalStars}
-        dailyStreak={displayedStreak}
-        journeyStarted={progress.currentIndex > 0}
-        dailyRebusStatus={progress.daily.completedDates.includes(todayKey) ? 'solved' : progress.daily.revealedDates.includes(todayKey) ? 'revealed' : 'not-played'}
+        journeyStarted={progress.currentIndex > 0 || progress.completedIds.length > 0 || progress.revealedIds.length > 0}
         onPlay={startJourney}
         onGames={(mode) => navigateGames(true, mode)}
         onDailyMix={() => navigateGames(true, 'daily', 1)}
-        onRewards={() => { setRewardCelebration(null); navigateMenu('rewards') }}
-        onChapters={() => navigateMenu('chapters')}
-        onDaily={() => navigateMenu('daily')}
+        onProfile={() => navigateMenu('profile')}
         onSettings={() => setScreen('settings')}
-        onAccount={() => openAccount('home')}
-        accountState={!account ? 'guest' : syncState === 'error' ? 'error' : 'synced'}
       />
     )
+  }
+
+  if (screen === 'picture-menu') {
+    return <PicturePuzzlesMenuScreen
+      onHome={() => navigateMenu('home')}
+      onResume={() => navigatePicturePuzzle(activePuzzleIndex, playMode)}
+      onBrowse={() => navigateMenu('chapters')}
+      onDaily={() => navigateMenu('daily')} />
+  }
+
+  if (screen === 'profile') {
+    return <ProfileProgressScreen progress={progress} puzzleCount={puzzles.length}
+      totalStars={totalStars} dailyStreak={displayedStreak}
+      dailyRebusStatus={progress.daily.completedDates.includes(todayKey) ? 'solved' : progress.daily.revealedDates.includes(todayKey) ? 'revealed' : 'not-played'}
+      accountState={!account ? 'guest' : syncState === 'error' ? 'error' : 'synced'}
+      onHome={() => navigateMenu('home')}
+      onRewards={() => { setRewardCelebration(null); navigateMenu('rewards') }}
+      onAccount={() => openAccount('profile')} />
   }
 
   if (screen === 'games') return <GamesScreen onHome={() => navigateGames(false)} />
 
   if (screen === 'daily') {
-    return <DailyScreen progress={progress.daily} onHome={() => setScreen('home')} onPlay={startDailyPuzzle} />
+    return <DailyScreen progress={progress.daily} onHome={() => navigateMenu('home')} onPlay={startDailyPuzzle} />
   }
 
   if (screen === 'settings') {
@@ -418,7 +474,7 @@ export default function App() {
       <SettingsScreen
         settings={settings}
         onChange={setSettings}
-        onHome={() => setScreen('home')}
+        onHome={() => navigateMenu('home')}
         onReplayTutorial={() => setScreen('onboarding')}
         onAccount={() => openAccount('settings')}
         accountEmail={account?.email ?? null}
@@ -464,11 +520,9 @@ export default function App() {
         revealedIds={progress.revealedIds}
         starsByPuzzle={progress.starsByPuzzle}
         currentIndex={progress.currentIndex}
-        onHome={() => setScreen('home')}
+        onHome={() => navigateMenu('home')}
         onOpenPuzzle={(index) => {
-          setActivePuzzleIndex(index)
-          setPlayMode(progress.completedIds.includes(puzzles[index].id) || progress.revealedIds.includes(puzzles[index].id) ? 'replay' : 'journey')
-          setScreen('puzzle')
+          navigatePicturePuzzle(index, progress.completedIds.includes(puzzles[index].id) || progress.revealedIds.includes(puzzles[index].id) ? 'replay' : 'journey')
         }}
       />
     )
@@ -480,7 +534,7 @@ export default function App() {
         puzzle={puzzle}
         outcome={solveOutcome ?? { revealed: false, stars: 0, cluesUsed: clueCount, seconds: 0, daily: playMode === 'daily' }}
         isLastPuzzle={activePuzzleIndex === puzzles.length - 1}
-        onHome={() => setScreen('home')}
+        onHome={() => navigateMenu('home')}
         onNext={nextPuzzle}
         showReminderOffer={Boolean(solveOutcome?.daily) && !settings.dailyReminderPrompted && supportsDailyReminders()}
         onEnableReminder={() => changeDailyReminder(true)}
@@ -504,7 +558,8 @@ export default function App() {
       message={message}
       lockedLetters={lockedLetters}
       celebrating={celebrating}
-      onHome={() => setScreen('home')}
+      onHome={() => navigateMenu('home')}
+      onMenu={() => navigateMenu('picture-menu')}
       onGuessChange={updateGuess}
       onSubmit={submitAnswer}
       onClue={showClue}
