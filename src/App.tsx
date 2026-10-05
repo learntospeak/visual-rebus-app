@@ -435,11 +435,18 @@ export default function App() {
   if (screen === 'home') {
     return (
       <HomeScreen
-        onPlay={() => navigateMenu('account-prompt')}
-        onGames={(mode) => navigateGames(true, mode)}
-        onDailyMix={() => navigateGames(true, 'daily', 1)}
-        onProfile={() => navigateMenu('profile')}
+        completedCount={progress.completedIds.length}
+        puzzleCount={puzzles.length}
+        totalStars={totalStars}
+        dailyStreak={displayedStreak}
+        onPlay={startJourney}
+        onGames={() => navigateGames(true)}
+        onRewards={() => { setRewardCelebration(null); navigateMenu('rewards') }}
+        onChapters={() => navigateMenu('chapters')}
+        onDaily={() => navigateMenu('daily')}
         onSettings={() => setScreen('settings')}
+        onAccount={() => openAccount('home')}
+        accountState={!account ? 'guest' : syncState === 'error' ? 'error' : 'synced'}
       />
     )
   }
@@ -568,6 +575,7 @@ export default function App() {
     />
   )
 }
+
 
 
 

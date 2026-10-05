@@ -8,7 +8,7 @@ export function GamesScreen({ onHome }: { onHome: () => void }) {
   const [attempt, setAttempt] = useState(0)
   function gamesSrc() {
     const url = new URL('./games/index.html', window.location.href)
-    url.searchParams.set('v', 'unified-hub-20261005')
+    url.searchParams.set('v', 'separate-games-20261005')
     const params = new URLSearchParams(window.location.search)
     for (const key of ['gameMode', 'gameRound']) {
       const value = params.get(key)
@@ -71,7 +71,7 @@ export function GamesScreen({ onHome }: { onHome: () => void }) {
   }, [attempt])
   return <main className="games-screen">
     <div className="games-screen-bar">
-      <button className="games-home" onClick={onHome}>← Main menu</button>
+      <button className="games-home" onClick={onHome}>← Rebus menu</button>
       <span>PUZZLE GAMES</span>
     </div>
     <div className="games-frame-container">
@@ -83,4 +83,5 @@ export function GamesScreen({ onHome }: { onHome: () => void }) {
     </div>
   </main>
 }
+
 

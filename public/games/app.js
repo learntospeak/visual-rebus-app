@@ -24,7 +24,6 @@ window.addEventListener('popstate',()=>{const params=new URLSearchParams(locatio
 function modeStats(mode){const q=catalog[mode];return{solved:q.filter(x=>saved.results[x.id]?.status==='solved').length,played:q.filter(x=>saved.results[x.id]).length}}
 function home(){
  clearTimer();run=null;activeMap=null;
- if(embedded){window.parent.postMessage({type:'cluecanvas-games-home'},location.origin==='null'?'*':location.origin);return}
  route();
  app.innerHTML='<p class="kicker">A LITTLE SOMETHING FOR EVERY MIND</p><h1>Your puzzle<br>corner.</h1><p class="intro muted">Notice something. Remember something. Work something out. Pick your next little challenge.</p><section class="daily"><span class="eyebrow">TODAY’S FOUR</span><h2>A fresh little mix.</h2><p>One round of each game. No rush. A different mix tomorrow.</p><button class="primary wide" data-daily>Play today’s mix →</button>'+(saved.daily[dateKey()]?'<p>Today: '+saved.daily[dateKey()].score+' of 4 solved. Replay whenever you like.</p>':'')+'</section><p class="eyebrow muted">FOUR GAMES · 400 PUZZLES</p><div class="shelf">'+modes.map(m=>'<button class="game-card" data-mode="'+m.id+'"><span class="art-icon" aria-hidden="true">'+m.icon+'</span><span><h3>'+m.title+'</h3><p>'+m.desc+'</p><span class="tag">'+modeStats(m.id).solved+' / 100 solved · '+m.skill+'</span></span><span aria-hidden="true">›</span></button>').join('')+'</div><p class="footer">Game progress is saved on this device.<br>It is separate from your rebus progress and account sync.</p>'+(storageWarning?'<p role="alert" class="hint">This device couldn’t save your game progress. You can still play.</p>':'');
  app.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>map(b.dataset.mode));app.querySelector('[data-daily]').onclick=()=>startDaily();scrollTop();
@@ -83,5 +82,6 @@ window.addEventListener('pagehide',clearTimer);
 const initialParams=new URLSearchParams(location.search);
 restoreRoute(initialParams.get('gameMode')||'',Number(initialParams.get('gameRound')||0));
 if(embedded)window.parent.postMessage({type:'cluecanvas-games-ready'},location.origin==='null'?'*':location.origin);
+
 
 
