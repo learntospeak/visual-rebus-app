@@ -8,6 +8,7 @@ export function GamesScreen({ onHome }: { onHome: () => void }) {
   const [attempt, setAttempt] = useState(0)
   function gamesSrc() {
     const url = new URL('./games/index.html', window.location.href)
+    url.searchParams.set('v', 'unified-hub-20261005')
     const params = new URLSearchParams(window.location.search)
     for (const key of ['gameMode', 'gameRound']) {
       const value = params.get(key)
@@ -82,3 +83,4 @@ export function GamesScreen({ onHome }: { onHome: () => void }) {
     </div>
   </main>
 }
+
