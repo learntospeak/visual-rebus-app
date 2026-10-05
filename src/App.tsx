@@ -445,7 +445,7 @@ export default function App() {
         onChapters={() => navigateMenu('chapters')}
         onDaily={() => navigateMenu('daily')}
         onSettings={() => setScreen('settings')}
-        onAccount={() => openAccount('home')}
+        onProfile={() => navigateMenu('profile')}
         accountState={!account ? 'guest' : syncState === 'error' ? 'error' : 'synced'}
       />
     )

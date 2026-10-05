@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
+import { ProgressBar } from '../components/ProgressBar'
 import { miniGames, readMiniGameProgress } from '../services/miniGameProgress'
 import type { SavedProgress } from '../types'
 import './HomeScreen.css'
@@ -36,12 +37,14 @@ export function ProfileProgressScreen({ progress, puzzleCount, totalStars, daily
       </header>
 
       <section className="pp-card" aria-labelledby="pr-pp">
-        <h2 id="pr-pp">Picture Puzzles</h2>
+        <h2 id="pr-pp">Starter pack · Picture Puzzles</h2>
         <ul className="pp-list">
           <li><span>Solved</span><b>{progress.completedIds.length} of {puzzleCount}</b></li>
           <li><span>Stars earned</span><b>{totalStars}</b></li>
+          <li><span>Daily streak</span><b>{dailyStreak} days</b></li>
         </ul>
-        <Button variant="secondary" onClick={onRewards}>View chapter medallions</Button>
+        <ProgressBar value={progress.completedIds.length} max={puzzleCount} label={`${progress.completedIds.length} of ${puzzleCount} puzzles solved`} />
+        <Button variant="secondary" onClick={onRewards}>My chapter medallion</Button>
       </section>
 
       <section className="pp-card" aria-labelledby="pr-mg">

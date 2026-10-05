@@ -1,5 +1,5 @@
 import { Button } from '../components/Button'
-import { ProgressBar } from '../components/ProgressBar'
+
 
 interface HomeScreenProps {
   completedCount: number
@@ -12,12 +12,11 @@ interface HomeScreenProps {
   onChapters: () => void
   onDaily: () => void
   onSettings: () => void
-  onAccount: () => void
+  onProfile: () => void
   accountState: 'guest' | 'synced' | 'error'
 }
 
-export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStreak, onPlay, onGames, onRewards, onChapters, onDaily, onSettings, onAccount, accountState }: HomeScreenProps) {
-  const percent = Math.round((completedCount / puzzleCount) * 100)
+export function HomeScreen({ completedCount, onPlay, onGames, onDaily, onSettings, onProfile, accountState }: HomeScreenProps) {
   const actionLabel = completedCount ? 'Continue solving' : 'Start playing'
 
   return (
@@ -28,10 +27,10 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
         <Button
           variant="icon"
           className={`account-button account-${accountState}`}
-          aria-label={accountState === 'guest' ? 'Sign in or create an account' : accountState === 'error' ? 'Account sync needs attention' : 'Open your synced account'}
-          onClick={onAccount}
+          aria-label="Progress and medallions"
+          onClick={onProfile}
         >
-          <span aria-hidden="true">👤</span><i aria-hidden="true" />
+          <span aria-hidden="true">🏅</span><i aria-hidden="true" />
         </Button>
         <Button variant="icon" className="settings-button" aria-label="Open settings" onClick={onSettings}>⚙</Button>
       </header>
@@ -42,20 +41,6 @@ export function HomeScreen({ completedCount, puzzleCount, totalStars, dailyStrea
         <Button className="hero-button" onClick={onPlay}>{actionLabel}<span aria-hidden="true">→</span></Button>
       </section>
       <button className="home-games-card" onClick={onGames}><span className="home-games-icon" aria-hidden="true">◈</span><span><strong>More games</strong><small>4 games · 400 puzzles · a fresh daily mix</small></span><span aria-hidden="true">→</span></button>
-      <section className="progress-card" aria-label={`${percent}% complete`}>
-        <div>
-          <span className="eyebrow">STARTER PACK</span>
-          <strong>{completedCount} of {puzzleCount} solved</strong>
-        </div>
-        <ProgressBar value={completedCount} max={puzzleCount} label={`${completedCount} of ${puzzleCount} puzzles solved`} />
-        <span className="progress-number">{percent}%</span>
-      </section>
-      <div className="home-stats" aria-label="Game statistics">
-        <span><strong>{totalStars}</strong> stars earned</span>
-        <span><strong>{dailyStreak}</strong> day streak</span>
-      </div>
-      <Button variant="secondary" className="chapter-map-button" onClick={onChapters}>View packs and puzzles</Button>
-      <Button variant="secondary" className="chapter-map-button" onClick={onRewards}>My chapter medallion</Button>
       <Button variant="secondary" className="daily-button" onClick={onDaily}>Today’s puzzle <span aria-hidden="true">☀</span></Button>
       <p className="trust-note"><span aria-hidden="true">✓</span> Optional account. No adverts. Just puzzles.</p>
     </main>
