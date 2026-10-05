@@ -1,3 +1,5 @@
+> **STALE BUILD — DO NOT UPLOAD**
+> These October 4 APK/AAB files predate the navigation, menu and phone-account repairs. They are archived evidence only. Code 4 has not been verified unused in Play Console. The owner has questioned the current menu; production approval is still pending. See release-preparation-2026-10-05.md before any new bundle.
 # Clue Canvas 1.1.0 — release candidate
 
 Package: games.cluecanvas.app. Version: 1.1.0. Version code: 4.
