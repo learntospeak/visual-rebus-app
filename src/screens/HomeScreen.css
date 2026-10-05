@@ -1,0 +1,25 @@
+.home-v2 { overflow-x: hidden; }
+.home-v2 .hv-card { background: var(--white, #fff); border: 1px solid var(--line, #ddd8cc); border-radius: 20px; padding: 18px; margin-top: 14px; box-shadow: 0 10px 30px rgba(24,59,86,.06); min-width: 0; }
+.home-v2 .hv-journey { margin-top: 8px; }
+.home-v2 h1 { font: 800 1.9rem/1.1 Manrope, sans-serif; margin: 6px 0; }
+.home-v2 h2 { font: 800 1.2rem Manrope, sans-serif; margin: 0 0 4px; }
+.home-v2 .hv-copy { margin: 0 0 12px; color: var(--muted, #5d7480); font-size: .88rem; line-height: 1.45; }
+.home-v2 .hv-main { width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: space-between; }
+.home-v2 .hv-progress { margin: 14px 0; display: grid; gap: 8px; }
+.home-v2 .hv-progress strong { font: 800 .95rem Manrope, sans-serif; }
+.home-v2 .hv-meta { font-size: .76rem; color: var(--muted, #5d7480); }
+.home-v2 .hv-sub { width: 100%; min-height: 44px; }
+.home-v2 .hv-achievements { margin: 18px 0; }
+.home-v2 .hv-achievements h2 { font: 800 1.1rem Manrope, sans-serif; margin: 0 0 8px; }
+.home-v2 .hv-games { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.home-v2 .hv-games li, .home-v2 .hv-daily { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px; border-radius: 14px; background: #f1efe8; }
+.home-v2 .hv-daily { margin-top: 10px; }
+.home-v2 .hv-games strong, .home-v2 .hv-daily strong { display: block; font: 800 .95rem Manrope, sans-serif; }
+.home-v2 .hv-games small, .home-v2 .hv-daily small { display: block; font-size: .76rem; line-height: 1.4; color: var(--muted, #5d7480); margin: 3px 0; }
+.home-v2 .hv-games li .hv-meta { color: var(--teal-dark, #147f79); font-weight: 700; }
+.home-v2 .hv-games li button, .home-v2 .hv-daily button { min-height: 44px; min-width: 76px; }
+.home-v2 .hv-note { margin: 10px 0 0; font-size: .76rem; color: var(--muted, #5d7480); }
+@media (max-width: 420px) {
+  .home-v2 .hv-daily { grid-template-columns: 1fr; gap: 8px; }
+  .home-v2 .hv-daily button { width: 100%; }
+}

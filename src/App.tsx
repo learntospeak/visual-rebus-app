@@ -20,11 +20,17 @@ import { disableDailyReminder, enableDailyReminder, listenForDailyReminder, refr
 import { nextVariedPuzzleIndex } from './services/journey'
 import { emptyProgress, hasRequestedPuzzle, localDateKey, previousDateKey, syncPuzzleUrl } from './services/progress'
 import { useGameStore } from './state/GameStore'
+import type { MiniGameMode } from './services/miniGameProgress'
 import { answerFeedback, answerLetters, isCorrectAnswer } from './utils/answers'
 
 type Screen = 'onboarding' | 'account-prompt' | 'home' | 'chapters' | 'daily' | 'settings' | 'account' | 'puzzle' | 'solved' | 'rewards' | 'games'
 type PlayMode = 'journey' | 'replay' | 'daily'
 interface SolveOutcome { revealed: boolean; stars: number; cluesUsed: number; seconds: number; daily: boolean }
+
+function requestedMenu(): 'chapters' | 'daily' | 'rewards' | null {
+  const menu = new URLSearchParams(window.location.search).get('menu')
+  return menu === 'chapters' || menu === 'daily' || menu === 'rewards' ? menu : null
+}
 
 export default function App() {
   const {
@@ -44,7 +50,7 @@ export default function App() {
     signOut,
     deleteAccount,
   } = useGameStore()
-  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('games') === 'preview' ? 'games' : new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : settings.onboardingComplete ? 'home' : 'onboarding')
+  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('games') === 'preview' ? 'games' : new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : requestedMenu() ?? (settings.onboardingComplete ? 'home' : 'onboarding'))
   const [accountReturn, setAccountReturn] = useState<Screen>('settings')
   const [activePuzzleIndex, setActivePuzzleIndex] = useState(progress.currentIndex)
   const [playMode, setPlayMode] = useState<PlayMode>('journey')
@@ -154,21 +160,43 @@ export default function App() {
     syncPuzzleUrl(screen === 'puzzle' ? puzzle.id : null)
   }, [puzzle.id, screen])
 
-  // Only the new games integration owns these routes; original rebus URLs stay unchanged.
+  // Home destinations are refreshable; existing rebus IDs and game routes remain intact.
   useEffect(() => {
     const restoreGamesRoute = () => {
       if (new URLSearchParams(window.location.search).get('games') === 'preview') setScreen('games')
-      else setScreen((current) => current === 'games' ? 'home' : current)
+      else if (hasRequestedPuzzle()) {
+        const id = Number(new URLSearchParams(window.location.search).get('puzzle'))
+        const index = puzzles.findIndex((item) => item.id === id)
+        if (index >= 0) setActivePuzzleIndex(index)
+        setScreen('puzzle')
+      } else setScreen(requestedMenu() ?? 'home')
     }
     window.addEventListener('popstate', restoreGamesRoute)
     return () => window.removeEventListener('popstate', restoreGamesRoute)
   }, [])
 
-  function navigateGames(open: boolean) {
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (screen === 'chapters' || screen === 'daily' || screen === 'rewards') url.searchParams.set('menu', screen)
+    else url.searchParams.delete('menu')
+    if (url.href !== window.location.href) window.history.replaceState({}, '', url)
+  }, [screen])
+
+  function navigateMenu(target: 'home' | 'chapters' | 'daily' | 'rewards') {
+    const url = new URL(window.location.href)
+    for (const key of ['puzzle', 'games', 'gameMode', 'gameRound', 'menu']) url.searchParams.delete(key)
+    if (target !== 'home') url.searchParams.set('menu', target)
+    window.history.pushState({}, '', url)
+    setScreen(target)
+  }
+
+  function navigateGames(open: boolean, mode?: MiniGameMode | 'daily', round = 0) {
     const url = new URL(window.location.href)
     url.searchParams.delete('puzzle')
-    for (const key of ['games', 'gameMode', 'gameRound']) url.searchParams.delete(key)
+    for (const key of ['games', 'gameMode', 'gameRound', 'menu']) url.searchParams.delete(key)
     if (open) url.searchParams.set('games', 'preview')
+    if (open && mode) url.searchParams.set('gameMode', mode)
+    if (open && round) url.searchParams.set('gameRound', String(round))
     window.history.pushState({}, '', url)
     setScreen(open ? 'games' : 'home')
   }
@@ -364,11 +392,14 @@ export default function App() {
         puzzleCount={puzzles.length}
         totalStars={totalStars}
         dailyStreak={displayedStreak}
+        journeyStarted={progress.currentIndex > 0}
+        dailyRebusStatus={progress.daily.completedDates.includes(todayKey) ? 'solved' : progress.daily.revealedDates.includes(todayKey) ? 'revealed' : 'not-played'}
         onPlay={startJourney}
-        onGames={() => navigateGames(true)}
-        onRewards={() => { setRewardCelebration(null); setScreen('rewards') }}
-        onChapters={() => setScreen('chapters')}
-        onDaily={() => setScreen('daily')}
+        onGames={(mode) => navigateGames(true, mode)}
+        onDailyMix={() => navigateGames(true, 'daily', 1)}
+        onRewards={() => { setRewardCelebration(null); navigateMenu('rewards') }}
+        onChapters={() => navigateMenu('chapters')}
+        onDaily={() => navigateMenu('daily')}
         onSettings={() => setScreen('settings')}
         onAccount={() => openAccount('home')}
         accountState={!account ? 'guest' : syncState === 'error' ? 'error' : 'synced'}
