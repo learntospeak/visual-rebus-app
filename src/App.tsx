@@ -66,7 +66,7 @@ export default function App() {
     signOut,
     deleteAccount,
   } = useGameStore()
-  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('games') === 'preview' ? 'games' : new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : requestedMenu() ?? (settings.onboardingComplete ? 'home' : 'onboarding'))
+  const [screen, setScreen] = useState<Screen>(() => new URLSearchParams(window.location.search).get('games') === 'preview' ? 'games' : new URLSearchParams(window.location.search).get('celebration') === 'preview' ? 'rewards' : hasRequestedPuzzle() ? 'puzzle' : requestedMenu() ?? 'home')
   const [accountReturn, setAccountReturn] = useState<Screen>('settings')
   const [activePuzzleIndex, setActivePuzzleIndex] = useState(() => {
     const index = puzzles.findIndex((item) => item.id === Number(new URLSearchParams(window.location.search).get('puzzle')))
@@ -411,8 +411,7 @@ export default function App() {
   if (screen === 'onboarding') {
     return <OnboardingScreen onComplete={() => {
       setSettings((current) => ({ ...current, onboardingComplete: true }))
-      if (account) startJourney()
-      else setScreen('account-prompt')
+      navigateMenu('home')
     }} />
   }
 
@@ -569,4 +568,5 @@ export default function App() {
     />
   )
 }
+
 

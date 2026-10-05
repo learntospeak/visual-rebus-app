@@ -1,5 +1,5 @@
 import { Button } from '../components/Button'
-import { miniGames } from '../services/miniGameProgress'
+import { miniGames, readMiniGameProgress } from '../services/miniGameProgress'
 import type { MiniGameMode } from '../services/miniGameProgress'
 import './HomeScreen.css'
 import { MdPersonOutline } from 'react-icons/md'
@@ -30,33 +30,43 @@ function Cue({ mode }: { mode: MiniGameMode }) {
 }
 
 export function HomeScreen({ journeyStarted, onPlay, onGames, onDailyMix, onProfile, onSettings }: HomeScreenProps) {
+  const games = readMiniGameProgress()
   return (
-    <main className="app-shell home-screen home-v3">
+    <main className="app-shell home-screen puzzle-hub">
       <header className="brand-row">
         <div className="brand-mark" aria-hidden="true">C</div>
         <h1 className="eyebrow">CLUE CANVAS</h1>
         <Button variant="icon" className="settings-button hv3-icon" aria-label="Open settings" onClick={onSettings}>⚙</Button>
       </header>
 
-      <Button className="hv3-main" onClick={onPlay}>
-        <span>{journeyStarted ? 'Continue Picture Puzzles' : 'Start Picture Puzzles'}</span>
-        <span aria-hidden="true">→</span>
-      </Button>
-
-      <ul className="hv3-grid">
+      <p className="hub-kicker">A LITTLE SOMETHING FOR EVERY MIND</p>
+      <h2>Your puzzle<br />corner.</h2>
+      <p className="hub-intro">Notice something. Remember something. Work something out. Pick your next little challenge.</p>
+      <section className="hub-daily">
+        <span className="eyebrow">TODAY’S FOUR</span>
+        <h3>A fresh little mix.</h3>
+        <p>One round of each game. No rush. A different mix tomorrow.</p>
+        <Button onClick={onDailyMix}>Play today’s mix →</Button>
+        {games.dailyScore !== null && <p className="hub-score">Today: {games.dailyScore} of 4 solved. Replay whenever you like.</p>}
+      </section>
+      <p className="hub-label">PICK YOUR NEXT GAME</p>
+      <ul className="hub-shelf">
+        <li><button type="button" className="hub-card" onClick={onPlay}>
+          <span className="hub-icon" aria-hidden="true">HEAD<br />HEELS</span>
+          <span><strong>Picture Puzzles</strong><span className="hub-description">Find the phrase hidden in the picture.</span><span className="hub-tag">565 puzzles · {journeyStarted ? 'Continue your journey' : 'Start your journey'}</span></span>
+          <span aria-hidden="true">›</span>
+        </button></li>
         {miniGames.map((g) => (
           <li key={g.id}>
-            <button type="button" className="hv3-tile" onClick={() => onGames(g.id)}>
-              <Cue mode={g.id} />
-              <span>{g.title}</span>
+            <button type="button" className="hub-card" onClick={() => onGames(g.id)}>
+              <span className="hub-icon"><Cue mode={g.id} /></span>
+              <span><strong>{g.title}</strong><span className="hub-description">{g.description}</span><span className="hub-tag">{games.solved[g.id]} / 100 solved</span></span>
+              <span aria-hidden="true">›</span>
             </button>
           </li>
         ))}
       </ul>
 
-      <Button variant="secondary" className="hv3-today" onClick={onDailyMix}>
-        <span className="hv3-dot" aria-hidden="true" />Today’s Challenge
-      </Button>
       <Button variant="text" className="hv3-profile" onClick={onProfile}>
         <MdPersonOutline aria-hidden="true" size={20} />Profile &amp; progress
       </Button>

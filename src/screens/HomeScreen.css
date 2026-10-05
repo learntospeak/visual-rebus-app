@@ -26,3 +26,28 @@
 .pp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .pp-list li { display: flex; justify-content: space-between; gap: 8px; font-size: .9rem; }
 .pp-list b { color: var(--teal-dark, #147f79); }
+
+/* The puzzle corner is the single Home hub, matching the games shelf. */
+.puzzle-hub { display:block; overflow-x:hidden; }
+.puzzle-hub .brand-row { margin-bottom:24px; gap:8px; }
+.puzzle-hub .brand-row .eyebrow { margin:0; margin-right:auto; }
+.puzzle-hub .settings-button { min-width:44px; min-height:44px; }
+.puzzle-hub .hub-kicker { color:#ff6b5f; font-size:.75rem; font-weight:800; letter-spacing:.13em; margin:0 0 18px; }
+.puzzle-hub h2 { font:800 2.8rem/1.05 Manrope,sans-serif; letter-spacing:-.05em; margin:0 0 20px; color:#183b56; }
+.hub-intro { color:#72859b; font-size:1rem; line-height:1.6; margin:0 0 28px; }
+.hub-daily { border-radius:26px; background:#183b56; color:white; padding:24px; margin-bottom:28px; }
+.hub-daily .eyebrow { color:white; }
+.hub-daily h3 { color:white; font:800 1.9rem/1.2 Manrope,sans-serif; letter-spacing:-.04em; margin:18px 0; }
+.hub-daily p { color:#c6d6df; font-size:.9rem; line-height:1.6; margin:0 0 18px; }
+.hub-daily .primary-button { width:100%; min-height:50px; }
+.hub-daily .hub-score { margin:12px 0 0; }
+.hub-label { color:#72859b; font-size:.75rem; font-weight:800; letter-spacing:.13em; margin:0 0 16px; }
+.hub-shelf { list-style:none; display:grid; gap:12px; padding:0; margin:0; }
+.hub-card { width:100%; border:1px solid #dfe3e7; background:#fffefa; border-radius:20px; padding:18px; text-align:left; display:grid; grid-template-columns:64px minmax(0,1fr) 12px; gap:13px; align-items:center; color:#183b56; box-shadow:0 8px 22px #183b5606; cursor:pointer; }
+.hub-card strong { display:block; font:800 1.1rem/1.3 Manrope,sans-serif; }
+.hub-description { display:block; color:#72859b; font-size:.82rem; line-height:1.5; margin:6px 0 9px; }
+.hub-tag { display:block; font-size:.68rem; color:#008b8b; font-weight:700; }
+.hub-icon { display:grid; place-items:center; width:64px; height:64px; border-radius:17px; background:#e7f3ef; color:#008b8b; font-size:.75rem; font-weight:800; }
+.puzzle-hub .hv3-profile { display:flex; justify-content:center; gap:8px; width:100%; min-height:44px; margin-top:20px; }
+@media(max-width:350px) { .hub-card { padding:14px; grid-template-columns:52px minmax(0,1fr) 10px; gap:10px; } .hub-icon { width:52px; height:55px; } .hub-daily { padding:20px; } .puzzle-hub h2 { font-size:2.6rem; } }
+

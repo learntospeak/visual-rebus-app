@@ -70,7 +70,7 @@ export function GamesScreen({ onHome }: { onHome: () => void }) {
   }, [attempt])
   return <main className="games-screen">
     <div className="games-screen-bar">
-      <button className="games-home" onClick={onHome}>← Clue Canvas</button>
+      <button className="games-home" onClick={onHome}>← Main menu</button>
       <span>PUZZLE GAMES</span>
     </div>
     <div className="games-frame-container">
