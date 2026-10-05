@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102a38">
+<title>Clue Canvas — Assembly Chapter 1</title>
+<link rel="stylesheet" href="./styles.css?v=2">
+</head>
+<body>
+<main class="ac-app">
+  <header class="ac-header">
+    <div class="ac-brand">
+      <span class="ac-mark">C</span>
+      <span><strong>CLUE CANVAS</strong><small>Assembly · Chapter 1</small></span>
+    </div>
+    <button type="button" class="ac-quiet" id="resetAll">Reset</button>
+  </header>
+
+  <section class="ac-hero">
+    <p class="ac-eyebrow">Chapter 1 · Hidden Meanings</p>
+    <h1>Build the picture.<br>Then solve what it means.</h1>
+    <p class="ac-sub">Five assemblies grow from 6 to 20 pieces. Each solved clue earns a fragment for the chapter board.</p>
+  </section>
+
+  <section class="ac-level-strip" id="levelStrip" aria-label="Chapter levels"></section>
+
+  <section class="ac-stage">
+    <div class="ac-stage-head">
+      <div>
+        <p class="ac-eyebrow" id="levelMeta">Level 1 · 6 pieces</p>
+        <h2 id="levelTitle">Fish Out of Water</h2>
+      </div>
+      <div class="ac-badge" id="difficultyBadge">Easy</div>
+    </div>
+
+    <div class="ac-progress-row">
+      <span id="moveCount">0 moves</span>
+      <span id="pieceStatus">0 / 6 placed</span>
+    </div>
+    <p class="ac-rotate-hint" id="rotateHint">Tap a piece to select it. Tap it again to rotate.</p>
+
+    <div class="ac-board-wrap">
+      <div class="ac-guide" id="guide"></div>
+      <div class="ac-board" id="board" aria-label="Assembly board"></div>
+      <div class="ac-solved-glow" id="solvedGlow" aria-hidden="true"></div>
+    </div>
+
+    <div class="ac-help-row">
+      <button type="button" class="ac-btn secondary" id="hintBtn">Show guide</button>
+      <button type="button" class="ac-btn secondary" id="shuffleBtn">Shuffle</button>
+    </div>
+
+    <section class="ac-answer-panel" id="answerPanel" hidden>
+      <p class="ac-eyebrow">Picture complete</p>
+      <h3>What phrase does this scene represent?</h3>
+      <div class="ac-answer-grid" id="answerGrid"></div>
+      <p class="ac-feedback" id="answerFeedback" aria-live="polite"></p>
+    </section>
+
+    <section class="ac-complete-panel" id="completePanel" hidden>
+      <div class="ac-complete-icon">◆</div>
+      <div>
+        <p class="ac-eyebrow">Fragment earned</p>
+        <h3 id="completePhrase"></h3>
+        <p id="completeCopy"></p>
+      </div>
+      <button type="button" class="ac-btn primary" id="nextBtn">Next puzzle</button>
+    </section>
+  </section>
+
+  <section class="ac-master">
+    <div class="ac-master-head">
+      <div>
+        <p class="ac-eyebrow">Chapter board</p>
+        <h2>The bigger picture</h2>
+      </div>
+      <span id="masterCount">0 / 5</span>
+    </div>
+    <div class="ac-master-grid" id="masterGrid"></div>
+    <p class="ac-master-note" id="masterNote">Complete the five assemblies to reveal the full chapter board.</p>
+  </section>
+</main>
+<div class="ac-sr" id="live" aria-live="polite"></div>
+<script src="./app.js?v=2" defer></script>
+</body>
+</html>

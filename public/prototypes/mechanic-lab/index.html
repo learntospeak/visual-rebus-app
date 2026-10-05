@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d2633">
+<title>Clue Canvas — Mechanic Lab</title>
+<link rel="stylesheet" href="./styles.css?v=1">
+</head>
+<body>
+<main class="lab-shell">
+  <header class="lab-head">
+    <div class="brand"><span class="brand-mark">C</span><div><strong>CLUE CANVAS</strong><small>Mechanic Lab</small></div></div>
+    <span class="lab-pill">3 prototypes</span>
+  </header>
+
+  <section class="intro">
+    <p class="eyebrow">Test the feel, not the pitch</p>
+    <h1>Three different ways to play.</h1>
+    <p class="lede">Each prototype is deliberately short. Ignore whether the final clue is perfect; judge whether the interaction itself makes you want another round.</p>
+  </section>
+
+  <nav class="mode-tabs" aria-label="Prototype selector">
+    <button type="button" class="mode-tab is-active" data-mode="assembly">1 · Picture Assembly</button>
+    <button type="button" class="mode-tab" data-mode="physics">2 · Word Physics</button>
+    <button type="button" class="mode-tab" data-mode="connections">3 · Visual Connections</button>
+  </nav>
+
+  <section class="mode-panel is-active" data-panel="assembly">
+    <div class="mode-top">
+      <div><p class="eyebrow">Prototype 1</p><h2>Picture Assembly</h2></div>
+      <button type="button" class="ghost-btn" data-reset="assembly">Reset</button>
+    </div>
+    <p class="microcopy">Tap two tiles to swap them. Tap the curved arrow on a tile to rotate it. Restore the image.</p>
+    <div class="assembly-board" id="assemblyBoard" aria-label="Scrambled picture puzzle"></div>
+    <div class="status-line"><span id="assemblyMoves">0 moves</span><strong id="assemblyStatus">Restore all 6 pieces</strong></div>
+  </section>
+
+  <section class="mode-panel" data-panel="physics">
+    <div class="mode-top">
+      <div><p class="eyebrow">Prototype 2</p><h2>Word Physics</h2></div>
+      <button type="button" class="ghost-btn" data-reset="physics">Reset</button>
+    </div>
+    <p class="microcopy">Use the words as tools. Tap a word, then tap the object you want it to affect.</p>
+    <div class="physics-stage" id="physicsStage">
+      <div class="physics-sky"></div>
+      <div class="physics-vine" id="physicsVine"></div>
+      <button type="button" class="physics-object seed" data-target="seed" aria-label="Seed"><span>seed</span></button>
+      <button type="button" class="physics-object lamp" data-target="lamp" aria-label="Lantern"><span>lantern</span></button>
+      <button type="button" class="physics-object gate" data-target="gate" aria-label="Locked gate"><span>LOCKED</span></button>
+      <div class="physics-key" id="physicsKey" aria-hidden="true">◆</div>
+      <div class="physics-goal">EXIT</div>
+      <div class="physics-runner" id="physicsRunner" aria-hidden="true">●</div>
+    </div>
+    <div class="word-tools" id="wordTools">
+      <button type="button" class="word-tool" data-word="GROW">GROW</button>
+      <button type="button" class="word-tool" data-word="LIGHT">LIGHT</button>
+      <button type="button" class="word-tool" data-word="PULL">PULL</button>
+    </div>
+    <div class="status-line"><span id="physicsSteps">0 / 3 actions</span><strong id="physicsStatus">Get the runner through the gate</strong></div>
+  </section>
+
+  <section class="mode-panel" data-panel="connections">
+    <div class="mode-top">
+      <div><p class="eyebrow">Prototype 3</p><h2>Visual Connections</h2></div>
+      <button type="button" class="ghost-btn" data-reset="connections">Reset</button>
+    </div>
+    <p class="microcopy">Select four scenes that share one idea. Solve all three groups.</p>
+    <div class="connection-board" id="connectionBoard"></div>
+    <div class="connection-actions">
+      <button type="button" class="primary-btn" id="submitGroup">Submit 4</button>
+      <button type="button" class="ghost-btn" id="clearGroup">Clear selection</button>
+    </div>
+    <div class="solved-groups" id="solvedGroups"></div>
+    <div class="status-line"><span id="connectionCount">0 / 3 groups</span><strong id="connectionStatus">Find the first connection</strong></div>
+  </section>
+
+  <section class="rating-panel">
+    <p class="eyebrow">After you try them</p>
+    <h2>Only one question matters:</h2>
+    <p class="lede">Which one, if any, made you want to keep playing?</p>
+  </section>
+</main>
+<div id="live" class="sr-only" aria-live="polite"></div>
+<script src="./app.js?v=1" defer></script>
+</body>
+</html>
