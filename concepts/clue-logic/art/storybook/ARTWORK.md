@@ -1,0 +1,22 @@
+# Storybook style test
+
+Created with the built-in image-generation tool. Only Scene 3 uses these assets. These are original generated illustrations, not actor photographs or franchise assets.
+
+Saved project assets:
+- C:/Users/Owner/.codex/.chatgpt-projects/g-p-6aa8c0d5a2488191b7a83c3467491c0a/output/clue-logic-repo/concepts/clue-logic/art/storybook/garden-v1.png
+- C:/Users/Owner/.codex/.chatgpt-projects/g-p-6aa8c0d5a2488191b7a83c3467491c0a/output/clue-logic-repo/concepts/clue-logic/art/storybook/characters-v1.png
+
+The character atlas has genuine alpha (RGBA, alpha range 0–254). The renderer crops the atlas at runtime; source art is preserved. This is layered illustrated animation with two mole poses, two wizard poses and a knight reveal, not generated video or fully rigged character animation. Visual browser review was unavailable in this session.
+
+## Garden prompt
+
+Use case: illustration-story. Asset type: painted environment background for a mobile puzzle animation. Create a beautiful, richly painted storybook herb garden outside an old stone kitchen at warm late-afternoon light, subtle mystery and humour. Wide landscape 3:2 composition. Ochre stone wall with teal wooden door at rear left, sage plants, terracotta herb pots, climbing ivy and distant hazy hills. Broad EMPTY sunlit earthy clearing across lower two-thirds for animated characters, gently textured ground, no mound. Ground horizon at 60% image height. Soft gouache and coloured-pencil brushwork, sophisticated illustrated novel quality, warm parchment cream, muted teal, moss green, brass accents. Dimensional hand-painted lighting, tasteful detail. No people, no animals, no molehill, no knight, no wizard, no text, no panels, no interface, no photographic or plastic 3D rendering. Keep foreground uncluttered so separate character art will read clearly.
+
+## Character atlas prompt
+
+Use case: illustration-story. Asset type: a SINGLE transparent PNG animation sprite atlas for a painted storybook puzzle. Exactly 3 columns by 2 rows, six equal square cells, total image landscape 3:2. TRUE TRANSPARENT BACKGROUND throughout, no coloured backing, no checkerboard drawing, no borders, no text. Keep each subject fully inside its cell with generous clear margins. All six assets share warm gouache / coloured-pencil painterly texture and realistic expressive anatomy, sophisticated illustrated novel, muted teal, parchment, sage, brass, light from upper left. Top-left cell: original elderly wizard full body, 3/4 facing right, teal embroidered robe, floppy pointed hat, kind weathered face, short grey beard, wooden wand lowered, relaxed attentive pose. Top-middle: EXACT SAME wizard full body, same scale and attire, wand raised and extended to right casting a spell, surprised delighted expression. Top-right: original enormous broad-shouldered armoured knight, full body front 3/4, steel and antique brass armour, sage cloak, closed original helmet and mountain-peak breastplate ornament, massive but gentle, believable proportions, no weapon. NOT a celebrity likeness and NOT franchise armour. Bottom-left: charming naturalistic mole, full body facing right, velvet brown fur, elongated pointed pink snout, tiny eyes and unmistakably broad shovel-like pink forepaws, running stride left front paw raised. Bottom-middle: EXACT SAME mole facing right, second running stride right front paw raised, same scale and body angle. Bottom-right: small crumbly soil molehill with a distinct dark oval tunnel opening facing viewer, several grass blades at edge; no creature. No ground planes or scenery under any subject, only tiny soft contact shadows, preserve genuine alpha. Avoid plastic 3D, crude geometric shapes, flat vector cartoon, chibi, children's clipart. Beautiful individually painted production game assets.
+
+## Final transparency edit prompt
+
+Use case: background-extraction. Edit the supplied sprite atlas: remove ALL of the dark coloured background, blurred colour halos and ground shadow backing around and between the six subjects and replace with genuine transparent alpha. Preserve exactly the six painted subjects, their positions, proportions and image dimensions: two wizards, armoured knight, two moles and molehill. Preserve delicate fur, hat and wand edges. Remove the huge diffuse golden glow behind the wand but keep the tiny star at its tip. Do not move, resize, redraw or crop subjects. No background colour at all, no checkerboard pixels. True transparent PNG required for compositing these assets over a garden.
+
